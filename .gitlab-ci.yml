@@ -71,7 +71,7 @@ spell check:
 doc:
   stage: test
   needs: []
-  image: musicscience37/clang-ci:clang22
+  image: musicscience37/sphinx-doxygen:clang22
   variables:
     POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
   script:
