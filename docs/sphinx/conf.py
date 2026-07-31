@@ -18,9 +18,20 @@ extensions = [
 templates_path: list[str] = []
 exclude_patterns: list[str] = []
 
+# -- Options for PlantUML ----------------------------------------------------
+
+extensions += ["sphinxcontrib.plantuml"]
+
+plantuml_output_format = "svg"
+plantuml_syntax_error_image = True
+
 # -- Options for Myst-Parser -------------------------------------------------
 
 extensions += ["myst_parser"]
+
+myst_enable_extensions = [
+    "tasklist",
+]
 
 myst_heading_anchors = 4
 

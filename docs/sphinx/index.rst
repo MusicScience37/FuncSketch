@@ -2,5 +2,7 @@ FuncSketch
 ==============
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :maxdepth: 1
+    :caption: Internal
+
+    design_notes/index
