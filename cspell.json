@@ -4,11 +4,18 @@
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [
+    "autobuild",
+    "cmakelang",
+    "docparams",
     "gitmessage",
     "gpgsign",
+    "isort",
     "Kabashima",
     "Kenta",
     "MusicScience37",
+    "mypy",
+    "pylint",
+    "toctree",
     "virtualenvs"
   ],
   "ignoreWords": [],
