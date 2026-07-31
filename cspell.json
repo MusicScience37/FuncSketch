@@ -1,0 +1,32 @@
+{
+  "version": "0.2",
+  "ignorePaths": [],
+  "dictionaryDefinitions": [],
+  "dictionaries": [],
+  "words": [
+    "autobuild",
+    "cmakelang",
+    "docparams",
+    "doctrees",
+    "Eigen",
+    "enduml",
+    "gitmessage",
+    "gpgsign",
+    "interruptible",
+    "isort",
+    "Kabashima",
+    "Kenta",
+    "Kivy",
+    "MusicScience37",
+    "mypy",
+    "nanobind",
+    "pylint",
+    "sphinxcontrib",
+    "startuml",
+    "tasklist",
+    "toctree",
+    "virtualenvs"
+  ],
+  "ignoreWords": [],
+  "import": []
+}
