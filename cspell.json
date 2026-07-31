@@ -1,0 +1,16 @@
+{
+  "version": "0.2",
+  "ignorePaths": [],
+  "dictionaryDefinitions": [],
+  "dictionaries": [],
+  "words": [
+    "gitmessage",
+    "gpgsign",
+    "Kabashima",
+    "Kenta",
+    "MusicScience37",
+    "virtualenvs"
+  ],
+  "ignoreWords": [],
+  "import": []
+}
