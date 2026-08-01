@@ -50,5 +50,9 @@ std::vector<std::string> parser_test_strings() {
         "TestIdentifier",
         "test_identifier",
         "test123",
+        // Wrong expressions.
+        "1.23 +",
+        "1.23 * * 4.56",
+        "exp(1.23,)",
     };
 }

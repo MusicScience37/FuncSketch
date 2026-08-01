@@ -49,4 +49,13 @@ Exception: Unknown identifier: test_identifier
 Input: test123
 Exception: Unknown identifier: test123
 
+Input: 1.23 +
+Exception: Failed to parse expression: 1.23 +
+
+Input: 1.23 * * 4.56
+Exception: Failed to parse expression: 1.23 * * 4.56
+
+Input: exp(1.23,)
+Exception: Failed to parse expression: exp(1.23,)
+
 

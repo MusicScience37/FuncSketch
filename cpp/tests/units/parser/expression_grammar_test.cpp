@@ -44,8 +44,9 @@ TEST_CASE("func_sketch::parser::ExpressionGrammar") {
                     boost::spirit::qi::phrase_parse(iter, str.end(), grammar,
                         boost::spirit::ascii::space, parsed_expression);
 
-                CHECK(is_parsed);
-                CHECK(iter == str.end());
+                if (!is_parsed || iter != str.end()) {
+                    throw std::runtime_error("Failed to parse.");
+                }
 
                 fmt::format_to(std::back_inserter(results), "Parsed: {}\n",
                     parsed_expression);

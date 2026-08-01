@@ -49,4 +49,13 @@ Parsed: Identifier(test_identifier)
 Input: test123
 Parsed: Identifier(test123)
 
+Input: 1.23 +
+Exception: Failed to parse.
+
+Input: 1.23 * * 4.56
+Exception: Failed to parse.
+
+Input: exp(1.23,)
+Exception: Failed to parse.
+
 
