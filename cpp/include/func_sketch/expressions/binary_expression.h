@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include <fmt/base.h>
+
 #include "func_sketch/expressions/expression_decl.h"
 #include "func_sketch/math/binary_operator.h"
 
@@ -39,3 +41,21 @@ struct BinaryExpression {
 };
 
 }  // namespace func_sketch::expressions
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::expressions::BinaryExpression.
+ */
+template <>
+struct fmt::formatter<func_sketch::expressions::BinaryExpression>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::expressions::BinaryExpression& value,
+        format_context& context) const -> format_context::iterator;
+};

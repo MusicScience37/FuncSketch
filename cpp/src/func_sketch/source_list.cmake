@@ -1,3 +1,6 @@
 set(SOURCE_FILES
-    dummy.cpp
+    expressions/binary_expression.cpp
+    expressions/constant_expression.cpp
+    expressions/expression.cpp
+    expressions/parameter_expression.cpp
 )

@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include <fmt/base.h>
+
 #include "func_sketch/common_types.h"
 
 namespace func_sketch::expressions {
@@ -32,3 +34,21 @@ struct ConstantExpression {
 };
 
 }  // namespace func_sketch::expressions
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::expressions::ConstantExpression.
+ */
+template <>
+struct fmt::formatter<func_sketch::expressions::ConstantExpression>
+    : fmt::formatter<func_sketch::Scalar> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::expressions::ConstantExpression& value,
+        format_context& context) const -> format_context::iterator;
+};

@@ -35,6 +35,7 @@
     "MusicScience37",
     "mypy",
     "nanobind",
+    "NOLINTNEXTLINE",
     "pylint",
     "sphinxcontrib",
     "startuml",

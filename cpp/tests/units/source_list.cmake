@@ -1,6 +1,9 @@
 set(SOURCE_FILES
+    expressions/binary_expression_test.cpp
+    expressions/constant_expression_test.cpp
     expressions/expression_memory_pool_test.cpp
     expressions/expression_ptr_test.cpp
+    expressions/parameter_expression_test.cpp
     utilities/any_test.cpp
     utilities/binary_operator_test.cpp
     utilities/binary_operators_test.cpp

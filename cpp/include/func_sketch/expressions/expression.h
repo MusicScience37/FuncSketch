@@ -21,6 +21,8 @@
 
 #include <variant>
 
+#include <fmt/base.h>
+
 #include "func_sketch/expressions/binary_expression.h"
 #include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression_decl.h"  // IWYU pragma: keep
@@ -88,3 +90,21 @@ private:
 };
 
 }  // namespace func_sketch::expressions
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::expressions::Expression.
+ */
+template <>
+struct fmt::formatter<func_sketch::expressions::Expression>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::expressions::Expression& value,
+        format_context& context) const -> format_context::iterator;
+};
