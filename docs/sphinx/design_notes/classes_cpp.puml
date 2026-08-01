@@ -1,0 +1,169 @@
+@startuml classes_cpp
+
+package func_sketch {
+    class Scalar <<typedef>> {
+        using Scalar = double
+    }
+
+    class Vector <<typedef>> {
+        using Vector = Eigen::VectorXd
+    }
+
+    class ArgumentVariant <<typedef>> {
+        using ArgumentVariant = std::variant<Scalar, Vector>
+    }
+
+    enum ParameterType {
+        X
+    }
+
+    package util {
+        class Any {
+            + Any(object : T)
+            + get<T>() : const T&
+        }
+    }
+
+    package math {
+        class UnaryOperator {
+            + operator()(arg : Scalar, result : Scalar&)
+            + operator()(arg : ArgumentVariant, result : ArgumentVariant&)
+        }
+        UnaryOperator o-- Any
+
+        class BinaryOperator {
+            + operator()(left : Scalar, right : Scalar, result : Scalar&)
+            + operator()(left : ArgumentVariant, right : ArgumentVariant, result : ArgumentVariant&)
+        }
+        BinaryOperator o-- Any
+
+        class MathFunction {
+            + operator()(args : std::vector<Scalar>, result : Scalar&)
+            + operator()(args : std::vector<ArgumentVariant>, result : ArgumentVariant&)
+        }
+        MathFunction o-- Any
+
+        class MathFunctionList {
+            + emplace(name : std::string, function : MathFunction)
+            + get(name : std::string) : MathFunction
+        }
+        MathFunctionList o-- MathFunction
+
+        note as math_functions_note
+            Actual mathematical functions and operators
+            are implemented here too.
+        end note
+    }
+
+    package expressions {
+        class Expression <<typedef>> {
+            using Expression = std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionExpression>;
+        }
+
+        struct ConstantExpression {
+            + value : Scalar
+        }
+        Expression <..> ConstantExpression
+
+        struct ParameterExpression {
+            + type : ParameterType
+        }
+        Expression <..> ParameterExpression
+        ParameterExpression o-- ParameterType
+
+        struct UnaryExpression {
+            + target : Expression*
+            + function : UnaryOperator
+        }
+        Expression <..> UnaryExpression
+        UnaryExpression o-- UnaryOperator
+
+        struct BinaryExpression {
+            + left : Expression*
+            + right : Expression*
+            + function : BinaryOperator
+        }
+        Expression <..> BinaryExpression
+        BinaryExpression o-- BinaryOperator
+
+        struct FunctionExpression {
+            + arguments : std::vector<Expression*>
+            + function : MathFunction
+        }
+        Expression <..> FunctionExpression
+        FunctionExpression o-- MathFunction
+
+        class ExpressionMemoryPool {
+            + create<T>(args...) : Expression*
+        }
+        ExpressionMemoryPool ..> Expression
+
+        class ExpressionEvaluator {
+            + operator()(expression : Expression*, parameter : Scalar, result : Scalar&)
+            + operator()(expression : Expression*, parameter : ArgumentVariant, result : ArgumentVariant&)
+        }
+    }
+
+    package parser {
+        class ParsedExpression
+        ParsedExpression o-- Expression
+        ParsedExpression o-- ExpressionMemoryPool
+
+        class ExpressionParser {
+            + operator()(expression_str : std::string) : ParsedExpression
+        }
+        ExpressionParser o-- MathFunctionList
+        ExpressionParser ..> ParsedExpression
+    }
+
+    package plotter {
+        struct Color {
+            + r : uint8_t
+            + g : uint8_t
+            + b : uint8_t
+        }
+
+        class Image <<typedef>> {
+            using Image = cv::Mat
+        }
+
+        struct PlottedFunction {
+            + expression : ParsedExpression
+            + color : Color
+        }
+        PlottedFunction o-- ParsedExpression
+        PlottedFunction o-- Color
+
+        struct PlotRange {
+            + x_range : std::pair<Scalar, Scalar>
+            + y_range : std::pair<Scalar, Scalar>
+        }
+
+        class PlotConfig
+
+        class FunctionSampler {
+            + operator()(function : PlottedFunction, range : PlotRange, config : PlotConfig, samples : std::vector<std::pair<Scalar, Scalar>>&)
+        }
+        FunctionSampler ..> PlottedFunction
+        FunctionSampler ..> PlotRange
+        FunctionSampler ..> PlotConfig
+
+        class FunctionPlotter {
+            + operator()(function : PlottedFunction, range : PlotRange, config : PlotConfig, image : Image&)
+        }
+        FunctionPlotter ..> PlottedFunction
+        FunctionPlotter ..> PlotRange
+        FunctionPlotter ..> PlotConfig
+        FunctionPlotter ..> Image
+        FunctionPlotter ..> FunctionSampler
+
+        class AxesPlotter {
+            + operator()(range : PlotRange, config : PlotConfig, image : Image&)
+        }
+        AxesPlotter ..> PlotRange
+        AxesPlotter ..> PlotConfig
+        AxesPlotter ..> Image
+    }
+}
+
+@enduml

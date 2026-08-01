@@ -1,0 +1,73 @@
+@startuml structure_module
+
+package "FuncSketch\n(func_sketch)" <<Python>> {
+    component "GUI\n(func_sketch.gui)" <<Python>> as gui
+
+    component "C++ Module\n(func_sketch.cpp)" <<C++/Python>> as cpp_module {
+        component "Function Plotter\n(func_sketch::plotter)" <<C++>> as plotter
+        component "Function Expressions\n(func_sketch::expressions)" <<C++>> as expressions
+        component "Expression Parser\n(func_sketch::parser)" <<C++>> as parser
+        component "Mathematical Functions and Operators\n(func_sketch::math)" <<C++>> as math
+    }
+}
+
+package "Main Third-Party Libraries" {
+    component "Kivy" <<Python>>
+
+    component "Boost.Spirit" <<C++>>
+    component "Boost.Math" <<C++>>
+    component "Eigen" <<C++>>
+    component "OpenCV" <<C++>>
+    component "nanobind" <<C++/Python>>
+}
+
+gui ..> cpp_module
+parser ..> expressions
+plotter ..> expressions
+expressions ..> math
+
+gui ..> "Kivy"
+parser ..> "Boost.Spirit"
+math ..> "Eigen"
+math ..> "Boost.Math"
+plotter ..> "OpenCV"
+cpp_module ..> "nanobind"
+
+note as boost_spirit_note
+    For parsing
+    mathematical
+    expressions.
+end note
+"Boost.Spirit" .. boost_spirit_note
+
+note as boost_math_note
+    For special functions
+    not in Eigen.
+end note
+"Boost.Math" .. boost_math_note
+
+note as eigen_note
+    For vector
+    operations.
+end note
+"Eigen" .. eigen_note
+
+note as opencv_note
+    For plotting.
+end note
+"OpenCV" .. opencv_note
+
+note as nanobind_note
+    For binding
+    C++ code
+    to Python.
+end note
+"nanobind" .. nanobind_note
+
+note as kivy_note
+    For GUI
+    development.
+end note
+"Kivy" .. kivy_note
+
+@enduml

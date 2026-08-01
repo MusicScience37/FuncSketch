@@ -6,4 +6,5 @@ Design Notes
 
     goal
     requirements
-    structure
+    modules
+    classes
