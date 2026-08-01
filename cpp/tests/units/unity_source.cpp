@@ -1,2 +1,5 @@
 #include "expressions/expression_memory_pool_test.cpp"
 #include "expressions/expression_ptr_test.cpp"
+#include "utilities/any_test.cpp"
+#include "utilities/binary_operator_test.cpp"
+#include "utilities/binary_operators_test.cpp"

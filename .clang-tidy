@@ -85,7 +85,7 @@ CheckOptions:
     value: CamelCase
 
   - key: readability-identifier-naming.ConceptCase
-    value: lower_case
+    value: CamelCase
 
   - key: readability-identifier-naming.MacroDefinitionCase
     value: UPPER_CASE

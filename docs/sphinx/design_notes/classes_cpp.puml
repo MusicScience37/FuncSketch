@@ -17,7 +17,7 @@ package func_sketch {
         X
     }
 
-    package util {
+    package utilities {
         class Any {
             + Any(object : T)
             + get<T>() : const T&
