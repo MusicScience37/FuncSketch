@@ -3,6 +3,8 @@ set(SOURCE_FILES
     expressions/constant_expression.cpp
     expressions/expression.cpp
     expressions/parameter_expression.cpp
+    parser/convert_expression.cpp
     parser/expression_grammar.cpp
+    parser/expression_parser.cpp
     parser/parsed_expression.cpp
 )

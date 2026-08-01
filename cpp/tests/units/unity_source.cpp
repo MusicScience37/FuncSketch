@@ -4,6 +4,7 @@
 #include "expressions/expression_ptr_test.cpp"
 #include "expressions/parameter_expression_test.cpp"
 #include "parser/expression_grammar_test.cpp"
+#include "parser/expression_parser_test.cpp"
 #include "parser/parser_test_strings.cpp"
 #include "test_main.cpp"
 #include "utilities/any_test.cpp"

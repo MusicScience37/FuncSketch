@@ -5,6 +5,7 @@ set(SOURCE_FILES
     expressions/expression_ptr_test.cpp
     expressions/parameter_expression_test.cpp
     parser/expression_grammar_test.cpp
+    parser/expression_parser_test.cpp
     parser/parser_test_strings.cpp
     test_main.cpp
     utilities/any_test.cpp
