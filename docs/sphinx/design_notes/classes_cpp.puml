@@ -102,18 +102,18 @@ package func_sketch {
             + operator()(expression : Expression*, parameter : Scalar, result : Scalar&)
             + operator()(expression : Expression*, parameter : ArgumentVariant, result : ArgumentVariant&)
         }
+
+        class ExpressionPtr
+        ExpressionPtr o-- Expression
+        ExpressionPtr o-- ExpressionMemoryPool
     }
 
     package parser {
-        class ParsedExpression
-        ParsedExpression o-- Expression
-        ParsedExpression o-- ExpressionMemoryPool
-
         class ExpressionParser {
-            + operator()(expression_str : std::string) : ParsedExpression
+            + operator()(expression_str : std::string) : ExpressionPtr
         }
         ExpressionParser o-- MathFunctionList
-        ExpressionParser ..> ParsedExpression
+        ExpressionParser ..> ExpressionPtr
     }
 
     package plotter {
@@ -128,10 +128,10 @@ package func_sketch {
         }
 
         struct PlottedFunction {
-            + expression : ParsedExpression
+            + expression : ExpressionPtr
             + color : Color
         }
-        PlottedFunction o-- ParsedExpression
+        PlottedFunction o-- ExpressionPtr
         PlottedFunction o-- Color
 
         struct PlotRange {

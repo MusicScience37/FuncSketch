@@ -19,7 +19,6 @@
  */
 #pragma once
 
-#include <memory>
 #include <memory_resource>
 #include <utility>
 
@@ -30,7 +29,7 @@ namespace func_sketch::expressions {
 /*!
  * \brief Class of memory pools for expressions.
  *
- * \note This class releases memory when an instance if destroyed.
+ * \note This class releases memory when an instance is destroyed.
  */
 class ExpressionMemoryPool {
 public:
@@ -38,9 +37,7 @@ public:
      * \brief Constructor.
      */
     ExpressionMemoryPool()
-        : memory_resource_(
-              std::make_unique<std::pmr::monotonic_buffer_resource>()),
-          allocator_(memory_resource_.get()) {}
+        : memory_resource_(), allocator_(&memory_resource_) {}
 
     /*!
      * \brief Create an expression.
@@ -66,7 +63,7 @@ public:
      * Use of the expression after calling this function is undefined behavior.
      * \note This function does nothing if the argument is nullptr.
      */
-    void destroy(Expression* expression) {
+    void destroy(Expression* expression) noexcept {
         if (expression == nullptr) {
             return;
         }
@@ -78,7 +75,7 @@ public:
 
 private:
     //! Memory resource.
-    std::unique_ptr<std::pmr::monotonic_buffer_resource> memory_resource_;
+    std::pmr::monotonic_buffer_resource memory_resource_;
 
     //! Allocator of expressions.
     std::pmr::polymorphic_allocator<Expression> allocator_;
