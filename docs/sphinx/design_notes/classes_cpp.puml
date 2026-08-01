@@ -139,23 +139,28 @@ package func_sketch {
             + y_range : std::pair<Scalar, Scalar>
         }
 
-        class PlotConfig
+        struct PlotConfig
+
+        struct Point {
+            + x : Scalar
+            + y : Scalar
+        }
 
         class FunctionSampler {
-            + operator()(function : PlottedFunction, range : PlotRange, config : PlotConfig, samples : std::vector<std::pair<Scalar, Scalar>>&)
+            + operator()(function : PlottedFunction, range : PlotRange, config : PlotConfig, samples : std::vector<Point>&)
         }
         FunctionSampler ..> PlottedFunction
         FunctionSampler ..> PlotRange
         FunctionSampler ..> PlotConfig
+        FunctionSampler ..> Point
 
-        class FunctionPlotter {
-            + operator()(function : PlottedFunction, range : PlotRange, config : PlotConfig, image : Image&)
+        class LinePlotter {
+            + operator()(samples : std::vector<Point>, range : PlotRange, config : PlotConfig, image : Image&)
         }
-        FunctionPlotter ..> PlottedFunction
-        FunctionPlotter ..> PlotRange
-        FunctionPlotter ..> PlotConfig
-        FunctionPlotter ..> Image
-        FunctionPlotter ..> FunctionSampler
+        LinePlotter ..> Point
+        LinePlotter ..> PlotRange
+        LinePlotter ..> PlotConfig
+        LinePlotter ..> Image
 
         class AxesPlotter {
             + operator()(range : PlotRange, config : PlotConfig, image : Image&)
