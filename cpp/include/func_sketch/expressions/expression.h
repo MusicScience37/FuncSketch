@@ -21,6 +21,7 @@
 
 #include <variant>
 
+#include "func_sketch/expressions/binary_expression.h"
 #include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression_decl.h"  // IWYU pragma: keep
 #include "func_sketch/expressions/parameter_expression.h"
@@ -36,7 +37,8 @@ namespace func_sketch::expressions {
 class Expression {
 public:
     //! Type of the variant of expressions.
-    using VariantType = std::variant<ConstantExpression, ParameterExpression>;
+    using VariantType =
+        std::variant<ConstantExpression, ParameterExpression, BinaryExpression>;
 
     /*!
      * \brief Constructor.
@@ -52,6 +54,14 @@ public:
      * \param[in] expression Expression.
      */
     explicit Expression(ParameterExpression expression)
+        : expression_(expression) {}
+
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] expression Expression.
+     */
+    explicit Expression(BinaryExpression expression)
         : expression_(expression) {}
 
     /*!

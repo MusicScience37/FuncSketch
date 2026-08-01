@@ -20,7 +20,9 @@
 #pragma once
 
 #include <memory_resource>
+#include <type_traits>
 #include <utility>
+#include <variant>
 
 #include "func_sketch/expressions/expression.h"
 
@@ -68,8 +70,20 @@ public:
             return;
         }
 
-        // TODO Implement destruction of child expressions when expressions with
-        // child expressions are implemented.
+        // Remove child expressions.
+        std::visit(
+            [this](auto& expr) noexcept {
+                using ExpressionType = std::decay_t<decltype(expr)>;
+                if constexpr (std::is_same_v<ExpressionType,
+                                  BinaryExpression>) {
+                    destroy(expr.left);
+                    destroy(expr.right);
+                }
+                // TODO Update this function when other expression types are
+                // added.
+            },
+            expression->as_variant());
+
         allocator_.delete_object(expression);
     }
 
