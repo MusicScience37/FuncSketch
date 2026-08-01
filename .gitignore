@@ -646,3 +646,4 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudio,visualstudiocode,cmake,python,vcpkg
 
 !.vscode/cmake-variants.yaml
+*.received.*

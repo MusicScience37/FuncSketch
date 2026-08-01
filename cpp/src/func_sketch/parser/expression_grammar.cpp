@@ -22,6 +22,7 @@
 #include <boost/bind.hpp>
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 #include <boost/phoenix/bind.hpp>
+#include <boost/phoenix/fusion/at.hpp>
 
 #include "func_sketch/parser/parsed_expression.h"
 
@@ -42,7 +43,10 @@ namespace func_sketch::parser {
 
 ExpressionGrammar::ExpressionGrammar()
     : ExpressionGrammar::base_type(sum_expr_rule_) {
+    using boost::phoenix::at_c;
+    using boost::phoenix::bind;
     using boost::spirit::qi::alpha;
+    using boost::spirit::qi::char_;
     using boost::spirit::qi::digit;
     using boost::spirit::qi::double_;
     using boost::spirit::qi::lexeme;
@@ -52,7 +56,8 @@ ExpressionGrammar::ExpressionGrammar()
 
     constant_rule_ = double_;
 
-    identifier_rule_ = lexeme[(alpha | '_') >> *(alpha | '_' | digit)];
+    identifier_rule_ = lexeme[(alpha | char_('_'))[at_c<0>(_val) += _1] >>
+        *(alpha | char_('_') | digit)[at_c<0>(_val) += _1]];
 
     function_call_expr_rule_ = identifier_rule_ >> '(' >> sum_expr_rule_ >>
         *(',' >> sum_expr_rule_) >> ')';
@@ -68,15 +73,14 @@ ExpressionGrammar::ExpressionGrammar()
             .operator_str = "**", .left_operand = left, .right_operand = right};
     };
     factor_expr_rule_ = value_expr_rule_[_val = _1] >>
-        *("**" >>
-            value_expr_rule_[boost::phoenix::bind(handle_power, _val, _1)]);
+        *("**" >> value_expr_rule_[bind(handle_power, _val, _1)]);
 
     const auto handle_unary_minus = [](ParsedExpression& result,
                                         const ParsedExpression& operand) {
         result = ParsedUnaryExpression{.operator_str = "-", .operand = operand};
     };
-    unary_expr_rule_ = ('-' >> factor_expr_rule_[boost::phoenix::bind(
-                                   handle_unary_minus, _val, _1)]) |
+    unary_expr_rule_ =
+        ('-' >> factor_expr_rule_[bind(handle_unary_minus, _val, _1)]) |
         factor_expr_rule_[_val = _1];
 
     const auto handle_multiplication = [](ParsedExpression& left,
@@ -90,10 +94,8 @@ ExpressionGrammar::ExpressionGrammar()
             .operator_str = "/", .left_operand = left, .right_operand = right};
     };
     term_expr_rule_ = unary_expr_rule_[_val = _1] >>
-        *('*' >> unary_expr_rule_[boost::phoenix::bind(
-                     handle_multiplication, _val, _1)] |
-            '/' >> unary_expr_rule_[boost::phoenix::bind(
-                       handle_division, _val, _1)]);
+        *('*' >> unary_expr_rule_[bind(handle_multiplication, _val, _1)] |
+            '/' >> unary_expr_rule_[bind(handle_division, _val, _1)]);
 
     const auto handle_addition = [](ParsedExpression& left,
                                      const ParsedExpression& right) {
@@ -106,10 +108,8 @@ ExpressionGrammar::ExpressionGrammar()
             .operator_str = "-", .left_operand = left, .right_operand = right};
     };
     sum_expr_rule_ = term_expr_rule_[_val = _1] >>
-        *('+' >> term_expr_rule_[boost::phoenix::bind(
-                     handle_addition, _val, _1)] |
-            '-' >> term_expr_rule_[boost::phoenix::bind(
-                       handle_subtraction, _val, _1)]);
+        *('+' >> term_expr_rule_[bind(handle_addition, _val, _1)] |
+            '-' >> term_expr_rule_[bind(handle_subtraction, _val, _1)]);
 }
 
 }  // namespace func_sketch::parser

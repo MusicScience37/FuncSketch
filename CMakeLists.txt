@@ -46,6 +46,11 @@ find_package(fmt CONFIG REQUIRED)
 
 find_package(Catch2 CONFIG REQUIRED)
 
+find_path(APPROVAL_TESTS_CPP_INCLUDE_DIRS "ApprovalTests.hpp")
+add_library(ApprovalTestsCpp INTERFACE)
+target_include_directories(ApprovalTestsCpp
+                           INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
+
 # ##############################################################################
 # Import modules for configurations
 # ##############################################################################

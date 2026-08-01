@@ -3,3 +3,4 @@
 #include "expressions/expression.cpp"
 #include "expressions/parameter_expression.cpp"
 #include "parser/expression_grammar.cpp"
+#include "parser/parsed_expression.cpp"

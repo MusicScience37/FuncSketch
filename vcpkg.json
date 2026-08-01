@@ -10,6 +10,7 @@
       "features": ["intrinsics", "png"]
     },
     "fmt",
-    "catch2"
+    "catch2",
+    "approval-tests-cpp"
   ]
 }

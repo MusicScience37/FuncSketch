@@ -22,6 +22,7 @@
 #include <string>
 
 #include <boost/variant.hpp>
+#include <fmt/base.h>
 
 #include "func_sketch/common_types.h"
 
@@ -92,3 +93,113 @@ struct ParsedBinaryExpression {
 };
 
 }  // namespace func_sketch::parser
+
+// Implement fmt::formatter specialization for testing.
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::parser::ParsedConstant.
+ */
+template <>
+struct fmt::formatter<func_sketch::parser::ParsedConstant>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::parser::ParsedConstant& value,
+        format_context& context) const -> format_context::iterator;
+};
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::parser::ParsedIdentifier.
+ */
+template <>
+struct fmt::formatter<func_sketch::parser::ParsedIdentifier>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::parser::ParsedIdentifier& value,
+        format_context& context) const -> format_context::iterator;
+};
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::parser::ParsedExpression.
+ */
+template <>
+struct fmt::formatter<func_sketch::parser::ParsedExpression>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::parser::ParsedExpression& value,
+        format_context& context) const -> format_context::iterator;
+};
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::parser::ParsedFunctionCallExpression.
+ */
+template <>
+struct fmt::formatter<func_sketch::parser::ParsedFunctionCallExpression>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::parser::ParsedFunctionCallExpression& value,
+        format_context& context) const -> format_context::iterator;
+};
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::parser::ParsedUnaryExpression.
+ */
+template <>
+struct fmt::formatter<func_sketch::parser::ParsedUnaryExpression>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::parser::ParsedUnaryExpression& value,
+        format_context& context) const -> format_context::iterator;
+};
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::parser::ParsedBinaryExpression.
+ */
+template <>
+struct fmt::formatter<func_sketch::parser::ParsedBinaryExpression>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::parser::ParsedBinaryExpression& value,
+        format_context& context) const -> format_context::iterator;
+};
