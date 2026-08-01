@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(FuncSketch LANGUAGES CXX)
+project(func_sketch LANGUAGES CXX)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cpp/cmake")
 
 # ##############################################################################
 # Configuration of CTest
@@ -43,6 +45,12 @@ target_link_libraries(OpenCV INTERFACE ${OpenCV_LIBS})
 find_package(fmt CONFIG REQUIRED)
 
 find_package(Catch2 CONFIG REQUIRED)
+
+# ##############################################################################
+# Import modules for configurations
+# ##############################################################################
+include(ConfigureCcache)
+include(ConfigureSanitizer)
 
 # ##############################################################################
 # Build targets

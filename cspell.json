@@ -4,6 +4,7 @@
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [
+    "AUSAN",
     "autobuild",
     "bigobj",
     "BUILDNAME",
@@ -12,8 +13,10 @@
     "docparams",
     "doctrees",
     "Eigen",
+    "endfunction",
     "endmacro",
     "enduml",
+    "fsanitize",
     "gitmessage",
     "gpgsign",
     "imgproc",
@@ -31,6 +34,7 @@
     "startuml",
     "tasklist",
     "toctree",
+    "TOUPPER",
     "virtualenvs"
   ],
   "ignoreWords": [],

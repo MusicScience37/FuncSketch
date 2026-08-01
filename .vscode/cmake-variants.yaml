@@ -1,0 +1,33 @@
+buildType:
+  default: none
+  choices:
+    none:
+      short: None
+      long: Don't set any options
+    ausan:
+      short: AUSan
+      long: Enable AddressSanitizer and UndefinedBehaviorSanitizer
+      buildType: Debug
+      settings:
+        FUNC_SKETCH_BUILD_TESTS: ON
+        FUNC_SKETCH_ENABLE_CCACHE: ON
+        FUNC_SKETCH_ENABLE_AUSAN: ON
+        FUNC_SKETCH_WRITE_JUNIT: OFF
+    debug:
+      short: Debug
+      long: Debug build
+      buildType: Debug
+      settings:
+        FUNC_SKETCH_BUILD_TESTS: ON
+        FUNC_SKETCH_ENABLE_CCACHE: ON
+        FUNC_SKETCH_ENABLE_AUSAN: OFF
+        FUNC_SKETCH_WRITE_JUNIT: OFF
+    release:
+      short: Release
+      long: Release build
+      buildType: Release
+      settings:
+        FUNC_SKETCH_BUILD_TESTS: ON
+        FUNC_SKETCH_ENABLE_CCACHE: ON
+        FUNC_SKETCH_ENABLE_AUSAN: OFF
+        FUNC_SKETCH_WRITE_JUNIT: OFF
