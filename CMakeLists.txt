@@ -2,8 +2,18 @@ cmake_minimum_required(VERSION 3.15)
 project(FuncSketch LANGUAGES CXX)
 
 # ##############################################################################
+# Configuration of CTest
+# ##############################################################################
+set(BUILDNAME
+    "${CMAKE_HOST_SYSTEM_NAME}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}-${CMAKE_BUILD_TYPE}"
+)
+include(CTest)
+
+# ##############################################################################
 # Options
 # ##############################################################################
+option(FUNC_SKETCH_BUILD_TESTS "Build tests" OFF)
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS
     ON
     CACHE BOOL "export compile commands" FORCE)
@@ -31,6 +41,8 @@ target_include_directories(OpenCV INTERFACE ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(OpenCV INTERFACE ${OpenCV_LIBS})
 
 find_package(fmt CONFIG REQUIRED)
+
+find_package(Catch2 CONFIG REQUIRED)
 
 # ##############################################################################
 # Build targets

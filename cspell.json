@@ -6,11 +6,13 @@
   "words": [
     "autobuild",
     "bigobj",
+    "BUILDNAME",
     "cmakelang",
     "conftest",
     "docparams",
     "doctrees",
     "Eigen",
+    "endmacro",
     "enduml",
     "gitmessage",
     "gpgsign",

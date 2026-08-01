@@ -8,6 +8,7 @@ THIS_DIR = Path(__file__).parent.absolute()
 
 SOURCE_PATHS = [
     THIS_DIR.parent / "cpp" / "src" / "func_sketch",
+    THIS_DIR.parent / "cpp" / "tests" / "units",
 ]
 
 UNITY_SRC_SUFFIX = "unity_source.cpp"
