@@ -5,11 +5,11 @@ set(SOURCE_FILES
     expressions/expression_memory_pool_test.cpp
     expressions/expression_ptr_test.cpp
     expressions/parameter_expression_test.cpp
+    math/binary_operator_test.cpp
+    math/binary_operators_test.cpp
     parser/expression_grammar_test.cpp
     parser/expression_parser_test.cpp
     parser/parser_test_strings.cpp
     test_main.cpp
     utilities/any_test.cpp
-    utilities/binary_operator_test.cpp
-    utilities/binary_operators_test.cpp
 )
