@@ -61,7 +61,7 @@ public:
      * \return Expression as the type.
      */
     template <typename T>
-    const T& as() const {
+    [[nodiscard]] const T& as() const {
         return std::get<T>(expression_);
     }
 
@@ -70,7 +70,7 @@ public:
      *
      * \return Expression as variant.
      */
-    const VariantType& as_variant() const { return expression_; }
+    [[nodiscard]] const VariantType& as_variant() const { return expression_; }
 
 private:
     //! Expression.
