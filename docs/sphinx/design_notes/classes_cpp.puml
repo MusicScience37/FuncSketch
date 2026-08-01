@@ -99,8 +99,8 @@ package func_sketch {
         ExpressionMemoryPool ..> Expression
 
         class ExpressionEvaluator {
-            + operator()(expression : Expression*, parameter : Scalar, result : Scalar&)
-            + operator()(expression : Expression*, parameter : ArgumentVariant, result : ArgumentVariant&)
+            + operator()(expression : const Expression&, parameter : Scalar, result : Scalar&)
+            + operator()(expression : const Expression&, parameter : ArgumentVariant, result : ArgumentVariant&)
         }
 
         class ExpressionPtr

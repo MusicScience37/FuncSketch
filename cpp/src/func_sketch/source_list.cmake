@@ -2,6 +2,7 @@ set(SOURCE_FILES
     expressions/binary_expression.cpp
     expressions/constant_expression.cpp
     expressions/expression.cpp
+    expressions/expression_evaluator.cpp
     expressions/parameter_expression.cpp
     parser/convert_expression.cpp
     parser/expression_grammar.cpp

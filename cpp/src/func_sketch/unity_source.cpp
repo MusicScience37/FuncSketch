@@ -1,6 +1,7 @@
 #include "expressions/binary_expression.cpp"
 #include "expressions/constant_expression.cpp"
 #include "expressions/expression.cpp"
+#include "expressions/expression_evaluator.cpp"
 #include "expressions/parameter_expression.cpp"
 #include "parser/convert_expression.cpp"
 #include "parser/expression_grammar.cpp"

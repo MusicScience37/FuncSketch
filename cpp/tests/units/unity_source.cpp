@@ -1,5 +1,6 @@
 #include "expressions/binary_expression_test.cpp"
 #include "expressions/constant_expression_test.cpp"
+#include "expressions/expression_evaluator_test.cpp"
 #include "expressions/expression_memory_pool_test.cpp"
 #include "expressions/expression_ptr_test.cpp"
 #include "expressions/parameter_expression_test.cpp"
