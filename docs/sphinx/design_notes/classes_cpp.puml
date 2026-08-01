@@ -56,8 +56,8 @@ package func_sketch {
     }
 
     package expressions {
-        class Expression <<typedef>> {
-            using Expression = std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionExpression>;
+        class Expression {
+            - expression_ : std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionExpression>
         }
 
         struct ConstantExpression {

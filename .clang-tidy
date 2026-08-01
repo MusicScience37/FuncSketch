@@ -18,6 +18,7 @@ Checks: >
   modernize-*,
     -modernize-return-braced-init-list,
     -modernize-use-auto,
+    -modernize-use-trailing-return-type,
   hicpp-*,
     -hicpp-use-auto,
   cert-*,
@@ -44,6 +45,7 @@ Checks: >
 # - bugprone-misplaced-widening-cast generates false positives.
 # - bugprone-suspicious-include generates warnings in unity builds.
 # - readability-qualified-auto make source codes less changeable.
+# - modernize-use-trailing-return-type reduces readability.
 
 CheckOptions:
   # Naming Conventions
