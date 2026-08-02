@@ -1,0 +1,17 @@
+set(SOURCE_FILES
+    expressions/binary_expression.cpp
+    expressions/constant_expression.cpp
+    expressions/expression.cpp
+    expressions/expression_evaluator.cpp
+    expressions/parameter_expression.cpp
+    parser/convert_expression.cpp
+    parser/expression_grammar.cpp
+    parser/expression_parser.cpp
+    parser/parsed_expression.cpp
+    plotter/function_sampler.cpp
+    plotter/plot_config.cpp
+    plotter/plot_range.cpp
+    plotter/plotter.cpp
+    plotter/point.cpp
+    plotter/rgb_color.cpp
+)

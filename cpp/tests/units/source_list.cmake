@@ -1,0 +1,21 @@
+set(SOURCE_FILES
+    expressions/binary_expression_test.cpp
+    expressions/constant_expression_test.cpp
+    expressions/expression_evaluator_test.cpp
+    expressions/expression_memory_pool_test.cpp
+    expressions/expression_ptr_test.cpp
+    expressions/parameter_expression_test.cpp
+    math/binary_operator_test.cpp
+    math/binary_operators_test.cpp
+    parser/expression_grammar_test.cpp
+    parser/expression_parser_test.cpp
+    parser/parser_test_strings.cpp
+    plotter/function_sampler_test.cpp
+    plotter/plot_config_test.cpp
+    plotter/plot_range_test.cpp
+    plotter/plotter_test.cpp
+    plotter/point_test.cpp
+    plotter/rgb_color_test.cpp
+    test_main.cpp
+    utilities/any_test.cpp
+)

@@ -1,0 +1,106 @@
+Input: 1.23
+Parsed: Constant(1.23)
+
+Input: -2.34
+Parsed: Unary(-, Constant(2.34))
+
+Input: x
+Parsed: Identifier(x)
+
+Input: -x
+Parsed: Unary(-, Identifier(x))
+
+Input: 1.23 + 4.56
+Parsed: Binary(+, Constant(1.23), Constant(4.56))
+
+Input: 1.23 - 4.56
+Parsed: Binary(-, Constant(1.23), Constant(4.56))
+
+Input: 1.23 * 4.56
+Parsed: Binary(*, Constant(1.23), Constant(4.56))
+
+Input: 1.23 / 4.56
+Parsed: Binary(/, Constant(1.23), Constant(4.56))
+
+Input: 1.23 ** 4.56
+Parsed: Binary(**, Constant(1.23), Constant(4.56))
+
+Input: 1.23 ** -4.56
+Parsed: Binary(**, Constant(1.23), Constant(-4.56))
+
+Input: 1.23 * (4.56 + 7.89)
+Parsed: Binary(*, Constant(1.23), Binary(+, Constant(4.56), Constant(7.89)))
+
+Input: exp(1.23)
+Parsed: FunctionCall(Identifier(exp), Constant(1.23))
+
+Input: 1.23 ** 4.56 ** 7.89
+Parsed: Binary(**, Binary(**, Constant(1.23), Constant(4.56)), Constant(7.89))
+
+Input: exp(exp(1.23) + 4.56)
+Parsed: FunctionCall(Identifier(exp), Binary(+, FunctionCall(Identifier(exp), Constant(1.23)), Constant(4.56)))
+
+Input: 1.23 * 3.45 / (6.78 - 9.01)
+Parsed: Binary(/, Binary(*, Constant(1.23), Constant(3.45)), Binary(-, Constant(6.78), Constant(9.01)))
+
+Input: -exp(1.23)
+Parsed: Unary(-, FunctionCall(Identifier(exp), Constant(1.23)))
+
+Input: TestIdentifier
+Parsed: Identifier(TestIdentifier)
+
+Input: test_identifier
+Parsed: Identifier(test_identifier)
+
+Input: test123
+Parsed: Identifier(test123)
+
+Input: 1.23.45
+Exception: Unexpected token at position 5.
+
+Input: 1x
+Exception: Unexpected token at position 2.
+
+Input: exp(1.23,)
+Exception: Expected <expression> at position 9.
+
+Input: exp(1.23,
+Exception: Expected <expression> at position 9.
+
+Input: exp(
+Exception: Expected ")" at position 4.
+
+Input: 1.23 * (4.56 + 7.89
+Exception: Expected ")" at position 19.
+
+Input: 1.23 * (
+Exception: Expected <expression> at position 8.
+
+Input: 1.23 * ( +
+Exception: Expected <expression> at position 8.
+
+Input: 1.23 * ()
+Exception: Expected <expression> at position 8.
+
+Input: 1.23 **
+Exception: Expected <expression> at position 7.
+
+Input: -
+Exception: Expected <expression> at position 1.
+
+Input: 1.23 *
+Exception: Expected <expression> at position 6.
+
+Input: 1.23 /
+Exception: Expected <expression> at position 6.
+
+Input: 1.23 +
+Exception: Expected <expression> at position 6.
+
+Input: 1.23 -
+Exception: Expected <expression> at position 6.
+
+Input: 1.23 * * 4.56
+Exception: Expected <expression> at position 6.
+
+

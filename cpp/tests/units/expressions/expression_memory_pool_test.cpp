@@ -1,0 +1,79 @@
+/*
+ * Copyright 2026 MusicScience37 (Kenta Kabashima)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*!
+ * \file
+ * \brief Test of ExpressionMemoryPool class.
+ */
+#include "func_sketch/expressions/expression_memory_pool.h"
+
+#include <catch2/catch_test_macros.hpp>
+
+#include "func_sketch/expressions/binary_expression.h"
+#include "func_sketch/expressions/constant_expression.h"
+#include "func_sketch/expressions/expression.h"
+#include "func_sketch/math/binary_operator.h"
+#include "func_sketch/math/binary_operators.h"
+
+TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
+    using func_sketch::expressions::BinaryExpression;
+    using func_sketch::expressions::ConstantExpression;
+    using func_sketch::expressions::Expression;
+    using func_sketch::expressions::ExpressionMemoryPool;
+    using func_sketch::math::AdditionOperator;
+    using func_sketch::math::BinaryOperator;
+
+    SECTION("create an expression") {
+        ExpressionMemoryPool pool;
+
+        constexpr double value = 1.23;
+        Expression* expression = pool.create<ConstantExpression>(value);
+
+        CHECK(expression->as<ConstantExpression>().value == value);
+
+        pool.destroy(expression);
+    }
+
+    SECTION("create and destroy a binary expression") {
+        ExpressionMemoryPool pool;
+
+        constexpr double left_value = 1.23;
+        constexpr double right_value = 4.56;
+        Expression* left = pool.create<ConstantExpression>(left_value);
+        Expression* right = pool.create<ConstantExpression>(right_value);
+        Expression* binary_expression = pool.create<BinaryExpression>(
+            left, right, BinaryOperator(AdditionOperator{}));
+
+        CHECK(binary_expression->as<BinaryExpression>()
+                  .left->as<ConstantExpression>()
+                  .value == left_value);
+        CHECK(binary_expression->as<BinaryExpression>()
+                  .right->as<ConstantExpression>()
+                  .value == right_value);
+        CHECK(
+            binary_expression->as<BinaryExpression>().operator_object.name() ==
+            AdditionOperator{}.name());
+
+        pool.destroy(binary_expression);  // This should also destroy left and
+                                          // right expressions.
+    }
+
+    SECTION("destroy nullptr") {
+        ExpressionMemoryPool pool;
+
+        Expression* expression = nullptr;
+        pool.destroy(expression);
+    }
+}

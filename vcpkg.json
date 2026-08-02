@@ -1,4 +1,16 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "dependencies": ["fmt"]
+  "dependencies": [
+    "boost-spirit",
+    "boost-math",
+    "eigen3",
+    {
+      "name": "opencv4",
+      "default-features": false,
+      "features": ["intrinsics", "png"]
+    },
+    "fmt",
+    "catch2",
+    "approval-tests-cpp"
+  ]
 }

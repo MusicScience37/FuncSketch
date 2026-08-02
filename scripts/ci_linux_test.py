@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+"""Script run in CI for tests in Linux."""
+
+import os
+import subprocess
+import typing
+
+import click
+
+BUILD_TYPE_DICT = {
+    "debug": "Debug",
+    "release": "Release",
+    "ausan": "Debug",
+}
+
+TEST_TYPE_VARIABLES = {
+    "debug": {
+        "FUNC_SKETCH_BUILD_TESTS": "ON",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
+        "FUNC_SKETCH_WRITE_JUNIT": "ON",
+    },
+    "release": {
+        "FUNC_SKETCH_BUILD_TESTS": "ON",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
+        "FUNC_SKETCH_WRITE_JUNIT": "ON",
+    },
+    "ausan": {
+        "FUNC_SKETCH_BUILD_TESTS": "ON",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "ON",
+        "FUNC_SKETCH_WRITE_JUNIT": "ON",
+    },
+}
+
+
+def execute_command(command: typing.List[str], cwd: str, env=None) -> None:
+    """Execute a command in a subprocess.
+
+    Args:
+        command (typing.List[str]): Command to execute.
+        cwd (str): Working directory for the command.
+        env (dict, optional): Environment variables for the command. Defaults to None.
+    """
+    click.echo(click.style(f">> {command}", bold=True, fg="green"))
+    subprocess.run(command, check=True, cwd=cwd, env=env)
+
+
+def _ignore(_):
+    pass
+
+
+@click.command()
+@click.option("--compiler_type", "compiler_type", required=True)
+@click.option("--test_type", "test_type", required=True)
+@click.option("--build_dir", "build_dir", required=True)
+def check_tests_for_condition(
+    compiler_type: str,
+    test_type: str,
+    build_dir: str,
+) -> None:
+    """Check tests for a specific condition.
+
+    Args:
+        compiler_type (str): Type of the compiler.
+        test_type (str): Type of the test.
+        build_dir (str): Path to the build directory.
+    """
+    _ignore(compiler_type)
+    os.makedirs(build_dir, exist_ok=True)
+
+    # Configure
+    command = [
+        "cmake",
+        "..",
+        "-G",
+        "Ninja",
+        "-DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake",
+    ]
+    build_type = BUILD_TYPE_DICT[test_type]
+    command = command + [f"-DCMAKE_BUILD_TYPE={build_type}"]
+    for key, value in TEST_TYPE_VARIABLES[test_type].items():
+        command = command + [f"-D{key}={value}"]
+
+    execute_command(command, cwd=build_dir)
+
+    # Build
+    execute_command(["cmake", "--build", "."], cwd=build_dir)
+
+    # Test
+    execute_command(["ctest", "-V"], cwd=build_dir)
+
+
+if __name__ == "__main__":
+    check_tests_for_condition()  # pylint: disable=no-value-for-parameter

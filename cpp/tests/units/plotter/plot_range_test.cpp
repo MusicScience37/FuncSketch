@@ -1,0 +1,52 @@
+/*
+ * Copyright 2026 MusicScience37 (Kenta Kabashima)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*!
+ * \file
+ * \brief Test of PlotRange struct.
+ */
+#include "func_sketch/plotter/plot_range.h"
+
+#include <catch2/catch_test_macros.hpp>
+#include <fmt/format.h>
+
+TEST_CASE("func_sketch::plotter::PlotRange") {
+    using func_sketch::plotter::PlotRange;
+
+    SECTION("check ranges in constructor") {
+        // NOLINTBEGIN(*-magic-numbers)
+        CHECK_NOTHROW(PlotRange({0.0, 1.0}, {2.0, 3.0}));
+
+        // Wrong x-range
+        CHECK_THROWS(PlotRange({NAN, 1.0}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, NAN}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, 0.0}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, -1.0}, {2.0, 3.0}));
+
+        // Wrong y-range
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {NAN, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, NAN}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, 2.0}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {3.0, 2.0}));
+        // NOLINTEND(*-magic-numbers)
+    }
+
+    SECTION("format") {
+        const PlotRange range{{1.2, 3.4}, {5.6, 7.8}};
+
+        CHECK(fmt::format("{}", range) ==
+            "PlotRange(x_range=(1.2, 3.4), y_range=(5.6, 7.8))");
+    }
+}
