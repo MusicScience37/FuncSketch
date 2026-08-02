@@ -25,6 +25,24 @@
 TEST_CASE("func_sketch::plotter::PlotRange") {
     using func_sketch::plotter::PlotRange;
 
+    SECTION("check ranges in constructor") {
+        // NOLINTBEGIN(*-magic-numbers)
+        CHECK_NOTHROW(PlotRange({0.0, 1.0}, {2.0, 3.0}));
+
+        // Wrong x-range
+        CHECK_THROWS(PlotRange({NAN, 1.0}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, NAN}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, 0.0}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, -1.0}, {2.0, 3.0}));
+
+        // Wrong y-range
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {NAN, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, NAN}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, 2.0}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {3.0, 2.0}));
+        // NOLINTEND(*-magic-numbers)
+    }
+
     SECTION("format") {
         const PlotRange range{{1.2, 3.4}, {5.6, 7.8}};
 

@@ -43,6 +43,12 @@ public:
     PlotRange(const std::pair<double, double>& x_range,
         const std::pair<double, double>& y_range)
         : x_range_(x_range), y_range_(y_range) {
+        if (!std::isfinite(x_range.first) || !std::isfinite(x_range.second)) {
+            throw InvalidArgumentException("Invalid X range: not finite");
+        }
+        if (!std::isfinite(y_range.first) || !std::isfinite(y_range.second)) {
+            throw InvalidArgumentException("Invalid Y range: not finite");
+        }
         if (x_range.first >= x_range.second) {
             throw InvalidArgumentException("Invalid X range: min >= max");
         }
