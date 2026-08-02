@@ -172,6 +172,23 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(config.curve_line_width() == 1);
     }
 
+    SECTION("set and get background color") {
+        using func_sketch::plotter::RGBColor;
+
+        PlotConfig config;
+
+        CHECK(config.background_color() ==
+            func_sketch::plotter::default_background_color);
+
+        const RGBColor new_color{.r = 100, .g = 150, .b = 200};
+        CHECK_NOTHROW(config.background_color(new_color));
+        CHECK(config.background_color() == new_color);
+
+        const RGBColor black{.r = 0, .g = 0, .b = 0};
+        CHECK_NOTHROW(config.background_color(black));
+        CHECK(config.background_color() == black);
+    }
+
     SECTION("set and get axes color") {
         using func_sketch::plotter::RGBColor;
 

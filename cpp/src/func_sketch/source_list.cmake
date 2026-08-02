@@ -10,6 +10,7 @@ set(SOURCE_FILES
     parser/parsed_expression.cpp
     plotter/plot_config.cpp
     plotter/plot_range.cpp
+    plotter/plotter.cpp
     plotter/point.cpp
     plotter/rgb_color.cpp
 )

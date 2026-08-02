@@ -11,6 +11,7 @@
 #include "parser/parser_test_strings.cpp"
 #include "plotter/plot_config_test.cpp"
 #include "plotter/plot_range_test.cpp"
+#include "plotter/plotter_test.cpp"
 #include "plotter/point_test.cpp"
 #include "plotter/rgb_color_test.cpp"
 #include "test_main.cpp"

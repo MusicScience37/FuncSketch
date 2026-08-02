@@ -26,25 +26,29 @@ namespace func_sketch::plotter {
 // TODO Tune these values
 
 //! Default margins in pixels.
-constexpr int default_margins = 15;
+constexpr int default_margins = 40;
 
 //! Default font size of tick labels in pixels.
-constexpr int default_tick_label_font_size = 12;
+constexpr int default_tick_label_font_size = 11;
 
 //! Default line width of axes in pixels.
-constexpr int default_axes_line_width = 3;
+constexpr int default_axes_line_width = 1;
 
 //! Default line width of grid lines in pixels.
-constexpr int default_grid_line_width = 3;
+constexpr int default_grid_line_width = 1;
 
 //! Default line width of curves in pixels.
-constexpr int default_curve_line_width = 3;
+constexpr int default_curve_line_width = 1;
+
+//! Default color of background.
+constexpr auto default_background_color =
+    RGBColor{.r = 255, .g = 255, .b = 255};
 
 //! Default color of axes.
-constexpr auto default_axes_color = RGBColor{.r = 0, .g = 0, .b = 0};
+constexpr auto default_axes_color = RGBColor{.r = 0x24, .g = 0x24, .b = 0x24};
 
 //! Default color of grid lines.
-constexpr auto default_grid_color = RGBColor{.r = 200, .g = 200, .b = 200};
+constexpr auto default_grid_color = RGBColor{.r = 0xC8, .g = 0xC8, .b = 0xC8};
 
 /*!
  * \brief Class of configurations of a plot.
@@ -121,6 +125,14 @@ public:
     PlotConfig& curve_line_width(int value);
 
     /*!
+     * \brief Set the color of background.
+     *
+     * \param[in] value Color of background.
+     * \return Reference to this object.
+     */
+    PlotConfig& background_color(const RGBColor& value);
+
+    /*!
      * \brief Set the color of axes.
      *
      * \param[in] value Color of axes.
@@ -193,6 +205,13 @@ public:
     [[nodiscard]] int curve_line_width() const noexcept;
 
     /*!
+     * \brief Get the color of background.
+     *
+     * \return Color of background.
+     */
+    [[nodiscard]] const RGBColor& background_color() const noexcept;
+
+    /*!
      * \brief Get the color of axes.
      *
      * \return Color of axes.
@@ -230,6 +249,9 @@ private:
 
     //! Line width of curves in pixels.
     int curve_line_width_{default_curve_line_width};
+
+    //! Color of background.
+    RGBColor background_color_{default_background_color};
 
     //! Color of axes.
     RGBColor axes_color_{default_axes_color};

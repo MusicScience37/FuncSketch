@@ -12,6 +12,7 @@ set(SOURCE_FILES
     parser/parser_test_strings.cpp
     plotter/plot_config_test.cpp
     plotter/plot_range_test.cpp
+    plotter/plotter_test.cpp
     plotter/point_test.cpp
     plotter/rgb_color_test.cpp
     test_main.cpp

@@ -26,6 +26,7 @@
     "gitmessage",
     "gpgsign",
     "imgproc",
+    "imwrite",
     "interruptible",
     "isort",
     "Kabashima",

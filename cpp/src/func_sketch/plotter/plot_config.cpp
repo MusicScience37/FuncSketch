@@ -88,6 +88,11 @@ PlotConfig& PlotConfig::curve_line_width(int value) {
     return *this;
 }
 
+PlotConfig& PlotConfig::background_color(const RGBColor& value) {
+    background_color_ = value;
+    return *this;
+}
+
 PlotConfig& PlotConfig::axes_color(const RGBColor& value) {
     axes_color_ = value;
     return *this;
@@ -115,6 +120,10 @@ int PlotConfig::axes_line_width() const noexcept { return axes_line_width_; }
 int PlotConfig::grid_line_width() const noexcept { return grid_line_width_; }
 
 int PlotConfig::curve_line_width() const noexcept { return curve_line_width_; }
+
+const RGBColor& PlotConfig::background_color() const noexcept {
+    return background_color_;
+}
 
 const RGBColor& PlotConfig::axes_color() const noexcept { return axes_color_; }
 
