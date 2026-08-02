@@ -26,6 +26,6 @@ auto fmt::formatter<func_sketch::plotter::PlotRange>::format(
     const func_sketch::plotter::PlotRange& value, format_context& context) const
     -> format_context::iterator {
     return fmt::format_to(context.out(),
-        "PlotRange(x_range=({}, {}), y_range=({}, {}))", value.x_range.first,
-        value.x_range.second, value.y_range.first, value.y_range.second);
+        "PlotRange(x_range=({}, {}), y_range=({}, {}))", value.x_range().first,
+        value.x_range().second, value.y_range().first, value.y_range().second);
 }

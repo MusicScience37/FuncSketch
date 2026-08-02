@@ -39,6 +39,30 @@ struct RGBColor {
     std::uint8_t b;
 };
 
+/*!
+ * \brief Check if two RGBColor objects are equal.
+ *
+ * \param[in] left Left object.
+ * \param[in] right Right object.
+ * \retval true Two objects are equal.
+ * \retval false Two objects are not equal.
+ */
+inline bool operator==(const RGBColor& left, const RGBColor& right) {
+    return left.r == right.r && left.g == right.g && left.b == right.b;
+}
+
+/*!
+ * \brief Check if two RGBColor objects are equal.
+ *
+ * \param[in] left Left object.
+ * \param[in] right Right object.
+ * \retval true Two objects are not equal.
+ * \retval false Two objects are equal.
+ */
+inline bool operator!=(const RGBColor& left, const RGBColor& right) {
+    return !(left == right);
+}
+
 }  // namespace func_sketch::plotter
 
 /*!

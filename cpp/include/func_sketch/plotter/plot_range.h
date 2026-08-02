@@ -15,10 +15,11 @@
  */
 /*!
  * \file
- * \brief Definition of PlotRange struct.
+ * \brief Definition of PlotRange class.
  */
 #pragma once
 
+#include <stdexcept>
 #include <utility>
 
 #include <fmt/base.h>
@@ -26,14 +27,51 @@
 namespace func_sketch::plotter {
 
 /*!
- * \brief Struct of a range of a plot.
+ * \brief Class of a range of a plot.
  */
-struct PlotRange {
+class PlotRange {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] x_range X range.
+     * \param[in] y_range Y range.
+     */
+    PlotRange(const std::pair<double, double>& x_range,
+        const std::pair<double, double>& y_range)
+        : x_range_(x_range), y_range_(y_range) {
+        if (x_range.first >= x_range.second) {
+            throw std::invalid_argument("Invalid X range: min >= max");
+        }
+        if (y_range.first >= y_range.second) {
+            throw std::invalid_argument("Invalid Y range: min >= max");
+        }
+    }
+
+    /*!
+     * \brief Get X range.
+     *
+     * \return X range.
+     */
+    [[nodiscard]] auto x_range() const noexcept -> std::pair<double, double> {
+        return x_range_;
+    }
+
+    /*!
+     * \brief Get Y range.
+     *
+     * \return Y range.
+     */
+    [[nodiscard]] auto y_range() const noexcept -> std::pair<double, double> {
+        return y_range_;
+    }
+
+private:
     //! X range.
-    std::pair<double, double> x_range;
+    std::pair<double, double> x_range_;
 
     //! Y range.
-    std::pair<double, double> y_range;
+    std::pair<double, double> y_range_;
 };
 
 }  // namespace func_sketch::plotter

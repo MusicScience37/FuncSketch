@@ -26,7 +26,7 @@ TEST_CASE("func_sketch::plotter::PlotRange") {
     using func_sketch::plotter::PlotRange;
 
     SECTION("format") {
-        const PlotRange range{.x_range = {1.2, 3.4}, .y_range = {5.6, 7.8}};
+        const PlotRange range{{1.2, 3.4}, {5.6, 7.8}};
 
         CHECK(fmt::format("{}", range) ==
             "PlotRange(x_range=(1.2, 3.4), y_range=(5.6, 7.8))");

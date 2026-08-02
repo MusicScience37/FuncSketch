@@ -132,9 +132,9 @@ package func_sketch {
             using Image = cv::Mat
         }
 
-        struct PlotRange {
-            + x_range : std::pair<Scalar, Scalar>
-            + y_range : std::pair<Scalar, Scalar>
+        class PlotRange {
+            + x_range() : std::pair<Scalar, Scalar>
+            + y_range() : std::pair<Scalar, Scalar>
         }
 
         struct PlotConfig

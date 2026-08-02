@@ -7,6 +7,7 @@
 #include "parser/expression_grammar.cpp"
 #include "parser/expression_parser.cpp"
 #include "parser/parsed_expression.cpp"
+#include "plotter/plot_config.cpp"
 #include "plotter/plot_range.cpp"
 #include "plotter/point.cpp"
 #include "plotter/rgb_color.cpp"
