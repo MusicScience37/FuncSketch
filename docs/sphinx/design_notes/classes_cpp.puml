@@ -123,16 +123,14 @@ package func_sketch {
             + b : uint8_t
         }
 
+        struct Point {
+            + x : Scalar
+            + y : Scalar
+        }
+
         class Image <<typedef>> {
             using Image = cv::Mat
         }
-
-        struct PlottedFunction {
-            + expression : ExpressionPtr
-            + color : Color
-        }
-        PlottedFunction o-- ExpressionPtr
-        PlottedFunction o-- Color
 
         struct PlotRange {
             + x_range : std::pair<Scalar, Scalar>
@@ -141,33 +139,28 @@ package func_sketch {
 
         struct PlotConfig
 
-        struct Point {
-            + x : Scalar
-            + y : Scalar
-        }
-
         class FunctionSampler {
-            + operator()(function : PlottedFunction, range : PlotRange, config : PlotConfig, samples : std::vector<Point>&)
+            + range(value : PlotRange)
+            + config(value : PlotConfig)
+            + operator()(function : ExpressionPtr, samples : std::vector<Point>&)
         }
-        FunctionSampler ..> PlottedFunction
-        FunctionSampler ..> PlotRange
-        FunctionSampler ..> PlotConfig
+        FunctionSampler o-- PlotRange
+        FunctionSampler o-- PlotConfig
+        FunctionSampler ...> ExpressionPtr
         FunctionSampler ..> Point
 
-        class LinePlotter {
-            + operator()(samples : std::vector<Point>, range : PlotRange, config : PlotConfig, image : Image&)
+        class Plotter {
+            + range(value : PlotRange)
+            + config(value : PlotConfig)
+            + write_background(image : Image&)
+            + write_curve(samples : std::vector<Point>, color : Color, image : Image&)
+            + write_margin(image : Image&)
         }
-        LinePlotter ..> Point
-        LinePlotter ..> PlotRange
-        LinePlotter ..> PlotConfig
-        LinePlotter ..> Image
-
-        class AxesPlotter {
-            + operator()(range : PlotRange, config : PlotConfig, image : Image&)
-        }
-        AxesPlotter ..> PlotRange
-        AxesPlotter ..> PlotConfig
-        AxesPlotter ..> Image
+        Plotter o-- PlotRange
+        Plotter o-- PlotConfig
+        Plotter ..> Point
+        Plotter ..> Color
+        Plotter ..> Image
     }
 }
 
