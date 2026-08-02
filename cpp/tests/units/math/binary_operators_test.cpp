@@ -21,9 +21,15 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "func_sketch/math/binary_operator_type.h"
+
 TEST_CASE("func_sketch::math::AdditionOperator") {
     using func_sketch::Scalar;
     using func_sketch::math::AdditionOperator;
+
+    SECTION("check concept") {
+        STATIC_REQUIRE(func_sketch::math::BinaryOperatorType<AdditionOperator>);
+    }
 
     SECTION("operate on a pair of scalars") {
         constexpr Scalar left = 1.0;
@@ -42,6 +48,11 @@ TEST_CASE("func_sketch::math::SubtractionOperator") {
     using func_sketch::Scalar;
     using func_sketch::math::SubtractionOperator;
 
+    SECTION("check concept") {
+        STATIC_REQUIRE(
+            func_sketch::math::BinaryOperatorType<SubtractionOperator>);
+    }
+
     SECTION("operate on a pair of scalars") {
         constexpr Scalar left = 1.0;
         constexpr Scalar right = 2.0;
@@ -59,6 +70,11 @@ TEST_CASE("func_sketch::math::MultiplicationOperator") {
     using func_sketch::Scalar;
     using func_sketch::math::MultiplicationOperator;
 
+    SECTION("check concept") {
+        STATIC_REQUIRE(
+            func_sketch::math::BinaryOperatorType<MultiplicationOperator>);
+    }
+
     SECTION("operate on a pair of scalars") {
         constexpr Scalar left = 1.0;
         constexpr Scalar right = 2.0;
@@ -75,6 +91,10 @@ TEST_CASE("func_sketch::math::MultiplicationOperator") {
 TEST_CASE("func_sketch::math::DivisionOperator") {
     using func_sketch::Scalar;
     using func_sketch::math::DivisionOperator;
+
+    SECTION("check concept") {
+        STATIC_REQUIRE(func_sketch::math::BinaryOperatorType<DivisionOperator>);
+    }
 
     SECTION("operate on a pair of scalars") {
         constexpr Scalar left = 1.0;

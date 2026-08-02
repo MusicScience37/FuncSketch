@@ -6,6 +6,8 @@
 #include "expressions/parameter_expression_test.cpp"
 #include "math/binary_operator_test.cpp"
 #include "math/binary_operators_test.cpp"
+#include "math/unary_operator_test.cpp"
+#include "math/unary_operators_test.cpp"
 #include "parser/expression_grammar_test.cpp"
 #include "parser/expression_parser_test.cpp"
 #include "parser/parser_test_strings.cpp"
