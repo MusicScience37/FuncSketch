@@ -61,5 +61,6 @@
   "python-envs.defaultEnvManager": "ms-python.python:poetry",
   "python-envs.defaultPackageManager": "ms-python.python:poetry",
   "cmake.modifyLists.addNewSourceFiles": "no",
-  "cmake.modifyLists.removeDeletedSourceFiles": "no"
+  "cmake.modifyLists.removeDeletedSourceFiles": "no",
+  "better-todo-tree.filtering.ignoreGitSubmodules": true
 }
