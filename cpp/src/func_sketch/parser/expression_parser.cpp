@@ -23,6 +23,7 @@
 
 #include <boost/variant.hpp>
 
+#include "func_sketch/exceptions.h"
 #include "func_sketch/parser/convert_expression.h"
 #include "func_sketch/parser/expression_grammar.h"
 #include "func_sketch/parser/parsed_expression.h"
@@ -45,7 +46,7 @@ expressions::ExpressionPtr ExpressionParser::operator()(
     bool is_parsed = boost::spirit::qi::phrase_parse(iter, expression_str.end(),
         pimpl_->grammar, boost::spirit::ascii::space, parsed_expression);
     if (!is_parsed || iter != expression_str.end()) {
-        throw std::runtime_error(
+        throw InvalidExpressionException(
             "Failed to parse expression: " + expression_str);
     }
     return convert_expression(parsed_expression);

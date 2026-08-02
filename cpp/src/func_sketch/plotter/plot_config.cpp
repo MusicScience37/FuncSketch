@@ -19,13 +19,13 @@
  */
 #include "func_sketch/plotter/plot_config.h"
 
-#include <stdexcept>
+#include "func_sketch/exceptions.h"
 
 namespace func_sketch::plotter {
 
 PlotConfig& PlotConfig::left_margin(int value) {
     if (value < 0) {
-        throw std::invalid_argument("Left margin must be non-negative");
+        throw InvalidArgumentException("Left margin must be non-negative");
     }
     left_margin_ = value;
     return *this;
@@ -33,7 +33,7 @@ PlotConfig& PlotConfig::left_margin(int value) {
 
 PlotConfig& PlotConfig::right_margin(int value) {
     if (value < 0) {
-        throw std::invalid_argument("Right margin must be non-negative");
+        throw InvalidArgumentException("Right margin must be non-negative");
     }
     right_margin_ = value;
     return *this;
@@ -41,7 +41,7 @@ PlotConfig& PlotConfig::right_margin(int value) {
 
 PlotConfig& PlotConfig::top_margin(int value) {
     if (value < 0) {
-        throw std::invalid_argument("Top margin must be non-negative");
+        throw InvalidArgumentException("Top margin must be non-negative");
     }
     top_margin_ = value;
     return *this;
@@ -49,7 +49,7 @@ PlotConfig& PlotConfig::top_margin(int value) {
 
 PlotConfig& PlotConfig::bottom_margin(int value) {
     if (value < 0) {
-        throw std::invalid_argument("Bottom margin must be non-negative");
+        throw InvalidArgumentException("Bottom margin must be non-negative");
     }
     bottom_margin_ = value;
     return *this;
@@ -57,7 +57,7 @@ PlotConfig& PlotConfig::bottom_margin(int value) {
 
 PlotConfig& PlotConfig::tick_label_font_size(int value) {
     if (value < 0) {
-        throw std::invalid_argument(
+        throw InvalidArgumentException(
             "Tick label font size must be non-negative");
     }
     tick_label_font_size_ = value;
@@ -66,7 +66,7 @@ PlotConfig& PlotConfig::tick_label_font_size(int value) {
 
 PlotConfig& PlotConfig::axes_line_width(int value) {
     if (value < 0) {
-        throw std::invalid_argument("Axes line width must be non-negative");
+        throw InvalidArgumentException("Axes line width must be non-negative");
     }
     axes_line_width_ = value;
     return *this;
@@ -74,7 +74,7 @@ PlotConfig& PlotConfig::axes_line_width(int value) {
 
 PlotConfig& PlotConfig::grid_line_width(int value) {
     if (value < 0) {
-        throw std::invalid_argument("Grid line width must be non-negative");
+        throw InvalidArgumentException("Grid line width must be non-negative");
     }
     grid_line_width_ = value;
     return *this;
@@ -82,7 +82,7 @@ PlotConfig& PlotConfig::grid_line_width(int value) {
 
 PlotConfig& PlotConfig::curve_line_width(int value) {
     if (value < 0) {
-        throw std::invalid_argument("Curve line width must be non-negative");
+        throw InvalidArgumentException("Curve line width must be non-negative");
     }
     curve_line_width_ = value;
     return *this;

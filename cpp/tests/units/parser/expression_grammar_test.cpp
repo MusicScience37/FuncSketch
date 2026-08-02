@@ -25,6 +25,7 @@
 #include <fmt/base.h>
 #include <fmt/format.h>
 
+#include "func_sketch/exceptions.h"
 #include "include_approval_tests.h"
 #include "parser_test_strings.h"
 
@@ -45,7 +46,8 @@ TEST_CASE("func_sketch::parser::ExpressionGrammar") {
                         boost::spirit::ascii::space, parsed_expression);
 
                 if (!is_parsed || iter != str.end()) {
-                    throw std::runtime_error("Failed to parse.");
+                    throw func_sketch::InvalidExpressionException(
+                        "Failed to parse.");
                 }
 
                 fmt::format_to(std::back_inserter(results), "Parsed: {}\n",

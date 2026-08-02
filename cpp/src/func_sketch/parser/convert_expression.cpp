@@ -19,8 +19,7 @@
  */
 #include "func_sketch/parser/convert_expression.h"
 
-#include <stdexcept>
-
+#include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/binary_expression.h"
 #include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression.h"
@@ -69,7 +68,8 @@ namespace func_sketch::parser {
     if (parsed_expression.name == "x") {
         return pool.create<expressions::ParameterExpression>();
     }
-    throw std::runtime_error("Unknown identifier: " + parsed_expression.name);
+    throw InvalidExpressionException(
+        "Unknown identifier: " + parsed_expression.name);
 }
 
 /*!
@@ -83,7 +83,7 @@ namespace func_sketch::parser {
     const ParsedFunctionCallExpression& parsed_expression,
     expressions::ExpressionMemoryPool& pool) {
     // TODO
-    throw std::runtime_error("Function call is not implemented yet.");
+    throw InvalidExpressionException("Function call is not implemented yet.");
 }
 
 /*!
@@ -97,7 +97,8 @@ namespace func_sketch::parser {
     const ParsedUnaryExpression& parsed_expression,
     expressions::ExpressionMemoryPool& pool) {
     // TODO
-    throw std::runtime_error("Unary expression is not implemented yet.");
+    throw InvalidExpressionException(
+        "Unary expression is not implemented yet.");
 }
 
 /*!
@@ -120,7 +121,8 @@ namespace func_sketch::parser {
     if (operator_str == "/") {
         return math::BinaryOperator(math::DivisionOperator());
     }
-    throw std::runtime_error("Unknown binary operator: " + operator_str);
+    throw InvalidExpressionException(
+        "Unknown binary operator: " + operator_str);
 }
 
 /*!

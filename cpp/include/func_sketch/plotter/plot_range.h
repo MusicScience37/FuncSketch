@@ -19,10 +19,11 @@
  */
 #pragma once
 
-#include <stdexcept>
 #include <utility>
 
 #include <fmt/base.h>
+
+#include "func_sketch/exceptions.h"
 
 namespace func_sketch::plotter {
 
@@ -41,10 +42,10 @@ public:
         const std::pair<double, double>& y_range)
         : x_range_(x_range), y_range_(y_range) {
         if (x_range.first >= x_range.second) {
-            throw std::invalid_argument("Invalid X range: min >= max");
+            throw InvalidArgumentException("Invalid X range: min >= max");
         }
         if (y_range.first >= y_range.second) {
-            throw std::invalid_argument("Invalid Y range: min >= max");
+            throw InvalidArgumentException("Invalid Y range: min >= max");
         }
     }
 
