@@ -21,6 +21,9 @@
 
 std::vector<std::string> parser_test_strings() {
     return {
+        // *******************************
+        // Valid expressions
+        // *******************************
         // Constants.
         "1.23",
         "-2.34",
@@ -38,11 +41,13 @@ std::vector<std::string> parser_test_strings() {
         "1.23 / 4.56",
         // Power.
         "1.23 ** 4.56",
+        "1.23 ** -4.56",  // TODO Future implementation may invalidate this.
         // Parentheses.
         "1.23 * (4.56 + 7.89)",
         // Function calls.
         "exp(1.23)",
         // Nested expressions.
+        "1.23 ** 4.56 ** 7.89",  // TODO This should be 1.23 ** (4.56 ** 7.89).
         "exp(exp(1.23) + 4.56)",
         "1.23 * 3.45 / (6.78 - 9.01)",
         "-exp(1.23)",
@@ -50,9 +55,34 @@ std::vector<std::string> parser_test_strings() {
         "TestIdentifier",
         "test_identifier",
         "test123",
-        // Wrong expressions.
-        "1.23 +",
-        "1.23 * * 4.56",
+
+        // *******************************
+        // Invalid expressions
+        // *******************************
+        // Error at constant.
+        "1.23.45",
+        // Error at identifier.
+        "1x",
+        // Error at function call expression.
         "exp(1.23,)",
+        "exp(1.23,",
+        "exp(",
+        // Error at parentheses in value expression.
+        "1.23 * (4.56 + 7.89",
+        "1.23 * (",
+        "1.23 * ( +",
+        "1.23 * ()",
+        // Error at factor expression.
+        "1.23 **",
+        // Error at unary expression.
+        "-",
+        // Error at term expression.
+        "1.23 *",
+        "1.23 /",
+        // Error at sum expression.
+        "1.23 +",
+        "1.23 -",
+        // Others.
+        "1.23 * * 4.56",
     };
 }

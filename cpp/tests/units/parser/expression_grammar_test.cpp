@@ -25,7 +25,6 @@
 #include <fmt/base.h>
 #include <fmt/format.h>
 
-#include "func_sketch/exceptions.h"
 #include "include_approval_tests.h"
 #include "parser_test_strings.h"
 
@@ -39,17 +38,7 @@ TEST_CASE("func_sketch::parser::ExpressionGrammar") {
         for (const auto& str : parser_test_strings()) {
             fmt::format_to(std::back_inserter(results), "Input: {}\n", str);
             try {
-                ParsedExpression parsed_expression;
-                auto iter = str.begin();
-                bool is_parsed =
-                    boost::spirit::qi::phrase_parse(iter, str.end(), grammar,
-                        boost::spirit::ascii::space, parsed_expression);
-
-                if (!is_parsed || iter != str.end()) {
-                    throw func_sketch::InvalidExpressionException(
-                        "Failed to parse.");
-                }
-
+                const auto parsed_expression = grammar.parse(str);
                 fmt::format_to(std::back_inserter(results), "Parsed: {}\n",
                     parsed_expression);
             } catch (const std::exception& e) {

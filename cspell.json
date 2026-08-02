@@ -8,6 +8,7 @@
     "AUSAN",
     "autobuild",
     "bigobj",
+    "bugprone",
     "BUILDNAME",
     "buildsystems",
     "cmakelang",
@@ -43,7 +44,8 @@
     "toctree",
     "TOUPPER",
     "ubsan",
-    "virtualenvs"
+    "virtualenvs",
+    "Woverloaded"
   ],
   "ignoreWords": [],
   "import": []

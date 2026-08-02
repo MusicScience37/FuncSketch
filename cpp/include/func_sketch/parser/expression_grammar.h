@@ -43,6 +43,25 @@ public:
      */
     ExpressionGrammar();
 
+    /*!
+     * \brief Get the error message from the last parse attempt.
+     *
+     * \return Error message if parsing failed, empty string otherwise.
+     */
+    [[nodiscard]] const std::string& error_message() const noexcept;
+
+    /*!
+     * \brief Clear the error message.
+     */
+    void clear_error_message() noexcept;
+
+    /*!
+     * \brief Parse with error handling.
+     *
+     * \throw InvalidExpressionException If parsing failed.
+     */
+    [[nodiscard]] ParsedExpression parse(const std::string& str);
+
 private:
     /*!
      * \brief Type of rules.
@@ -79,6 +98,12 @@ private:
 
     //! Rule of sum expressions.
     Rule<ParsedExpression> sum_expr_rule_;
+
+    //! Rule of the whole expression.
+    Rule<ParsedExpression> expr_rule_;
+
+    //! Error message from the last parse attempt.
+    std::string error_message_;
 };
 
 }  // namespace func_sketch::parser

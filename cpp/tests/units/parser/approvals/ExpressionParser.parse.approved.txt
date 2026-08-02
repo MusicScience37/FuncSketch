@@ -25,11 +25,17 @@ Parsed: div(1.23, 4.56)
 Input: 1.23 ** 4.56
 Exception: Unknown binary operator: **
 
+Input: 1.23 ** -4.56
+Exception: Unknown binary operator: **
+
 Input: 1.23 * (4.56 + 7.89)
 Parsed: mul(1.23, add(4.56, 7.89))
 
 Input: exp(1.23)
 Exception: Function call is not implemented yet.
+
+Input: 1.23 ** 4.56 ** 7.89
+Exception: Unknown binary operator: **
 
 Input: exp(exp(1.23) + 4.56)
 Exception: Function call is not implemented yet.
@@ -49,13 +55,52 @@ Exception: Unknown identifier: test_identifier
 Input: test123
 Exception: Unknown identifier: test123
 
-Input: 1.23 +
-Exception: Failed to parse expression: 1.23 +
+Input: 1.23.45
+Exception: Unexpected token at position 5.
 
-Input: 1.23 * * 4.56
-Exception: Failed to parse expression: 1.23 * * 4.56
+Input: 1x
+Exception: Unexpected token at position 2.
 
 Input: exp(1.23,)
-Exception: Failed to parse expression: exp(1.23,)
+Exception: Expected <expression> at position 9.
+
+Input: exp(1.23,
+Exception: Expected <expression> at position 9.
+
+Input: exp(
+Exception: Expected ")" at position 4.
+
+Input: 1.23 * (4.56 + 7.89
+Exception: Expected ")" at position 19.
+
+Input: 1.23 * (
+Exception: Expected <expression> at position 8.
+
+Input: 1.23 * ( +
+Exception: Expected <expression> at position 8.
+
+Input: 1.23 * ()
+Exception: Expected <expression> at position 8.
+
+Input: 1.23 **
+Exception: Expected <expression> at position 7.
+
+Input: -
+Exception: Expected <expression> at position 1.
+
+Input: 1.23 *
+Exception: Expected <expression> at position 6.
+
+Input: 1.23 /
+Exception: Expected <expression> at position 6.
+
+Input: 1.23 +
+Exception: Expected <expression> at position 6.
+
+Input: 1.23 -
+Exception: Expected <expression> at position 6.
+
+Input: 1.23 * * 4.56
+Exception: Expected <expression> at position 6.
 
 
