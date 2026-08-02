@@ -37,6 +37,7 @@
     "MusicScience37",
     "mypy",
     "nanobind",
+    "ndarray",
     "NOLINTNEXTLINE",
     "pylint",
     "sphinxcontrib",
