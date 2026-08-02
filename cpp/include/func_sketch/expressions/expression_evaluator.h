@@ -66,6 +66,16 @@ private:
      * \param[out] result Result.
      */
     static void evaluate(
+        const UnaryExpression& expression, Scalar parameter, Scalar& result);
+
+    /*!
+     * \brief Evaluate an expression.
+     *
+     * \param[in] expression Expression.
+     * \param[in] parameter Parameter.
+     * \param[out] result Result.
+     */
+    static void evaluate(
         const BinaryExpression& expression, Scalar parameter, Scalar& result);
 };
 

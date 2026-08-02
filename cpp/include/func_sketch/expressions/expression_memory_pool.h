@@ -74,8 +74,10 @@ public:
         std::visit(
             [this](auto& expr) noexcept {
                 using ExpressionType = std::decay_t<decltype(expr)>;
-                if constexpr (std::is_same_v<ExpressionType,
-                                  BinaryExpression>) {
+                if constexpr (std::is_same_v<ExpressionType, UnaryExpression>) {
+                    destroy(expr.target);
+                } else if constexpr (std::is_same_v<ExpressionType,
+                                         BinaryExpression>) {
                     destroy(expr.left);
                     destroy(expr.right);
                 }

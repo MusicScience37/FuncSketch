@@ -24,16 +24,21 @@
 #include "func_sketch/expressions/binary_expression.h"
 #include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression.h"
+#include "func_sketch/expressions/unary_expression.h"
 #include "func_sketch/math/binary_operator.h"
 #include "func_sketch/math/binary_operators.h"
+#include "func_sketch/math/unary_operators.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
+    using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
+    using func_sketch::math::UnaryMinusOperator;
+    using func_sketch::math::UnaryOperator;
 
     SECTION("create an expression") {
         ExpressionMemoryPool pool;
@@ -44,6 +49,24 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
         CHECK(expression->as<ConstantExpression>().value == value);
 
         pool.destroy(expression);
+    }
+
+    SECTION("create and destroy a unary expression") {
+        ExpressionMemoryPool pool;
+
+        constexpr double value = 1.23;
+        Expression* expression = pool.create<ConstantExpression>(value);
+        Expression* unary_expression = pool.create<UnaryExpression>(
+            expression, UnaryOperator(UnaryMinusOperator{}));
+
+        CHECK(unary_expression->as<UnaryExpression>()
+                  .target->as<ConstantExpression>()
+                  .value == value);
+        CHECK(unary_expression->as<UnaryExpression>().operator_object.name() ==
+            UnaryMinusOperator{}.name());
+
+        pool.destroy(unary_expression);  // This should also destroy the target
+                                         // expression.
     }
 
     SECTION("create and destroy a binary expression") {

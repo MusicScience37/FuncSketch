@@ -44,6 +44,13 @@ void ExpressionEvaluator::evaluate(const ParameterExpression& /*expression*/,
 }
 
 void ExpressionEvaluator::evaluate(
+    const UnaryExpression& expression, Scalar parameter, Scalar& result) {
+    Scalar target_value{std::numeric_limits<Scalar>::quiet_NaN()};
+    operator()(*expression.target, parameter, target_value);
+    expression.operator_object(target_value, result);
+}
+
+void ExpressionEvaluator::evaluate(
     const BinaryExpression& expression, Scalar parameter, Scalar& result) {
     Scalar left_value{std::numeric_limits<Scalar>::quiet_NaN()};
     operator()(*expression.left, parameter, left_value);

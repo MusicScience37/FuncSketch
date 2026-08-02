@@ -28,14 +28,14 @@ namespace func_sketch::math {
 /*!
  * \brief Class of unary plus operator.
  */
-class UnaryPlus {
+class UnaryPlusOperator {
 public:
     /*!
      * \brief Get the name of the operator.
      *
      * \return Name of the operator.
      */
-    [[nodiscard]] static std::string_view name() noexcept { return "+"; }
+    [[nodiscard]] static std::string_view name() noexcept { return "identity"; }
 
     /*!
      * \brief Operate on a scalar.
@@ -51,14 +51,14 @@ public:
 /*!
  * \brief Class of unary minus operator.
  */
-class UnaryMinus {
+class UnaryMinusOperator {
 public:
     /*!
      * \brief Get the name of the operator.
      *
      * \return Name of the operator.
      */
-    [[nodiscard]] static std::string_view name() noexcept { return "-"; }
+    [[nodiscard]] static std::string_view name() noexcept { return "negate"; }
 
     /*!
      * \brief Operate on a scalar.

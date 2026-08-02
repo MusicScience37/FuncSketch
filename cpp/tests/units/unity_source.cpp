@@ -4,6 +4,7 @@
 #include "expressions/expression_memory_pool_test.cpp"
 #include "expressions/expression_ptr_test.cpp"
 #include "expressions/parameter_expression_test.cpp"
+#include "expressions/unary_expression_test.cpp"
 #include "math/binary_operator_test.cpp"
 #include "math/binary_operators_test.cpp"
 #include "math/unary_operator_test.cpp"

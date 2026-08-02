@@ -23,19 +23,19 @@
 
 #include "func_sketch/math/unary_operator_type.h"
 
-TEST_CASE("func_sketch::math::UnaryPlus") {
+TEST_CASE("func_sketch::math::UnaryPlusOperator") {
     using func_sketch::Scalar;
-    using func_sketch::math::UnaryPlus;
+    using func_sketch::math::UnaryPlusOperator;
 
     SECTION("check concept") {
-        STATIC_REQUIRE(func_sketch::math::UnaryOperatorType<UnaryPlus>);
+        STATIC_REQUIRE(func_sketch::math::UnaryOperatorType<UnaryPlusOperator>);
     }
 
     SECTION("operate on a scalar") {
         constexpr Scalar arg = 1.0;
         Scalar result = 0.0;
 
-        UnaryPlus operator_object;
+        UnaryPlusOperator operator_object;
         operator_object(arg, result);
 
         constexpr Scalar expected_result = arg;
@@ -43,19 +43,20 @@ TEST_CASE("func_sketch::math::UnaryPlus") {
     }
 }
 
-TEST_CASE("func_sketch::math::UnaryMinus") {
+TEST_CASE("func_sketch::math::UnaryMinusOperator") {
     using func_sketch::Scalar;
-    using func_sketch::math::UnaryMinus;
+    using func_sketch::math::UnaryMinusOperator;
 
     SECTION("check concept") {
-        STATIC_REQUIRE(func_sketch::math::UnaryOperatorType<UnaryMinus>);
+        STATIC_REQUIRE(
+            func_sketch::math::UnaryOperatorType<UnaryMinusOperator>);
     }
 
     SECTION("operate on a scalar") {
         constexpr Scalar arg = 1.0;
         Scalar result = 0.0;
 
-        UnaryMinus operator_object;
+        UnaryMinusOperator operator_object;
         operator_object(arg, result);
 
         constexpr Scalar expected_result = -arg;

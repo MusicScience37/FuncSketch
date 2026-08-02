@@ -15,9 +15,9 @@
  */
 /*!
  * \file
- * \brief Test of BinaryExpression structure.
+ * \brief Test of UnaryExpression structure.
  */
-#include "func_sketch/expressions/binary_expression.h"
+#include "func_sketch/expressions/unary_expression.h"
 
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
@@ -25,27 +25,26 @@
 #include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
 #include "func_sketch/expressions/parameter_expression.h"
-#include "func_sketch/math/binary_operators.h"
+#include "func_sketch/math/unary_operator.h"
+#include "func_sketch/math/unary_operators.h"
 
-TEST_CASE("func_sketch::expressions::BinaryExpression") {
-    using func_sketch::expressions::BinaryExpression;
+TEST_CASE("func_sketch::expressions::UnaryExpression") {
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::ParameterExpression;
-    using func_sketch::math::AdditionOperator;
-    using func_sketch::math::BinaryOperator;
+    using func_sketch::expressions::UnaryExpression;
+    using func_sketch::math::UnaryMinusOperator;
+    using func_sketch::math::UnaryOperator;
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        constexpr double left_value = 1.23;
-        Expression* left = pool.create<ConstantExpression>(left_value);
-        Expression* right = pool.create<ParameterExpression>();
-        Expression* binary_expression = pool.create<BinaryExpression>(
-            left, right, BinaryOperator(AdditionOperator{}));
+        Expression* target = pool.create<ParameterExpression>();
+        Expression* unary_expression = pool.create<UnaryExpression>(
+            target, UnaryOperator(UnaryMinusOperator{}));
 
-        CHECK(fmt::format("{}", *binary_expression) == "add(1.23, x)");
+        CHECK(fmt::format("{}", *unary_expression) == "negate(x)");
 
-        pool.destroy(binary_expression);
+        pool.destroy(unary_expression);
     }
 }

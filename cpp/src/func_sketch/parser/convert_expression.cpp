@@ -25,8 +25,10 @@
 #include "func_sketch/expressions/expression.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
 #include "func_sketch/expressions/parameter_expression.h"
+#include "func_sketch/expressions/unary_expression.h"
 #include "func_sketch/math/binary_operator.h"
 #include "func_sketch/math/binary_operators.h"
+#include "func_sketch/math/unary_operators.h"
 
 namespace func_sketch::parser {
 
@@ -87,6 +89,23 @@ namespace func_sketch::parser {
 }
 
 /*!
+ * \brief Get a unary operator by name.
+ *
+ * \param[in] operator_str Name of the operator.
+ * \return Unary operator.
+ */
+[[nodiscard]] math::UnaryOperator get_unary_operator(
+    const std::string& operator_str) {
+    if (operator_str == "+") {
+        return math::UnaryOperator(math::UnaryPlusOperator());
+    }
+    if (operator_str == "-") {
+        return math::UnaryOperator(math::UnaryMinusOperator());
+    }
+    throw InvalidExpressionException("Unknown unary operator: " + operator_str);
+}
+
+/*!
  * \brief Convert parsed expression.
  *
  * \param[in] parsed_expression Parsed expression to convert.
@@ -96,9 +115,9 @@ namespace func_sketch::parser {
 [[nodiscard]] expressions::Expression* convert_expression(
     const ParsedUnaryExpression& parsed_expression,
     expressions::ExpressionMemoryPool& pool) {
-    // TODO
-    throw InvalidExpressionException(
-        "Unary expression is not implemented yet.");
+    return pool.create<expressions::UnaryExpression>(
+        convert_expression(parsed_expression.operand, pool),
+        get_unary_operator(parsed_expression.operator_str));
 }
 
 /*!

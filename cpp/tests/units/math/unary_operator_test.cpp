@@ -25,13 +25,13 @@
 
 TEST_CASE("func_sketch::math::UnaryOperator") {
     using func_sketch::Scalar;
-    using func_sketch::math::UnaryMinus;
+    using func_sketch::math::UnaryMinusOperator;
     using func_sketch::math::UnaryOperator;
 
     SECTION("create and use an operator") {
-        UnaryOperator operator_object(UnaryMinus{});
+        UnaryOperator operator_object(UnaryMinusOperator{});
 
-        CHECK(operator_object.name() == "-");
+        CHECK(operator_object.name() == "negate");
 
         constexpr Scalar arg = 1.0;
         Scalar result = 0.0;

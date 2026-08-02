@@ -24,6 +24,7 @@
 #include "func_sketch/common_types.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
 #include "func_sketch/math/binary_operators.h"
+#include "func_sketch/math/unary_operators.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     using func_sketch::Scalar;
@@ -32,8 +33,11 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     using func_sketch::expressions::ExpressionEvaluator;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::ParameterExpression;
+    using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
+    using func_sketch::math::UnaryMinusOperator;
+    using func_sketch::math::UnaryOperator;
 
     ExpressionMemoryPool pool;
     ExpressionEvaluator evaluator;
@@ -59,6 +63,20 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         evaluator(*expression, parameter, result);
 
         CHECK(result == parameter);
+    }
+
+    SECTION("evaluate a unary expression") {
+        constexpr Scalar value = 1.23;
+        auto* target_expression = pool.create<ConstantExpression>(value);
+        const auto* expression = pool.create<UnaryExpression>(
+            target_expression, UnaryOperator(UnaryMinusOperator{}));
+
+        constexpr Scalar parameter = 4.56;
+        Scalar result = 0.0;
+
+        evaluator(*expression, parameter, result);
+
+        CHECK(result == -value);
     }
 
     SECTION("evaluate a binary expression") {

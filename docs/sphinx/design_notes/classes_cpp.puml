@@ -73,7 +73,7 @@ package func_sketch {
 
         struct UnaryExpression {
             + target : Expression*
-            + function : UnaryOperator
+            + operator_object : UnaryOperator
         }
         Expression <..> UnaryExpression
         UnaryExpression o-- UnaryOperator
@@ -81,7 +81,7 @@ package func_sketch {
         struct BinaryExpression {
             + left : Expression*
             + right : Expression*
-            + function : BinaryOperator
+            + operator_object : BinaryOperator
         }
         Expression <..> BinaryExpression
         BinaryExpression o-- BinaryOperator
