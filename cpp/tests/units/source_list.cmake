@@ -8,6 +8,8 @@ set(SOURCE_FILES
     expressions/unary_expression_test.cpp
     math/binary_operator_test.cpp
     math/binary_operators_test.cpp
+    math/functions/exp_test.cpp
+    math/math_function_test.cpp
     math/unary_operator_test.cpp
     math/unary_operators_test.cpp
     parser/expression_grammar_test.cpp

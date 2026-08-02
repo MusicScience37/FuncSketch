@@ -7,6 +7,8 @@
 #include "expressions/unary_expression_test.cpp"
 #include "math/binary_operator_test.cpp"
 #include "math/binary_operators_test.cpp"
+#include "math/functions/exp_test.cpp"
+#include "math/math_function_test.cpp"
 #include "math/unary_operator_test.cpp"
 #include "math/unary_operators_test.cpp"
 #include "parser/expression_grammar_test.cpp"

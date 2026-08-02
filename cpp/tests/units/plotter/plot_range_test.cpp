@@ -26,7 +26,6 @@ TEST_CASE("func_sketch::plotter::PlotRange") {
     using func_sketch::plotter::PlotRange;
 
     SECTION("check ranges in constructor") {
-        // NOLINTBEGIN(*-magic-numbers)
         CHECK_NOTHROW(PlotRange({0.0, 1.0}, {2.0, 3.0}));
 
         // Wrong x-range
@@ -40,7 +39,6 @@ TEST_CASE("func_sketch::plotter::PlotRange") {
         CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, NAN}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, 2.0}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {3.0, 2.0}));
-        // NOLINTEND(*-magic-numbers)
     }
 
     SECTION("format") {
