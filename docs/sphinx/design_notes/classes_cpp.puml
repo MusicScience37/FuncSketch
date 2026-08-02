@@ -142,7 +142,7 @@ package func_sketch {
         class FunctionSampler {
             + range(value : PlotRange)
             + config(value : PlotConfig)
-            + operator()(function : ExpressionPtr, samples : std::vector<Point>&)
+            + operator()(function : ExpressionPtr) : std::vector<Point>
         }
         FunctionSampler o-- PlotRange
         FunctionSampler o-- PlotConfig

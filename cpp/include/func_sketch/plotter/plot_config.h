@@ -50,6 +50,9 @@ constexpr auto default_axes_color = RGBColor{.r = 0x24, .g = 0x24, .b = 0x24};
 //! Default color of grid lines.
 constexpr auto default_grid_color = RGBColor{.r = 0xC8, .g = 0xC8, .b = 0xC8};
 
+//! Default number of points to sample for each function.
+constexpr int default_num_sample_points = 100;
+
 /*!
  * \brief Class of configurations of a plot.
  */
@@ -149,6 +152,14 @@ public:
     PlotConfig& grid_color(const RGBColor& value);
 
     /*!
+     * \brief Set the number of points to sample for each function.
+     *
+     * \param[in] value Number of points to sample for each function.
+     * \return Reference to this object.
+     */
+    PlotConfig& num_sample_points(int value);
+
+    /*!
      * \brief Get the left margin of plots in pixels.
      *
      * \return Left margin of plots in pixels.
@@ -225,6 +236,13 @@ public:
      */
     [[nodiscard]] const RGBColor& grid_color() const noexcept;
 
+    /*!
+     * \brief Get the number of points to sample for each function.
+     *
+     * \return Number of points to sample for each function.
+     */
+    [[nodiscard]] int num_sample_points() const noexcept;
+
 private:
     //! Left margin of plots in pixels.
     int left_margin_{default_margins};
@@ -258,6 +276,9 @@ private:
 
     //! Color of grid lines.
     RGBColor grid_color_{default_grid_color};
+
+    //! Number of points to sample for each function.
+    int num_sample_points_{default_num_sample_points};
 };
 
 }  // namespace func_sketch::plotter
