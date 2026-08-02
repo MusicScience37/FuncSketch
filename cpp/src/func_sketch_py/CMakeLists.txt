@@ -6,3 +6,14 @@ set_target_properties(
                RUNTIME_OUTPUT_DIRECTORY ${FUNC_SKETCH_ROOT_DIR}/src/func_sketch)
 # Workaround for warnings of nanobind.
 target_compile_options(_cpp PRIVATE -Wno-macro-redefined)
+
+nanobind_add_stub(
+    func_sketch_py_stub
+    MODULE
+    func_sketch._cpp
+    OUTPUT
+    ${FUNC_SKETCH_ROOT_DIR}/src/func_sketch/_cpp.pyi
+    PYTHON_PATH
+    ${FUNC_SKETCH_ROOT_DIR}/src
+    DEPENDS
+    _cpp)
