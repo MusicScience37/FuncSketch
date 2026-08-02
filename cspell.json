@@ -39,6 +39,7 @@
     "nanobind",
     "ndarray",
     "NOLINTNEXTLINE",
+    "numpy",
     "pylint",
     "sphinxcontrib",
     "startuml",
