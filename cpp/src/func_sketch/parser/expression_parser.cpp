@@ -35,6 +35,12 @@ struct ExpressionParser::Impl {
 
 ExpressionParser::ExpressionParser() : pimpl_(std::make_unique<Impl>()) {}
 
+ExpressionParser::ExpressionParser(
+    ExpressionParser&& /*other*/) noexcept = default;
+
+ExpressionParser& ExpressionParser::operator=(
+    ExpressionParser&& /*other*/) noexcept = default;
+
 ExpressionParser::~ExpressionParser() = default;
 
 expressions::ExpressionPtr ExpressionParser::operator()(

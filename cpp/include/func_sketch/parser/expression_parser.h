@@ -42,15 +42,14 @@ public:
     /*!
      * \brief Move constructor.
      */
-    ExpressionParser(ExpressionParser&& /*other*/) noexcept = default;
+    ExpressionParser(ExpressionParser&& /*other*/) noexcept;
 
     /*!
      * \brief Move assignment operator.
      *
      * \return This object.
      */
-    ExpressionParser& operator=(
-        ExpressionParser&& /*other*/) noexcept = default;
+    ExpressionParser& operator=(ExpressionParser&& /*other*/) noexcept;
 
     /*!
      * \brief Destructor.

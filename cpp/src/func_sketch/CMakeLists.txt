@@ -5,6 +5,7 @@ target_include_directories(func_sketch_lib
 target_link_libraries(func_sketch_lib PUBLIC Boost::spirit Boost::math
                                              Eigen3::Eigen OpenCV fmt::fmt)
 target_compile_features(func_sketch_lib PUBLIC cxx_std_23)
+set_target_properties(func_sketch_lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # Unity build target used for clang-tidy checks.
 add_library(func_sketch_lib_unity EXCLUDE_FROM_ALL STATIC unity_source.cpp)

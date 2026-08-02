@@ -45,6 +45,8 @@
     "toctree",
     "TOUPPER",
     "ubsan",
+    "VENV",
+    "Virtualenv",
     "virtualenvs",
     "Woverloaded"
   ],

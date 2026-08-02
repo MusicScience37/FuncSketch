@@ -31,6 +31,7 @@ dev = [
     "doc8 (>=2.0.0,<3.0.0)",
     "sphinx-autobuild (>=2025.8.25,<2026.0.0)",
 ]
+bind = ["nanobind (>=2.13.0,<3.0.0)"]
 
 [tool.pylint.main]
 disable = "too-many-instance-attributes,line-too-long,fixme,too-few-public-methods,redefined-outer-name,redefined-builtin,too-many-arguments"

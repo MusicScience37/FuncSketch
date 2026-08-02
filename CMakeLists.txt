@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.18)
 project(func_sketch LANGUAGES CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cpp/cmake")
@@ -51,6 +51,32 @@ add_library(ApprovalTestsCpp INTERFACE)
 target_include_directories(ApprovalTestsCpp
                            INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
 
+# Find nanobind installed via poetry.
+find_program(POETRY_EXECUTABLE NAMES poetry)
+if(POETRY_EXECUTABLE)
+    execute_process(
+        COMMAND "${POETRY_EXECUTABLE}" "env" "info" "--path"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        OUTPUT_VARIABLE POETRY_VENV_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    message(STATUS "Virtualenv location: ${POETRY_VENV_DIR}")
+
+    find_program(
+        Python_EXECUTABLE
+        NAMES python3 python
+        PATHS ${POETRY_VENV_DIR}/bin ${POETRY_VENV_DIR}/Scripts
+        NO_DEFAULT_PATH)
+endif()
+find_package(
+    Python
+    COMPONENTS Interpreter Development.Module
+    REQUIRED)
+execute_process(
+    COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE nanobind_ROOT)
+find_package(nanobind CONFIG REQUIRED)
+
 # ##############################################################################
 # Import modules for configurations
 # ##############################################################################
@@ -60,4 +86,5 @@ include(ConfigureSanitizer)
 # ##############################################################################
 # Build targets
 # ##############################################################################
+set(FUNC_SKETCH_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 add_subdirectory(cpp)

@@ -1,1 +1,2 @@
 add_subdirectory(func_sketch)
+add_subdirectory(func_sketch_py)
