@@ -26,6 +26,7 @@
 #include <opencv2/imgproc.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/exceptions.h"
 #include "func_sketch/plotter/point.h"
 
 namespace func_sketch::plotter {
@@ -58,6 +59,9 @@ namespace {
         size[1] - config.left_margin() - config.right_margin();
     const int plot_height =
         size[0] - config.top_margin() - config.bottom_margin();
+    if (plot_width <= 0 || plot_height <= 0) {
+        throw InvalidArgumentException("Too small image size.");
+    }
 
     const Scalar x_ratio = (position.x - range.x_range().first) /
         (range.x_range().second - range.x_range().first);
