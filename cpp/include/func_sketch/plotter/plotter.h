@@ -23,6 +23,7 @@
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
+#include "func_sketch/plotter/point.h"
 
 namespace func_sketch::plotter {
 
@@ -64,6 +65,16 @@ public:
      * \param[in] image Image to write.
      */
     void write_background(Image& image) const;
+
+    /*!
+     * \brief Write a curve on plots.
+     *
+     * \param[in] samples Samples points of the curve.
+     * \param[in] color Color of the curve.
+     * \param[in] image Image to write.
+     */
+    void write_curve(const std::vector<Point>& samples, const RGBColor& color,
+        Image& image) const;
 
 private:
     /*!

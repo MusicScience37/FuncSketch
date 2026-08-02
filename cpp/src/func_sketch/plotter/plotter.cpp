@@ -20,6 +20,7 @@
 #include "func_sketch/plotter/plotter.h"
 
 #include <algorithm>
+#include <cmath>
 
 #include <fmt/format.h>
 #include <opencv2/imgproc.hpp>
@@ -94,6 +95,20 @@ namespace {
     return adjusted_position;
 }
 
+/*!
+ * \brief Clamp a point inside the plot range.
+ *
+ * \param[in] point Point to clamp.
+ * \param[in] range Range of plots.
+ * \return Clamped point.
+ */
+[[nodiscard]] Point clamp_point(const Point& point, const PlotRange& range) {
+    return Point{
+        .x = std::clamp(point.x, range.x_range().first, range.x_range().second),
+        .y =
+            std::clamp(point.y, range.y_range().first, range.y_range().second)};
+}
+
 }  // namespace
 
 // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
@@ -138,8 +153,6 @@ void Plotter::update_grid_positions() {
 }
 
 void Plotter::write_background(Image& image) const {
-    const auto size = image.size;
-
     // Background.
     const auto color = convert_color(config_.background_color());
     image = color;
@@ -147,6 +160,48 @@ void Plotter::write_background(Image& image) const {
     write_grid_lines(image);
     write_x_axis(image);
     write_y_axis(image);
+}
+
+void Plotter::write_curve(const std::vector<Point>& samples,
+    const RGBColor& color, Image& image) const {
+    const auto size = image.size;
+
+    const auto cv_color = convert_color(color);
+    const int line_width = config_.curve_line_width();
+
+    const std::size_t num_samples = samples.size();
+    if (num_samples < 2) {
+        return;
+    }
+    for (std::size_t i = 0; i < num_samples - 1; ++i) {
+        Point start_xy = samples[i];
+        Point end_xy = samples[i + 1];
+        const bool is_start_in_range = range_.contains(start_xy);
+        const bool is_end_in_range = range_.contains(end_xy);
+        if (!is_start_in_range && !is_end_in_range) {
+            // In this case, the range of the line segment may contain a
+            // singularity of the function.
+            continue;
+        }
+        if (std::isnan(start_xy.x) || std::isnan(start_xy.y) ||
+            std::isnan(end_xy.x) || std::isnan(end_xy.y)) {
+            // NaN cannot be fixed.
+            continue;
+        }
+        if (!is_start_in_range) {
+            start_xy = clamp_point(start_xy, range_);
+        }
+        if (!is_end_in_range) {
+            end_xy = clamp_point(end_xy, range_);
+        }
+
+        const auto start_pixel =
+            convert_position(start_xy, range_, config_, size);
+        const auto end_pixel = convert_position(end_xy, range_, config_, size);
+
+        cv::line(
+            image, start_pixel, end_pixel, cv_color, line_width, cv::LINE_AA);
+    }
 }
 
 void Plotter::write_grid_lines(Image& image) const {

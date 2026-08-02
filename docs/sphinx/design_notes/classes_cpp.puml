@@ -154,7 +154,6 @@ package func_sketch {
             + config(value : PlotConfig)
             + write_background(image : Image&)
             + write_curve(samples : std::vector<Point>, color : RGBColor, image : Image&)
-            + write_margin(image : Image&)
         }
         Plotter o-- PlotRange
         Plotter o-- PlotConfig

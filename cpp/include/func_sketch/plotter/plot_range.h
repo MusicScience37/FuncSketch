@@ -19,11 +19,13 @@
  */
 #pragma once
 
+#include <cmath>
 #include <utility>
 
 #include <fmt/base.h>
 
 #include "func_sketch/exceptions.h"
+#include "func_sketch/plotter/point.h"
 
 namespace func_sketch::plotter {
 
@@ -65,6 +67,19 @@ public:
      */
     [[nodiscard]] auto y_range() const noexcept -> std::pair<double, double> {
         return y_range_;
+    }
+
+    /*!
+     * \brief Check if a point is in the range.
+     *
+     * \param[in] point Point to check.
+     * \retval true The point is in the range.
+     * \retval false The point is not in the range.
+     */
+    [[nodiscard]] bool contains(const Point& point) const noexcept {
+        return std::isfinite(point.x) && std::isfinite(point.y) &&
+            x_range_.first <= point.x && point.x <= x_range_.second &&
+            y_range_.first <= point.y && point.y <= y_range_.second;
     }
 
 private:
