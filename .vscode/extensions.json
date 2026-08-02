@@ -25,7 +25,8 @@
     "ms-azuretools.vscode-docker",
     "tamasfe.even-better-toml",
     "redhat.vscode-yaml",
-    "executablebookproject.myst-highlight"
+    "executablebookproject.myst-highlight",
+    "ms-toolsai.jupyter"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []

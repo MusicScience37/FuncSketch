@@ -46,7 +46,8 @@
         "ms-azuretools.vscode-docker",
         "tamasfe.even-better-toml",
         "redhat.vscode-yaml",
-        "executablebookproject.myst-highlight"
+        "executablebookproject.myst-highlight",
+        "ms-toolsai.jupyter"
       ],
       "settings": {
         "cmakeFormat.exePath": "/workspaces/func-sketch/.venv/bin/cmake-format"
