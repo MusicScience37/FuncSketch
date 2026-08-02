@@ -117,7 +117,7 @@ package func_sketch {
     }
 
     package plotter {
-        struct Color {
+        struct RGBColor {
             + r : uint8_t
             + g : uint8_t
             + b : uint8_t
@@ -153,13 +153,13 @@ package func_sketch {
             + range(value : PlotRange)
             + config(value : PlotConfig)
             + write_background(image : Image&)
-            + write_curve(samples : std::vector<Point>, color : Color, image : Image&)
+            + write_curve(samples : std::vector<Point>, color : RGBColor, image : Image&)
             + write_margin(image : Image&)
         }
         Plotter o-- PlotRange
         Plotter o-- PlotConfig
         Plotter ..> Point
-        Plotter ..> Color
+        Plotter ..> RGBColor
         Plotter ..> Image
     }
 }

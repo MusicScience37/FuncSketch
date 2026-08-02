@@ -10,6 +10,9 @@ set(SOURCE_FILES
     parser/expression_grammar_test.cpp
     parser/expression_parser_test.cpp
     parser/parser_test_strings.cpp
+    plotter/plot_range_test.cpp
+    plotter/point_test.cpp
+    plotter/rgb_color_test.cpp
     test_main.cpp
     utilities/any_test.cpp
 )

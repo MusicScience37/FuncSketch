@@ -8,4 +8,7 @@ set(SOURCE_FILES
     parser/expression_grammar.cpp
     parser/expression_parser.cpp
     parser/parsed_expression.cpp
+    plotter/plot_range.cpp
+    plotter/point.cpp
+    plotter/rgb_color.cpp
 )
