@@ -3,6 +3,7 @@
 #include "expressions/expression_evaluator_test.cpp"
 #include "expressions/expression_memory_pool_test.cpp"
 #include "expressions/expression_ptr_test.cpp"
+#include "expressions/function_call_expression_test.cpp"
 #include "expressions/parameter_expression_test.cpp"
 #include "expressions/unary_expression_test.cpp"
 #include "math/binary_operator_test.cpp"

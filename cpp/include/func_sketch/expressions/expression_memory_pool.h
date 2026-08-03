@@ -80,9 +80,12 @@ public:
                                          BinaryExpression>) {
                     destroy(expr.left);
                     destroy(expr.right);
+                } else if constexpr (std::is_same_v<ExpressionType,
+                                         FunctionCallExpression>) {
+                    for (auto& arg : expr.arguments) {
+                        destroy(arg);
+                    }
                 }
-                // TODO Update this function when other expression types are
-                // added.
             },
             expression->as_variant());
 

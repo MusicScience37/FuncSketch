@@ -3,6 +3,7 @@ set(SOURCE_FILES
     expressions/constant_expression.cpp
     expressions/expression.cpp
     expressions/expression_evaluator.cpp
+    expressions/function_call_expression.cpp
     expressions/parameter_expression.cpp
     expressions/unary_expression.cpp
     math/generate_math_function_list.cpp

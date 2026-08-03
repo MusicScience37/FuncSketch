@@ -20,6 +20,7 @@
 #pragma once
 
 #include "func_sketch/expressions/expression_ptr.h"
+#include "func_sketch/math/math_function_list.h"
 #include "func_sketch/parser/parsed_expression.h"
 
 namespace func_sketch::parser {
@@ -28,9 +29,11 @@ namespace func_sketch::parser {
  * \brief Convert parsed expression.
  *
  * \param[in] parsed_expression Parsed expression to convert.
+ * \param[in] math_function_list List of math functions.
  * \return Converted expression.
  */
 [[nodiscard]] expressions::ExpressionPtr convert_expression(
-    const ParsedExpression& parsed_expression);
+    const ParsedExpression& parsed_expression,
+    const math::MathFunctionList& math_function_list);
 
 }  // namespace func_sketch::parser

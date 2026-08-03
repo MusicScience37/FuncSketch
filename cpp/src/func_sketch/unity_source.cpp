@@ -2,6 +2,7 @@
 #include "expressions/constant_expression.cpp"
 #include "expressions/expression.cpp"
 #include "expressions/expression_evaluator.cpp"
+#include "expressions/function_call_expression.cpp"
 #include "expressions/parameter_expression.cpp"
 #include "expressions/unary_expression.cpp"
 #include "math/generate_math_function_list.cpp"

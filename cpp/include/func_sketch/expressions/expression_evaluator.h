@@ -77,6 +77,16 @@ private:
      */
     static void evaluate(
         const BinaryExpression& expression, Scalar parameter, Scalar& result);
+
+    /*!
+     * \brief Evaluate an expression.
+     *
+     * \param[in] expression Expression.
+     * \param[in] parameter Parameter.
+     * \param[out] result Result.
+     */
+    static void evaluate(const FunctionCallExpression& expression,
+        Scalar parameter, Scalar& result);
 };
 
 }  // namespace func_sketch::expressions

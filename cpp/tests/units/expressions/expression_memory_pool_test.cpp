@@ -27,6 +27,7 @@
 #include "func_sketch/expressions/unary_expression.h"
 #include "func_sketch/math/binary_operator.h"
 #include "func_sketch/math/binary_operators.h"
+#include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/unary_operators.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
@@ -34,9 +35,12 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
+    using func_sketch::expressions::FunctionCallExpression;
     using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
+    using func_sketch::math::ExpFunction;
+    using func_sketch::math::MathFunction;
     using func_sketch::math::UnaryMinusOperator;
     using func_sketch::math::UnaryOperator;
 
@@ -91,6 +95,25 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
 
         pool.destroy(binary_expression);  // This should also destroy left and
                                           // right expressions.
+    }
+
+    SECTION("create and destroy a function call expression") {
+        ExpressionMemoryPool pool;
+
+        constexpr double value = 1.23;
+        Expression* argument = pool.create<ConstantExpression>(value);
+        Expression* function_call_expression =
+            pool.create<FunctionCallExpression>(
+                std::vector<Expression*>{argument},
+                MathFunction(ExpFunction{}));
+
+        CHECK(function_call_expression->as<FunctionCallExpression>()
+                  .arguments[0]
+                  ->as<ConstantExpression>()
+                  .value == value);
+
+        pool.destroy(function_call_expression);  // This should also destroy the
+                                                 // argument expression.
     }
 
     SECTION("destroy nullptr") {

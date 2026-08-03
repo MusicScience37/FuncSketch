@@ -26,6 +26,7 @@
 #include "func_sketch/expressions/binary_expression.h"
 #include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression_decl.h"  // IWYU pragma: keep
+#include "func_sketch/expressions/function_call_expression.h"
 #include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/expressions/unary_expression.h"
 
@@ -41,7 +42,7 @@ class Expression {
 public:
     //! Type of the variant of expressions.
     using VariantType = std::variant<ConstantExpression, ParameterExpression,
-        UnaryExpression, BinaryExpression>;
+        UnaryExpression, BinaryExpression, FunctionCallExpression>;
 
     /*!
      * \brief Constructor.
@@ -72,6 +73,14 @@ public:
      * \param[in] expression Expression.
      */
     explicit Expression(BinaryExpression expression)
+        : expression_(expression) {}
+
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] expression Expression.
+     */
+    explicit Expression(FunctionCallExpression expression)
         : expression_(expression) {}
 
     /*!
@@ -114,5 +123,23 @@ struct fmt::formatter<func_sketch::expressions::Expression>
      * \return Iterator to the end of the formatted output.
      */
     auto format(const func_sketch::expressions::Expression& value,
+        format_context& context) const -> format_context::iterator;
+};
+
+/*!
+ * \brief Specialization of fmt::formatter for
+ * func_sketch::expressions::Expression*.
+ */
+template <>
+struct fmt::formatter<func_sketch::expressions::Expression*>
+    : fmt::formatter<string_view> {
+    /*!
+     * \brief Format a value.
+     *
+     * \param[in] value Value to format.
+     * \param[in] context Format context.
+     * \return Iterator to the end of the formatted output.
+     */
+    auto format(const func_sketch::expressions::Expression* value,
         format_context& context) const -> format_context::iterator;
 };

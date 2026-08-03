@@ -22,20 +22,26 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/expressions/expression.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
 #include "func_sketch/math/binary_operators.h"
+#include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/unary_operators.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     using func_sketch::Scalar;
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ConstantExpression;
+    using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionEvaluator;
     using func_sketch::expressions::ExpressionMemoryPool;
+    using func_sketch::expressions::FunctionCallExpression;
     using func_sketch::expressions::ParameterExpression;
     using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
+    using func_sketch::math::ExpFunction;
+    using func_sketch::math::MathFunction;
     using func_sketch::math::UnaryMinusOperator;
     using func_sketch::math::UnaryOperator;
 
@@ -44,7 +50,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
 
     SECTION("evaluate a constant") {
         constexpr Scalar value = 1.23;
-        const auto* expression = pool.create<ConstantExpression>(value);
+        auto* expression = pool.create<ConstantExpression>(value);
 
         constexpr Scalar parameter = 4.56;
         Scalar result = 0.0;
@@ -52,10 +58,12 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         evaluator(*expression, parameter, result);
 
         CHECK(result == value);
+
+        pool.destroy(expression);
     }
 
     SECTION("evaluate a parameter") {
-        const auto* expression = pool.create<ParameterExpression>();
+        auto* expression = pool.create<ParameterExpression>();
 
         constexpr Scalar parameter = 4.56;
         Scalar result = 0.0;
@@ -63,12 +71,14 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         evaluator(*expression, parameter, result);
 
         CHECK(result == parameter);
+
+        pool.destroy(expression);
     }
 
     SECTION("evaluate a unary expression") {
         constexpr Scalar value = 1.23;
         auto* target_expression = pool.create<ConstantExpression>(value);
-        const auto* expression = pool.create<UnaryExpression>(
+        auto* expression = pool.create<UnaryExpression>(
             target_expression, UnaryOperator(UnaryMinusOperator{}));
 
         constexpr Scalar parameter = 4.56;
@@ -77,13 +87,15 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         evaluator(*expression, parameter, result);
 
         CHECK(result == -value);
+
+        pool.destroy(expression);
     }
 
     SECTION("evaluate a binary expression") {
         constexpr Scalar left_value = 1.23;
         auto* left_expression = pool.create<ConstantExpression>(left_value);
         auto* right_expression = pool.create<ParameterExpression>();
-        const auto* expression = pool.create<BinaryExpression>(left_expression,
+        auto* expression = pool.create<BinaryExpression>(left_expression,
             right_expression, BinaryOperator(AdditionOperator{}));
 
         constexpr Scalar parameter = 4.56;
@@ -92,5 +104,22 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         evaluator(*expression, parameter, result);
 
         CHECK(result == left_value + parameter);
+
+        pool.destroy(expression);
+    }
+
+    SECTION("evaluate a function call expression") {
+        auto* argument = pool.create<ParameterExpression>();
+        auto* expression = pool.create<FunctionCallExpression>(
+            std::vector<Expression*>{argument}, MathFunction(ExpFunction{}));
+
+        constexpr Scalar parameter = 4.56;
+        Scalar result = 0.0;
+
+        evaluator(*expression, parameter, result);
+
+        CHECK(result == std::exp(parameter));
+
+        pool.destroy(expression);
     }
 }

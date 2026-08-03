@@ -57,7 +57,7 @@ package func_sketch {
 
     package expressions {
         class Expression {
-            - expression_ : std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionExpression>
+            - expression_ : std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionCallExpression>
         }
 
         struct ConstantExpression {
@@ -86,12 +86,12 @@ package func_sketch {
         Expression <..> BinaryExpression
         BinaryExpression o-- BinaryOperator
 
-        struct FunctionExpression {
+        struct FunctionCallExpression {
             + arguments : std::vector<Expression*>
             + function : MathFunction
         }
-        Expression <..> FunctionExpression
-        FunctionExpression o-- MathFunction
+        Expression <..> FunctionCallExpression
+        FunctionCallExpression o-- MathFunction
 
         class ExpressionMemoryPool {
             + create<T>(args...) : Expression*
