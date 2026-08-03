@@ -4,6 +4,7 @@
 #include "expressions/expression_evaluator.cpp"
 #include "expressions/parameter_expression.cpp"
 #include "expressions/unary_expression.cpp"
+#include "math/generate_math_function_list.cpp"
 #include "parser/convert_expression.cpp"
 #include "parser/expression_grammar.cpp"
 #include "parser/expression_parser.cpp"

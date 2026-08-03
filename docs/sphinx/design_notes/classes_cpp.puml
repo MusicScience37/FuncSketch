@@ -44,8 +44,8 @@ package func_sketch {
         MathFunction o-- Any
 
         class MathFunctionList {
-            + emplace(name : std::string, function : MathFunction)
-            + get(name : std::string) : MathFunction
+            + emplace(function : MathFunction)
+            + get(name : std::string) : std::optional<MathFunction>
         }
         MathFunctionList o-- MathFunction
 

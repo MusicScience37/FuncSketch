@@ -5,6 +5,7 @@ set(SOURCE_FILES
     expressions/expression_evaluator.cpp
     expressions/parameter_expression.cpp
     expressions/unary_expression.cpp
+    math/generate_math_function_list.cpp
     parser/convert_expression.cpp
     parser/expression_grammar.cpp
     parser/expression_parser.cpp
