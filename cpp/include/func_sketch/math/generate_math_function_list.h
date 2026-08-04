@@ -15,25 +15,19 @@
  */
 /*!
  * \file
- * \brief Declaration of convert_expression function.
+ * \brief Declaration of generate_math_function_list function.
  */
 #pragma once
 
-#include "func_sketch/expressions/expression_ptr.h"
 #include "func_sketch/math/math_function_list.h"
-#include "func_sketch/parser/parsed_expression.h"
 
-namespace func_sketch::parser {
+namespace func_sketch::math {
 
 /*!
- * \brief Convert parsed expression.
+ * \brief Generate a list of mathematical functions.
  *
- * \param[in] parsed_expression Parsed expression to convert.
- * \param[in] math_function_list List of math functions.
- * \return Converted expression.
+ * \return List of mathematical functions.
  */
-[[nodiscard]] expressions::ExpressionPtr convert_expression(
-    const ParsedExpression& parsed_expression,
-    const math::MathFunctionList& math_function_list);
+[[nodiscard]] MathFunctionList generate_math_function_list();
 
-}  // namespace func_sketch::parser
+}  // namespace func_sketch::math

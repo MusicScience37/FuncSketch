@@ -15,6 +15,7 @@ Checks: >
     -readability-suspicious-call-argument,
     -readability-math-missing-parentheses,
     -readability-qualified-auto,
+    -readability-magic-numbers,
   modernize-*,
     -modernize-return-braced-init-list,
     -modernize-use-auto,
@@ -46,6 +47,7 @@ Checks: >
 # - bugprone-suspicious-include generates warnings in unity builds.
 # - readability-qualified-auto make source codes less changeable.
 # - modernize-use-trailing-return-type reduces readability.
+# - readability-magic-numbers generates too many warnings in test codes.
 
 CheckOptions:
   # Naming Conventions

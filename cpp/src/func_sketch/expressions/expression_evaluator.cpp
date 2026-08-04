@@ -21,6 +21,7 @@
 
 #include <limits>
 #include <variant>
+#include <vector>
 
 #include "func_sketch/common_types.h"
 
@@ -44,12 +45,31 @@ void ExpressionEvaluator::evaluate(const ParameterExpression& /*expression*/,
 }
 
 void ExpressionEvaluator::evaluate(
+    const UnaryExpression& expression, Scalar parameter, Scalar& result) {
+    Scalar target_value{std::numeric_limits<Scalar>::quiet_NaN()};
+    operator()(*expression.target, parameter, target_value);
+    expression.operator_object(target_value, result);
+}
+
+void ExpressionEvaluator::evaluate(
     const BinaryExpression& expression, Scalar parameter, Scalar& result) {
     Scalar left_value{std::numeric_limits<Scalar>::quiet_NaN()};
     operator()(*expression.left, parameter, left_value);
     Scalar right_value{std::numeric_limits<Scalar>::quiet_NaN()};
     operator()(*expression.right, parameter, right_value);
     expression.operator_object(left_value, right_value, result);
+}
+
+void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
+    Scalar parameter, Scalar& result) {
+    std::vector<Scalar> argument_values;
+    argument_values.reserve(expression.arguments.size());
+    for (const auto& argument : expression.arguments) {
+        Scalar argument_value{std::numeric_limits<Scalar>::quiet_NaN()};
+        operator()(*argument, parameter, argument_value);
+        argument_values.push_back(argument_value);
+    }
+    expression.function(argument_values, result);
 }
 
 }  // namespace func_sketch::expressions

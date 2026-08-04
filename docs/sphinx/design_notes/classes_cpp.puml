@@ -44,8 +44,8 @@ package func_sketch {
         MathFunction o-- Any
 
         class MathFunctionList {
-            + emplace(name : std::string, function : MathFunction)
-            + get(name : std::string) : MathFunction
+            + emplace(function : MathFunction)
+            + get(name : std::string) : std::optional<MathFunction>
         }
         MathFunctionList o-- MathFunction
 
@@ -57,7 +57,7 @@ package func_sketch {
 
     package expressions {
         class Expression {
-            - expression_ : std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionExpression>
+            - expression_ : std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionCallExpression>
         }
 
         struct ConstantExpression {
@@ -73,7 +73,7 @@ package func_sketch {
 
         struct UnaryExpression {
             + target : Expression*
-            + function : UnaryOperator
+            + operator_object : UnaryOperator
         }
         Expression <..> UnaryExpression
         UnaryExpression o-- UnaryOperator
@@ -81,17 +81,17 @@ package func_sketch {
         struct BinaryExpression {
             + left : Expression*
             + right : Expression*
-            + function : BinaryOperator
+            + operator_object : BinaryOperator
         }
         Expression <..> BinaryExpression
         BinaryExpression o-- BinaryOperator
 
-        struct FunctionExpression {
+        struct FunctionCallExpression {
             + arguments : std::vector<Expression*>
             + function : MathFunction
         }
-        Expression <..> FunctionExpression
-        FunctionExpression o-- MathFunction
+        Expression <..> FunctionCallExpression
+        FunctionCallExpression o-- MathFunction
 
         class ExpressionMemoryPool {
             + create<T>(args...) : Expression*

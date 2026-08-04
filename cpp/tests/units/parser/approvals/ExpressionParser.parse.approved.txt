@@ -2,13 +2,13 @@ Input: 1.23
 Parsed: 1.23
 
 Input: -2.34
-Exception: Unary expression is not implemented yet.
+Parsed: negate(2.34)
 
 Input: x
 Parsed: x
 
 Input: -x
-Exception: Unary expression is not implemented yet.
+Parsed: negate(x)
 
 Input: 1.23 + 4.56
 Parsed: add(1.23, 4.56)
@@ -32,19 +32,19 @@ Input: 1.23 * (4.56 + 7.89)
 Parsed: mul(1.23, add(4.56, 7.89))
 
 Input: exp(1.23)
-Exception: Function call is not implemented yet.
+Parsed: exp(1.23)
 
 Input: 1.23 ** 4.56 ** 7.89
 Exception: Unknown binary operator: **
 
 Input: exp(exp(1.23) + 4.56)
-Exception: Function call is not implemented yet.
+Parsed: exp(add(exp(1.23), 4.56))
 
 Input: 1.23 * 3.45 / (6.78 - 9.01)
 Parsed: div(mul(1.23, 3.45), sub(6.78, 9.01))
 
 Input: -exp(1.23)
-Exception: Unary expression is not implemented yet.
+Parsed: negate(exp(1.23))
 
 Input: TestIdentifier
 Exception: Unknown identifier: TestIdentifier

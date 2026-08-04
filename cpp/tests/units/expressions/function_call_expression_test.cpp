@@ -15,37 +15,36 @@
  */
 /*!
  * \file
- * \brief Test of BinaryExpression structure.
+ * \brief Implementation of FunctionCallExpression structure.
  */
-#include "func_sketch/expressions/binary_expression.h"
+#include "func_sketch/expressions/function_call_expression.h"
 
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
 
-#include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
 #include "func_sketch/expressions/parameter_expression.h"
-#include "func_sketch/math/binary_operators.h"
+#include "func_sketch/math/functions/exp.h"
+#include "func_sketch/math/math_function.h"
 
-TEST_CASE("func_sketch::expressions::BinaryExpression") {
-    using func_sketch::expressions::BinaryExpression;
-    using func_sketch::expressions::ConstantExpression;
+TEST_CASE("func_sketch::expressions::FunctionCallExpression") {
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
+    using func_sketch::expressions::FunctionCallExpression;
     using func_sketch::expressions::ParameterExpression;
-    using func_sketch::math::AdditionOperator;
-    using func_sketch::math::BinaryOperator;
+    using func_sketch::math::ExpFunction;
+    using func_sketch::math::MathFunction;
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        constexpr double left_value = 1.23;
-        Expression* left = pool.create<ConstantExpression>(left_value);
-        Expression* right = pool.create<ParameterExpression>();
-        Expression* binary_expression = pool.create<BinaryExpression>(
-            left, right, BinaryOperator(AdditionOperator{}));
+        Expression* argument = pool.create<ParameterExpression>();
+        auto function = MathFunction(ExpFunction{});
+        Expression* function_call_expression =
+            pool.create<FunctionCallExpression>(
+                std::vector<Expression*>{argument}, function);
 
-        CHECK(fmt::format("{}", *binary_expression) == "add(1.23, x)");
+        CHECK(fmt::format("{}", *function_call_expression) == "exp(x)");
 
-        pool.destroy(binary_expression);
+        pool.destroy(function_call_expression);
     }
 }

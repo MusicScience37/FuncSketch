@@ -74,13 +74,18 @@ public:
         std::visit(
             [this](auto& expr) noexcept {
                 using ExpressionType = std::decay_t<decltype(expr)>;
-                if constexpr (std::is_same_v<ExpressionType,
-                                  BinaryExpression>) {
+                if constexpr (std::is_same_v<ExpressionType, UnaryExpression>) {
+                    destroy(expr.target);
+                } else if constexpr (std::is_same_v<ExpressionType,
+                                         BinaryExpression>) {
                     destroy(expr.left);
                     destroy(expr.right);
+                } else if constexpr (std::is_same_v<ExpressionType,
+                                         FunctionCallExpression>) {
+                    for (auto& arg : expr.arguments) {
+                        destroy(arg);
+                    }
                 }
-                // TODO Update this function when other expression types are
-                // added.
             },
             expression->as_variant());
 

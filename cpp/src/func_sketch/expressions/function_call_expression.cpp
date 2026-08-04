@@ -15,26 +15,19 @@
  */
 /*!
  * \file
- * \brief Implementation of Expression class.
+ * \brief Implementation of FunctionCallExpression structure.
  */
-#include "func_sketch/expressions/expression.h"
+#include "func_sketch/expressions/function_call_expression.h"
 
 #include <fmt/format.h>
+#include <fmt/ranges.h>
+
+#include "func_sketch/expressions/expression.h"  // IWYU pragma: keep
 
 // NOLINTNEXTLINE(*-static): API of an external library.
-auto fmt::formatter<func_sketch::expressions::Expression>::format(
-    const func_sketch::expressions::Expression& value,
+auto fmt::formatter<func_sketch::expressions::FunctionCallExpression>::format(
+    const func_sketch::expressions::FunctionCallExpression& value,
     format_context& context) const -> format_context::iterator {
-    return std::visit(
-        [&context](const auto& concrete_value) {
-            return fmt::format_to(context.out(), "{}", concrete_value);
-        },
-        value.as_variant());
-}
-
-// NOLINTNEXTLINE(*-static): API of an external library.
-auto fmt::formatter<func_sketch::expressions::Expression*>::format(
-    const func_sketch::expressions::Expression* value,
-    format_context& context) const -> format_context::iterator {
-    return fmt::format_to(context.out(), "{}", *value);
+    return fmt::format_to(context.out(), "{}({})", value.function.name(),
+        fmt::join(value.arguments, ", "));
 }

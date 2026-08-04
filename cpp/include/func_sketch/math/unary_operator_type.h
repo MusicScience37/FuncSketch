@@ -15,25 +15,32 @@
  */
 /*!
  * \file
- * \brief Declaration of convert_expression function.
+ * \brief Definition of UnaryOperatorType concept.
  */
 #pragma once
 
-#include "func_sketch/expressions/expression_ptr.h"
-#include "func_sketch/math/math_function_list.h"
-#include "func_sketch/parser/parsed_expression.h"
+#include <concepts>
+#include <string_view>
 
-namespace func_sketch::parser {
+#include "func_sketch/common_types.h"
+
+namespace func_sketch::math {
 
 /*!
- * \brief Convert parsed expression.
+ * \brief Concept of unary operator types.
  *
- * \param[in] parsed_expression Parsed expression to convert.
- * \param[in] math_function_list List of math functions.
- * \return Converted expression.
+ * \tparam T Type of the operator object.
  */
-[[nodiscard]] expressions::ExpressionPtr convert_expression(
-    const ParsedExpression& parsed_expression,
-    const math::MathFunctionList& math_function_list);
+template <typename T>
+concept UnaryOperatorType = requires() {
+    requires requires(const T& operator_object) {
+        { operator_object.name() } -> std::convertible_to<std::string_view>;
+    };
 
-}  // namespace func_sketch::parser
+    requires requires(
+        const T& operator_object, const Scalar& arg, Scalar& result) {
+        { operator_object(arg, result) } -> std::same_as<void>;
+    };
+};
+
+}  // namespace func_sketch::math

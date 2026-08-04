@@ -59,7 +59,6 @@ TEST_CASE("func_sketch::plotter::FunctionSampler") {
 
         REQUIRE(samples.size() == 5);
         constexpr double tolerance = 1e-10;
-        // NOLINTBEGIN(*-magic-numbers)
         CHECK_THAT(samples[0].x, Catch::Matchers::WithinAbs(-1.0, tolerance));
         CHECK_THAT(samples[0].y, Catch::Matchers::WithinAbs(1.0, tolerance));
         CHECK_THAT(samples[1].x, Catch::Matchers::WithinAbs(-0.5, tolerance));
@@ -70,6 +69,5 @@ TEST_CASE("func_sketch::plotter::FunctionSampler") {
         CHECK_THAT(samples[3].y, Catch::Matchers::WithinAbs(0.25, tolerance));
         CHECK_THAT(samples[4].x, Catch::Matchers::WithinAbs(1.0, tolerance));
         CHECK_THAT(samples[4].y, Catch::Matchers::WithinAbs(1.0, tolerance));
-        // NOLINTEND(*-magic-numbers)
     }
 }
