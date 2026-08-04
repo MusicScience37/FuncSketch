@@ -1,3 +1,13 @@
 <FuncSketchWidget>
-    Label:
-        text: "Test"
+    orientation: "horizontal"
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Main Content"
+    Splitter:
+        sizable_from: "left"
+        min_size: 100
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Navigation"
