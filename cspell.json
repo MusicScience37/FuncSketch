@@ -8,6 +8,7 @@
     "AUSAN",
     "autobuild",
     "bigobj",
+    "boxlayout",
     "bugprone",
     "BUILDNAME",
     "buildsystems",
