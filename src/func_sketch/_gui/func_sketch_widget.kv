@@ -1,3 +1,4 @@
+# TODO Add spacing
 <FuncSketchWidget>
     orientation: "horizontal"
     BoxLayout:
@@ -8,7 +9,122 @@
         sizable_from: "left"
         size_hint_x: None
         width: 400
-        BoxLayout:
-            orientation: "vertical"
-            Label:
-                text: "Navigation"
+        ScrollView:
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    Label:
+                        text: "Range"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                    GridLayout:
+                        cols: 3
+                        size_hint_y: None
+                        height: self.minimum_height
+                        Label:
+                            text: "x"
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        TextInput:
+                            multiline: False
+                            size_hint_y: None
+                            height: self.minimum_height
+                        TextInput:
+                            multiline: False
+                            size_hint_y: None
+                            height: self.minimum_height
+                        Label:
+                            text: "y"
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        TextInput:
+                            multiline: False
+                            size_hint_y: None
+                            height: self.minimum_height
+                        TextInput:
+                            multiline: False
+                            size_hint_y: None
+                            height: self.minimum_height
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    Label:
+                        text: "Functions"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        Label:
+                            text: "Function 1"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        GridLayout:
+                            cols: 2
+                            size_hint_y: None
+                            height: self.minimum_height
+                            Label:
+                                text: "f(x) ="
+                                size_hint_x: None
+                                width: self.texture_size[0]
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                            TextInput:
+                                multiline: False
+                                size_hint_y: None
+                                height: self.minimum_height
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        Label:
+                            text: "Function 2"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        GridLayout:
+                            cols: 2
+                            size_hint_y: None
+                            height: self.minimum_height
+                            Label:
+                                text: "f(x) ="
+                                size_hint_x: None
+                                width: self.texture_size[0]
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                            TextInput:
+                                multiline: False
+                                size_hint_y: None
+                                height: self.minimum_height
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        Label:
+                            text: "Function 3"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        GridLayout:
+                            cols: 2
+                            size_hint_y: None
+                            height: self.minimum_height
+                            Label:
+                                text: "f(x) ="
+                                size_hint_x: None
+                                width: self.texture_size[0]
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                            TextInput:
+                                multiline: False
+                                size_hint_y: None
+                                height: self.minimum_height
