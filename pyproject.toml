@@ -41,7 +41,7 @@ test = [
 ]
 
 [tool.pylint.main]
-disable = "too-many-instance-attributes,line-too-long,fixme,too-few-public-methods,redefined-outer-name,redefined-builtin,too-many-arguments"
+disable = "too-many-instance-attributes,line-too-long,fixme,too-few-public-methods,redefined-outer-name,redefined-builtin,too-many-arguments,no-member"
 load-plugins = "pylint.extensions.docparams"
 extension-pkg-whitelist = [
     "kivy.graphics",
@@ -61,7 +61,6 @@ ignored-modules = [
     "kivy.app",
     "func_sketch._cpp",
 ]
-
 
 [tool.isort]
 profile = "black"

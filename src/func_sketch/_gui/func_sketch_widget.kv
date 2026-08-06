@@ -1,4 +1,7 @@
+#:import FloatTextInput func_sketch._gui.float_text_input.FloatTextInput
+
 # TODO Add spacing
+
 <FuncSketchWidget>
     orientation: "horizontal"
     BoxLayout:
@@ -32,28 +35,32 @@
                             width: self.texture_size[0]
                             size_hint_y: None
                             height: self.texture_size[1]
-                        TextInput:
+                        FloatTextInput:
                             multiline: False
                             size_hint_y: None
                             height: self.minimum_height
-                        TextInput:
+                            value: -3.0
+                        FloatTextInput:
                             multiline: False
                             size_hint_y: None
                             height: self.minimum_height
+                            value: 3.0
                         Label:
                             text: "y"
                             size_hint_x: None
                             width: self.texture_size[0]
                             size_hint_y: None
                             height: self.texture_size[1]
-                        TextInput:
+                        FloatTextInput:
                             multiline: False
                             size_hint_y: None
                             height: self.minimum_height
-                        TextInput:
+                            value: -3.0
+                        FloatTextInput:
                             multiline: False
                             size_hint_y: None
                             height: self.minimum_height
+                            value: 3.0
                 BoxLayout:
                     orientation: "vertical"
                     size_hint_y: None
