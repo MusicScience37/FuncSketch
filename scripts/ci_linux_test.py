@@ -96,7 +96,7 @@ def check_tests_for_condition(
     execute_command(["ctest", "-V"], cwd=build_dir)
     if test_type in ["debug", "release"]:
         execute_command(
-            ["xvfb-run", "poetry", "run", "pytest", "tests"], cwd=str(ROOT_DIR)
+            ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"], cwd=str(ROOT_DIR)
         )
 
 
