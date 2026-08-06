@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <utility>
 #include <vector>
 
@@ -18,6 +19,8 @@
 #include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/rgb_color.h"
 
+namespace {
+
 /*!
  * \brief Struct of lists of points for reducing the number of type conversions
  * between C++ and Python.
@@ -26,6 +29,34 @@ struct PointList {
     //! Points.
     std::vector<func_sketch::plotter::Point> points;
 };
+
+/*!
+ * \brief Type of raw images passed from Python as numpy arrays of RGB
+ * pixels.
+ *
+ * \note The device is restricted to CPU so that the buffer can be safely
+ * accessed from C++ code without copying. Also the data is restricted to
+ * contiguous buffer so that the buffer can be safely converted to OpenCV Mat
+ * without copying.
+ */
+using RawImage = nanobind::ndarray<uint8_t, nanobind::shape<-1, -1, 3>,
+    nanobind::c_contig, nanobind::device::cpu>;
+
+/*!
+ * \brief Convert a raw image passed from Python to an Image object.
+ *
+ * \param[in] raw_image Raw image.
+ * \return Image object sharing the buffer with the raw image.
+ *
+ * \note The returned image shares the buffer with \p raw_image without
+ * copying. Writing to the returned image writes back into \p raw_image.
+ */
+func_sketch::plotter::Image to_image(const RawImage& raw_image) {
+    return func_sketch::plotter::Image(static_cast<int>(raw_image.shape(0)),
+        static_cast<int>(raw_image.shape(1)), CV_8UC3, raw_image.data());
+}
+
+}  // namespace
 
 // NOLINTNEXTLINE(*-identifier-length,*-vararg,*-c-arrays,*-array-decay,*-value-param): external library.
 NB_MODULE(_cpp, m) {
@@ -93,23 +124,17 @@ Objects of this class can be called with a string to parse it into an Expression
         .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
             "Constructor.")
         .def_prop_rw(
-            "range",
-            [](const FunctionSampler& self) {
-                throw std::runtime_error("Getting range is not implemented.");
-            },
+            "range", nullptr,
             [](FunctionSampler& self, const PlotRange& value) {
                 self.range(value);
             },
-            "Range of plots.")
+            "Range of plots. (write-only)")
         .def_prop_rw(
-            "config",
-            [](const FunctionSampler& self) {
-                throw std::runtime_error("Getting config is not implemented.");
-            },
+            "config", nullptr,
             [](FunctionSampler& self, const PlotConfig& value) {
                 self.config(value);
             },
-            "Configuration of plots.")
+            "Configuration of plots. (write-only)")
         .def(
             "__call__",
             [](const FunctionSampler& self, const ExpressionPtr& function) {
@@ -117,44 +142,35 @@ Objects of this class can be called with a string to parse it into an Expression
             },
             "function"_a, "Sample a function and return a list of points.");
 
-    using func_sketch::plotter::Image;
     using func_sketch::plotter::Plotter;
-    using RawImage = nanobind::ndarray<uint8_t, nanobind::shape<-1, -1, 3>,
-        nanobind::c_contig>;
     nanobind::class_<Plotter>(m, "Plotter", "Class for plotting.")
         .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
             "Constructor.")
         .def_prop_rw(
-            "range",
-            [](const Plotter& self) {
-                throw std::runtime_error("Getting range is not implemented.");
-            },
+            "range", nullptr,
             [](Plotter& self, const PlotRange& value) { self.range(value); },
-            "Range of plots.")
+            "Range of plots. (write-only)")
         .def_prop_rw(
-            "config",
-            [](const Plotter& self) {
-                throw std::runtime_error("Getting config is not implemented.");
-            },
+            "config", nullptr,
             [](Plotter& self, const PlotConfig& value) { self.config(value); },
-            "Configuration of plots.")
+            "Configuration of plots. (write-only)")
         .def(
             "write_background",
             [](const Plotter& self, const RawImage& raw_image) {
-                Image image(static_cast<int>(raw_image.shape(0)),
-                    static_cast<int>(raw_image.shape(1)), CV_8UC3,
-                    raw_image.data());
+                auto image = to_image(raw_image);
                 self.write_background(image);
             },
-            "image"_a, "Write background of a plot.")
+            "image"_a,
+            "Write background of a plot.\n\n"
+            "The pixels of image are modified in place.")
         .def(
             "write_curve",
             [](const Plotter& self, const PointList& point_list,
                 const RGBColor& color, const RawImage& raw_image) {
-                Image image(static_cast<int>(raw_image.shape(0)),
-                    static_cast<int>(raw_image.shape(1)), CV_8UC3,
-                    raw_image.data());
+                auto image = to_image(raw_image);
                 self.write_curve(point_list.points, color, image);
             },
-            "point_list"_a, "color"_a, "image"_a, "Write a curve on a plot.");
+            "point_list"_a, "color"_a, "image"_a,
+            "Write a curve on a plot.\n\n"
+            "The pixels of image are modified in place.");
 }
