@@ -5,6 +5,7 @@
   "dictionaries": [],
   "words": [
     "asan",
+    "AUDIODRIVER",
     "AUSAN",
     "autobuild",
     "bigobj",
@@ -37,6 +38,7 @@
     "Kabashima",
     "Kenta",
     "Kivy",
+    "libmtdev",
     "matplotlib",
     "MAXSIZE",
     "MSVC",
@@ -47,6 +49,7 @@
     "NOLINTNEXTLINE",
     "numpy",
     "pylint",
+    "pytest",
     "sphinxcontrib",
     "startuml",
     "tasklist",
@@ -54,6 +57,7 @@
     "TOUPPER",
     "ubsan",
     "VENV",
+    "VIDEODRIVER",
     "Virtualenv",
     "virtualenvs",
     "Woverloaded"

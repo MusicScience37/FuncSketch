@@ -91,6 +91,8 @@ spell check:
     - poetry install
     - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
     - mkdir $BUILD_DIR
+    - apt-get update
+    - apt-get install -y libmtdev1 xvfb
   script:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR

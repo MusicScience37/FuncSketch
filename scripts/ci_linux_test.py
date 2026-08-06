@@ -90,6 +90,8 @@ def check_tests_for_condition(
 
     # Test
     execute_command(["ctest", "-V"], cwd=build_dir)
+    if test_type in ["debug", "release"]:
+        execute_command(["xvfb-run", "poetry", "run", "pytest", "tests"], cwd=build_dir)
 
 
 if __name__ == "__main__":
