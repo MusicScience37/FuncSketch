@@ -2,10 +2,14 @@
 """Script run in CI for tests in Linux."""
 
 import os
+import pathlib
 import subprocess
 import typing
 
 import click
+
+THIS_DIR = pathlib.Path(__file__).absolute().parent
+ROOT_DIR = THIS_DIR.parent
 
 BUILD_TYPE_DICT = {
     "debug": "Debug",
@@ -91,7 +95,9 @@ def check_tests_for_condition(
     # Test
     execute_command(["ctest", "-V"], cwd=build_dir)
     if test_type in ["debug", "release"]:
-        execute_command(["xvfb-run", "poetry", "run", "pytest", "tests"], cwd=build_dir)
+        execute_command(
+            ["xvfb-run", "poetry", "run", "pytest", "tests"], cwd=str(ROOT_DIR)
+        )
 
 
 if __name__ == "__main__":
