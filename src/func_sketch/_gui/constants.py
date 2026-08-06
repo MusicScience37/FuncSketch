@@ -40,3 +40,6 @@ FONT_SIZE_TEXT = 15
 
 SPACING_DEFAULT = 10
 """Default spacing between widgets."""
+
+PADDING_NAVIGATION = 10
+"""Padding for the navigation area."""
