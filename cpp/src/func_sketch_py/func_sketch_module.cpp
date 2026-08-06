@@ -124,13 +124,21 @@ Objects of this class can be called with a string to parse it into an Expression
         .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
             "Constructor.")
         .def_prop_rw(
-            "range", nullptr,
+            "range",
+            // Making the getter nullptr causes an error in mypy, so we must
+            // write a getter that throws an exception instead.
+            [](FunctionSampler& self) {
+                throw std::runtime_error("Property 'range' is write-only.");
+            },
             [](FunctionSampler& self, const PlotRange& value) {
                 self.range(value);
             },
             "Range of plots. (write-only)")
         .def_prop_rw(
-            "config", nullptr,
+            "config",
+            [](FunctionSampler& self) {
+                throw std::runtime_error("Property 'config' is write-only.");
+            },
             [](FunctionSampler& self, const PlotConfig& value) {
                 self.config(value);
             },
@@ -147,11 +155,17 @@ Objects of this class can be called with a string to parse it into an Expression
         .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
             "Constructor.")
         .def_prop_rw(
-            "range", nullptr,
+            "range",
+            [](Plotter& self) {
+                throw std::runtime_error("Property 'range' is write-only.");
+            },
             [](Plotter& self, const PlotRange& value) { self.range(value); },
             "Range of plots. (write-only)")
         .def_prop_rw(
-            "config", nullptr,
+            "config",
+            [](Plotter& self) {
+                throw std::runtime_error("Property 'config' is write-only.");
+            },
             [](Plotter& self, const PlotConfig& value) { self.config(value); },
             "Configuration of plots. (write-only)")
         .def(
