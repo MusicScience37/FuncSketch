@@ -6,10 +6,12 @@ import math
 import kivy.properties
 import kivy.uix.textinput
 
-LOGGER = logging.getLogger(__name__)
+from func_sketch._gui.constants import (
+    TEST_INPUT_ERROR_BACKGROUND_COLOR,
+    TEXT_INPUT_NORMAL_BACKGROUND_COLOR,
+)
 
-_NORMAL_COLOR = (1.0, 1.0, 1.0, 1.0)
-_ERROR_COLOR = (1.0, 0.8, 0.8, 1.0)
+LOGGER = logging.getLogger(__name__)
 
 
 class FloatTextInput(kivy.uix.textinput.TextInput):
@@ -28,7 +30,7 @@ class FloatTextInput(kivy.uix.textinput.TextInput):
         self._syncing = False
         super().__init__(**kwargs)
         self.text = str(self.value)
-        self.background_color = _NORMAL_COLOR
+        self.background_color = TEXT_INPUT_NORMAL_BACKGROUND_COLOR
 
         self.bind(text=self._on_text_changed)
         self.bind(value=self._on_value_changed)
@@ -45,9 +47,9 @@ class FloatTextInput(kivy.uix.textinput.TextInput):
         """
 
         if is_valid:
-            self.background_color = _NORMAL_COLOR
+            self.background_color = TEXT_INPUT_NORMAL_BACKGROUND_COLOR
         else:
-            self.background_color = _ERROR_COLOR
+            self.background_color = TEST_INPUT_ERROR_BACKGROUND_COLOR
 
     def _on_text_changed(
         self, _instance: kivy.uix.textinput.TextInput, text: str
