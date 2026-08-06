@@ -1,6 +1,8 @@
 #:import FloatTextInput func_sketch._gui.float_text_input.FloatTextInput
-
-# TODO Add spacing
+#:import FONT_SIZE_HEADER1 func_sketch._gui.constants.FONT_SIZE_HEADER1
+#:import FONT_SIZE_HEADER2 func_sketch._gui.constants.FONT_SIZE_HEADER2
+#:import FONT_SIZE_TEXT func_sketch._gui.constants.FONT_SIZE_TEXT
+#:import SPACING_DEFAULT func_sketch._gui.constants.SPACING_DEFAULT
 
 <FuncSketchWidget>
     orientation: "horizontal"
@@ -17,121 +19,148 @@
                 orientation: "vertical"
                 size_hint_y: None
                 height: self.minimum_height
+                spacing: SPACING_DEFAULT
                 BoxLayout:
                     orientation: "vertical"
                     size_hint_y: None
                     height: self.minimum_height
+                    spacing: SPACING_DEFAULT
                     Label:
                         text: "Range"
                         size_hint_y: None
                         height: self.texture_size[1]
+                        font_size: FONT_SIZE_HEADER1
+                        halign: "left"
                     GridLayout:
                         cols: 3
                         size_hint_y: None
                         height: self.minimum_height
+                        spacing: SPACING_DEFAULT
                         Label:
-                            text: "x"
+                            text: "x range:"
                             size_hint_x: None
-                            width: self.texture_size[0]
-                            size_hint_y: None
-                            height: self.texture_size[1]
+                            width: self.texture_size[0]+5
+                            font_size: FONT_SIZE_TEXT
+                            halign: "left"
                         FloatTextInput:
                             multiline: False
                             size_hint_y: None
                             height: self.minimum_height
                             value: -3.0
+                            font_size: FONT_SIZE_TEXT
                         FloatTextInput:
                             multiline: False
                             size_hint_y: None
                             height: self.minimum_height
                             value: 3.0
+                            font_size: FONT_SIZE_TEXT
                         Label:
-                            text: "y"
+                            text: "y range:"
                             size_hint_x: None
                             width: self.texture_size[0]
-                            size_hint_y: None
-                            height: self.texture_size[1]
+                            font_size: FONT_SIZE_TEXT
+                            halign: "left"
                         FloatTextInput:
                             multiline: False
                             size_hint_y: None
                             height: self.minimum_height
                             value: -3.0
+                            font_size: FONT_SIZE_TEXT
                         FloatTextInput:
                             multiline: False
                             size_hint_y: None
                             height: self.minimum_height
                             value: 3.0
+                            font_size: FONT_SIZE_TEXT
                 BoxLayout:
                     orientation: "vertical"
                     size_hint_y: None
                     height: self.minimum_height
+                    spacing: SPACING_DEFAULT
                     Label:
                         text: "Functions"
                         size_hint_y: None
                         height: self.texture_size[1]
+                        font_size: FONT_SIZE_HEADER1
+                        halign: "left"
                     BoxLayout:
                         orientation: "vertical"
                         size_hint_y: None
                         height: self.minimum_height
+                        spacing: SPACING_DEFAULT
                         Label:
                             text: "Function 1"
                             size_hint_y: None
                             height: self.texture_size[1]
+                            font_size: FONT_SIZE_HEADER2
+                            halign: "left"
                         GridLayout:
                             cols: 2
                             size_hint_y: None
                             height: self.minimum_height
+                            spacing: SPACING_DEFAULT
                             Label:
                                 text: "f(x) ="
                                 size_hint_x: None
                                 width: self.texture_size[0]
-                                size_hint_y: None
-                                height: self.texture_size[1]
+                                font_size: FONT_SIZE_TEXT
+                                halign: "left"
                             TextInput:
                                 multiline: False
                                 size_hint_y: None
                                 height: self.minimum_height
+                                font_size: FONT_SIZE_TEXT
                     BoxLayout:
                         orientation: "vertical"
                         size_hint_y: None
                         height: self.minimum_height
+                        spacing: SPACING_DEFAULT
                         Label:
                             text: "Function 2"
                             size_hint_y: None
                             height: self.texture_size[1]
+                            font_size: FONT_SIZE_HEADER2
+                            halign: "left"
                         GridLayout:
                             cols: 2
                             size_hint_y: None
                             height: self.minimum_height
+                            spacing: SPACING_DEFAULT
                             Label:
                                 text: "f(x) ="
                                 size_hint_x: None
                                 width: self.texture_size[0]
-                                size_hint_y: None
-                                height: self.texture_size[1]
+                                font_size: FONT_SIZE_TEXT
+                                halign: "left"
                             TextInput:
                                 multiline: False
                                 size_hint_y: None
                                 height: self.minimum_height
+                                font_size: FONT_SIZE_TEXT
                     BoxLayout:
                         orientation: "vertical"
                         size_hint_y: None
                         height: self.minimum_height
+                        spacing: SPACING_DEFAULT
                         Label:
                             text: "Function 3"
                             size_hint_y: None
                             height: self.texture_size[1]
+                            font_size: FONT_SIZE_HEADER2
+                            halign: "left"
                         GridLayout:
                             cols: 2
                             size_hint_y: None
                             height: self.minimum_height
+                            spacing: SPACING_DEFAULT
                             Label:
                                 text: "f(x) ="
                                 size_hint_x: None
                                 width: self.texture_size[0]
-                                size_hint_y: None
-                                height: self.texture_size[1]
+                                font_size: FONT_SIZE_TEXT
+                                halign: "left"
                             TextInput:
                                 multiline: False
                                 size_hint_y: None
                                 height: self.minimum_height
+                                font_size: FONT_SIZE_TEXT

@@ -27,6 +27,7 @@
     "fsanitize",
     "gitmessage",
     "gpgsign",
+    "halign",
     "imgproc",
     "imwrite",
     "interruptible",
