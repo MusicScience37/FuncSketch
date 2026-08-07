@@ -27,7 +27,8 @@
 
 #:include common.kv
 #:include curve_config_widget.kv
-#:import CurveConfigWidget func_sketch._gui.curve_config_widget.CurveConfigWidget
+#:include curve_config_list_widget.kv
+#:import CurveConfigListWidget func_sketch._gui.curve_config_list_widget.CurveConfigListWidget
 #:import PlainSplitterStrip func_sketch._gui.plain_splitter_strip.PlainSplitterStrip
 
 <Splitter>:
@@ -117,22 +118,4 @@
                             height: self.minimum_height
                             value: 3.0
                             font_size: FONT_SIZE_TEXT
-                BoxLayout:
-                    orientation: "vertical"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    spacing: SPACING_HEADER2
-                    Label:
-                        text: "Functions"
-                        size_hint_y: None
-                        height: self.texture_size[1]
-                        font_size: FONT_SIZE_HEADER1
-                        halign: "left"
-                        text_size: self.width, None
-                    CurveConfigWidget:
-                        curve_name: "Function 1"
-                    CurveConfigWidget:
-                        curve_name: "Function 2"
-                        error_message: "Test error message."
-                    CurveConfigWidget:
-                        curve_name: "Function 3"
+                CurveConfigListWidget:

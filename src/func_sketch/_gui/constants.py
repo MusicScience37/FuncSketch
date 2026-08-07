@@ -14,7 +14,28 @@
 
 """Constants for the GUI."""
 
-from func_sketch._impl.color_util import hex_to_rgba
+from func_sketch._cpp import PlotConfig, PlotRange
+from func_sketch._impl.color_util import hex_to_rgb_color, hex_to_rgba
+
+# Curves
+
+NUM_CURVES = 5
+"""Number of curves supported in the application."""
+
+CURVE_COLORS = [
+    # Colors in https://gitlab.com/MusicScience37Projects/utility-libraries/ms37-designs
+    hex_to_rgb_color("#CA6F28"),
+    hex_to_rgb_color("#7AA504"),
+    hex_to_rgb_color("#5640B0"),
+    hex_to_rgb_color("#DA59A5"),
+    hex_to_rgb_color("#02C1F7"),
+]
+
+# Plotting
+
+DEFAULT_PLOT_RANGE = PlotRange((-3.0, 3.0), (-3.0, 3.0))
+
+DEFAULT_PLOT_CONFIG = PlotConfig()
 
 # Colors
 

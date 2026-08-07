@@ -87,8 +87,8 @@ Objects of this class can be called with a string to parse it into an Expression
 
     using func_sketch::plotter::RGBColor;
     nanobind::class_<RGBColor>(m, "RGBColor", "Class of RGB colors.")
-        .def(nanobind::init<double, double, double>(), "r"_a, "g"_a, "b"_a,
-            "Constructor.")
+        .def(nanobind::init<std::uint8_t, std::uint8_t, std::uint8_t>(), "r"_a,
+            "g"_a, "b"_a, "Constructor.")
         .def_rw("r", &RGBColor::r, "Red component.")
         .def_rw("g", &RGBColor::g, "Green component.")
         .def_rw("b", &RGBColor::b, "Blue component.");

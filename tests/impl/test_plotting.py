@@ -19,16 +19,11 @@ import numpy
 from func_sketch._cpp import (
     PlotConfig,
     PlotRange,
-    RGBColor,
 )
+from func_sketch._gui.constants import CURVE_COLORS
 from func_sketch._impl.curve_config import CurveConfig
 from func_sketch._impl.curve_sampler import CurveSampler
 from func_sketch._impl.plotter import Plotter
-
-LINE_COLORS = [
-    RGBColor(0xCA, 0x76, 0x39),
-    RGBColor(0x3A, 0xA0, 0x9B),
-]
 
 
 def _plot_function(
@@ -46,7 +41,7 @@ def _plot_function(
 
     sampled_curves = []
     for i, expression_str in enumerate(expression_str_list):
-        curve_config = CurveConfig(expression_str, LINE_COLORS[i % len(LINE_COLORS)])
+        curve_config = CurveConfig(expression_str, CURVE_COLORS[i % len(CURVE_COLORS)])
         sampled_curve = sampler(curve_config)
         sampled_curves.append(sampled_curve)
 

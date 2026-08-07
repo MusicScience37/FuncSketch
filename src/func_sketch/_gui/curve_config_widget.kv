@@ -29,6 +29,7 @@
     size_hint_y: None
     height: self.minimum_height
     spacing: SPACING_DEFAULT
+    expression_text_input: expression_text_input
     Label:
         text: root.curve_name
         size_hint_y: None
@@ -48,7 +49,7 @@
             font_size: FONT_SIZE_TEXT
             halign: "left"
         TextInput:
-            text: root.expression_text
+            id: expression_text_input
             multiline: False
             size_hint_y: None
             height: self.minimum_height

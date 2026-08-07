@@ -14,6 +14,8 @@
 
 """Utilities of colors."""
 
+from func_sketch._cpp import RGBColor
+
 # cspell: ignore RRGGBB, RRGGBBAA
 
 
@@ -40,3 +42,19 @@ def hex_to_rgba(hex: str) -> tuple[float, float, float, float]:
     else:
         raise ValueError("Invalid hex color format")
     return (r / 255.0, g / 255.0, b / 255.0, a / 255.0)
+
+
+def hex_to_rgb_color(hex: str) -> RGBColor:
+    """Convert a hex color string to an RGBColor object.
+
+    Args:
+        hex: Hex color string without alpha channel (e.g., "#RRGGBB").
+
+    Returns:
+        RGBColor object.
+    """
+    hex = hex.lstrip("#")
+    if len(hex) != 6:
+        raise ValueError("Invalid hex color format")
+    r, g, b = int(hex[0:2], 16), int(hex[2:4], 16), int(hex[4:6], 16)
+    return RGBColor(r, g, b)
