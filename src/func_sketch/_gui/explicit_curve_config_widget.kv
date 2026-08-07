@@ -15,13 +15,13 @@
 #:import FONT_SIZE_HEADER2 func_sketch._gui.constants.FONT_SIZE_HEADER2
 #:import FONT_SIZE_TEXT func_sketch._gui.constants.FONT_SIZE_TEXT
 #:import SPACING_DEFAULT func_sketch._gui.constants.SPACING_DEFAULT
+#:import ERROR_MESSAGE_COLOR func_sketch._gui.constants.ERROR_MESSAGE_COLOR
 
 <ErrorMessageLabel@Label>:
     size_hint_y: None
     text_size: self.width, None
     height: self.texture_size[1] if self.text else 0
-    # TODO Tune color of error messages.
-    color: 1, 0, 0, 1
+    color: ERROR_MESSAGE_COLOR
     opacity: 1 if self.text else 0
 
 <ExplicitCurveConfigWidget>:

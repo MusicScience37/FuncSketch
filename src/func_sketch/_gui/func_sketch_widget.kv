@@ -18,20 +18,43 @@
 #:import FONT_SIZE_TEXT func_sketch._gui.constants.FONT_SIZE_TEXT
 #:import SPACING_DEFAULT func_sketch._gui.constants.SPACING_DEFAULT
 #:import PADDING_NAVIGATION func_sketch._gui.constants.PADDING_NAVIGATION
+#:import GRAPH_BACKGROUND_COLOR func_sketch._gui.constants.GRAPH_BACKGROUND_COLOR
+#:import NORMAL_TEXT_COLOR func_sketch._gui.constants.NORMAL_TEXT_COLOR
+#:import SPLITTER_COLOR func_sketch._gui.constants.SPLITTER_COLOR
+#:import NAVIGATION_BACKGROUND_COLOR func_sketch._gui.constants.NAVIGATION_BACKGROUND_COLOR
 
+#:include common.kv
 #:include explicit_curve_config_widget.kv
 #:import ExplicitCurveConfigWidget func_sketch._gui.explicit_curve_config_widget.ExplicitCurveConfigWidget
+#:import PlainSplitterStrip func_sketch._gui.plain_splitter_strip.PlainSplitterStrip
+
+<Splitter>:
+    strip_cls: PlainSplitterStrip
 
 <FuncSketchWidget>
     orientation: "horizontal"
     BoxLayout:
+        canvas.before:
+            Color:
+                rgba: GRAPH_BACKGROUND_COLOR
+            Rectangle:
+                pos: self.pos
+                size: self.size
         orientation: "vertical"
         Label:
             text: "Main Content"
     Splitter:
+        canvas.before:
+            Color:
+                rgba: NAVIGATION_BACKGROUND_COLOR
+            Rectangle:
+                pos: self.pos
+                size: self.size
         sizable_from: "left"
         size_hint_x: None
-        width: 400
+        width: 300
+        minimum_width: 200
+        max_width: 1000
         ScrollView:
             BoxLayout:
                 orientation: "vertical"
@@ -106,5 +129,6 @@
                         curve_name: "Function 1"
                     ExplicitCurveConfigWidget:
                         curve_name: "Function 2"
+                        error_message: "Test error message."
                     ExplicitCurveConfigWidget:
                         curve_name: "Function 3"
