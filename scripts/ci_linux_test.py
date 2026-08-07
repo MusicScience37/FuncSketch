@@ -15,6 +15,7 @@ BUILD_TYPE_DICT = {
     "debug": "Debug",
     "release": "Release",
     "ausan": "Debug",
+    "pre-commit": "Release",
 }
 
 TEST_TYPE_VARIABLES = {
@@ -35,6 +36,12 @@ TEST_TYPE_VARIABLES = {
         "FUNC_SKETCH_ENABLE_CCACHE": "ON",
         "FUNC_SKETCH_ENABLE_AUSAN": "ON",
         "FUNC_SKETCH_WRITE_JUNIT": "ON",
+    },
+    "pre-commit": {
+        "FUNC_SKETCH_BUILD_TESTS": "OFF",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
+        "FUNC_SKETCH_WRITE_JUNIT": "OFF",
     },
 }
 
@@ -93,10 +100,17 @@ def check_tests_for_condition(
     execute_command(["cmake", "--build", "."], cwd=build_dir)
 
     # Test
-    execute_command(["ctest", "-V"], cwd=build_dir)
-    if test_type in ["debug", "release"]:
+    if test_type in ["debug", "release", "ausan"]:
+        execute_command(["ctest", "-V"], cwd=build_dir)
+        if test_type in ["debug", "release"]:
+            execute_command(
+                ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"],
+                cwd=str(ROOT_DIR),
+            )
+    if test_type == "pre-commit":
         execute_command(
-            ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"], cwd=str(ROOT_DIR)
+            ["poetry", "run", "pre-commit", "run", "--all-files"],
+            cwd=str(ROOT_DIR),
         )
 
 
