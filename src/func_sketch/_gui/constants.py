@@ -14,26 +14,26 @@
 
 """Constants for the GUI."""
 
+from func_sketch._impl.color_util import hex_to_rgba
+
 # Colors
 
-# TODO Tune colors.
-
-GRAPH_BACKGROUND_COLOR = (1.0, 1.0, 1.0, 1.0)  # #FFFFFF
+GRAPH_BACKGROUND_COLOR = hex_to_rgba("#FFFFFF")
 """Background color for the graph area."""
 
-NAVIGATION_BACKGROUND_COLOR = (0.992, 0.957, 0.937, 1.0)  # #FDF4EF
+NAVIGATION_BACKGROUND_COLOR = hex_to_rgba("#FDF4EF")
 """Background color for the navigation area."""
 
-NORMAL_TEXT_COLOR = (0.180, 0.161, 0.145, 1.0)  # #2E2925
+NORMAL_TEXT_COLOR = hex_to_rgba("#2E2925")
 """Color for normal text."""
 
-SPLITTER_COLOR = (0.780, 0.737, 0.710, 1.0)  # #C7BCB5
+SPLITTER_COLOR = hex_to_rgba("#C7BCB5")
 """Color for the splitter between the navigation and main content areas."""
 
-ERROR_MESSAGE_COLOR = (0.812, 0.149, 0.290, 1.0)  # #CF264A
+ERROR_MESSAGE_COLOR = hex_to_rgba("#CF264A")
 """Color for error messages."""
 
-ERROR_BACKGROUND_COLOR = (0.992, 0.906, 0.910, 1.0)  # #FDE7E8
+ERROR_BACKGROUND_COLOR = hex_to_rgba("#FDE7E8")
 """Background color for error messages."""
 
 # Font sizes
