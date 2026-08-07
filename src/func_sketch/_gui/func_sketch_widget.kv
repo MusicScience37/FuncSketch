@@ -24,8 +24,8 @@
 #:import NAVIGATION_BACKGROUND_COLOR func_sketch._gui.constants.NAVIGATION_BACKGROUND_COLOR
 
 #:include common.kv
-#:include explicit_curve_config_widget.kv
-#:import ExplicitCurveConfigWidget func_sketch._gui.explicit_curve_config_widget.ExplicitCurveConfigWidget
+#:include curve_config_widget.kv
+#:import CurveConfigWidget func_sketch._gui.curve_config_widget.CurveConfigWidget
 #:import PlainSplitterStrip func_sketch._gui.plain_splitter_strip.PlainSplitterStrip
 
 <Splitter>:
@@ -125,10 +125,10 @@
                         height: self.texture_size[1]
                         font_size: FONT_SIZE_HEADER1
                         halign: "left"
-                    ExplicitCurveConfigWidget:
+                    CurveConfigWidget:
                         curve_name: "Function 1"
-                    ExplicitCurveConfigWidget:
+                    CurveConfigWidget:
                         curve_name: "Function 2"
                         error_message: "Test error message."
-                    ExplicitCurveConfigWidget:
+                    CurveConfigWidget:
                         curve_name: "Function 3"
