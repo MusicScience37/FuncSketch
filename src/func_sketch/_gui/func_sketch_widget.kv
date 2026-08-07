@@ -19,6 +19,9 @@
 #:import SPACING_DEFAULT func_sketch._gui.constants.SPACING_DEFAULT
 #:import PADDING_NAVIGATION func_sketch._gui.constants.PADDING_NAVIGATION
 
+#:include explicit_curve_config_widget.kv
+#:import ExplicitCurveConfigWidget func_sketch._gui.explicit_curve_config_widget.ExplicitCurveConfigWidget
+
 <FuncSketchWidget>
     orientation: "horizontal"
     BoxLayout:
@@ -99,84 +102,9 @@
                         height: self.texture_size[1]
                         font_size: FONT_SIZE_HEADER1
                         halign: "left"
-                    BoxLayout:
-                        orientation: "vertical"
-                        size_hint_y: None
-                        height: self.minimum_height
-                        spacing: SPACING_DEFAULT
-                        Label:
-                            text: "Function 1"
-                            size_hint_y: None
-                            height: self.texture_size[1]
-                            font_size: FONT_SIZE_HEADER2
-                            halign: "left"
-                        GridLayout:
-                            cols: 2
-                            size_hint_y: None
-                            height: self.minimum_height
-                            spacing: SPACING_DEFAULT
-                            Label:
-                                text: "f(x) ="
-                                size_hint_x: None
-                                width: self.texture_size[0]
-                                font_size: FONT_SIZE_TEXT
-                                halign: "left"
-                            TextInput:
-                                multiline: False
-                                size_hint_y: None
-                                height: self.minimum_height
-                                font_size: FONT_SIZE_TEXT
-                    BoxLayout:
-                        orientation: "vertical"
-                        size_hint_y: None
-                        height: self.minimum_height
-                        spacing: SPACING_DEFAULT
-                        Label:
-                            text: "Function 2"
-                            size_hint_y: None
-                            height: self.texture_size[1]
-                            font_size: FONT_SIZE_HEADER2
-                            halign: "left"
-                        GridLayout:
-                            cols: 2
-                            size_hint_y: None
-                            height: self.minimum_height
-                            spacing: SPACING_DEFAULT
-                            Label:
-                                text: "f(x) ="
-                                size_hint_x: None
-                                width: self.texture_size[0]
-                                font_size: FONT_SIZE_TEXT
-                                halign: "left"
-                            TextInput:
-                                multiline: False
-                                size_hint_y: None
-                                height: self.minimum_height
-                                font_size: FONT_SIZE_TEXT
-                    BoxLayout:
-                        orientation: "vertical"
-                        size_hint_y: None
-                        height: self.minimum_height
-                        spacing: SPACING_DEFAULT
-                        Label:
-                            text: "Function 3"
-                            size_hint_y: None
-                            height: self.texture_size[1]
-                            font_size: FONT_SIZE_HEADER2
-                            halign: "left"
-                        GridLayout:
-                            cols: 2
-                            size_hint_y: None
-                            height: self.minimum_height
-                            spacing: SPACING_DEFAULT
-                            Label:
-                                text: "f(x) ="
-                                size_hint_x: None
-                                width: self.texture_size[0]
-                                font_size: FONT_SIZE_TEXT
-                                halign: "left"
-                            TextInput:
-                                multiline: False
-                                size_hint_y: None
-                                height: self.minimum_height
-                                font_size: FONT_SIZE_TEXT
+                    ExplicitCurveConfigWidget:
+                        curve_name: "Function 1"
+                    ExplicitCurveConfigWidget:
+                        curve_name: "Function 2"
+                    ExplicitCurveConfigWidget:
+                        curve_name: "Function 3"
