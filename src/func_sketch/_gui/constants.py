@@ -55,5 +55,11 @@ FONT_SIZE_TEXT = 15
 SPACING_DEFAULT = 10
 """Default spacing between widgets."""
 
+SPACING_HEADER1 = 35
+"""Spacing for level 1 headers."""
+
+SPACING_HEADER2 = 15
+"""Spacing for level 2 headers."""
+
 PADDING_NAVIGATION = 10
 """Padding for the navigation area."""

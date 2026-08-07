@@ -17,6 +17,8 @@
 #:import FONT_SIZE_HEADER2 func_sketch._gui.constants.FONT_SIZE_HEADER2
 #:import FONT_SIZE_TEXT func_sketch._gui.constants.FONT_SIZE_TEXT
 #:import SPACING_DEFAULT func_sketch._gui.constants.SPACING_DEFAULT
+#:import SPACING_HEADER1 func_sketch._gui.constants.SPACING_HEADER1
+#:import SPACING_HEADER2 func_sketch._gui.constants.SPACING_HEADER2
 #:import PADDING_NAVIGATION func_sketch._gui.constants.PADDING_NAVIGATION
 #:import GRAPH_BACKGROUND_COLOR func_sketch._gui.constants.GRAPH_BACKGROUND_COLOR
 #:import NORMAL_TEXT_COLOR func_sketch._gui.constants.NORMAL_TEXT_COLOR
@@ -60,7 +62,7 @@
                 orientation: "vertical"
                 size_hint_y: None
                 height: self.minimum_height
-                spacing: SPACING_DEFAULT
+                spacing: SPACING_HEADER1
                 padding: PADDING_NAVIGATION
                 BoxLayout:
                     orientation: "vertical"
@@ -119,7 +121,7 @@
                     orientation: "vertical"
                     size_hint_y: None
                     height: self.minimum_height
-                    spacing: SPACING_DEFAULT
+                    spacing: SPACING_HEADER2
                     Label:
                         text: "Functions"
                         size_hint_y: None
