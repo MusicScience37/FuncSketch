@@ -33,42 +33,47 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
         - curve_config (writable)
     """
 
+    expression_text = kivy.properties.StringProperty()
     expression_text_input = kivy.properties.ObjectProperty()
 
-    def _get_expression_text(self) -> str:
-        """Get the expression text.
+    def __init__(self, **kwargs: object) -> None:
+        """Constructor."""
+        self._syncing_expression_text = False
+        super().__init__(**kwargs)
 
-        Returns:
-            Expression text.
-        """
-        return self.expression_text_input.text if self.expression_text_input else ""
+    def _sync_expression_text_from_parent_to_child(
+        self, _instance: object, _value: object
+    ) -> None:
+        """Sync expression text from parent to child."""
+        if self._syncing_expression_text:
+            return
+        self._syncing_expression_text = True
+        try:
+            if self.expression_text_input:
+                self.expression_text_input.text = self.expression_text
+        finally:
+            self._syncing_expression_text = False
 
-    def _set_expression_text(self, expression_text: str) -> None:
-        """Set the expression text.
-
-        Args:
-            expression_text: Expression text.
-        """
-        if self.expression_text_input:
-            self.expression_text_input.text = expression_text
-
-    expression_text = kivy.properties.AliasProperty(
-        _get_expression_text,
-        _set_expression_text,
-        bind=("expression_text_input",),
-        cache=False,
-    )
+    def _sync_expression_text_from_child_to_parent(
+        self, _instance: object, _value: object
+    ) -> None:
+        """Sync expression text from child to parent."""
+        if self._syncing_expression_text:
+            return
+        self._syncing_expression_text = True
+        try:
+            self.expression_text = self.expression_text_input.text
+        finally:
+            self._syncing_expression_text = False
 
     def on_expression_text_input(
         self, _instance: object, value: kivy.uix.textinput.TextInput | None
     ) -> None:
         """Callback when the expression_text_input property is set."""
         if value:
-            value.bind(text=self._trigger_expression_text)
-
-    def _trigger_expression_text(self, _instance: object, _value: object) -> None:
-        """Trigger the expression text property to update."""
-        self.property("expression_text").dispatch(self)
+            value.bind(text=self._sync_expression_text_from_child_to_parent)
+            self.bind(expression_text=self._sync_expression_text_from_parent_to_child)
+            self._sync_expression_text_from_parent_to_child(None, None)
 
     curve_name = kivy.properties.StringProperty()
     curve_color = kivy.properties.ObjectProperty()
