@@ -127,7 +127,7 @@ Objects of this class can be called with a string to parse it into an Expression
             "range",
             // Making the getter nullptr causes an error in mypy, so we must
             // write a getter that throws an exception instead.
-            [](FunctionSampler& self) {
+            [](FunctionSampler& self) -> PlotRange {
                 throw std::runtime_error("Property 'range' is write-only.");
             },
             [](FunctionSampler& self, const PlotRange& value) {
@@ -136,7 +136,7 @@ Objects of this class can be called with a string to parse it into an Expression
             "Range of plots. (write-only)")
         .def_prop_rw(
             "config",
-            [](FunctionSampler& self) {
+            [](FunctionSampler& self) -> PlotConfig {
                 throw std::runtime_error("Property 'config' is write-only.");
             },
             [](FunctionSampler& self, const PlotConfig& value) {
@@ -156,14 +156,14 @@ Objects of this class can be called with a string to parse it into an Expression
             "Constructor.")
         .def_prop_rw(
             "range",
-            [](Plotter& self) {
+            [](Plotter& self) -> PlotRange {
                 throw std::runtime_error("Property 'range' is write-only.");
             },
             [](Plotter& self, const PlotRange& value) { self.range(value); },
             "Range of plots. (write-only)")
         .def_prop_rw(
             "config",
-            [](Plotter& self) {
+            [](Plotter& self) -> PlotConfig {
                 throw std::runtime_error("Property 'config' is write-only.");
             },
             [](Plotter& self, const PlotConfig& value) { self.config(value); },
