@@ -41,7 +41,7 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
     using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
-    using func_sketch::math::ExpFunction;
+    using func_sketch::math::exp_function;
     using func_sketch::math::MathFunction;
     using func_sketch::math::UnaryMinusOperator;
     using func_sketch::math::UnaryOperator;
@@ -106,8 +106,7 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
         Expression* argument = pool.create<ConstantExpression>(value);
         Expression* function_call_expression =
             pool.create<FunctionCallExpression>(
-                std::vector<Expression*>{argument},
-                MathFunction(ExpFunction{}));
+                std::vector<Expression*>{argument}, exp_function());
 
         CHECK(function_call_expression->as<FunctionCallExpression>()
                   .arguments[0]

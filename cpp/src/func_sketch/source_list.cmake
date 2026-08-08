@@ -6,6 +6,7 @@ set(SOURCE_FILES
     expressions/function_call_expression.cpp
     expressions/parameter_expression.cpp
     expressions/unary_expression.cpp
+    math/functions/exp.cpp
     math/generate_math_function_list.cpp
     parser/convert_expression.cpp
     parser/expression_grammar.cpp

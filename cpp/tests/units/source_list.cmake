@@ -7,9 +7,12 @@ set(SOURCE_FILES
     expressions/function_call_expression_test.cpp
     expressions/parameter_expression_test.cpp
     expressions/unary_expression_test.cpp
+    math/acceptable_types_test.cpp
     math/binary_operator_test.cpp
     math/binary_operators_test.cpp
+    math/common_type_test.cpp
     math/functions/exp_test.cpp
+    math/general_math_function_test.cpp
     math/math_function_list_test.cpp
     math/math_function_test.cpp
     math/unary_operator_test.cpp

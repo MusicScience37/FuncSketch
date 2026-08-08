@@ -15,18 +15,22 @@
  */
 /*!
  * \file
- * \brief Implementation of generate_math_function_list function.
+ * \brief Definition of CommonType type.
  */
-#include "func_sketch/math/generate_math_function_list.h"
+#pragma once
 
-#include "func_sketch/math/functions/exp.h"
+#include <type_traits>
 
 namespace func_sketch::math {
 
-MathFunctionList generate_math_function_list() {
-    MathFunctionList list;
-    list.emplace(exp_function());
-    return list;
-}
+/*!
+ * \brief Get common type of two types.
+ *
+ * \note This type alias is written for use with number types in
+ * \ref func_sketch::Number type. Although current implementation is just
+ * std::common_type_t, this type alias can change in the future.
+ */
+template <typename T1, typename T2>
+using CommonType = std::common_type_t<T1, T2>;
 
 }  // namespace func_sketch::math

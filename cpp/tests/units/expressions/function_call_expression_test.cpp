@@ -32,13 +32,13 @@ TEST_CASE("func_sketch::expressions::FunctionCallExpression") {
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::FunctionCallExpression;
     using func_sketch::expressions::ParameterExpression;
-    using func_sketch::math::ExpFunction;
+    using func_sketch::math::exp_function;
     using func_sketch::math::MathFunction;
 
     SECTION("format") {
         ExpressionMemoryPool pool;
         Expression* argument = pool.create<ParameterExpression>();
-        auto function = MathFunction(ExpFunction{});
+        auto function = exp_function();
         Expression* function_call_expression =
             pool.create<FunctionCallExpression>(
                 std::vector<Expression*>{argument}, function);

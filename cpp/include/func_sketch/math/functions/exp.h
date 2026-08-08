@@ -15,46 +15,19 @@
  */
 /*!
  * \file
- * \brief Definition of ExpFunction class.
+ * \brief Declaration of functions to create exponential functions.
  */
 #pragma once
 
-#include <cmath>
-#include <string_view>
-#include <vector>
-
-#include "func_sketch/common_types.h"
-#include "func_sketch/exceptions.h"
+#include "func_sketch/math/math_function.h"
 
 namespace func_sketch::math {
 
 /*!
- * \brief Class of exponential function.
+ * \brief Create an exponential function.
+ *
+ * \return Exponential function.
  */
-class ExpFunction {
-public:
-    /*!
-     * \brief Get the name of the function.
-     *
-     * \return Name of the function.
-     */
-    [[nodiscard]] static std::string_view name() noexcept { return "exp"; }
-
-    /*!
-     * \brief Operate on scalars.
-     *
-     * \param[in] args Arguments.
-     * \param[out] result Result.
-     */
-    static void operator()(const std::vector<Number>& args, Number& result) {
-        if (args.size() != 1) {
-            throw InvalidExpressionException(
-                "exp function requires exactly one argument.");
-        }
-        result = std::visit(
-            [](const auto& arg) { return std::exp(static_cast<Real>(arg)); },
-            args[0]);
-    }
-};
+[[nodiscard]] MathFunction exp_function();
 
 }  // namespace func_sketch::math

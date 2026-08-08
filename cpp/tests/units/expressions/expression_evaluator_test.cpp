@@ -19,6 +19,8 @@
  */
 #include "func_sketch/expressions/expression_evaluator.h"
 
+#include <cmath>
+
 #include <catch2/catch_test_macros.hpp>
 
 #include "func_sketch/common_types.h"
@@ -40,7 +42,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
-    using func_sketch::math::ExpFunction;
+    using func_sketch::math::exp_function;
     using func_sketch::math::MathFunction;
     using func_sketch::math::UnaryMinusOperator;
     using func_sketch::math::UnaryOperator;
@@ -111,7 +113,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     SECTION("evaluate a function call expression") {
         auto* argument = pool.create<ParameterExpression>();
         auto* expression = pool.create<FunctionCallExpression>(
-            std::vector<Expression*>{argument}, MathFunction(ExpFunction{}));
+            std::vector<Expression*>{argument}, exp_function());
 
         constexpr Real parameter = 4.56;
         Real result = 0.0;
