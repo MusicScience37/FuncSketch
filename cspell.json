@@ -25,6 +25,7 @@
     "DCMAKE",
     "docparams",
     "doctrees",
+    "Doxyfile",
     "Eigen",
     "endfunction",
     "endmacro",

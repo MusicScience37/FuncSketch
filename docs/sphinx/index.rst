@@ -1,6 +1,8 @@
 FuncSketch
 ==============
 
+C++ API reference is separately generated and can be found in `here <doxygen>`_.
+
 .. toctree::
     :maxdepth: 1
     :caption: Development
