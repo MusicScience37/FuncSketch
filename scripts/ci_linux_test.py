@@ -111,7 +111,7 @@ def check_tests_for_condition(
     # Prepare
     env = os.environ.copy()
     if test_type == "coverage":
-        coverage_dir = pathlib.Path(build_dir) / "coverage"
+        coverage_dir = pathlib.Path(build_dir).absolute() / "coverage"
         coverage_dir.mkdir(parents=True, exist_ok=True)
         env["LLVM_PROFILE_FILE"] = str(coverage_dir / "coverage.profraw")
 
