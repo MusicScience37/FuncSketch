@@ -1970,6 +1970,24 @@ lint = ["pre-commit (==4.3.0)"]
 test = ["coverage[toml] (>=7.2)", "pytest (>=8.0)", "pytest-cov (>=5.0)"]
 
 [[package]]
+name = "lcov-cobertura"
+version = "2.1.1"
+description = "LCOV to Cobertura XML converter"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "lcov_cobertura-2.1.1-py3-none-any.whl", hash = "sha256:92f8107297f6d1d7a7a0a88c6071c1ea04f862f2fe918c6ecce271573c37d8aa"},
+    {file = "lcov_cobertura-2.1.1.tar.gz", hash = "sha256:efa8e264f2bddebb7f5024e4ace12b633d9d59048bc647427d1e1b9688c8b58f"},
+]
+
+[package.extras]
+all = ["coverage[toml]", "pytest", "pytest-cov", "recommonmark", "sphinx", "sphinx_rtd_theme", "sphinxcontrib-apidoc", "xmldiff"]
+cov = ["coverage[toml]", "pytest-cov"]
+doc = ["recommonmark", "sphinx", "sphinx_rtd_theme", "sphinxcontrib-apidoc"]
+test = ["pytest", "xmldiff"]
+
+[[package]]
 name = "librt"
 version = "0.13.0"
 description = "Mypyc runtime library"
@@ -4697,4 +4715,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<3.15"
-content-hash = "c12a537843c0dd79f068a011870dcc70037481f6813c0900c80be2487e3ed8bd"
+content-hash = "8e3f382f4f3b90dc29220b70eda2312a4f792e4fea3443db84d778ac0b324b44"
