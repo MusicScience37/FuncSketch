@@ -59,6 +59,7 @@
     "numpy",
     "profdata",
     "profraw",
+    "pyenv",
     "pylint",
     "pytest",
     "rgba",
