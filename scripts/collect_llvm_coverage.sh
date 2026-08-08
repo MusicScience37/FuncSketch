@@ -12,7 +12,7 @@ ls -lh $DIR/coverage/
 
 # make a file for codecov
 llvm-profdata merge -o $DIR/coverage/coverage.profdata $DIR/coverage/coverage_*.profraw
-opts="-ignore-filename-regex='(tests|.venv|.pyenv)/*' -instr-profile=$DIR/coverage/coverage.profdata"
+opts="-ignore-filename-regex='.*/(tests|.venv|.pyenv)/.*' -instr-profile=$DIR/coverage/coverage.profdata"
 for a in $(find $DIR/bin/func_sketch_test_units $ROOT_DIR/src/func_sketch/_cpp.*.so); do
     opts="$opts -object $a"
 done
