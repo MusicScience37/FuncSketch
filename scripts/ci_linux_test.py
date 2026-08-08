@@ -15,6 +15,8 @@ BUILD_TYPE_DICT = {
     "debug": "Debug",
     "release": "Release",
     "ausan": "Debug",
+    "coverage_cpp": "Debug",
+    "coverage_python": "Release",
     "pre-commit": "Release",
 }
 
@@ -35,6 +37,20 @@ TEST_TYPE_VARIABLES = {
         "FUNC_SKETCH_BUILD_TESTS": "ON",
         "FUNC_SKETCH_ENABLE_CCACHE": "ON",
         "FUNC_SKETCH_ENABLE_AUSAN": "ON",
+        "FUNC_SKETCH_WRITE_JUNIT": "ON",
+    },
+    "coverage_cpp": {
+        "FUNC_SKETCH_BUILD_TESTS": "ON",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
+        "FUNC_SKETCH_WRITE_JUNIT": "ON",
+        "CMAKE_CXX_FLAGS": "-fprofile-instr-generate -fcoverage-mapping",
+        "CMAKE_MODULE_LINKER_FLAGS": "-fprofile-instr-generate -fcoverage-mapping",
+    },
+    "coverage_python": {
+        "FUNC_SKETCH_BUILD_TESTS": "ON",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
         "FUNC_SKETCH_WRITE_JUNIT": "ON",
     },
     "pre-commit": {
@@ -99,18 +115,42 @@ def check_tests_for_condition(
     # Build
     execute_command(["cmake", "--build", "."], cwd=build_dir)
 
+    # Prepare
+    env = os.environ.copy()
+    if test_type == "coverage_cpp":
+        coverage_dir = pathlib.Path(build_dir).absolute() / "coverage"
+        coverage_dir.mkdir(parents=True, exist_ok=True)
+        env["LLVM_PROFILE_FILE"] = str(coverage_dir / "coverage_%p.profraw")
+
     # Test
-    if test_type in ["debug", "release", "ausan"]:
-        execute_command(["ctest", "-V"], cwd=build_dir)
-        if test_type in ["debug", "release"]:
+    if test_type in ["debug", "release", "ausan", "coverage_cpp", "coverage_python"]:
+        execute_command(
+            ["ctest", "-V"],
+            cwd=build_dir,
+            env=env,
+        )
+        if test_type in ["debug", "release", "coverage_cpp", "coverage_python"]:
+            command = ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"]
+            if test_type == "coverage_python":
+                command = command + [
+                    "--cov=func_sketch",
+                    "--cov-report",
+                    "term",
+                    "--cov-report",
+                    "xml:coverage_python.xml",
+                    "--cov-report",
+                    "html:coverage_python",
+                ]
             execute_command(
-                ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"],
+                command,
                 cwd=str(ROOT_DIR),
+                env=env,
             )
     if test_type == "pre-commit":
         execute_command(
             ["poetry", "run", "pre-commit", "run", "--all-files"],
             cwd=str(ROOT_DIR),
+            env=env,
         )
 
 
