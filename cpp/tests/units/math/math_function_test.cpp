@@ -27,7 +27,7 @@
 #include "func_sketch/math/functions/exp.h"
 
 TEST_CASE("func_sketch::math::MathFunction") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::math::ExpFunction;
     using func_sketch::math::MathFunction;
 
@@ -36,8 +36,8 @@ TEST_CASE("func_sketch::math::MathFunction") {
 
         CHECK(function_object.name() == "exp");
 
-        const auto args = std::vector<Scalar>{1.0};
-        Scalar result = 0.0;
+        const auto args = std::vector<Real>{1.0};
+        Real result = 0.0;
         function_object(args, result);
 
         CHECK_THAT(result, Catch::Matchers::WithinRel(std::exp(1.0)));

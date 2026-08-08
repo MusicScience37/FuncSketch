@@ -37,7 +37,7 @@ public:
      * \param[out] result Result.
      */
     static void operator()(
-        const Expression& expression, Scalar parameter, Scalar& result);
+        const Expression& expression, Real parameter, Real& result);
 
 private:
     /*!
@@ -46,8 +46,8 @@ private:
      * \param[in] expression Expression.
      * \param[out] result Result.
      */
-    static void evaluate(const ConstantExpression& expression,
-        Scalar /*parameter*/, Scalar& result);
+    static void evaluate(
+        const ConstantExpression& expression, Real /*parameter*/, Real& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -56,7 +56,7 @@ private:
      * \param[out] result Result.
      */
     static void evaluate(const ParameterExpression& /*expression*/,
-        Scalar parameter, Scalar& result);
+        Real parameter, Real& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -66,7 +66,7 @@ private:
      * \param[out] result Result.
      */
     static void evaluate(
-        const UnaryExpression& expression, Scalar parameter, Scalar& result);
+        const UnaryExpression& expression, Real parameter, Real& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -76,7 +76,7 @@ private:
      * \param[out] result Result.
      */
     static void evaluate(
-        const BinaryExpression& expression, Scalar parameter, Scalar& result);
+        const BinaryExpression& expression, Real parameter, Real& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -85,8 +85,8 @@ private:
      * \param[in] parameter Parameter.
      * \param[out] result Result.
      */
-    static void evaluate(const FunctionCallExpression& expression,
-        Scalar parameter, Scalar& result);
+    static void evaluate(
+        const FunctionCallExpression& expression, Real parameter, Real& result);
 };
 
 }  // namespace func_sketch::expressions

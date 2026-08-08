@@ -30,7 +30,7 @@ namespace func_sketch::expressions {
  */
 struct ConstantExpression {
     //! Value.
-    Scalar value{};
+    Real value{};
 };
 
 }  // namespace func_sketch::expressions
@@ -41,7 +41,7 @@ struct ConstantExpression {
  */
 template <>
 struct fmt::formatter<func_sketch::expressions::ConstantExpression>
-    : fmt::formatter<func_sketch::Scalar> {
+    : fmt::formatter<func_sketch::Real> {
     /*!
      * \brief Format a value.
      *

@@ -45,9 +45,8 @@ public:
           get_name_([](const utilities::Any& obj) -> std::string_view {
               return obj.get<T>().name();
           }),
-          scalar_operator_([](const utilities::Any& obj, const Scalar& arg,
-                               Scalar& result) { obj.get<T>()(arg, result); }) {
-    }
+          scalar_operator_([](const utilities::Any& obj, const Real& arg,
+                               Real& result) { obj.get<T>()(arg, result); }) {}
 
     /*!
      * \brief Get the name of the operator.
@@ -62,7 +61,7 @@ public:
      * \param[in] arg Argument.
      * \param[out] result Result.
      */
-    void operator()(const Scalar& arg, Scalar& result) const {
+    void operator()(const Real& arg, Real& result) const {
         scalar_operator_(operator_, arg, result);
     }
 
@@ -73,8 +72,8 @@ private:
 
     //! Signature of function to operate on a scalar.
     using ScalarOperatorSignature = void(
-        const utilities::Any& /*operator_object*/, const Scalar& /*arg*/,
-        Scalar& /*result*/);
+        const utilities::Any& /*operator_object*/, const Real& /*arg*/,
+        Real& /*result*/);
 
     //! Operator object.
     utilities::Any operator_;

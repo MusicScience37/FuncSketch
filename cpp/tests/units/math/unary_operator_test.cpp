@@ -24,7 +24,7 @@
 #include "func_sketch/math/unary_operators.h"
 
 TEST_CASE("func_sketch::math::UnaryOperator") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::math::UnaryMinusOperator;
     using func_sketch::math::UnaryOperator;
 
@@ -33,11 +33,11 @@ TEST_CASE("func_sketch::math::UnaryOperator") {
 
         CHECK(operator_object.name() == "negate");
 
-        constexpr Scalar arg = 1.0;
-        Scalar result = 0.0;
+        constexpr Real arg = 1.0;
+        Real result = 0.0;
         operator_object(arg, result);
 
-        constexpr Scalar expected_result = -arg;
+        constexpr Real expected_result = -arg;
         CHECK(result == expected_result);
     }
 }

@@ -37,8 +37,7 @@ concept UnaryOperatorType = requires() {
         { operator_object.name() } -> std::convertible_to<std::string_view>;
     };
 
-    requires requires(
-        const T& operator_object, const Scalar& arg, Scalar& result) {
+    requires requires(const T& operator_object, const Real& arg, Real& result) {
         { operator_object(arg, result) } -> std::same_as<void>;
     };
 };

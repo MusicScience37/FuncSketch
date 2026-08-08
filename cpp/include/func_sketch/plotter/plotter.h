@@ -110,10 +110,10 @@ private:
     PlotConfig config_;
 
     //! Grid positions in x axis.
-    std::vector<Scalar> x_grid_positions_;
+    std::vector<Real> x_grid_positions_;
 
     //! Grid positions in y axis.
-    std::vector<Scalar> y_grid_positions_;
+    std::vector<Real> y_grid_positions_;
 };
 
 }  // namespace func_sketch::plotter

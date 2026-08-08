@@ -28,44 +28,44 @@
 namespace func_sketch::expressions {
 
 void ExpressionEvaluator::operator()(
-    const Expression& expression, Scalar parameter, Scalar& result) {
+    const Expression& expression, Real parameter, Real& result) {
     std::visit([&parameter, &result](
                    const auto& expr) { evaluate(expr, parameter, result); },
         expression.as_variant());
 }
 
-void ExpressionEvaluator::evaluate(const ConstantExpression& expression,
-    Scalar /*parameter*/, Scalar& result) {
+void ExpressionEvaluator::evaluate(
+    const ConstantExpression& expression, Real /*parameter*/, Real& result) {
     result = expression.value;
 }
 
-void ExpressionEvaluator::evaluate(const ParameterExpression& /*expression*/,
-    Scalar parameter, Scalar& result) {
+void ExpressionEvaluator::evaluate(
+    const ParameterExpression& /*expression*/, Real parameter, Real& result) {
     result = parameter;
 }
 
 void ExpressionEvaluator::evaluate(
-    const UnaryExpression& expression, Scalar parameter, Scalar& result) {
-    Scalar target_value{std::numeric_limits<Scalar>::quiet_NaN()};
+    const UnaryExpression& expression, Real parameter, Real& result) {
+    Real target_value{std::numeric_limits<Real>::quiet_NaN()};
     operator()(*expression.target, parameter, target_value);
     expression.operator_object(target_value, result);
 }
 
 void ExpressionEvaluator::evaluate(
-    const BinaryExpression& expression, Scalar parameter, Scalar& result) {
-    Scalar left_value{std::numeric_limits<Scalar>::quiet_NaN()};
+    const BinaryExpression& expression, Real parameter, Real& result) {
+    Real left_value{std::numeric_limits<Real>::quiet_NaN()};
     operator()(*expression.left, parameter, left_value);
-    Scalar right_value{std::numeric_limits<Scalar>::quiet_NaN()};
+    Real right_value{std::numeric_limits<Real>::quiet_NaN()};
     operator()(*expression.right, parameter, right_value);
     expression.operator_object(left_value, right_value, result);
 }
 
-void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
-    Scalar parameter, Scalar& result) {
-    std::vector<Scalar> argument_values;
+void ExpressionEvaluator::evaluate(
+    const FunctionCallExpression& expression, Real parameter, Real& result) {
+    std::vector<Real> argument_values;
     argument_values.reserve(expression.arguments.size());
     for (const auto& argument : expression.arguments) {
-        Scalar argument_value{std::numeric_limits<Scalar>::quiet_NaN()};
+        Real argument_value{std::numeric_limits<Real>::quiet_NaN()};
         operator()(*argument, parameter, argument_value);
         argument_values.push_back(argument_value);
     }

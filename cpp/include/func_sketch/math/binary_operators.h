@@ -45,7 +45,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Scalar& left, const Scalar& right, Scalar& result) noexcept {
+        const Real& left, const Real& right, Real& result) noexcept {
         result = left + right;
     }
 };
@@ -70,7 +70,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Scalar& left, const Scalar& right, Scalar& result) noexcept {
+        const Real& left, const Real& right, Real& result) noexcept {
         result = left - right;
     }
 };
@@ -95,7 +95,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Scalar& left, const Scalar& right, Scalar& result) noexcept {
+        const Real& left, const Real& right, Real& result) noexcept {
         result = left * right;
     }
 };
@@ -120,7 +120,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Scalar& left, const Scalar& right, Scalar& result) noexcept {
+        const Real& left, const Real& right, Real& result) noexcept {
         result = left / right;
     }
 };

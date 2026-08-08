@@ -27,15 +27,15 @@
 #include "func_sketch/math/math_function_type.h"
 
 TEST_CASE("func_sketch::math::ExpFunction") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::math::ExpFunction;
     using func_sketch::math::MathFunctionType;
 
     SECTION("check concept") { STATIC_REQUIRE(MathFunctionType<ExpFunction>); }
 
     SECTION("operate on a scalar") {
-        const auto args = std::vector<Scalar>{1.0};
-        Scalar result = 0.0;
+        const auto args = std::vector<Real>{1.0};
+        Real result = 0.0;
 
         ExpFunction function_object;
         function_object(args, result);
@@ -45,9 +45,9 @@ TEST_CASE("func_sketch::math::ExpFunction") {
 
     SECTION("check the number of arguments") {
         ExpFunction function_object;
-        Scalar result = 0.0;
+        Real result = 0.0;
 
-        CHECK_THROWS(function_object(std::vector<Scalar>{}, result));
-        CHECK_THROWS(function_object(std::vector<Scalar>{1.0, 2.0}, result));
+        CHECK_THROWS(function_object(std::vector<Real>{}, result));
+        CHECK_THROWS(function_object(std::vector<Real>{1.0, 2.0}, result));
     }
 }

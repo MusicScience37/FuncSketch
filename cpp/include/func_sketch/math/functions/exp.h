@@ -46,7 +46,7 @@ public:
      * \param[in] args Arguments.
      * \param[out] result Result.
      */
-    static void operator()(const std::vector<Scalar>& args, Scalar& result) {
+    static void operator()(const std::vector<Real>& args, Real& result) {
         if (args.size() != 1) {
             throw InvalidExpressionException(
                 "exp function requires exactly one argument.");

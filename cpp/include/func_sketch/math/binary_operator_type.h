@@ -37,8 +37,8 @@ concept BinaryOperatorType = requires() {
         { operator_object.name() } -> std::convertible_to<std::string_view>;
     };
 
-    requires requires(const T& operator_object, const Scalar& left,
-        const Scalar& right, Scalar& result) {
+    requires requires(const T& operator_object, const Real& left,
+        const Real& right, Real& result) {
         { operator_object(left, right, result) } -> std::same_as<void>;
     };
 };

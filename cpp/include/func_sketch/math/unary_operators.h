@@ -43,7 +43,7 @@ public:
      * \param[in] arg Argument.
      * \param[out] result Result.
      */
-    static void operator()(const Scalar& arg, Scalar& result) noexcept {
+    static void operator()(const Real& arg, Real& result) noexcept {
         result = arg;
     }
 };
@@ -66,7 +66,7 @@ public:
      * \param[in] arg Argument.
      * \param[out] result Result.
      */
-    static void operator()(const Scalar& arg, Scalar& result) noexcept {
+    static void operator()(const Real& arg, Real& result) noexcept {
         result = -arg;
     }
 };

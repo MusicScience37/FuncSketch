@@ -24,5 +24,5 @@
 auto fmt::formatter<func_sketch::expressions::ConstantExpression>::format(
     const func_sketch::expressions::ConstantExpression& value,
     format_context& context) const -> format_context::iterator {
-    return fmt::formatter<func_sketch::Scalar>::format(value.value, context);
+    return fmt::formatter<func_sketch::Real>::format(value.value, context);
 }

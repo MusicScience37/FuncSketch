@@ -24,7 +24,7 @@
 #include "func_sketch/math/binary_operator_type.h"
 
 TEST_CASE("func_sketch::math::AdditionOperator") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::math::AdditionOperator;
 
     SECTION("check concept") {
@@ -32,20 +32,20 @@ TEST_CASE("func_sketch::math::AdditionOperator") {
     }
 
     SECTION("operate on a pair of scalars") {
-        constexpr Scalar left = 1.0;
-        constexpr Scalar right = 2.0;
-        Scalar result = 0.0;
+        constexpr Real left = 1.0;
+        constexpr Real right = 2.0;
+        Real result = 0.0;
 
         AdditionOperator operator_object;
         operator_object(left, right, result);
 
-        constexpr Scalar expected_result = left + right;
+        constexpr Real expected_result = left + right;
         CHECK(result == expected_result);
     }
 }
 
 TEST_CASE("func_sketch::math::SubtractionOperator") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::math::SubtractionOperator;
 
     SECTION("check concept") {
@@ -54,20 +54,20 @@ TEST_CASE("func_sketch::math::SubtractionOperator") {
     }
 
     SECTION("operate on a pair of scalars") {
-        constexpr Scalar left = 1.0;
-        constexpr Scalar right = 2.0;
-        Scalar result = 0.0;
+        constexpr Real left = 1.0;
+        constexpr Real right = 2.0;
+        Real result = 0.0;
 
         SubtractionOperator operator_object;
         operator_object(left, right, result);
 
-        constexpr Scalar expected_result = left - right;
+        constexpr Real expected_result = left - right;
         CHECK(result == expected_result);
     }
 }
 
 TEST_CASE("func_sketch::math::MultiplicationOperator") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::math::MultiplicationOperator;
 
     SECTION("check concept") {
@@ -76,20 +76,20 @@ TEST_CASE("func_sketch::math::MultiplicationOperator") {
     }
 
     SECTION("operate on a pair of scalars") {
-        constexpr Scalar left = 1.0;
-        constexpr Scalar right = 2.0;
-        Scalar result = 0.0;
+        constexpr Real left = 1.0;
+        constexpr Real right = 2.0;
+        Real result = 0.0;
 
         MultiplicationOperator operator_object;
         operator_object(left, right, result);
 
-        constexpr Scalar expected_result = left * right;
+        constexpr Real expected_result = left * right;
         CHECK(result == expected_result);
     }
 }
 
 TEST_CASE("func_sketch::math::DivisionOperator") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::math::DivisionOperator;
 
     SECTION("check concept") {
@@ -97,14 +97,14 @@ TEST_CASE("func_sketch::math::DivisionOperator") {
     }
 
     SECTION("operate on a pair of scalars") {
-        constexpr Scalar left = 1.0;
-        constexpr Scalar right = 2.0;
-        Scalar result = 0.0;
+        constexpr Real left = 1.0;
+        constexpr Real right = 2.0;
+        Real result = 0.0;
 
         DivisionOperator operator_object;
         operator_object(left, right, result);
 
-        constexpr Scalar expected_result = left / right;
+        constexpr Real expected_result = left / right;
         CHECK(result == expected_result);
     }
 }

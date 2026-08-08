@@ -24,7 +24,7 @@
 #include "func_sketch/math/binary_operators.h"
 
 TEST_CASE("func_sketch::math::BinaryOperator") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
 
@@ -33,12 +33,12 @@ TEST_CASE("func_sketch::math::BinaryOperator") {
 
         CHECK(operator_object.name() == "add");
 
-        constexpr Scalar left = 1.0;
-        constexpr Scalar right = 2.0;
-        Scalar result = 0.0;
+        constexpr Real left = 1.0;
+        constexpr Real right = 2.0;
+        Real result = 0.0;
         operator_object(left, right, result);
 
-        constexpr Scalar expected_result = left + right;
+        constexpr Real expected_result = left + right;
         CHECK(result == expected_result);
     }
 }

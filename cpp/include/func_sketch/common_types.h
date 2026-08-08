@@ -21,7 +21,7 @@
 
 namespace func_sketch {
 
-//! Type of scalars.
-using Scalar = double;
+//! Type of real numbers in this project.
+using Real = double;
 
 }  // namespace func_sketch
