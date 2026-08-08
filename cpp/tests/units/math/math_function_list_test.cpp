@@ -24,13 +24,13 @@
 #include "func_sketch/math/functions/exp.h"
 
 TEST_CASE("func_sketch::math::MathFunctionList") {
-    using func_sketch::math::ExpFunction;
+    using func_sketch::math::exp_function;
     using func_sketch::math::MathFunction;
     using func_sketch::math::MathFunctionList;
 
     SECTION("append and get a function") {
         MathFunctionList list;
-        list.emplace(MathFunction(ExpFunction{}));
+        list.emplace(exp_function());
 
         const auto function = list.get("exp");
         REQUIRE(function.has_value());

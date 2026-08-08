@@ -19,6 +19,8 @@
  */
 #include "func_sketch/math/math_function.h"
 
+#include <cmath>
+
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -28,11 +30,12 @@
 
 TEST_CASE("func_sketch::math::MathFunction") {
     using func_sketch::Number;
-    using func_sketch::math::ExpFunction;
+    using func_sketch::Real;
+    using func_sketch::math::exp_function;
     using func_sketch::math::MathFunction;
 
     SECTION("create a function object") {
-        MathFunction function_object(ExpFunction{});
+        MathFunction function_object(exp_function());
 
         CHECK(function_object.name() == "exp");
 
@@ -40,7 +43,7 @@ TEST_CASE("func_sketch::math::MathFunction") {
         Number result = 0.0;
         function_object(args, result);
 
-        CHECK_THAT(std::get<double>(result),
-            Catch::Matchers::WithinRel(std::exp(1.0)));
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(std::exp(1.0)));
     }
 }

@@ -15,9 +15,11 @@
  */
 /*!
  * \file
- * \brief Test of ExpFunction class.
+ * \brief Test of exponential functions.
  */
 #include "func_sketch/math/functions/exp.h"
+
+#include <cmath>
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
@@ -26,19 +28,17 @@
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/math_function_type.h"
 
-TEST_CASE("func_sketch::math::ExpFunction") {
+TEST_CASE("func_sketch::math::exp_function") {
     using func_sketch::Number;
     using func_sketch::Real;
-    using func_sketch::math::ExpFunction;
+    using func_sketch::math::exp_function;
     using func_sketch::math::MathFunctionType;
-
-    SECTION("check concept") { STATIC_REQUIRE(MathFunctionType<ExpFunction>); }
 
     SECTION("operate on a real number") {
         const auto args = std::vector<Number>{1.0};
         Number result = 0.0;
 
-        ExpFunction function_object;
+        const auto function_object = exp_function();
         function_object(args, result);
 
         CHECK_THAT(
@@ -49,7 +49,7 @@ TEST_CASE("func_sketch::math::ExpFunction") {
         const auto args = std::vector<Number>{2};
         Number result = 0.0;
 
-        ExpFunction function_object;
+        const auto function_object = exp_function();
         function_object(args, result);
 
         CHECK_THAT(
@@ -57,7 +57,7 @@ TEST_CASE("func_sketch::math::ExpFunction") {
     }
 
     SECTION("check the number of arguments") {
-        ExpFunction function_object;
+        const auto function_object = exp_function();
         Number result = 0.0;
 
         CHECK_THROWS(function_object(std::vector<Number>{}, result));

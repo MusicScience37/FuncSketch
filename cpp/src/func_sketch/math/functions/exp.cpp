@@ -15,18 +15,23 @@
  */
 /*!
  * \file
- * \brief Implementation of generate_math_function_list function.
+ * \brief Implementation of functions to create exponential functions.
  */
-#include "func_sketch/math/generate_math_function_list.h"
-
 #include "func_sketch/math/functions/exp.h"
+
+#include <cmath>
+
+#include "func_sketch/common_types.h"
+#include "func_sketch/math/acceptable_types.h"
+#include "func_sketch/math/general_math_function.h"
+#include "func_sketch/math/math_function.h"
 
 namespace func_sketch::math {
 
-MathFunctionList generate_math_function_list() {
-    MathFunctionList list;
-    list.emplace(exp_function());
-    return list;
+MathFunction exp_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "exp", [](Real arg) { return std::exp(arg); }));
 }
 
 }  // namespace func_sketch::math
