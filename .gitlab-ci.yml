@@ -1,5 +1,6 @@
 stages:
   - test
+  - deploy
 
 include:
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
@@ -197,3 +198,23 @@ doc:
       paths:
         - .poetry-cache
   interruptible: true
+
+pages main:
+  stage: deploy
+  needs:
+    - doc
+    - "cpp coverage: [clang22, musicscience37/clang-ci, coverage_cpp]"
+    - "python coverage: [clang22, musicscience37/clang-ci, coverage_python]"
+  dependencies:
+    - doc
+    - "cpp coverage: [clang22, musicscience37/clang-ci, coverage_cpp]"
+    - "python coverage: [clang22, musicscience37/clang-ci, coverage_python]"
+  image: alpine
+  script:
+    - mv docs/build/html public
+    - mv build_clang22_coverage_cpp/coverage/html public/coverage_cpp
+    - mv coverage_python public/coverage_python
+  artifacts:
+    paths:
+      - public
+  pages: true

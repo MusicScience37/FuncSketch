@@ -5,7 +5,6 @@ Design Notes
     :maxdepth: 1
 
     goal
-    requirements
     modules
     classes
     grammar

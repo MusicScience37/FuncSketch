@@ -4,6 +4,7 @@
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [
+    "apidoc",
     "asan",
     "AUDIODRIVER",
     "AUSAN",
@@ -24,6 +25,7 @@
     "DCMAKE",
     "docparams",
     "doctrees",
+    "Doxyfile",
     "Eigen",
     "endfunction",
     "endmacro",

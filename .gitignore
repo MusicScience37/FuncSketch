@@ -653,3 +653,6 @@ FodyWeavers.xsd
 
 # Build artifacts.
 /src/func_sketch/_cpp.*
+
+# Automatically generated API references.
+/docs/sphinx/python_api/
