@@ -13,10 +13,16 @@ author = "Kenta Kabashima"
 
 extensions = [
     "sphinx.ext.todo",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
 ]
 
 templates_path: list[str] = []
 exclude_patterns: list[str] = []
+
+autodoc_default_options = {
+    "no-value": True,
+}
 
 # -- Options for PlantUML ----------------------------------------------------
 
