@@ -63,9 +63,9 @@ namespace {
         throw InvalidArgumentException("Too small image size.");
     }
 
-    const Scalar x_ratio = (position.x - range.x_range().first) /
+    const Real x_ratio = (position.x - range.x_range().first) /
         (range.x_range().second - range.x_range().first);
-    const Scalar y_ratio = (position.y - range.y_range().first) /
+    const Real y_ratio = (position.y - range.y_range().first) /
         (range.y_range().second - range.y_range().first);
 
     const int x_in_pixel =
@@ -140,8 +140,8 @@ void Plotter::update_grid_positions() {
     x_grid_positions_.clear();
     x_grid_positions_.reserve(num_grid_lines);
     for (int i = 0; i < num_grid_lines; ++i) {
-        const Scalar x_ratio = static_cast<Scalar>(i) / (num_grid_lines - 1);
-        const Scalar x_value = range_.x_range().first +
+        const Real x_ratio = static_cast<Real>(i) / (num_grid_lines - 1);
+        const Real x_value = range_.x_range().first +
             x_ratio * (range_.x_range().second - range_.x_range().first);
         x_grid_positions_.push_back(x_value);
     }
@@ -149,8 +149,8 @@ void Plotter::update_grid_positions() {
     y_grid_positions_.clear();
     y_grid_positions_.reserve(num_grid_lines);
     for (int i = 0; i < num_grid_lines; ++i) {
-        const Scalar y_ratio = static_cast<Scalar>(i) / (num_grid_lines - 1);
-        const Scalar y_value = range_.y_range().first +
+        const Real y_ratio = static_cast<Real>(i) / (num_grid_lines - 1);
+        const Real y_value = range_.y_range().first +
             y_ratio * (range_.y_range().second - range_.y_range().first);
         y_grid_positions_.push_back(y_value);
     }
@@ -212,7 +212,7 @@ void Plotter::write_grid_lines(Image& image) const {
     const auto size = image.size;
 
     // vertical lines.
-    for (const Scalar x_value : x_grid_positions_) {
+    for (const Real x_value : x_grid_positions_) {
         const auto bottom_position =
             convert_position(Point{.x = x_value, .y = range_.y_range().first},
                 range_, config_, size);
@@ -224,7 +224,7 @@ void Plotter::write_grid_lines(Image& image) const {
             convert_color(config_.grid_color()), config_.grid_line_width());
     }
     // horizontal lines.
-    for (const Scalar y_value : y_grid_positions_) {
+    for (const Real y_value : y_grid_positions_) {
         const auto left_position =
             convert_position(Point{.x = range_.x_range().first, .y = y_value},
                 range_, config_, size);
@@ -238,15 +238,15 @@ void Plotter::write_grid_lines(Image& image) const {
 }
 
 //! Ratio of the threshold to check whether a tick label is at zero.
-constexpr Scalar axis_tick_threshold_ratio = 5e-2;
+constexpr Real axis_tick_threshold_ratio = 5e-2;
 
 void Plotter::write_x_axis(Image& image) const {
     const auto size = image.size;
 
     const auto color = convert_color(config_.axes_color());
 
-    const Scalar y_value = std::clamp(static_cast<Scalar>(0),
-        range_.y_range().first, range_.y_range().second);
+    const Real y_value = std::clamp(
+        static_cast<Real>(0), range_.y_range().first, range_.y_range().second);
 
     const auto left_position =
         convert_position(Point{.x = range_.x_range().first, .y = y_value},
@@ -257,12 +257,12 @@ void Plotter::write_x_axis(Image& image) const {
     cv::line(
         image, left_position, right_position, color, config_.axes_line_width());
 
-    const Scalar tick_threshold =
+    const Real tick_threshold =
         std::min(range_.x_range().second - range_.x_range().first,
             range_.y_range().second - range_.y_range().first) *
         axis_tick_threshold_ratio;
 
-    for (const Scalar x_value : x_grid_positions_) {
+    for (const Real x_value : x_grid_positions_) {
         if (std::abs(x_value) < tick_threshold) {
             continue;
         }
@@ -295,8 +295,8 @@ void Plotter::write_y_axis(Image& image) const {
 
     const auto color = convert_color(config_.axes_color());
 
-    const Scalar x_value = std::clamp(static_cast<Scalar>(0),
-        range_.x_range().first, range_.x_range().second);
+    const Real x_value = std::clamp(
+        static_cast<Real>(0), range_.x_range().first, range_.x_range().second);
 
     const auto bottom_position =
         convert_position(Point{.x = x_value, .y = range_.y_range().first},
@@ -307,12 +307,12 @@ void Plotter::write_y_axis(Image& image) const {
     cv::line(
         image, bottom_position, top_position, color, config_.axes_line_width());
 
-    const Scalar tick_threshold =
+    const Real tick_threshold =
         std::min(range_.x_range().second - range_.x_range().first,
             range_.y_range().second - range_.y_range().first) *
         axis_tick_threshold_ratio;
 
-    for (const Scalar y_value : y_grid_positions_) {
+    for (const Real y_value : y_grid_positions_) {
         if (std::abs(y_value) < tick_threshold) {
             continue;
         }

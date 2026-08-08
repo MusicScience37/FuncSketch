@@ -38,7 +38,7 @@ concept UnaryOperatorType = requires() {
     };
 
     requires requires(
-        const T& operator_object, const Scalar& arg, Scalar& result) {
+        const T& operator_object, const Number& arg, Number& result) {
         { operator_object(arg, result) } -> std::same_as<void>;
     };
 };

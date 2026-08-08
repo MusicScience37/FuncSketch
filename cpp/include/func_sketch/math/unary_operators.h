@@ -43,7 +43,7 @@ public:
      * \param[in] arg Argument.
      * \param[out] result Result.
      */
-    static void operator()(const Scalar& arg, Scalar& result) noexcept {
+    static void operator()(const Number& arg, Number& result) noexcept {
         result = arg;
     }
 };
@@ -66,8 +66,8 @@ public:
      * \param[in] arg Argument.
      * \param[out] result Result.
      */
-    static void operator()(const Scalar& arg, Scalar& result) noexcept {
-        result = -arg;
+    static void operator()(const Number& arg, Number& result) noexcept {
+        std::visit([&result](const auto& value) { result = -value; }, arg);
     }
 };
 

@@ -45,8 +45,12 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Scalar& left, const Scalar& right, Scalar& result) noexcept {
-        result = left + right;
+        const Number& left, const Number& right, Number& result) noexcept {
+        std::visit(
+            [&result](const auto& left_value, const auto& right_value) {
+                result = left_value + right_value;
+            },
+            left, right);
     }
 };
 
@@ -70,8 +74,12 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Scalar& left, const Scalar& right, Scalar& result) noexcept {
-        result = left - right;
+        const Number& left, const Number& right, Number& result) noexcept {
+        std::visit(
+            [&result](const auto& left_value, const auto& right_value) {
+                result = left_value - right_value;
+            },
+            left, right);
     }
 };
 
@@ -95,8 +103,12 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Scalar& left, const Scalar& right, Scalar& result) noexcept {
-        result = left * right;
+        const Number& left, const Number& right, Number& result) noexcept {
+        std::visit(
+            [&result](const auto& left_value, const auto& right_value) {
+                result = left_value * right_value;
+            },
+            left, right);
     }
 };
 
@@ -120,8 +132,12 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Scalar& left, const Scalar& right, Scalar& result) noexcept {
-        result = left / right;
+        const Number& left, const Number& right, Number& result) noexcept {
+        std::visit(
+            [&result](const auto& left_value, const auto& right_value) {
+                result = left_value / right_value;
+            },
+            left, right);
     }
 };
 

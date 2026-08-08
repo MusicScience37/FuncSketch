@@ -21,8 +21,13 @@
 
 #include <fmt/format.h>
 
+// NOLINTNEXTLINE(*-static): API of an external library.
 auto fmt::formatter<func_sketch::expressions::ConstantExpression>::format(
     const func_sketch::expressions::ConstantExpression& value,
     format_context& context) const -> format_context::iterator {
-    return fmt::formatter<func_sketch::Scalar>::format(value.value, context);
+    return std::visit(
+        [&context](const auto& actual_value) {
+            return fmt::format_to(context.out(), "{}", actual_value);
+        },
+        value.value);
 }

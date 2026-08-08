@@ -1,20 +1,37 @@
 @startuml classes_cpp
 
 package func_sketch {
-    class Scalar <<typedef>> {
-        using Scalar = double
+    class Real <<typedef>> {
+        using Real = double
     }
 
-    class Vector <<typedef>> {
-        using Vector = Eigen::VectorXd
+    class Complex <<typedef>> <<future-implementation>> {
+        using Complex = std::complex<double>
     }
 
-    class ArgumentVariant <<typedef>> {
-        using ArgumentVariant = std::variant<Scalar, Vector>
+    class Integer <<typedef>> {
+        using Integer = int32_t
     }
 
-    enum ParameterType {
-        X
+    class Number <<typedef>> {
+        using Number = std::variant<Integer, Real, Complex>
+    }
+
+    class RealVector <<typedef>> <<future-implementation>> {
+        using RealVector = Eigen::VectorXd
+    }
+
+    class ComplexVector <<typedef>> <<future-implementation>> {
+        using ComplexVector = Eigen::VectorXcd
+    }
+
+    class VectorizedNumber <<typedef>> <<future-implementation>> {
+        using VectorizedNumber = std::variant<Integer, Real, Complex, RealVector, ComplexVector>
+    }
+
+    enum ParameterType <<future-implementation>> {
+        x
+        t
     }
 
     package utilities {
@@ -26,20 +43,20 @@ package func_sketch {
 
     package math {
         class UnaryOperator {
-            + operator()(arg : Scalar, result : Scalar&)
-            + operator()(arg : ArgumentVariant, result : ArgumentVariant&)
+            + operator()(arg : Number, result : Number&)
+            + operator()(arg : VectorizedNumber, result : VectorizedNumber&)
         }
         UnaryOperator o-- Any
 
         class BinaryOperator {
-            + operator()(left : Scalar, right : Scalar, result : Scalar&)
-            + operator()(left : ArgumentVariant, right : ArgumentVariant, result : ArgumentVariant&)
+            + operator()(left : Number, right : Number, result : Number&)
+            + operator()(left : VectorizedNumber, right : VectorizedNumber, result : VectorizedNumber&)
         }
         BinaryOperator o-- Any
 
         class MathFunction {
-            + operator()(args : std::vector<Scalar>, result : Scalar&)
-            + operator()(args : std::vector<ArgumentVariant>, result : ArgumentVariant&)
+            + operator()(args : std::vector<Number>, result : Number&)
+            + operator()(args : std::vector<VectorizedNumber>, result : VectorizedNumber&)
         }
         MathFunction o-- Any
 
@@ -61,7 +78,7 @@ package func_sketch {
         }
 
         struct ConstantExpression {
-            + value : Scalar
+            + value : Number
         }
         Expression <..> ConstantExpression
 
@@ -99,8 +116,8 @@ package func_sketch {
         ExpressionMemoryPool ..> Expression
 
         class ExpressionEvaluator {
-            + operator()(expression : const Expression&, parameter : Scalar, result : Scalar&)
-            + operator()(expression : const Expression&, parameter : ArgumentVariant, result : ArgumentVariant&)
+            + operator()(expression : const Expression&, parameter : Real, result : Real&)
+            + operator()(expression : const Expression&, parameter : RealVector, result : RealVector&)
         }
 
         class ExpressionPtr
@@ -124,8 +141,8 @@ package func_sketch {
         }
 
         struct Point {
-            + x : Scalar
-            + y : Scalar
+            + x : Real
+            + y : Real
         }
 
         class Image <<typedef>> {
@@ -133,8 +150,8 @@ package func_sketch {
         }
 
         class PlotRange {
-            + x_range() : std::pair<Scalar, Scalar>
-            + y_range() : std::pair<Scalar, Scalar>
+            + x_range() : std::pair<Real, Real>
+            + y_range() : std::pair<Real, Real>
         }
 
         struct PlotConfig

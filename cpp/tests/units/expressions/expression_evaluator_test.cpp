@@ -29,7 +29,7 @@
 #include "func_sketch/math/unary_operators.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
-    using func_sketch::Scalar;
+    using func_sketch::Real;
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
@@ -49,11 +49,11 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     ExpressionEvaluator evaluator;
 
     SECTION("evaluate a constant") {
-        constexpr Scalar value = 1.23;
+        constexpr Real value = 1.23;
         auto* expression = pool.create<ConstantExpression>(value);
 
-        constexpr Scalar parameter = 4.56;
-        Scalar result = 0.0;
+        constexpr Real parameter = 4.56;
+        Real result = 0.0;
 
         evaluator(*expression, parameter, result);
 
@@ -65,8 +65,8 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     SECTION("evaluate a parameter") {
         auto* expression = pool.create<ParameterExpression>();
 
-        constexpr Scalar parameter = 4.56;
-        Scalar result = 0.0;
+        constexpr Real parameter = 4.56;
+        Real result = 0.0;
 
         evaluator(*expression, parameter, result);
 
@@ -76,13 +76,13 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     }
 
     SECTION("evaluate a unary expression") {
-        constexpr Scalar value = 1.23;
+        constexpr Real value = 1.23;
         auto* target_expression = pool.create<ConstantExpression>(value);
         auto* expression = pool.create<UnaryExpression>(
             target_expression, UnaryOperator(UnaryMinusOperator{}));
 
-        constexpr Scalar parameter = 4.56;
-        Scalar result = 0.0;
+        constexpr Real parameter = 4.56;
+        Real result = 0.0;
 
         evaluator(*expression, parameter, result);
 
@@ -92,14 +92,14 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     }
 
     SECTION("evaluate a binary expression") {
-        constexpr Scalar left_value = 1.23;
+        constexpr Real left_value = 1.23;
         auto* left_expression = pool.create<ConstantExpression>(left_value);
         auto* right_expression = pool.create<ParameterExpression>();
         auto* expression = pool.create<BinaryExpression>(left_expression,
             right_expression, BinaryOperator(AdditionOperator{}));
 
-        constexpr Scalar parameter = 4.56;
-        Scalar result = 0.0;
+        constexpr Real parameter = 4.56;
+        Real result = 0.0;
 
         evaluator(*expression, parameter, result);
 
@@ -113,8 +113,8 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         auto* expression = pool.create<FunctionCallExpression>(
             std::vector<Expression*>{argument}, MathFunction(ExpFunction{}));
 
-        constexpr Scalar parameter = 4.56;
-        Scalar result = 0.0;
+        constexpr Real parameter = 4.56;
+        Real result = 0.0;
 
         evaluator(*expression, parameter, result);
 

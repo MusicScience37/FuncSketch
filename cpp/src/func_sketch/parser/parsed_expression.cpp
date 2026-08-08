@@ -19,14 +19,31 @@
  */
 #include "func_sketch/parser/parsed_expression.h"
 
+#include <type_traits>
+
 #include <fmt/format.h>
 #include <fmt/ranges.h>
+
+#include "func_sketch/common_types.h"
 
 // NOLINTNEXTLINE(*-static): API of an external library.
 auto fmt::formatter<func_sketch::parser::ParsedConstant>::format(
     const func_sketch::parser::ParsedConstant& value,
     format_context& context) const -> format_context::iterator {
-    return fmt::format_to(context.out(), "Constant({})", value.value);
+    return std::visit(
+        [&context](const auto& actual_value) {
+            if constexpr (std::is_same_v<std::decay_t<decltype(actual_value)>,
+                              func_sketch::Real>) {
+                // For testing purposes, we want to distinguish between 1.0 and
+                // 1 in the output.
+                return fmt::format_to(
+                    context.out(), "Constant({:e})", actual_value);
+            } else {
+                return fmt::format_to(
+                    context.out(), "Constant({})", actual_value);
+            }
+        },
+        value.value);
 }
 
 // NOLINTNEXTLINE(*-static): API of an external library.

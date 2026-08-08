@@ -19,7 +19,6 @@
  */
 #include "func_sketch/expressions/expression_evaluator.h"
 
-#include <limits>
 #include <variant>
 #include <vector>
 
@@ -28,45 +27,55 @@
 namespace func_sketch::expressions {
 
 void ExpressionEvaluator::operator()(
-    const Expression& expression, Scalar parameter, Scalar& result) {
+    const Expression& expression, Real parameter, Real& result) {
+    const Number parameter_as_number = parameter;
+    Number result_as_number;
+    evaluate(expression, parameter_as_number, result_as_number);
+    std::visit(
+        [&result](const auto& value) { result = static_cast<Real>(value); },
+        result_as_number);
+}
+
+void ExpressionEvaluator::evaluate(
+    const Expression& expression, Number parameter, Number& result) {
     std::visit([&parameter, &result](
                    const auto& expr) { evaluate(expr, parameter, result); },
         expression.as_variant());
 }
 
 void ExpressionEvaluator::evaluate(const ConstantExpression& expression,
-    Scalar /*parameter*/, Scalar& result) {
+    Number /*parameter*/, Number& result) {
     result = expression.value;
 }
 
 void ExpressionEvaluator::evaluate(const ParameterExpression& /*expression*/,
-    Scalar parameter, Scalar& result) {
+    Number parameter, Number& result) {
     result = parameter;
 }
 
 void ExpressionEvaluator::evaluate(
-    const UnaryExpression& expression, Scalar parameter, Scalar& result) {
-    Scalar target_value{std::numeric_limits<Scalar>::quiet_NaN()};
-    operator()(*expression.target, parameter, target_value);
+    const UnaryExpression& expression, Number parameter, Number& result) {
+    Number target_value;
+    evaluate(*expression.target, parameter, target_value);
     expression.operator_object(target_value, result);
 }
 
 void ExpressionEvaluator::evaluate(
-    const BinaryExpression& expression, Scalar parameter, Scalar& result) {
-    Scalar left_value{std::numeric_limits<Scalar>::quiet_NaN()};
-    operator()(*expression.left, parameter, left_value);
-    Scalar right_value{std::numeric_limits<Scalar>::quiet_NaN()};
-    operator()(*expression.right, parameter, right_value);
+    const BinaryExpression& expression, Number parameter, Number& result) {
+    Number left_value;
+    evaluate(*expression.left, parameter, left_value);
+    Number right_value;
+    evaluate(*expression.right, parameter, right_value);
     expression.operator_object(left_value, right_value, result);
 }
 
 void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
-    Scalar parameter, Scalar& result) {
-    std::vector<Scalar> argument_values;
+    Number parameter, Number& result) {
+    std::vector<Number> argument_values;
     argument_values.reserve(expression.arguments.size());
     for (const auto& argument : expression.arguments) {
-        Scalar argument_value{std::numeric_limits<Scalar>::quiet_NaN()};
-        operator()(*argument, parameter, argument_value);
+        Number argument_value;
+        evaluate(*argument, parameter, argument_value);
         argument_values.push_back(argument_value);
     }
     expression.function(argument_values, result);

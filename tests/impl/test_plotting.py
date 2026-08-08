@@ -59,6 +59,11 @@ class TestPlotting:
         image = _plot_function(["x"], (-3.0, 3.0), (-3.0, 3.0))
         image_approver.verify(image)
 
+    def test_plot_minus_x_times_2(self, image_approver) -> None:
+        """Test of plotting -x * 2."""
+        image = _plot_function(["-x * 2"], (-3.0, 3.0), (-3.0, 3.0))
+        image_approver.verify(image)
+
     def test_plot_exp(self, image_approver) -> None:
         """Test of plotting exp(x)."""
         image = _plot_function(["exp(x)"], (-3.0, 3.0), (-1.0, 5.0))

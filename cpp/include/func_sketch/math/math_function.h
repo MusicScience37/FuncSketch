@@ -47,8 +47,8 @@ public:
               return obj.get<T>().name();
           }),
           scalar_operator_(
-              [](const utilities::Any& obj, const std::vector<Scalar>& args,
-                  Scalar& result) { obj.get<T>()(args, result); }) {}
+              [](const utilities::Any& obj, const std::vector<Number>& args,
+                  Number& result) { obj.get<T>()(args, result); }) {}
 
     /*!
      * \brief Get the name of the function.
@@ -63,7 +63,7 @@ public:
      * \param[in] args Arguments.
      * \param[out] result Result.
      */
-    void operator()(const std::vector<Scalar>& args, Scalar& result) const {
+    void operator()(const std::vector<Number>& args, Number& result) const {
         scalar_operator_(function_, args, result);
     }
 
@@ -75,7 +75,7 @@ private:
     //! Signature of function to operate on scalars.
     using ScalarOperatorSignature = void(
         const utilities::Any& /*function_object*/,
-        const std::vector<Scalar>& /*args*/, Scalar& /*result*/);
+        const std::vector<Number>& /*args*/, Number& /*result*/);
 
     //! Function object.
     utilities::Any function_;

@@ -33,7 +33,7 @@ namespace func_sketch::parser {
  */
 struct ParsedConstant {
     //! Value.
-    Scalar value{};
+    Number value{};
 };
 
 /*!

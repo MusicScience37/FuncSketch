@@ -41,12 +41,12 @@ std::vector<Point> FunctionSampler::operator()(
     std::vector<Point> samples;
     samples.reserve(config_.num_sample_points());
     for (std::size_t i = 0; i < config_.num_sample_points(); ++i) {
-        const Scalar x_ratio =
-            static_cast<Scalar>(i) / (config_.num_sample_points() - 1);
-        const Scalar x_value = range_.x_range().first +
+        const Real x_ratio =
+            static_cast<Real>(i) / (config_.num_sample_points() - 1);
+        const Real x_value = range_.x_range().first +
             x_ratio * (range_.x_range().second - range_.x_range().first);
 
-        Scalar y_value;
+        Real y_value;
         evaluator_(function, x_value, y_value);
 
         samples.push_back(Point{.x = x_value, .y = y_value});
