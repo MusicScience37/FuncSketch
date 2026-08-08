@@ -19,6 +19,7 @@ from func_sketch._cpp import (
     FunctionSampler,
     PlotConfig,
     PlotRange,
+    PointList,
 )
 from func_sketch._impl.curve_config import CurveConfig
 from func_sketch._impl.sampled_curve import SampledCurve
@@ -82,6 +83,8 @@ class CurveSampler:
         Returns:
             Sampled curve.
         """
+        if not curve_config.function_expression_str:
+            return SampledCurve(samples=PointList([]), color=curve_config.color)
         expression = self._parser(curve_config.function_expression_str)
         samples = self._sampler(expression)
         return SampledCurve(samples, curve_config.color)

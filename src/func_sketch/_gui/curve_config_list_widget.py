@@ -27,7 +27,6 @@ from func_sketch._gui.constants import (
     NUM_CURVES,
 )
 from func_sketch._gui.curve_config_widget import CurveConfigWidget
-from func_sketch._impl.curve_config import CurveConfig
 from func_sketch._impl.curve_sampler import CurveSampler
 from func_sketch._impl.sampled_curve import SampledCurve
 
@@ -35,32 +34,10 @@ LOGGER = logging.getLogger(__name__)
 
 
 class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
-    """Class of the widget for a list of curve configuration widgets.
-
-    Note:
-        Following properties can be used:
-        - plot_range (writable)
-        - plot_config (writable)
-        - curve_configs (read only from other widgets)
-        - sampled_curves (read only from other widgets)
-    """
+    """Class of the widget for a list of curve configuration widgets."""
 
     curve_config_list_layout = kivy.properties.ObjectProperty()
-
-    plot_range = kivy.properties.ObjectProperty(DEFAULT_PLOT_RANGE)
-    plot_config = kivy.properties.ObjectProperty(DEFAULT_PLOT_CONFIG)
-    curve_configs = kivy.properties.ListProperty(
-        [
-            CurveConfig(function_expression_str="", color=CURVE_COLORS[i])
-            for i in range(NUM_CURVES)
-        ]
-    )
-    sampled_curves = kivy.properties.ListProperty(
-        [
-            SampledCurve(samples=PointList([]), color=CURVE_COLORS[i])
-            for i in range(NUM_CURVES)
-        ]
-    )
+    shared_state = kivy.properties.ObjectProperty()
 
     def __init__(self, **kwargs) -> None:
         """Constructor."""
@@ -78,17 +55,26 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
             self._curve_config_widgets.append(curve_config_widget)
             self.curve_config_list_layout.add_widget(curve_config_widget)
             curve_config_widget.bind(
-                curve_config=lambda _instance, _value, i=i: self._on_curve_config(i)
+                curve_config=lambda _instance, _value, i=i: self._on_curve_config_at_child(
+                    i
+                )
             )
 
-    def _on_curve_config(self, index: int) -> None:
-        """Callback when a curve configuration is changed.
+    def on_shared_state(self, _instance: object, _value: object) -> None:
+        """Callback when the shared_state property is set."""
+        self.shared_state.bind(
+            plot_range=self._on_shared_plot_range,
+            plot_config=self._on_shared_plot_config,
+        )
+
+    def _on_curve_config_at_child(self, index: int) -> None:
+        """Callback when a curve configuration is changed at a child widget.
 
         Args:
             index: Index of the curve configuration that changed.
         """
         curve_config = self._curve_config_widgets[index].curve_config
-        self.curve_configs[index] = curve_config
+        self.shared_state.update_curve_config(self, index, curve_config)
         self._resample_one_curve(index)
 
     def _resample_one_curve(self, index: int) -> None:
@@ -97,7 +83,7 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
         Args:
             index: Index of the curve to resample.
         """
-        curve_config = self.curve_configs[index]
+        curve_config = self.shared_state.curve_configs[index]
         if curve_config.function_expression_str == "":
             # Ignore empty expressions.
             sampled_curve = SampledCurve(
@@ -114,19 +100,19 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
                 )
             else:
                 self._curve_config_widgets[index].error_message = ""
-        self.sampled_curves[index] = sampled_curve
+        self.shared_state.update_sampled_curve(self, index, sampled_curve)
 
     def _resample_all_curves(self) -> None:
         """Resample all curves."""
         for i in range(NUM_CURVES):
             self._resample_one_curve(i)
 
-    def on_plot_range(self, _instance: object, _value: object) -> None:
-        """Callback when the plot_range property is set."""
-        self._curve_sampler.plot_range = self.plot_range
+    def _on_shared_plot_range(self, _instance: object, _value: object) -> None:
+        """Callback when the plot_range property is set in shared_state."""
+        self._curve_sampler.plot_range = self.shared_state.plot_range
         self._resample_all_curves()
 
-    def on_plot_config(self, _instance: object, _value: object) -> None:
-        """Callback when the plot_config property is set."""
-        self._curve_sampler.config = self.plot_config
+    def _on_shared_plot_config(self, _instance: object, _value: object) -> None:
+        """Callback when the plot_config property is set in shared_state."""
+        self._curve_sampler.config = self.shared_state.plot_config
         self._resample_all_curves()
