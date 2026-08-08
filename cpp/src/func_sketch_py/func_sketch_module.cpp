@@ -115,8 +115,90 @@ Objects of this class can be called with a string to parse it into an Expression
     nanobind::class_<PlotConfig>(
         m, "PlotConfig", "Class of configurations of plots.")
         .def(nanobind::init<>(), "Constructor.")
-        // TODO Add properties.
-        ;
+        .def_prop_rw(
+            "left_margin",
+            [](const PlotConfig& self) -> int { return self.left_margin(); },
+            [](PlotConfig& self, int value) { self.left_margin(value); },
+            "Left margin of plots in pixels.")
+        .def_prop_rw(
+            "right_margin",
+            [](const PlotConfig& self) -> int { return self.right_margin(); },
+            [](PlotConfig& self, int value) { self.right_margin(value); },
+            "Right margin of plots in pixels.")
+        .def_prop_rw(
+            "top_margin",
+            [](const PlotConfig& self) -> int { return self.top_margin(); },
+            [](PlotConfig& self, int value) { self.top_margin(value); },
+            "Top margin of plots in pixels.")
+        .def_prop_rw(
+            "bottom_margin",
+            [](const PlotConfig& self) -> int { return self.bottom_margin(); },
+            [](PlotConfig& self, int value) { self.bottom_margin(value); },
+            "Bottom margin of plots in pixels.")
+        .def_prop_rw(
+            "tick_label_font_size",
+            [](const PlotConfig& self) -> int {
+                return self.tick_label_font_size();
+            },
+            [](PlotConfig& self, int value) {
+                self.tick_label_font_size(value);
+            },
+            "Font size of tick labels in pixels.")
+        .def_prop_rw(
+            "axes_line_width",
+            [](const PlotConfig& self) -> int {
+                return self.axes_line_width();
+            },
+            [](PlotConfig& self, int value) { self.axes_line_width(value); },
+            "Line width of axes in pixels.")
+        .def_prop_rw(
+            "grid_line_width",
+            [](const PlotConfig& self) -> int {
+                return self.grid_line_width();
+            },
+            [](PlotConfig& self, int value) { self.grid_line_width(value); },
+            "Line width of grid lines in pixels.")
+        .def_prop_rw(
+            "curve_line_width",
+            [](const PlotConfig& self) -> int {
+                return self.curve_line_width();
+            },
+            [](PlotConfig& self, int value) { self.curve_line_width(value); },
+            "Line width of curves in pixels.")
+        .def_prop_rw(
+            "background_color",
+            [](const PlotConfig& self) -> RGBColor {
+                return self.background_color();
+            },
+            [](PlotConfig& self, const RGBColor& value) {
+                self.background_color(value);
+            },
+            "Color of background.")
+        .def_prop_rw(
+            "axes_color",
+            [](const PlotConfig& self) -> RGBColor {
+                return self.axes_color();
+            },
+            [](PlotConfig& self, const RGBColor& value) {
+                self.axes_color(value);
+            },
+            "Color of axes.")
+        .def_prop_rw(
+            "grid_color",
+            [](const PlotConfig& self) -> RGBColor {
+                return self.grid_color();
+            },
+            [](PlotConfig& self, const RGBColor& value) {
+                self.grid_color(value);
+            },
+            "Color of grid lines.")
+        .def_prop_rw(
+            "num_sample_points",
+            [](const PlotConfig& self) -> int {
+                return self.num_sample_points();
+            },
+            [](PlotConfig& self, int value) { self.num_sample_points(value); },
+            "Number of points to sample for each function.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(

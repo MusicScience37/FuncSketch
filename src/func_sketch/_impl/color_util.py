@@ -58,3 +58,16 @@ def hex_to_rgb_color(hex: str) -> RGBColor:
         raise ValueError("Invalid hex color format")
     r, g, b = int(hex[0:2], 16), int(hex[2:4], 16), int(hex[4:6], 16)
     return RGBColor(r, g, b)
+
+
+def rgba_to_rgb_color(rgba: tuple[float, float, float, float]) -> RGBColor:
+    """Convert an RGBA tuple to an RGBColor object.
+
+    Args:
+        rgba: RGBA tuple with values in the range [0.0, 1.0].
+
+    Returns:
+        RGBColor object.
+    """
+    r, g, b, _ = rgba
+    return RGBColor(int(r * 255), int(g * 255), int(b * 255))

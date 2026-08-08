@@ -15,27 +15,11 @@
 """Constants for the GUI."""
 
 from func_sketch._cpp import PlotConfig, PlotRange
-from func_sketch._impl.color_util import hex_to_rgb_color, hex_to_rgba
-
-# Curves
-
-NUM_CURVES = 5
-"""Number of curves supported in the application."""
-
-CURVE_COLORS = [
-    # Colors in https://gitlab.com/MusicScience37Projects/utility-libraries/ms37-designs
-    hex_to_rgb_color("#CA6F28"),
-    hex_to_rgb_color("#7AA504"),
-    hex_to_rgb_color("#5640B0"),
-    hex_to_rgb_color("#DA59A5"),
-    hex_to_rgb_color("#02C1F7"),
-]
-
-# Plotting
-
-DEFAULT_PLOT_RANGE = PlotRange((-3.0, 3.0), (-3.0, 3.0))
-
-DEFAULT_PLOT_CONFIG = PlotConfig()
+from func_sketch._impl.color_util import (
+    hex_to_rgb_color,
+    hex_to_rgba,
+    rgba_to_rgb_color,
+)
 
 # Colors
 
@@ -56,6 +40,16 @@ ERROR_MESSAGE_COLOR = hex_to_rgba("#CF264A")
 
 ERROR_BACKGROUND_COLOR = hex_to_rgba("#FDE7E8")
 """Background color for error messages."""
+
+CURVE_COLORS = [
+    # Colors in https://gitlab.com/MusicScience37Projects/utility-libraries/ms37-designs
+    hex_to_rgb_color("#CA6F28"),
+    hex_to_rgb_color("#7AA504"),
+    hex_to_rgb_color("#5640B0"),
+    hex_to_rgb_color("#DA59A5"),
+    hex_to_rgb_color("#02C1F7"),
+]
+"""Colors for curves in the graph area."""
 
 # Font sizes
 
@@ -84,3 +78,28 @@ SPACING_HEADER2 = 15
 
 PADDING_NAVIGATION = 10
 """Padding for the navigation area."""
+
+# Curves
+
+NUM_CURVES = len(CURVE_COLORS)
+"""Number of curves supported in the application."""
+
+# Plotting
+
+DEFAULT_PLOT_RANGE = PlotRange((-3.0, 3.0), (-3.0, 3.0))
+"""Default range for the plot area."""
+
+
+def _default_plot_config() -> PlotConfig:
+    """Create a default PlotConfig object.
+
+    Returns:
+        PlotConfig: Default plot configuration object.
+    """
+    config = PlotConfig()
+    config.background_color = rgba_to_rgb_color(GRAPH_BACKGROUND_COLOR)
+    return config
+
+
+DEFAULT_PLOT_CONFIG = _default_plot_config()
+"""Default plot configuration object."""
