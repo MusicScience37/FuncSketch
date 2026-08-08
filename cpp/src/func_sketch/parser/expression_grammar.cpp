@@ -30,7 +30,7 @@
 #include "func_sketch/parser/parsed_expression.h"
 
 BOOST_FUSION_ADAPT_STRUCT(
-    func_sketch::parser::ParsedConstant, (func_sketch::Real, value))
+    func_sketch::parser::ParsedConstant, (func_sketch::Number, value))
 BOOST_FUSION_ADAPT_STRUCT(
     func_sketch::parser::ParsedIdentifier, (std::string, name))
 BOOST_FUSION_ADAPT_STRUCT(func_sketch::parser::ParsedFunctionCallExpression,

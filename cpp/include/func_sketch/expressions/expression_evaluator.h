@@ -44,10 +44,20 @@ private:
      * \brief Evaluate an expression.
      *
      * \param[in] expression Expression.
+     * \param[in] parameter Parameter.
      * \param[out] result Result.
      */
     static void evaluate(
-        const ConstantExpression& expression, Real /*parameter*/, Real& result);
+        const Expression& expression, Number parameter, Number& result);
+
+    /*!
+     * \brief Evaluate an expression.
+     *
+     * \param[in] expression Expression.
+     * \param[out] result Result.
+     */
+    static void evaluate(const ConstantExpression& expression,
+        Number /*parameter*/, Number& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -56,7 +66,7 @@ private:
      * \param[out] result Result.
      */
     static void evaluate(const ParameterExpression& /*expression*/,
-        Real parameter, Real& result);
+        Number parameter, Number& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -66,7 +76,7 @@ private:
      * \param[out] result Result.
      */
     static void evaluate(
-        const UnaryExpression& expression, Real parameter, Real& result);
+        const UnaryExpression& expression, Number parameter, Number& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -76,7 +86,7 @@ private:
      * \param[out] result Result.
      */
     static void evaluate(
-        const BinaryExpression& expression, Real parameter, Real& result);
+        const BinaryExpression& expression, Number parameter, Number& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -85,8 +95,8 @@ private:
      * \param[in] parameter Parameter.
      * \param[out] result Result.
      */
-    static void evaluate(
-        const FunctionCallExpression& expression, Real parameter, Real& result);
+    static void evaluate(const FunctionCallExpression& expression,
+        Number parameter, Number& result);
 };
 
 }  // namespace func_sketch::expressions

@@ -26,7 +26,11 @@
 auto fmt::formatter<func_sketch::parser::ParsedConstant>::format(
     const func_sketch::parser::ParsedConstant& value,
     format_context& context) const -> format_context::iterator {
-    return fmt::format_to(context.out(), "Constant({})", value.value);
+    return std::visit(
+        [&context](const auto& actual_value) {
+            return fmt::format_to(context.out(), "Constant({})", actual_value);
+        },
+        value.value);
 }
 
 // NOLINTNEXTLINE(*-static): API of an external library.

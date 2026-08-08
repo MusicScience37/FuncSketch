@@ -24,7 +24,7 @@
 #include "func_sketch/math/unary_operator_type.h"
 
 TEST_CASE("func_sketch::math::UnaryPlusOperator") {
-    using func_sketch::Real;
+    using func_sketch::Number;
     using func_sketch::math::UnaryPlusOperator;
 
     SECTION("check concept") {
@@ -32,19 +32,19 @@ TEST_CASE("func_sketch::math::UnaryPlusOperator") {
     }
 
     SECTION("operate on a scalar") {
-        constexpr Real arg = 1.0;
-        Real result = 0.0;
+        constexpr Number arg = 1.0;
+        Number result = 0.0;
 
         UnaryPlusOperator operator_object;
         operator_object(arg, result);
 
-        constexpr Real expected_result = arg;
+        constexpr Number expected_result = arg;
         CHECK(result == expected_result);
     }
 }
 
 TEST_CASE("func_sketch::math::UnaryMinusOperator") {
-    using func_sketch::Real;
+    using func_sketch::Number;
     using func_sketch::math::UnaryMinusOperator;
 
     SECTION("check concept") {
@@ -53,13 +53,13 @@ TEST_CASE("func_sketch::math::UnaryMinusOperator") {
     }
 
     SECTION("operate on a scalar") {
-        constexpr Real arg = 1.0;
-        Real result = 0.0;
+        constexpr Number arg = 1.0;
+        Number result = 0.0;
 
         UnaryMinusOperator operator_object;
         operator_object(arg, result);
 
-        constexpr Real expected_result = -arg;
+        constexpr Number expected_result = -std::get<double>(arg);
         CHECK(result == expected_result);
     }
 }

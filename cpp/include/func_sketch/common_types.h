@@ -19,9 +19,23 @@
  */
 #pragma once
 
+#include <cstdint>
+#include <variant>
+
 namespace func_sketch {
 
 //! Type of real numbers in this project.
 using Real = double;
+
+//! Type of integer numbers in this project.
+using Integer = std::int32_t;
+
+/*!
+ * \brief Type of numbers.
+ *
+ * \note Integer is written before Real to avoid implicit conversion from
+ * Integer to Real.
+ */
+using Number = std::variant<Integer, Real>;
 
 }  // namespace func_sketch

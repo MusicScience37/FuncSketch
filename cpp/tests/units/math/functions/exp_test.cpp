@@ -27,27 +27,40 @@
 #include "func_sketch/math/math_function_type.h"
 
 TEST_CASE("func_sketch::math::ExpFunction") {
+    using func_sketch::Number;
     using func_sketch::Real;
     using func_sketch::math::ExpFunction;
     using func_sketch::math::MathFunctionType;
 
     SECTION("check concept") { STATIC_REQUIRE(MathFunctionType<ExpFunction>); }
 
-    SECTION("operate on a scalar") {
-        const auto args = std::vector<Real>{1.0};
-        Real result = 0.0;
+    SECTION("operate on a real number") {
+        const auto args = std::vector<Number>{1.0};
+        Number result = 0.0;
 
         ExpFunction function_object;
         function_object(args, result);
 
-        CHECK_THAT(result, Catch::Matchers::WithinRel(std::exp(1.0)));
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(std::exp(1.0)));
+    }
+
+    SECTION("operate on an integer") {
+        const auto args = std::vector<Number>{2};
+        Number result = 0.0;
+
+        ExpFunction function_object;
+        function_object(args, result);
+
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(std::exp(2.0)));
     }
 
     SECTION("check the number of arguments") {
         ExpFunction function_object;
-        Real result = 0.0;
+        Number result = 0.0;
 
-        CHECK_THROWS(function_object(std::vector<Real>{}, result));
-        CHECK_THROWS(function_object(std::vector<Real>{1.0, 2.0}, result));
+        CHECK_THROWS(function_object(std::vector<Number>{}, result));
+        CHECK_THROWS(function_object(std::vector<Number>{1.0, 2.0}, result));
     }
 }

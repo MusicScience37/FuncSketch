@@ -38,8 +38,8 @@ concept MathFunctionType = requires() {
         { function_object.name() } -> std::convertible_to<std::string_view>;
     };
 
-    requires requires(
-        const T& function_object, const std::vector<Real>& args, Real& result) {
+    requires requires(const T& function_object, const std::vector<Number>& args,
+        Number& result) {
         { function_object(args, result) } -> std::same_as<void>;
     };
 };

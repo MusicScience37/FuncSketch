@@ -46,12 +46,14 @@ public:
      * \param[in] args Arguments.
      * \param[out] result Result.
      */
-    static void operator()(const std::vector<Real>& args, Real& result) {
+    static void operator()(const std::vector<Number>& args, Number& result) {
         if (args.size() != 1) {
             throw InvalidExpressionException(
                 "exp function requires exactly one argument.");
         }
-        result = std::exp(args[0]);
+        result = std::visit(
+            [](const auto& arg) { return std::exp(static_cast<Real>(arg)); },
+            args[0]);
     }
 };
 

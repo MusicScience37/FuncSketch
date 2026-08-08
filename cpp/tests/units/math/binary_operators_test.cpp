@@ -21,9 +21,12 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "func_sketch/common_types.h"
 #include "func_sketch/math/binary_operator_type.h"
 
 TEST_CASE("func_sketch::math::AdditionOperator") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
     using func_sketch::Real;
     using func_sketch::math::AdditionOperator;
 
@@ -31,20 +34,49 @@ TEST_CASE("func_sketch::math::AdditionOperator") {
         STATIC_REQUIRE(func_sketch::math::BinaryOperatorType<AdditionOperator>);
     }
 
-    SECTION("operate on a pair of scalars") {
-        constexpr Real left = 1.0;
-        constexpr Real right = 2.0;
-        Real result = 0.0;
+    SECTION("operate on a pair of real numbers") {
+        constexpr Number left = 1.0;
+        constexpr Number right = 2.0;
+        Number result = 0.0;
 
         AdditionOperator operator_object;
         operator_object(left, right, result);
 
-        constexpr Real expected_result = left + right;
+        constexpr Number expected_result =
+            std::get<Real>(left) + std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of integers") {
+        constexpr Number left = 1;
+        constexpr Number right = 2;
+        Number result = 0;
+
+        AdditionOperator operator_object;
+        operator_object(left, right, result);
+
+        constexpr Number expected_result =
+            std::get<Integer>(left) + std::get<Integer>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of an integer and a real number") {
+        constexpr Number left = 1;
+        constexpr Number right = 2.0;
+        Number result = 0.0;
+
+        AdditionOperator operator_object;
+        operator_object(left, right, result);
+
+        constexpr Number expected_result =
+            static_cast<Real>(std::get<Integer>(left)) + std::get<Real>(right);
         CHECK(result == expected_result);
     }
 }
 
 TEST_CASE("func_sketch::math::SubtractionOperator") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
     using func_sketch::Real;
     using func_sketch::math::SubtractionOperator;
 
@@ -54,19 +86,48 @@ TEST_CASE("func_sketch::math::SubtractionOperator") {
     }
 
     SECTION("operate on a pair of scalars") {
-        constexpr Real left = 1.0;
-        constexpr Real right = 2.0;
-        Real result = 0.0;
+        constexpr Number left = 1.0;
+        constexpr Number right = 2.0;
+        Number result = 0.0;
 
         SubtractionOperator operator_object;
         operator_object(left, right, result);
 
-        constexpr Real expected_result = left - right;
+        constexpr Number expected_result =
+            std::get<Real>(left) - std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of integers") {
+        constexpr Number left = 1;
+        constexpr Number right = 2;
+        Number result = 0;
+
+        SubtractionOperator operator_object;
+        operator_object(left, right, result);
+
+        constexpr Number expected_result =
+            std::get<Integer>(left) - std::get<Integer>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of an integer and a real number") {
+        constexpr Number left = 1;
+        constexpr Number right = 2.0;
+        Number result = 0.0;
+
+        SubtractionOperator operator_object;
+        operator_object(left, right, result);
+
+        constexpr Number expected_result =
+            static_cast<Real>(std::get<Integer>(left)) - std::get<Real>(right);
         CHECK(result == expected_result);
     }
 }
 
 TEST_CASE("func_sketch::math::MultiplicationOperator") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
     using func_sketch::Real;
     using func_sketch::math::MultiplicationOperator;
 
@@ -76,19 +137,48 @@ TEST_CASE("func_sketch::math::MultiplicationOperator") {
     }
 
     SECTION("operate on a pair of scalars") {
-        constexpr Real left = 1.0;
-        constexpr Real right = 2.0;
-        Real result = 0.0;
+        constexpr Number left = 1.0;
+        constexpr Number right = 2.0;
+        Number result = 0.0;
 
         MultiplicationOperator operator_object;
         operator_object(left, right, result);
 
-        constexpr Real expected_result = left * right;
+        constexpr Number expected_result =
+            std::get<Real>(left) * std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of integers") {
+        constexpr Number left = 1;
+        constexpr Number right = 2;
+        Number result = 0;
+
+        MultiplicationOperator operator_object;
+        operator_object(left, right, result);
+
+        constexpr Number expected_result =
+            std::get<Integer>(left) * std::get<Integer>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of an integer and a real number") {
+        constexpr Number left = 1;
+        constexpr Number right = 2.0;
+        Number result = 0.0;
+
+        MultiplicationOperator operator_object;
+        operator_object(left, right, result);
+
+        constexpr Number expected_result =
+            static_cast<Real>(std::get<Integer>(left)) * std::get<Real>(right);
         CHECK(result == expected_result);
     }
 }
 
 TEST_CASE("func_sketch::math::DivisionOperator") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
     using func_sketch::Real;
     using func_sketch::math::DivisionOperator;
 
@@ -97,14 +187,41 @@ TEST_CASE("func_sketch::math::DivisionOperator") {
     }
 
     SECTION("operate on a pair of scalars") {
-        constexpr Real left = 1.0;
-        constexpr Real right = 2.0;
-        Real result = 0.0;
+        constexpr Number left = 1.0;
+        constexpr Number right = 2.0;
+        Number result = 0.0;
 
         DivisionOperator operator_object;
         operator_object(left, right, result);
 
-        constexpr Real expected_result = left / right;
+        constexpr Number expected_result =
+            std::get<Real>(left) / std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of integers") {
+        constexpr Number left = 1;
+        constexpr Number right = 2;
+        Number result = 0;
+
+        DivisionOperator operator_object;
+        operator_object(left, right, result);
+
+        constexpr Number expected_result =
+            std::get<Integer>(left) / std::get<Integer>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of an integer and a real number") {
+        constexpr Number left = 1;
+        constexpr Number right = 2.0;
+        Number result = 0.0;
+
+        DivisionOperator operator_object;
+        operator_object(left, right, result);
+
+        constexpr Number expected_result =
+            static_cast<Real>(std::get<Integer>(left)) / std::get<Real>(right);
         CHECK(result == expected_result);
     }
 }

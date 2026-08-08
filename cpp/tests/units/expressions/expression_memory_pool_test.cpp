@@ -21,6 +21,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "func_sketch/common_types.h"
 #include "func_sketch/expressions/binary_expression.h"
 #include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression.h"
@@ -31,6 +32,7 @@
 #include "func_sketch/math/unary_operators.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
+    using func_sketch::Number;
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
@@ -50,7 +52,7 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
         constexpr double value = 1.23;
         Expression* expression = pool.create<ConstantExpression>(value);
 
-        CHECK(expression->as<ConstantExpression>().value == value);
+        CHECK(expression->as<ConstantExpression>().value == Number(value));
 
         pool.destroy(expression);
     }
@@ -65,7 +67,7 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
 
         CHECK(unary_expression->as<UnaryExpression>()
                   .target->as<ConstantExpression>()
-                  .value == value);
+                  .value == Number(value));
         CHECK(unary_expression->as<UnaryExpression>().operator_object.name() ==
             UnaryMinusOperator{}.name());
 
@@ -85,10 +87,10 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
 
         CHECK(binary_expression->as<BinaryExpression>()
                   .left->as<ConstantExpression>()
-                  .value == left_value);
+                  .value == Number(left_value));
         CHECK(binary_expression->as<BinaryExpression>()
                   .right->as<ConstantExpression>()
-                  .value == right_value);
+                  .value == Number(right_value));
         CHECK(
             binary_expression->as<BinaryExpression>().operator_object.name() ==
             AdditionOperator{}.name());
@@ -110,7 +112,7 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
         CHECK(function_call_expression->as<FunctionCallExpression>()
                   .arguments[0]
                   ->as<ConstantExpression>()
-                  .value == value);
+                  .value == Number(value));
 
         pool.destroy(function_call_expression);  // This should also destroy the
                                                  // argument expression.

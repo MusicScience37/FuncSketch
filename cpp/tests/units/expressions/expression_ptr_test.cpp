@@ -21,11 +21,13 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "func_sketch/common_types.h"
 #include "func_sketch/expressions/constant_expression.h"
 #include "func_sketch/expressions/expression.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionPtr") {
+    using func_sketch::Number;
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
@@ -39,7 +41,7 @@ TEST_CASE("func_sketch::expressions::ExpressionPtr") {
         ExpressionPtr expression_ptr(expression, std::move(memory_pool));
 
         CHECK(expression_ptr.get() == expression);
-        CHECK(expression_ptr->as<ConstantExpression>().value == value);
+        CHECK(expression_ptr->as<ConstantExpression>().value == Number(value));
     }
 
     SECTION("move construct") {
@@ -51,7 +53,7 @@ TEST_CASE("func_sketch::expressions::ExpressionPtr") {
         ExpressionPtr moved(std::move(origin));
 
         CHECK(moved.get() == expression);
-        CHECK(moved->as<ConstantExpression>().value == value);
+        CHECK(moved->as<ConstantExpression>().value == Number(value));
     }
 
     SECTION("move assign") {
@@ -64,7 +66,7 @@ TEST_CASE("func_sketch::expressions::ExpressionPtr") {
         moved = std::move(origin);
 
         CHECK(moved.get() == expression);
-        CHECK(moved->as<ConstantExpression>().value == value);
+        CHECK(moved->as<ConstantExpression>().value == Number(value));
     }
 
     SECTION("reset") {
