@@ -117,7 +117,11 @@ def check_tests_for_condition(
 
     # Test
     if test_type in ["debug", "release", "ausan", "coverage"]:
-        execute_command(["ctest", "-V"], cwd=build_dir)
+        execute_command(
+            ["ctest", "-V"],
+            cwd=build_dir,
+            env=env,
+        )
         if test_type in ["debug", "release", "coverage"]:
             execute_command(
                 ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"],
