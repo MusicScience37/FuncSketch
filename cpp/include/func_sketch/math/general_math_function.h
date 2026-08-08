@@ -33,6 +33,7 @@
 #include "func_sketch/common_types.h"
 #include "func_sketch/exceptions.h"
 #include "func_sketch/math/acceptable_types.h"
+#include "func_sketch/math/number_type_name.h"
 
 namespace func_sketch::math {
 
@@ -73,14 +74,13 @@ public:
      * \param[out] result Result.
      */
     void operator()(const std::vector<Number>& args, Number& result) const {
-        if (args.size() != sizeof...(AcceptableTypesPerArgument)) {
-            throw InvalidExpressionException(
-                fmt::format("Number of arguments given to {} function was "
-                            "invalid. Expected: {}, Actual: {}.",
-                    name_, sizeof...(AcceptableTypesPerArgument), args.size()));
+        constexpr std::size_t num_args = sizeof...(AcceptableTypesPerArgument);
+        if (args.size() != num_args) {
+            throw InvalidExpressionException(fmt::format(
+                "{} function requires exactly {} arguments. Actual: {}.", name_,
+                num_args, args.size()));
         }
-        operate_impl(args, result,
-            std::make_index_sequence<sizeof...(AcceptableTypesPerArgument)>{});
+        operate_impl(args, result, std::make_index_sequence<num_args>{});
     }
 
 private:
@@ -112,11 +112,13 @@ private:
                         get_first_false(
                             is_acceptable<std::decay_t<decltype(actual_args)>,
                                 Indices>()...);
-                    // TODO Get the type name of the given argument.
-                    throw InvalidExpressionException(
-                        fmt::format("{}-th argument given to {} function was "
-                                    "unacceptable type.",
-                            first_unacceptable_index + 1, name_));
+                    using FirstUnacceptableType = std::decay_t<
+                        decltype(std::get<first_unacceptable_index>(
+                            std::forward_as_tuple(actual_args...)))>;
+                    throw InvalidExpressionException(fmt::format(
+                        "{} function can not accept {} for the {}-th argument.",
+                        name_, number_type_name<FirstUnacceptableType>,
+                        first_unacceptable_index + 1));
                 }
             },
             args[Indices]...);

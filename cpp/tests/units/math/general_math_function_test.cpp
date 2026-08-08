@@ -117,12 +117,16 @@ TEST_CASE("func_sketch::math::GeneralMathFunction") {
         constexpr Real arg4 = 9;
         Number result;
 
-        CHECK_THROWS(function(std::vector<Number>{}, result));
-        CHECK_THROWS(function(std::vector<Number>{arg1}, result));
-        CHECK_THROWS(function(std::vector<Number>{arg1, arg2}, result));
+        CHECK_THROWS_WITH(function(std::vector<Number>{}, result),
+            "test_function function requires exactly 3 arguments. Actual: 0.");
+        CHECK_THROWS_WITH(function(std::vector<Number>{arg1}, result),
+            "test_function function requires exactly 3 arguments. Actual: 1.");
+        CHECK_THROWS_WITH(function(std::vector<Number>{arg1, arg2}, result),
+            "test_function function requires exactly 3 arguments. Actual: 2.");
         CHECK_NOTHROW(function(std::vector<Number>{arg1, arg2, arg3}, result));
-        CHECK_THROWS(
-            function(std::vector<Number>{arg1, arg2, arg3, arg4}, result));
+        CHECK_THROWS_WITH(
+            function(std::vector<Number>{arg1, arg2, arg3, arg4}, result),
+            "test_function function requires exactly 3 arguments. Actual: 4.");
     }
 
     SECTION("call a function with an incompatible argument type") {
@@ -140,6 +144,9 @@ TEST_CASE("func_sketch::math::GeneralMathFunction") {
         constexpr Integer arg3 = 7;
         Number result;
 
-        CHECK_THROWS(function(std::vector<Number>{arg1, arg2, arg3}, result));
+        CHECK_THROWS_WITH(
+            function(std::vector<Number>{arg1, arg2, arg3}, result),
+            "test_function function can not accept real number for the 1-th "
+            "argument.");
     }
 }
