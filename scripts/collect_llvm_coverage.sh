@@ -8,6 +8,8 @@ ROOT_DIR=$(dirname $0)/..
 
 DIR=$1
 
+ls -lh $DIR/coverage/
+
 # make a file for codecov
 llvm-profdata merge -o $DIR/coverage/coverage.profdata $DIR/coverage/coverage_*.profraw
 for a in $(find $DIR/bin/func_sketch_test_units $ROOT_DIR/src/func_sketch/_cpp.*.so); do
