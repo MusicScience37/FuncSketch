@@ -113,6 +113,56 @@ test linux:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
 
+cpp coverage:
+  extends: .test linux base
+  parallel:
+    matrix:
+      - COMPILER_TYPE: ["clang22"]
+        IMAGE_PATH: "musicscience37/clang-ci"
+        TEST_TYPE: ["coverage_cpp"]
+  script:
+    - poetry run python ./scripts/ci_linux_test.py
+      --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
+    - ./scripts/collect_llvm_coverage.sh $BUILD_DIR
+    - poetry run lcov_cobertura $BUILD_DIR/coverage/coverage --output $BUILD_DIR/coverage/coverage.xml
+  coverage: '/[^\s]+%\s+\d+\s+\d+\s+\s[^\s]+%/'
+  artifacts:
+    paths:
+      - $BUILD_DIR/junit
+      - $BUILD_DIR/temp_test
+      - $BUILD_DIR/coverage
+    reports:
+      junit:
+        - $BUILD_DIR/junit/*.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: $BUILD_DIR/coverage/coverage.xml
+    when: always
+
+python coverage:
+  extends: .test linux base
+  parallel:
+    matrix:
+      - COMPILER_TYPE: ["clang22"]
+        IMAGE_PATH: "musicscience37/clang-ci"
+        TEST_TYPE: ["coverage_python"]
+  script:
+    - poetry run python ./scripts/ci_linux_test.py
+      --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
+  coverage: '/TOTAL.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    paths:
+      - $BUILD_DIR/junit
+      - $BUILD_DIR/temp_test
+      - coverage_python.xml
+      - coverage_python
+    reports:
+      junit:
+        - $BUILD_DIR/junit/*.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage_python.xml
+
 pre-commit:
   extends: .test linux base
   parallel:
