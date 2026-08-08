@@ -12,4 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""FuncSketch - a graphing calculator."""
+"""Main function of FuncSketch package."""
+
+from func_sketch._gui.func_sketch_app import FuncSketchApp
+
+
+def main() -> None:
+    """Main function."""
+    FuncSketchApp().run()

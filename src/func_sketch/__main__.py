@@ -12,4 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""FuncSketch - a graphing calculator."""
+"""Main function of FuncSketch package."""
+
+from func_sketch._main import main
+
+if __name__ == "__main__":
+    main()
