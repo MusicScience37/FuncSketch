@@ -23,8 +23,8 @@ from func_sketch._impl.color_util import (
 
 # Colors
 
-GRAPH_BACKGROUND_COLOR = hex_to_rgba("#FFFFFF")
-"""Background color for the graph area."""
+PLOT_BACKGROUND_COLOR = hex_to_rgba("#FFFFFF")
+"""Background color for the plot area."""
 
 NAVIGATION_BACKGROUND_COLOR = hex_to_rgba("#FDF4EF")
 """Background color for the navigation area."""
@@ -49,7 +49,7 @@ CURVE_COLORS = [
     hex_to_rgb_color("#DA59A5"),
     hex_to_rgb_color("#02C1F7"),
 ]
-"""Colors for curves in the graph area."""
+"""Colors for curves in the plot area."""
 
 # Font sizes
 
@@ -97,7 +97,7 @@ def _default_plot_config() -> PlotConfig:
         PlotConfig: Default plot configuration object.
     """
     config = PlotConfig()
-    config.background_color = rgba_to_rgb_color(GRAPH_BACKGROUND_COLOR)
+    config.background_color = rgba_to_rgb_color(PLOT_BACKGROUND_COLOR)
     return config
 
 
