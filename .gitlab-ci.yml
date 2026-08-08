@@ -149,6 +149,7 @@ python coverage:
   script:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
+  coverage: '/TOTAL.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
     paths:
       - $BUILD_DIR/junit
