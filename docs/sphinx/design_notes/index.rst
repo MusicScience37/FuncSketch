@@ -8,3 +8,4 @@ Design Notes
     modules
     classes
     grammar
+    math_functions
