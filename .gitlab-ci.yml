@@ -207,6 +207,8 @@ pages main:
     - "python coverage: [clang22, musicscience37/clang-ci, coverage_python]"
   dependencies:
     - doc
+    - "cpp coverage: [clang22, musicscience37/clang-ci, coverage_cpp]"
+    - "python coverage: [clang22, musicscience37/clang-ci, coverage_python]"
   image: alpine
   script:
     - mv docs/build/html public
