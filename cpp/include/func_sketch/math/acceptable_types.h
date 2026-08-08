@@ -21,6 +21,8 @@
 
 #include <type_traits>
 
+#include "func_sketch/math/common_type.h"
+
 namespace func_sketch::math {
 
 /*!
@@ -54,7 +56,7 @@ struct SelectTypeToUseImpl<ReceivedType, FirstAcceptableType,
     RemainingAcceptableTypes...> {
     //! Selected type. NoAcceptableType if there is no acceptable type.
     using Type = std::conditional_t<
-        std::is_same_v<std::common_type_t<ReceivedType, FirstAcceptableType>,
+        std::is_same_v<CommonType<ReceivedType, FirstAcceptableType>,
             FirstAcceptableType>,
         FirstAcceptableType,
         typename SelectTypeToUseImpl<ReceivedType,
@@ -87,6 +89,11 @@ struct AcceptableTypes {
      *
      * \tparam ReceivedType Type of the received argument.
      *
+     * \note This type alias becomes the first type in the list of acceptable
+     * types that can be used to convert a number of the received type without
+     * loss of information. Actual check is done by
+     * `std::is_same_v<CommonType<ReceivedType, AcceptableType>,
+     * AcceptableType>`.
      * \note This type alias becomes \ref func_sketch::math::NoAcceptableType if
      * there is no acceptable type.
      * \note A number is given to a function after converting to the type

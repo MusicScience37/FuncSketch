@@ -22,6 +22,8 @@
 #include <concepts>
 #include <string>
 #include <string_view>
+#include <tuple>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -114,7 +116,7 @@ private:
                     throw InvalidExpressionException(
                         fmt::format("{}-th argument given to {} function was "
                                     "unacceptable type.",
-                            first_unacceptable_index, name_));
+                            first_unacceptable_index + 1, name_));
                 }
             },
             args[Indices]...);
@@ -150,7 +152,8 @@ private:
      * \return Converted value.
      */
     template <typename GivenType, std::size_t Index>
-    auto convert_to_acceptable_type(const GivenType& value) const {
+    [[nodiscard]] static auto convert_to_acceptable_type(
+        const GivenType& value) {
         using AcceptableTypes =
             std::tuple_element_t<Index, AcceptableTypesTuples>;
         return static_cast<
@@ -164,7 +167,7 @@ private:
      * \tparam T Types of the remaining boolean values.
      * \param[in] first The first boolean value.
      * \param[in] remaining The remaining boolean values.
-     * \return Index of the first false value. Retruns the size of the list if
+     * \return Index of the first false value. Returns the size of the list if
      * all values are true.
      */
     template <std::same_as<bool>... T>
