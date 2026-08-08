@@ -113,13 +113,13 @@ test linux:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
 
-coverage:
+cpp coverage:
   extends: .test linux base
   parallel:
     matrix:
       - COMPILER_TYPE: ["clang22"]
         IMAGE_PATH: "musicscience37/clang-ci"
-        TEST_TYPE: ["coverage"]
+        TEST_TYPE: ["coverage_cpp"]
   script:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR

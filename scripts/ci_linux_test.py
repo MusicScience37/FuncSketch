@@ -15,7 +15,7 @@ BUILD_TYPE_DICT = {
     "debug": "Debug",
     "release": "Release",
     "ausan": "Debug",
-    "coverage": "Debug",
+    "coverage_cpp": "Debug",
     "pre-commit": "Release",
 }
 
@@ -38,7 +38,7 @@ TEST_TYPE_VARIABLES = {
         "FUNC_SKETCH_ENABLE_AUSAN": "ON",
         "FUNC_SKETCH_WRITE_JUNIT": "ON",
     },
-    "coverage": {
+    "coverage_cpp": {
         "FUNC_SKETCH_BUILD_TESTS": "ON",
         "FUNC_SKETCH_ENABLE_CCACHE": "ON",
         "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
@@ -110,19 +110,19 @@ def check_tests_for_condition(
 
     # Prepare
     env = os.environ.copy()
-    if test_type == "coverage":
+    if test_type == "coverage_cpp":
         coverage_dir = pathlib.Path(build_dir).absolute() / "coverage"
         coverage_dir.mkdir(parents=True, exist_ok=True)
         env["LLVM_PROFILE_FILE"] = str(coverage_dir / "coverage_%p.profraw")
 
     # Test
-    if test_type in ["debug", "release", "ausan", "coverage"]:
+    if test_type in ["debug", "release", "ausan", "coverage_cpp"]:
         execute_command(
             ["ctest", "-V"],
             cwd=build_dir,
             env=env,
         )
-        if test_type in ["debug", "release", "coverage"]:
+        if test_type in ["debug", "release", "coverage_cpp"]:
             execute_command(
                 ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"],
                 cwd=str(ROOT_DIR),
