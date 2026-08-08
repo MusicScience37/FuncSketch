@@ -4,6 +4,18 @@ Parsed: 1.23
 Input: -2.34
 Parsed: negate(2.34)
 
+Input: 1.0
+Parsed: 1
+
+Input: 1
+Parsed: 1
+
+Input: 123.0
+Parsed: 123
+
+Input: 123
+Parsed: 123
+
 Input: x
 Parsed: x
 

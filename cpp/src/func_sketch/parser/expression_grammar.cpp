@@ -54,8 +54,11 @@ ExpressionGrammar::ExpressionGrammar()
     using boost::spirit::qi::digit;
     using boost::spirit::qi::double_;
     using boost::spirit::qi::fail;
+    using boost::spirit::qi::int_;
     using boost::spirit::qi::lexeme;
     using boost::spirit::qi::on_error;
+    using boost::spirit::qi::real_parser;
+    using boost::spirit::qi::strict_real_policies;
     using boost::spirit::qi::labels::_1;
     using boost::spirit::qi::labels::_2;
     using boost::spirit::qi::labels::_3;
@@ -72,7 +75,9 @@ ExpressionGrammar::ExpressionGrammar()
     // Only function call expression rule has (>>) to allow parsing both
     // "exp(1.23)" (function call expression) and "x" (identifier only).
 
-    constant_rule_ = double_;
+    const real_parser<double, strict_real_policies<double>> strict_double;
+    constant_rule_ =
+        strict_double[at_c<0>(_val) = _1] | int_[at_c<0>(_val) = _1];
 
     identifier_rule_ = lexeme[(alpha | char_('_'))[at_c<0>(_val) += _1] >
         *(alpha | char_('_') | digit)[at_c<0>(_val) += _1]];

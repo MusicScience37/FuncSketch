@@ -27,6 +27,10 @@ std::vector<std::string> parser_test_strings() {
         // Constants.
         "1.23",
         "-2.34",
+        "1.0",
+        "1",
+        "123.0",
+        "123",
         // Parameters.
         "x",
         // Unary minus.
