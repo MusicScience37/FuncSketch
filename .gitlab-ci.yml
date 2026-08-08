@@ -153,11 +153,11 @@ python coverage:
     paths:
       - $BUILD_DIR/junit
       - $BUILD_DIR/temp_test
+      - coverage_python.xml
+      - coverage_python
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml
-        - coverage_python.xml
-        - coverage_python
       coverage_report:
         coverage_format: cobertura
         path: coverage_python.xml
