@@ -84,22 +84,16 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
             index: Index of the curve to resample.
         """
         curve_config = self.shared_state.curve_configs[index]
-        if curve_config.function_expression_str == "":
-            # Ignore empty expressions.
+        try:
+            # Empty expression is handled in CurveSampler.
+            sampled_curve = self._curve_sampler(curve_config)
+        except RuntimeError as e:
+            self._curve_config_widgets[index].error_message = str(e)
             sampled_curve = SampledCurve(
                 samples=PointList([]), color=curve_config.color
             )
-            self._curve_config_widgets[index].error_message = ""
         else:
-            try:
-                sampled_curve = self._curve_sampler(curve_config)
-            except RuntimeError as e:
-                self._curve_config_widgets[index].error_message = str(e)
-                sampled_curve = SampledCurve(
-                    samples=PointList([]), color=curve_config.color
-                )
-            else:
-                self._curve_config_widgets[index].error_message = ""
+            self._curve_config_widgets[index].error_message = ""
         self.shared_state.update_sampled_curve(self, index, sampled_curve)
 
     def _resample_all_curves(self) -> None:
