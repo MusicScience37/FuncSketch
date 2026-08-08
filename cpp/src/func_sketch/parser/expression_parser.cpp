@@ -30,6 +30,7 @@
 
 namespace func_sketch::parser {
 
+//! Internal data of ExpressionParser class.
 struct ExpressionParser::Impl {
     //! Grammar for parsing expressions.
     ExpressionGrammar grammar;

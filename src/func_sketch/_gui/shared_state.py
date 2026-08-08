@@ -44,19 +44,26 @@ class SharedState(kivy.event.EventDispatcher):
     """
 
     plot_range = kivy.properties.ObjectProperty(DEFAULT_PLOT_RANGE)
+    """Range of the plot."""
+
     plot_config = kivy.properties.ObjectProperty(DEFAULT_PLOT_CONFIG)
+    """Configuration of the plot."""
+
     curve_configs = kivy.properties.ListProperty(
         [
             CurveConfig(function_expression_str="", color=CURVE_COLORS[i])
             for i in range(NUM_CURVES)
         ]
     )
+    """Configurations of the curves."""
+
     sampled_curves = kivy.properties.ListProperty(
         [
             SampledCurve(samples=PointList([]), color=CURVE_COLORS[i])
             for i in range(NUM_CURVES)
         ]
     )
+    """Sampled curves."""
 
     def __init__(self, **kwargs) -> None:
         """Constructor."""

@@ -237,6 +237,7 @@ void Plotter::write_grid_lines(Image& image) const {
     }
 }
 
+//! Ratio of the threshold to check whether a tick label is at zero.
 constexpr Scalar axis_tick_threshold_ratio = 5e-2;
 
 void Plotter::write_x_axis(Image& image) const {

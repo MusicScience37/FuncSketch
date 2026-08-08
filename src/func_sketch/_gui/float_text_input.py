@@ -32,7 +32,10 @@ class FloatTextInput(kivy.uix.textinput.TextInput):
     """Class of text input field for floating point numbers."""
 
     value = kivy.properties.NumericProperty(0.0)
+    """Value of the floating-point number represented by the text input field."""
+
     is_valid = kivy.properties.BooleanProperty(True)
+    """Whether the current text is a valid float."""
 
     def __init__(self, **kwargs):
         """Initialize the text input field.
