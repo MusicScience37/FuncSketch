@@ -22,26 +22,6 @@ line count:
     expire_in: "1 mos"
   interruptible: true
 
-pre-commit:
-  stage: test
-  needs: []
-  image: musicscience37/clang-ci:clang22
-  variables:
-    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
-  script:
-    - poetry config virtualenvs.in-project true
-    - poetry env use 3.13
-    - poetry sync
-    - poetry run pre-commit run --all-files
-  cache:
-    - key:
-        prefix: poetry-pre-commit
-        files:
-          - poetry.lock
-      paths:
-        - .poetry-cache
-  interruptible: true
-
 spell check:
   stage: test
   needs: []
@@ -91,6 +71,8 @@ spell check:
     - poetry install
     - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
     - mkdir $BUILD_DIR
+    - apt-get update
+    - apt-get install -y libmtdev1 xvfb
   script:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
@@ -127,6 +109,17 @@ test linux:
       - COMPILER_TYPE: ["clang22"]
         IMAGE_PATH: "musicscience37/clang-ci"
         TEST_TYPE: ["debug", "release", "ausan"]
+  script:
+    - poetry run python ./scripts/ci_linux_test.py
+      --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
+
+pre-commit:
+  extends: .test linux base
+  parallel:
+    matrix:
+      - COMPILER_TYPE: ["clang22"]
+        IMAGE_PATH: "musicscience37/clang-ci"
+        TEST_TYPE: "pre-commit"
   script:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR

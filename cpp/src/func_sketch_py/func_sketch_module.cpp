@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <utility>
 #include <vector>
 
@@ -18,6 +19,8 @@
 #include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/rgb_color.h"
 
+namespace {
+
 /*!
  * \brief Struct of lists of points for reducing the number of type conversions
  * between C++ and Python.
@@ -26,6 +29,34 @@ struct PointList {
     //! Points.
     std::vector<func_sketch::plotter::Point> points;
 };
+
+/*!
+ * \brief Type of raw images passed from Python as numpy arrays of RGB
+ * pixels.
+ *
+ * \note The device is restricted to CPU so that the buffer can be safely
+ * accessed from C++ code without copying. Also the data is restricted to
+ * contiguous buffer so that the buffer can be safely converted to OpenCV Mat
+ * without copying.
+ */
+using RawImage = nanobind::ndarray<uint8_t, nanobind::shape<-1, -1, 3>,
+    nanobind::c_contig, nanobind::device::cpu>;
+
+/*!
+ * \brief Convert a raw image passed from Python to an Image object.
+ *
+ * \param[in] raw_image Raw image.
+ * \return Image object sharing the buffer with the raw image.
+ *
+ * \note The returned image shares the buffer with \p raw_image without
+ * copying. Writing to the returned image writes back into \p raw_image.
+ */
+func_sketch::plotter::Image to_image(const RawImage& raw_image) {
+    return func_sketch::plotter::Image(static_cast<int>(raw_image.shape(0)),
+        static_cast<int>(raw_image.shape(1)), CV_8UC3, raw_image.data());
+}
+
+}  // namespace
 
 // NOLINTNEXTLINE(*-identifier-length,*-vararg,*-c-arrays,*-array-decay,*-value-param): external library.
 NB_MODULE(_cpp, m) {
@@ -56,8 +87,8 @@ Objects of this class can be called with a string to parse it into an Expression
 
     using func_sketch::plotter::RGBColor;
     nanobind::class_<RGBColor>(m, "RGBColor", "Class of RGB colors.")
-        .def(nanobind::init<double, double, double>(), "r"_a, "g"_a, "b"_a,
-            "Constructor.")
+        .def(nanobind::init<std::uint8_t, std::uint8_t, std::uint8_t>(), "r"_a,
+            "g"_a, "b"_a, "Constructor.")
         .def_rw("r", &RGBColor::r, "Red component.")
         .def_rw("g", &RGBColor::g, "Green component.")
         .def_rw("b", &RGBColor::b, "Blue component.");
@@ -84,8 +115,90 @@ Objects of this class can be called with a string to parse it into an Expression
     nanobind::class_<PlotConfig>(
         m, "PlotConfig", "Class of configurations of plots.")
         .def(nanobind::init<>(), "Constructor.")
-        // TODO Add properties.
-        ;
+        .def_prop_rw(
+            "left_margin",
+            [](const PlotConfig& self) -> int { return self.left_margin(); },
+            [](PlotConfig& self, int value) { self.left_margin(value); },
+            "Left margin of plots in pixels.")
+        .def_prop_rw(
+            "right_margin",
+            [](const PlotConfig& self) -> int { return self.right_margin(); },
+            [](PlotConfig& self, int value) { self.right_margin(value); },
+            "Right margin of plots in pixels.")
+        .def_prop_rw(
+            "top_margin",
+            [](const PlotConfig& self) -> int { return self.top_margin(); },
+            [](PlotConfig& self, int value) { self.top_margin(value); },
+            "Top margin of plots in pixels.")
+        .def_prop_rw(
+            "bottom_margin",
+            [](const PlotConfig& self) -> int { return self.bottom_margin(); },
+            [](PlotConfig& self, int value) { self.bottom_margin(value); },
+            "Bottom margin of plots in pixels.")
+        .def_prop_rw(
+            "tick_label_font_size",
+            [](const PlotConfig& self) -> int {
+                return self.tick_label_font_size();
+            },
+            [](PlotConfig& self, int value) {
+                self.tick_label_font_size(value);
+            },
+            "Font size of tick labels in pixels.")
+        .def_prop_rw(
+            "axes_line_width",
+            [](const PlotConfig& self) -> int {
+                return self.axes_line_width();
+            },
+            [](PlotConfig& self, int value) { self.axes_line_width(value); },
+            "Line width of axes in pixels.")
+        .def_prop_rw(
+            "grid_line_width",
+            [](const PlotConfig& self) -> int {
+                return self.grid_line_width();
+            },
+            [](PlotConfig& self, int value) { self.grid_line_width(value); },
+            "Line width of grid lines in pixels.")
+        .def_prop_rw(
+            "curve_line_width",
+            [](const PlotConfig& self) -> int {
+                return self.curve_line_width();
+            },
+            [](PlotConfig& self, int value) { self.curve_line_width(value); },
+            "Line width of curves in pixels.")
+        .def_prop_rw(
+            "background_color",
+            [](const PlotConfig& self) -> RGBColor {
+                return self.background_color();
+            },
+            [](PlotConfig& self, const RGBColor& value) {
+                self.background_color(value);
+            },
+            "Color of background.")
+        .def_prop_rw(
+            "axes_color",
+            [](const PlotConfig& self) -> RGBColor {
+                return self.axes_color();
+            },
+            [](PlotConfig& self, const RGBColor& value) {
+                self.axes_color(value);
+            },
+            "Color of axes.")
+        .def_prop_rw(
+            "grid_color",
+            [](const PlotConfig& self) -> RGBColor {
+                return self.grid_color();
+            },
+            [](PlotConfig& self, const RGBColor& value) {
+                self.grid_color(value);
+            },
+            "Color of grid lines.")
+        .def_prop_rw(
+            "num_sample_points",
+            [](const PlotConfig& self) -> int {
+                return self.num_sample_points();
+            },
+            [](PlotConfig& self, int value) { self.num_sample_points(value); },
+            "Number of points to sample for each function.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(
@@ -94,22 +207,24 @@ Objects of this class can be called with a string to parse it into an Expression
             "Constructor.")
         .def_prop_rw(
             "range",
-            [](const FunctionSampler& self) {
-                throw std::runtime_error("Getting range is not implemented.");
+            // Making the getter nullptr causes an error in mypy, so we must
+            // write a getter that throws an exception instead.
+            [](FunctionSampler& self) -> PlotRange {
+                throw std::runtime_error("Property 'range' is write-only.");
             },
             [](FunctionSampler& self, const PlotRange& value) {
                 self.range(value);
             },
-            "Range of plots.")
+            "Range of plots. (write-only)")
         .def_prop_rw(
             "config",
-            [](const FunctionSampler& self) {
-                throw std::runtime_error("Getting config is not implemented.");
+            [](FunctionSampler& self) -> PlotConfig {
+                throw std::runtime_error("Property 'config' is write-only.");
             },
             [](FunctionSampler& self, const PlotConfig& value) {
                 self.config(value);
             },
-            "Configuration of plots.")
+            "Configuration of plots. (write-only)")
         .def(
             "__call__",
             [](const FunctionSampler& self, const ExpressionPtr& function) {
@@ -117,44 +232,41 @@ Objects of this class can be called with a string to parse it into an Expression
             },
             "function"_a, "Sample a function and return a list of points.");
 
-    using func_sketch::plotter::Image;
     using func_sketch::plotter::Plotter;
-    using RawImage = nanobind::ndarray<uint8_t, nanobind::shape<-1, -1, 3>,
-        nanobind::c_contig>;
     nanobind::class_<Plotter>(m, "Plotter", "Class for plotting.")
         .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
             "Constructor.")
         .def_prop_rw(
             "range",
-            [](const Plotter& self) {
-                throw std::runtime_error("Getting range is not implemented.");
+            [](Plotter& self) -> PlotRange {
+                throw std::runtime_error("Property 'range' is write-only.");
             },
             [](Plotter& self, const PlotRange& value) { self.range(value); },
-            "Range of plots.")
+            "Range of plots. (write-only)")
         .def_prop_rw(
             "config",
-            [](const Plotter& self) {
-                throw std::runtime_error("Getting config is not implemented.");
+            [](Plotter& self) -> PlotConfig {
+                throw std::runtime_error("Property 'config' is write-only.");
             },
             [](Plotter& self, const PlotConfig& value) { self.config(value); },
-            "Configuration of plots.")
+            "Configuration of plots. (write-only)")
         .def(
             "write_background",
             [](const Plotter& self, const RawImage& raw_image) {
-                Image image(static_cast<int>(raw_image.shape(0)),
-                    static_cast<int>(raw_image.shape(1)), CV_8UC3,
-                    raw_image.data());
+                auto image = to_image(raw_image);
                 self.write_background(image);
             },
-            "image"_a, "Write background of a plot.")
+            "image"_a,
+            "Write background of a plot.\n\n"
+            "The pixels of image are modified in place.")
         .def(
             "write_curve",
             [](const Plotter& self, const PointList& point_list,
                 const RGBColor& color, const RawImage& raw_image) {
-                Image image(static_cast<int>(raw_image.shape(0)),
-                    static_cast<int>(raw_image.shape(1)), CV_8UC3,
-                    raw_image.data());
+                auto image = to_image(raw_image);
                 self.write_curve(point_list.points, color, image);
             },
-            "point_list"_a, "color"_a, "image"_a, "Write a curve on a plot.");
+            "point_list"_a, "color"_a, "image"_a,
+            "Write a curve on a plot.\n\n"
+            "The pixels of image are modified in place.");
 }

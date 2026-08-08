@@ -1,0 +1,52 @@
+# Copyright 2026 MusicScience37 (Kenta Kabashima)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#:import FONT_SIZE_HEADER2 func_sketch._gui.constants.FONT_SIZE_HEADER2
+#:import FONT_SIZE_TEXT func_sketch._gui.constants.FONT_SIZE_TEXT
+#:import SPACING_DEFAULT func_sketch._gui.constants.SPACING_DEFAULT
+
+#:include error_message_label.kv
+
+<CurveConfigWidget>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: self.minimum_height
+    spacing: SPACING_DEFAULT
+    expression_text_input: expression_text_input
+    Label:
+        text: root.curve_name
+        size_hint_y: None
+        height: self.texture_size[1]
+        font_size: FONT_SIZE_HEADER2
+        halign: "left"
+        text_size: self.width, None
+    GridLayout:
+        cols: 2
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: SPACING_DEFAULT
+        Label:
+            text: "f(x) ="
+            size_hint_x: None
+            width: self.texture_size[0]
+            font_size: FONT_SIZE_TEXT
+            halign: "left"
+        TextInput:
+            id: expression_text_input
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+            font_size: FONT_SIZE_TEXT
+    ErrorMessageLabel:
+        text: root.error_message

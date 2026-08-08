@@ -1,0 +1,97 @@
+@startuml classes_python
+
+package func_sketch {
+    package _cpp {
+        class Expression
+
+        class ExpressionParser {
+            + __call__(expression_str: str) : Expression
+        }
+        ExpressionParser ..> Expression
+
+        class RGBColor {
+            + r : int
+            + g : int
+            + b : int
+        }
+
+        class Point {
+            + x : float
+            + y : float
+        }
+
+        class PointList {
+            + points : List[Point]
+        }
+        PointList ..> Point
+
+        class PlotRange {
+            + x_range : tuple[float, float]
+            + y_range : tuple[float, float]
+        }
+
+        class PlotConfig
+
+        class FunctionSampler {
+            + __init__(range: PlotRange, config: PlotConfig)
+            + range : PlotRange
+            + config : PlotConfig
+            + __call__(function: Expression) : PointList
+        }
+        FunctionSampler o-- PlotRange
+        FunctionSampler o-- PlotConfig
+        FunctionSampler ..> Expression
+        FunctionSampler ..> PointList
+
+        class Plotter {
+            + __init__(range: PlotRange, config: PlotConfig)
+            + range : PlotRange
+            + config : PlotConfig
+            + write_background(image: numpy.ndarray)
+            + write_curve(samples: PointList, color: RGBColor, image: numpy.ndarray)
+        }
+        Plotter o-- PlotRange
+        Plotter o-- PlotConfig
+        Plotter ..> PointList
+        Plotter ..> RGBColor
+    }
+
+    package _impl {
+        class CurveConfig {
+            + function_expression_str : str
+            + color : RGBColor
+        }
+        CurveConfig o-- RGBColor
+
+        class SampledCurve {
+            + samples : PointList
+            + color : RGBColor
+        }
+        SampledCurve o-- PointList
+        SampledCurve o-- RGBColor
+
+        class CurveSampler {
+            + __init__(plot_range: PlotRange, config: PlotConfig)
+            + plot_range : PlotRange
+            + config : PlotConfig
+            + __call__(curve_config: CurveConfig) : SampledCurve
+        }
+        CurveSampler o-- ExpressionParser
+        CurveSampler o-- FunctionSampler
+        CurveSampler ..> CurveConfig
+        CurveSampler ..> SampledCurve
+
+        class Plotter {
+            + __init__(plot_range: PlotRange, config: PlotConfig)
+            + plot_range : PlotRange
+            + config : PlotConfig
+            + __call__(sampled_curves: list[SampledCurve], image: numpy.ndarray)
+        }
+        Plotter o-- func_sketch._cpp.Plotter
+        Plotter ..> SampledCurve
+    }
+}
+
+func_sketch._impl .[hidden].. func_sketch._cpp
+
+@enduml

@@ -1,0 +1,84 @@
+# Copyright 2026 MusicScience37 (Kenta Kabashima)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#:import FloatTextInput func_sketch._gui.float_text_input.FloatTextInput
+#:import FONT_SIZE_HEADER1 func_sketch._gui.constants.FONT_SIZE_HEADER1
+#:import FONT_SIZE_TEXT func_sketch._gui.constants.FONT_SIZE_TEXT
+#:import SPACING_DEFAULT func_sketch._gui.constants.SPACING_DEFAULT
+
+#:include error_message_label.kv
+
+<RangeConfigWidget>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: self.minimum_height
+    spacing: SPACING_DEFAULT
+    x_min_text_input: x_min_text_input
+    x_max_text_input: x_max_text_input
+    y_min_text_input: y_min_text_input
+    y_max_text_input: y_max_text_input
+    Label:
+        text: "Range"
+        size_hint_y: None
+        height: self.texture_size[1]
+        font_size: FONT_SIZE_HEADER1
+        halign: "left"
+        text_size: self.width, None
+    GridLayout:
+        cols: 3
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: SPACING_DEFAULT
+        Label:
+            text: "x range:"
+            size_hint_x: None
+            width: self.texture_size[0]
+            font_size: FONT_SIZE_TEXT
+            halign: "left"
+        FloatTextInput:
+            id: x_min_text_input
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+            value: -3.0
+            font_size: FONT_SIZE_TEXT
+        FloatTextInput:
+            id: x_max_text_input
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+            value: 3.0
+            font_size: FONT_SIZE_TEXT
+        Label:
+            text: "y range:"
+            size_hint_x: None
+            width: self.texture_size[0]
+            font_size: FONT_SIZE_TEXT
+            halign: "left"
+        FloatTextInput:
+            id: y_min_text_input
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+            value: -3.0
+            font_size: FONT_SIZE_TEXT
+        FloatTextInput:
+            id: y_max_text_input
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+            value: 3.0
+            font_size: FONT_SIZE_TEXT
+    ErrorMessageLabel:
+        text: root.error_message
