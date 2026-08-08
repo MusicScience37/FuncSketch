@@ -1,5 +1,6 @@
 stages:
   - test
+  - deploy
 
 include:
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
@@ -147,3 +148,17 @@ doc:
       paths:
         - .poetry-cache
   interruptible: true
+
+pages main:
+  stage: deploy
+  needs:
+    - doc
+  dependencies:
+    - doc
+  image: alpine
+  script:
+    - mv docs/build/html public
+  artifacts:
+    paths:
+      - public
+  pages: true
