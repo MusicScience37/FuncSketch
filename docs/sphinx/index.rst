@@ -1,6 +1,8 @@
 FuncSketch
 ==============
 
+Graphing calculator currently in development.
+
 C++ API reference is separately generated and can be found in `here <doxygen>`_.
 
 .. toctree::
