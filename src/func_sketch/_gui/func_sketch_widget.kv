@@ -25,11 +25,13 @@
 #:import NAVIGATION_BACKGROUND_COLOR func_sketch._gui.constants.NAVIGATION_BACKGROUND_COLOR
 
 #:include common.kv
+#:include range_config_widget.kv
 #:include curve_config_widget.kv
 #:include curve_config_list_widget.kv
 #:import CurveConfigListWidget func_sketch._gui.curve_config_list_widget.CurveConfigListWidget
 #:import PlainSplitterStrip func_sketch._gui.plain_splitter_strip.PlainSplitterStrip
 #:import PlotWidget func_sketch._gui.plot_widget.PlotWidget
+#:import RangeConfigWidget func_sketch._gui.range_config_widget.RangeConfigWidget
 
 <Splitter>:
     strip_cls: PlainSplitterStrip
@@ -57,58 +59,7 @@
                 height: self.minimum_height
                 spacing: SPACING_HEADER1
                 padding: PADDING_NAVIGATION
-                BoxLayout:
-                    orientation: "vertical"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    spacing: SPACING_DEFAULT
-                    Label:
-                        text: "Range"
-                        size_hint_y: None
-                        height: self.texture_size[1]
-                        font_size: FONT_SIZE_HEADER1
-                        halign: "left"
-                        text_size: self.width, None
-                    GridLayout:
-                        cols: 3
-                        size_hint_y: None
-                        height: self.minimum_height
-                        spacing: SPACING_DEFAULT
-                        Label:
-                            text: "x range:"
-                            size_hint_x: None
-                            width: self.texture_size[0]+5
-                            font_size: FONT_SIZE_TEXT
-                            halign: "left"
-                        FloatTextInput:
-                            multiline: False
-                            size_hint_y: None
-                            height: self.minimum_height
-                            value: -3.0
-                            font_size: FONT_SIZE_TEXT
-                        FloatTextInput:
-                            multiline: False
-                            size_hint_y: None
-                            height: self.minimum_height
-                            value: 3.0
-                            font_size: FONT_SIZE_TEXT
-                        Label:
-                            text: "y range:"
-                            size_hint_x: None
-                            width: self.texture_size[0]
-                            font_size: FONT_SIZE_TEXT
-                            halign: "left"
-                        FloatTextInput:
-                            multiline: False
-                            size_hint_y: None
-                            height: self.minimum_height
-                            value: -3.0
-                            font_size: FONT_SIZE_TEXT
-                        FloatTextInput:
-                            multiline: False
-                            size_hint_y: None
-                            height: self.minimum_height
-                            value: 3.0
-                            font_size: FONT_SIZE_TEXT
+                RangeConfigWidget:
+                    shared_state: root.shared_state
                 CurveConfigListWidget:
                     shared_state: root.shared_state

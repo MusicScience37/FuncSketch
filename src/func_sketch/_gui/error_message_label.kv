@@ -12,13 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Package of the GUI of FuncSketch."""
+#:import ERROR_MESSAGE_COLOR func_sketch._gui.constants.ERROR_MESSAGE_COLOR
 
-import pathlib
-
-import kivy.resources
-
-# Add this directory to the resource paths of Kivy so that
-# `#:include xxx.kv` directives in the .kv files of this package can be
-# resolved regardless of the current working directory or sys.argv[0].
-kivy.resources.resource_add_path(str(pathlib.Path(__file__).absolute().parent))
+<ErrorMessageLabel@Label>:
+    size_hint_y: None
+    text_size: self.width, None
+    height: self.texture_size[1] if self.text else 0
+    color: ERROR_MESSAGE_COLOR
+    opacity: 1 if self.text else 0

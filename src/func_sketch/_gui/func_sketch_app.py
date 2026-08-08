@@ -14,14 +14,10 @@
 
 """Class of FuncSketch GUI application."""
 
-import pathlib
-
 import kivy.app
 import kivy.lang
 
 from func_sketch._gui.func_sketch_widget import FuncSketchWidget
-
-THIS_DIR = pathlib.Path(__file__).absolute().parent
 
 
 class FuncSketchApp(kivy.app.App):
@@ -29,7 +25,7 @@ class FuncSketchApp(kivy.app.App):
 
     def build(self):
         """Build the GUI application."""
-        kivy.lang.Builder.load_file(str(THIS_DIR / "func_sketch_widget.kv"))
+        kivy.lang.Builder.load_file("func_sketch_widget.kv")
         return FuncSketchWidget()
 
 
