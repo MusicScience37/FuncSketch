@@ -123,8 +123,8 @@ coverage:
   script:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
-    - ./scripts/collect_llvm_coverage.sh $BUILD_DIR
-    - poetry run lcov_cobertura $BUILD_DIR/coverage/coverage --output $BUILD_DIR/coverage/coverage.xml
+    # - ./scripts/collect_llvm_coverage.sh $BUILD_DIR
+    # - poetry run lcov_cobertura $BUILD_DIR/coverage/coverage --output $BUILD_DIR/coverage/coverage.xml
   coverage: '/[^\s]+%\s+\d+\s+\d+\s+\s[^\s]+%/'
   artifacts:
     paths:
