@@ -16,4 +16,5 @@
 
 from func_sketch._main import main
 
-main()
+if __name__ == "__main__":
+    main()
