@@ -26,6 +26,7 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
 
     Note:
         Following properties can be used:
+
         - expression_text (writable)
         - curve_name (writable)
         - curve_color (writable)
@@ -34,7 +35,10 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
     """
 
     expression_text = kivy.properties.StringProperty()
+    """Text of the function expression."""
+
     expression_text_input = kivy.properties.ObjectProperty()
+    """TextInput widget for the function expression."""
 
     def __init__(self, **kwargs: object) -> None:
         """Constructor."""
@@ -76,8 +80,13 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
             self._sync_expression_text_from_parent_to_child(None, None)
 
     curve_name = kivy.properties.StringProperty()
+    """Name of the curve."""
+
     curve_color = kivy.properties.ObjectProperty()
+    """Color of the curve."""
+
     error_message = kivy.properties.StringProperty("")
+    """Error message related to the curve configuration."""
 
     def _get_curve_config(self) -> CurveConfig:
         """Get the curve configuration.
@@ -105,3 +114,4 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
         bind=("expression_text", "curve_color"),
         cache=True,
     )
+    """Curve configuration."""

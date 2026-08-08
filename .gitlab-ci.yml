@@ -175,17 +175,16 @@ pre-commit:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
 
-doc:
-  stage: test
-  needs: []
-  image: musicscience37/sphinx-doxygen:clang22
-  variables:
-    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+docs:
+  extends: .test linux base
+  parallel:
+    matrix:
+      - COMPILER_TYPE: ["clang22"]
+        IMAGE_PATH: "musicscience37/sphinx-doxygen"
+        TEST_TYPE: "docs"
   script:
-    - poetry config virtualenvs.in-project true
-    - poetry env use 3.13
-    - poetry sync
-    - poetry run ./docs/build.sh
+    - poetry run python ./scripts/ci_linux_test.py
+      --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
   artifacts:
     paths:
       - docs/build/html
@@ -202,11 +201,11 @@ doc:
 pages main:
   stage: deploy
   needs:
-    - doc
+    - "docs: [clang22, musicscience37/sphinx-doxygen, docs]"
     - "cpp coverage: [clang22, musicscience37/clang-ci, coverage_cpp]"
     - "python coverage: [clang22, musicscience37/clang-ci, coverage_python]"
   dependencies:
-    - doc
+    - "docs: [clang22, musicscience37/sphinx-doxygen, docs]"
     - "cpp coverage: [clang22, musicscience37/clang-ci, coverage_cpp]"
     - "python coverage: [clang22, musicscience37/clang-ci, coverage_python]"
   image: alpine

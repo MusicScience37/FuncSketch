@@ -37,7 +37,10 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
     """Class of the widget for a list of curve configuration widgets."""
 
     curve_config_list_layout = kivy.properties.ObjectProperty()
+    """Layout widget for the list of curve configuration widgets."""
+
     shared_state = kivy.properties.ObjectProperty()
+    """Shared state object."""
 
     def __init__(self, **kwargs) -> None:
         """Constructor."""

@@ -18,6 +18,7 @@ BUILD_TYPE_DICT = {
     "coverage_cpp": "Debug",
     "coverage_python": "Release",
     "pre-commit": "Release",
+    "docs": "Release",
 }
 
 TEST_TYPE_VARIABLES = {
@@ -54,6 +55,12 @@ TEST_TYPE_VARIABLES = {
         "FUNC_SKETCH_WRITE_JUNIT": "ON",
     },
     "pre-commit": {
+        "FUNC_SKETCH_BUILD_TESTS": "OFF",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
+        "FUNC_SKETCH_WRITE_JUNIT": "OFF",
+    },
+    "docs": {
         "FUNC_SKETCH_BUILD_TESTS": "OFF",
         "FUNC_SKETCH_ENABLE_CCACHE": "ON",
         "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
@@ -146,9 +153,19 @@ def check_tests_for_condition(
                 cwd=str(ROOT_DIR),
                 env=env,
             )
+
+    # Pre-commit
     if test_type == "pre-commit":
         execute_command(
             ["poetry", "run", "pre-commit", "run", "--all-files"],
+            cwd=str(ROOT_DIR),
+            env=env,
+        )
+
+    # Documentation
+    if test_type == "docs":
+        execute_command(
+            ["poetry", "run", "./docs/build.sh"],
             cwd=str(ROOT_DIR),
             env=env,
         )

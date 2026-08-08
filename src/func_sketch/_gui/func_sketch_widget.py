@@ -24,3 +24,4 @@ class FuncSketchWidget(kivy.uix.boxlayout.BoxLayout):
     """Class of FuncSketch GUI widget."""
 
     shared_state = kivy.properties.ObjectProperty(SharedState())
+    """Shared state object."""

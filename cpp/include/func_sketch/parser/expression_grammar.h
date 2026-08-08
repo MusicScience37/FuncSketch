@@ -58,6 +58,9 @@ public:
     /*!
      * \brief Parse with error handling.
      *
+     * \param[in] str String to parse.
+     * \return Parsed expression.
+     *
      * \throw InvalidExpressionException If parsing failed.
      */
     [[nodiscard]] ParsedExpression parse(const std::string& str);

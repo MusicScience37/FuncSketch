@@ -27,6 +27,7 @@ class PlotWidget(kivy.uix.image.Image):
     """Class of widgets to show plots."""
 
     shared_state = kivy.properties.ObjectProperty()
+    """Shared state object."""
 
     def __init__(self, **kwargs) -> None:
         """Constructor."""

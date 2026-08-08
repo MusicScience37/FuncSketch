@@ -24,14 +24,25 @@ class RangeConfigWidget(kivy.uix.boxlayout.BoxLayout):
     """Class of the widget to configure the range of the plot."""
 
     x_min_text_input = kivy.properties.ObjectProperty()
+    """Text input widget for the minimum x value."""
+
     x_max_text_input = kivy.properties.ObjectProperty()
+    """Text input widget for the maximum x value."""
+
     y_min_text_input = kivy.properties.ObjectProperty()
+    """Text input widget for the minimum y value."""
+
     y_max_text_input = kivy.properties.ObjectProperty()
+    """Text input widget for the maximum y value."""
 
     shared_state = kivy.properties.ObjectProperty()
+    """Shared state object."""
 
     error_message = kivy.properties.StringProperty("")
+    """Error message to show in the GUI."""
+
     _range_error_message = kivy.properties.StringProperty("")
+    """Error message for the range configuration."""
 
     def __init__(self, **kwargs: object) -> None:
         """Constructor."""
