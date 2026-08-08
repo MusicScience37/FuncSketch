@@ -14,6 +14,9 @@
 
 """Main function of FuncSketch package."""
 
-from func_sketch._main import main
+from func_sketch._gui.func_sketch_app import FuncSketchApp
 
-main()
+
+def main() -> None:
+    """Main function."""
+    FuncSketchApp().run()
