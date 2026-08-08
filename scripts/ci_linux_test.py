@@ -122,11 +122,13 @@ def check_tests_for_condition(
             execute_command(
                 ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"],
                 cwd=str(ROOT_DIR),
+                env=env,
             )
     if test_type == "pre-commit":
         execute_command(
             ["poetry", "run", "pre-commit", "run", "--all-files"],
             cwd=str(ROOT_DIR),
+            env=env,
         )
 
 
