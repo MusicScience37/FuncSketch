@@ -20,7 +20,6 @@
 #:import SPACING_HEADER1 func_sketch._gui.constants.SPACING_HEADER1
 #:import SPACING_HEADER2 func_sketch._gui.constants.SPACING_HEADER2
 #:import PADDING_NAVIGATION func_sketch._gui.constants.PADDING_NAVIGATION
-#:import PLOT_BACKGROUND_COLOR func_sketch._gui.constants.PLOT_BACKGROUND_COLOR
 #:import NORMAL_TEXT_COLOR func_sketch._gui.constants.NORMAL_TEXT_COLOR
 #:import SPLITTER_COLOR func_sketch._gui.constants.SPLITTER_COLOR
 #:import NAVIGATION_BACKGROUND_COLOR func_sketch._gui.constants.NAVIGATION_BACKGROUND_COLOR
@@ -30,22 +29,15 @@
 #:include curve_config_list_widget.kv
 #:import CurveConfigListWidget func_sketch._gui.curve_config_list_widget.CurveConfigListWidget
 #:import PlainSplitterStrip func_sketch._gui.plain_splitter_strip.PlainSplitterStrip
+#:import PlotWidget func_sketch._gui.plot_widget.PlotWidget
 
 <Splitter>:
     strip_cls: PlainSplitterStrip
 
 <FuncSketchWidget>
     orientation: "horizontal"
-    BoxLayout:
-        canvas.before:
-            Color:
-                rgba: PLOT_BACKGROUND_COLOR
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        orientation: "vertical"
-        Label:
-            text: "Main Content"
+    PlotWidget:
+        shared_state: root.shared_state
     Splitter:
         canvas.before:
             Color:
