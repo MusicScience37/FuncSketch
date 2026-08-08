@@ -139,6 +139,29 @@ cpp coverage:
         path: $BUILD_DIR/coverage/coverage.xml
     when: always
 
+python coverage:
+  extends: .test linux base
+  parallel:
+    matrix:
+      - COMPILER_TYPE: ["clang22"]
+        IMAGE_PATH: "musicscience37/clang-ci"
+        TEST_TYPE: ["coverage_python"]
+  script:
+    - poetry run python ./scripts/ci_linux_test.py
+      --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
+  artifacts:
+    paths:
+      - $BUILD_DIR/junit
+      - $BUILD_DIR/temp_test
+    reports:
+      junit:
+        - $BUILD_DIR/junit/*.xml
+        - coverage_python.xml
+        - coverage_python
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage_python.xml
+
 pre-commit:
   extends: .test linux base
   parallel:

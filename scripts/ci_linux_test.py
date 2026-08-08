@@ -16,6 +16,7 @@ BUILD_TYPE_DICT = {
     "release": "Release",
     "ausan": "Debug",
     "coverage_cpp": "Debug",
+    "coverage_python": "Release",
     "pre-commit": "Release",
 }
 
@@ -45,6 +46,12 @@ TEST_TYPE_VARIABLES = {
         "FUNC_SKETCH_WRITE_JUNIT": "ON",
         "CMAKE_CXX_FLAGS": "-fprofile-instr-generate -fcoverage-mapping",
         "CMAKE_MODULE_LINKER_FLAGS": "-fprofile-instr-generate -fcoverage-mapping",
+    },
+    "coverage_python": {
+        "FUNC_SKETCH_BUILD_TESTS": "ON",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
+        "FUNC_SKETCH_WRITE_JUNIT": "ON",
     },
     "pre-commit": {
         "FUNC_SKETCH_BUILD_TESTS": "OFF",
@@ -116,15 +123,26 @@ def check_tests_for_condition(
         env["LLVM_PROFILE_FILE"] = str(coverage_dir / "coverage_%p.profraw")
 
     # Test
-    if test_type in ["debug", "release", "ausan", "coverage_cpp"]:
+    if test_type in ["debug", "release", "ausan", "coverage_cpp", "coverage_python"]:
         execute_command(
             ["ctest", "-V"],
             cwd=build_dir,
             env=env,
         )
-        if test_type in ["debug", "release", "coverage_cpp"]:
+        if test_type in ["debug", "release", "coverage_cpp", "coverage_python"]:
+            command = ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"]
+            if test_type == "coverage_python":
+                command = command + [
+                    "--cov=func_sketch",
+                    "--cov-report",
+                    "term",
+                    "--cov-report",
+                    "xml:coverage_python.xml",
+                    "--cov-report",
+                    "html:coverage_python",
+                ]
             execute_command(
-                ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"],
+                command,
                 cwd=str(ROOT_DIR),
                 env=env,
             )
