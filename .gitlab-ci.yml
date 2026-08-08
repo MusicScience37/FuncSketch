@@ -188,15 +188,6 @@ docs:
   artifacts:
     paths:
       - docs/build/html
-    expire_in: "1 mos"
-  cache:
-    - key:
-        prefix: poetry-doc
-        files:
-          - poetry.lock
-      paths:
-        - .poetry-cache
-  interruptible: true
 
 pages main:
   stage: deploy
