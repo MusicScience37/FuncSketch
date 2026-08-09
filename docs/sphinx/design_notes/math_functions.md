@@ -1,14 +1,14 @@
 # Mathematical Functions to be Implemented
 
+This page lists mathematical functions to be implemented in FuncSketch.
+Functions which has been implemented will be removed from this list.
+
 ## Basic Functions
 
 Basic functions in `<cmath>` header in C++11:
 
 | Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
 | :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Exponential   | Exponential function $e^x$                                      | `exp`              | `std::exp`    | `math.exp`    |
-| Exponential   | 2 raised to the given power $2^x$                               | `exp2`             | `std::exp2`   | `math.exp2`   |
-| Exponential   | Exponential function minus 1 $e^x - 1$                          | `expm1`            | `std::expm1`  | `math.expm1`  |
 | Logarithm     | Natural logarithm function $\log{x}$                            | `log`              | `std::log`    | `math.log`    |
 | Logarithm     | Natural logarithm of 1 plus x $\log{(1+x)}$                     | `log1p`            | `std::log1p`  | `math.log1p`  |
 | Logarithm     | Common logarithm function $\log_{10}{x}$                        | `log10`            | `std::log10`  | `math.log10`  |
@@ -41,8 +41,9 @@ Basic functions in `<cmath>` header in C++11:
 - `pow` and `atan2` functions have two arguments, whereas all other functions have one argument.
 - All functions will be calculated using floating-point numbers.
 - Some functions in `<cmath>` header have been omitted because of less importance for graphing calculators.
+- Error function and gamma function are special functions, so they should be written as special functions in the documentation for users.
 
-## Special Functions
+## Other Special Functions
 
 Candidate of implementation of special functions are as follows:
 

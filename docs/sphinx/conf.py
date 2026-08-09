@@ -54,6 +54,7 @@ extensions += ["myst_parser"]
 
 myst_enable_extensions = [
     "tasklist",
+    "dollarmath",
 ]
 
 myst_heading_anchors = 4

@@ -1,2 +1,4 @@
 Function,Short Description
-:funcsketch:func:`exp`, Exponential function :math:`e^x`.
+:funcsketch:func:`exp`, Exponential function (:math:`e^x`).
+:funcsketch:func:`exp2`, Base-2 exponential function (:math:`2^x`).
+:funcsketch:func:`expm1`, Exponential-minus-one function (:math:`e^x - 1`).

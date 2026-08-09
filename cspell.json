@@ -38,6 +38,7 @@
     "DCMAKE",
     "docparams",
     "doctrees",
+    "dollarmath",
     "Doxyfile",
     "Eigen",
     "ellint",
