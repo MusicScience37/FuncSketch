@@ -15,5 +15,6 @@
 #include "plotter/plot_config.cpp"
 #include "plotter/plot_range.cpp"
 #include "plotter/plotter.cpp"
+#include "plotter/plotting_util.cpp"
 #include "plotter/point.cpp"
 #include "plotter/rgb_color.cpp"

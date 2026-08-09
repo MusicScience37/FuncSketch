@@ -16,6 +16,7 @@ set(SOURCE_FILES
     plotter/plot_config.cpp
     plotter/plot_range.cpp
     plotter/plotter.cpp
+    plotter/plotting_util.cpp
     plotter/point.cpp
     plotter/rgb_color.cpp
 )
