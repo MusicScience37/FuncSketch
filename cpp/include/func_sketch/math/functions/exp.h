@@ -26,8 +26,22 @@ namespace func_sketch::math {
 /*!
  * \brief Create an exponential function.
  *
- * \return Exponential function.
+ * \return Function.
  */
 [[nodiscard]] MathFunction exp_function();
+
+/*!
+ * \brief Create a function of 2 raised to the power of an argument.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction exp2_function();
+
+/*!
+ * \brief Create a function of the exponential minus 1.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction expm1_function();
 
 }  // namespace func_sketch::math

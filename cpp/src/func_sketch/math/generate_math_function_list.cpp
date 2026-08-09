@@ -26,6 +26,8 @@ namespace func_sketch::math {
 MathFunctionList generate_math_function_list() {
     MathFunctionList list;
     list.emplace(exp_function());
+    list.emplace(exp2_function());
+    list.emplace(expm1_function());
     return list;
 }
 

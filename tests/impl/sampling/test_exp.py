@@ -26,3 +26,13 @@ class TestExponential:
         """Test of sampling exp(x)."""
         x_values, y_values = sample_function("exp(x)", (-3.0, 3.0), (-1.0, 5.0))
         compare_vectors(y_values, numpy.exp(x_values))
+
+    def test_sample_exp2(self) -> None:
+        """Test of sampling exp2(x)."""
+        x_values, y_values = sample_function("exp2(x)", (-3.0, 3.0), (-1.0, 5.0))
+        compare_vectors(y_values, numpy.exp2(x_values))
+
+    def test_sample_expm1(self) -> None:
+        """Test of sampling expm1(x)."""
+        x_values, y_values = sample_function("expm1(x)", (-3.0, 3.0), (-1.0, 5.0))
+        compare_vectors(y_values, numpy.expm1(x_values))
