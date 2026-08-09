@@ -77,6 +77,47 @@ namespace {
 }
 
 /*!
+ * \brief Convert a position from plot coordinates to image coordinates with
+ * shift.
+ *
+ * \param[in] position Position in plot coordinates.
+ * \param[in] range Range of plots.
+ * \param[in] config Configuration of plots.
+ * \param[in] size Size of the image.
+ * \param[in] shift Number of fractional bits in the image coordinates.
+ * \return Converted position in image coordinates.
+ */
+[[nodiscard]] cv::Point convert_position_with_shift(const Point& position,
+    const PlotRange& range, const PlotConfig& config, const cv::MatSize& size,
+    int shift) {
+    const int plot_width =
+        size[1] - config.left_margin() - config.right_margin();
+    const int plot_height =
+        size[0] - config.top_margin() - config.bottom_margin();
+    if (plot_width <= 0 || plot_height <= 0) {
+        throw InvalidArgumentException("Too small image size.");
+    }
+
+    const Real x_ratio = (position.x - range.x_range().first) /
+        (range.x_range().second - range.x_range().first);
+    const Real y_ratio = (position.y - range.y_range().first) /
+        (range.y_range().second - range.y_range().first);
+
+    const double x_in_pixel_precise =
+        static_cast<double>(plot_width) * x_ratio +
+        static_cast<double>(config.left_margin());
+    const double y_in_pixel_precise =
+        static_cast<double>(plot_height) * (1.0 - y_ratio) +
+        static_cast<double>(config.top_margin());
+
+    const double coeff = std::ldexp(1.0, shift);
+    const int x_in_pixel_shifted = static_cast<int>(x_in_pixel_precise * coeff);
+    const int y_in_pixel_shifted = static_cast<int>(y_in_pixel_precise * coeff);
+
+    return cv::Point(x_in_pixel_shifted, y_in_pixel_shifted);
+}
+
+/*!
  * \brief Adjust the position of text to be inside the image.
  *
  * \param[in] position Desired position of the text.
@@ -199,12 +240,15 @@ void Plotter::write_curve(const std::vector<Point>& samples,
             end_xy = clamp_point(end_xy, range_);
         }
 
+        // Use shift to draw curves precisely.
+        constexpr int shift = 10;
         const auto start_pixel =
-            convert_position(start_xy, range_, config_, size);
-        const auto end_pixel = convert_position(end_xy, range_, config_, size);
+            convert_position_with_shift(start_xy, range_, config_, size, shift);
+        const auto end_pixel =
+            convert_position_with_shift(end_xy, range_, config_, size, shift);
 
-        cv::line(
-            image, start_pixel, end_pixel, cv_color, line_width, cv::LINE_AA);
+        cv::line(image, start_pixel, end_pixel, cv_color, line_width,
+            cv::LINE_AA, shift);
     }
 }
 
