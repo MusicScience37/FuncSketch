@@ -15,6 +15,7 @@ import sphinx.directives
 import sphinx.domains
 import sphinx.environment
 import sphinx.roles
+import sphinx.util.docfields
 import sphinx.util.nodes
 
 # -- Project information -----------------------------------------------------
@@ -70,12 +71,70 @@ html_theme_options = {
 
 
 # cspell: ignore signode, fromdocname, contnode, docname, todocname, refnode
-# cspell: ignore paramlist, parameterlist
+# cspell: ignore paramlist, parameterlist, docfields, returnvalue, returntype
+# cspell: ignore typenames
 # pylint: disable=abstract-method, too-many-arguments, too-many-positional-arguments
 
 
 class FuncSketchFunctionDescription(sphinx.directives.ObjectDescription):
     """Directive for function description in FuncSketch."""
+
+    # Doc fields available in the content of ``funcsketch:function`` directives.
+    #
+    # These are rendered in the order listed here, regardless of the order in
+    # which they are written in the .rst source, so that all function
+    # descriptions end up with a consistent structure:
+    #
+    # - Parameters: Name, type, and description of each parameter.
+    # - Definition: Formula defining the function (e.g. :math:`e^x`).
+    # - Domain: Set of input values for which the function is defined.
+    # - Range: Set of values the function can return.
+    # - Returns: Description of the return value in prose.
+    # - Return type: Type of the return value.
+    #
+    # ``Definition``, ``Domain``, and ``Range`` are especially important for
+    # special functions (e.g. Bessel functions), which often have multiple
+    # conventions, restrictions on parameters (e.g. integer vs. real order),
+    # and non-trivial domains or ranges.
+    doc_field_types = [
+        sphinx.util.docfields.TypedField(
+            "parameter",
+            label="Parameters",
+            names=("param", "parameter"),
+            typenames=("type",),
+            can_collapse=True,
+        ),
+        sphinx.util.docfields.Field(
+            "definition",
+            label="Definition",
+            has_arg=False,
+            names=("definition",),
+        ),
+        sphinx.util.docfields.Field(
+            "domain",
+            label="Domain",
+            has_arg=False,
+            names=("domain",),
+        ),
+        sphinx.util.docfields.Field(
+            "range",
+            label="Range",
+            has_arg=False,
+            names=("range",),
+        ),
+        sphinx.util.docfields.Field(
+            "returnvalue",
+            label="Returns",
+            has_arg=False,
+            names=("returns", "return"),
+        ),
+        sphinx.util.docfields.Field(
+            "returntype",
+            label="Return type",
+            has_arg=False,
+            names=("rtype",),
+        ),
+    ]
 
     def handle_signature(
         self, sig: str, signode: sphinx.addnodes.desc_signature
