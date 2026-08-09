@@ -5,6 +5,7 @@
   "dictionaries": [],
   "words": [
     "acosh",
+    "allclose",
     "apidoc",
     "arccos",
     "arccosh",
@@ -94,6 +95,7 @@
     "pylint",
     "pytest",
     "rgba",
+    "rtol",
     "rtype",
     "scikit",
     "skimage",
