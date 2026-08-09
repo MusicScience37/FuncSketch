@@ -46,31 +46,62 @@ Basic functions in `<cmath>` header in C++11:
 
 Candidate of implementation of special functions are as follows:
 
-| Type                 | Function                                                         | Name in FuncSketch | In C++                | In Python |
-| :------------------- | :--------------------------------------------------------------- | :----------------- | :-------------------- | :-------- |
-| Beta                 | Beta function $B{(x, y)}$                                        | (TODO)             | `std::beta`           | (TODO)    |
-| Bessel               | Cylindrical Bessel function $J_{\nu}{(x)}$                       | (TODO)             | `std::cyl_bessel_j`   | (TODO)    |
-| Bessel               | Cylindrical Neumann function $Y_{\nu}{(x)}$                      | (TODO)             | `std::cyl_neumann`    | (TODO)    |
-| Bessel               | Regular modified cylindrical Bessel function $I_{\nu}{(x)}$      | (TODO)             | `std::cyl_bessel_i`   | (TODO)    |
-| Bessel               | Irregular modified cylindrical Bessel function $K_{\nu}{(x)}$    | (TODO)             | `std::cyl_bessel_k`   | (TODO)    |
-| Bessel               | Spherical Bessel function $j_n{(x)}$                             | (TODO)             | `std::sph_bessel`     | (TODO)    |
-| Bessel               | Spherical Neumann function $y_n{(x)}$                            | (TODO)             | `std::sph_neumann`    | (TODO)    |
-| Hermite              | Hermite polynomial $H_n{(x)}$ (physicist's)                      | (TODO)             | `std::hermite`        | (TODO)    |
-| Laguerre             | Laguerre polynomial $L_n{(x)}$                                   | (TODO)             | `std::laguerre`       | (TODO)    |
-| Laguerre             | Associated Laguerre polynomial $L_n^{(\alpha)}{(x)}$             | (TODO)             | `std::assoc_laguerre` | (TODO)    |
-| Legendre             | Legendre polynomial $P_n{(x)}$                                   | (TODO)             | `std::legendre`       | (TODO)    |
-| Legendre             | Associated Legendre polynomial $P_n^m{(x)}$                      | (TODO)             | `std::assoc_legendre` | (TODO)    |
-| Legendre             | Spherical associated Legendre polynomial                         | (TODO)             | `std::sph_legendre`   | (TODO)    |
-| Elliptic integral    | Complete elliptic integral of the first kind $K(k)$              | (TODO)             | `std::comp_ellint_1`  | (TODO)    |
-| Elliptic integral    | Complete elliptic integral of the second kind $E(k)$             | (TODO)             | `std::comp_ellint_2`  | (TODO)    |
-| Elliptic integral    | Complete elliptic integral of the third kind $\Pi(n, k)$         | (TODO)             | `std::comp_ellint_3`  | (TODO)    |
-| Elliptic integral    | Incomplete elliptic integral of the first kind $F(\phi, k)$      | (TODO)             | `std::ellint_1`       | (TODO)    |
-| Elliptic integral    | Incomplete elliptic integral of the second kind $E(\phi, k)$     | (TODO)             | `std::ellint_2`       | (TODO)    |
-| Elliptic integral    | Incomplete elliptic integral of the third kind $\Pi(n, \phi, k)$ | (TODO)             | `std::ellint_3`       | (TODO)    |
-| Exponential integral | Exponential integral $Ei(x)$                                     | (TODO)             | `std::expint`         | (TODO)    |
-| Zeta                 | Riemann zeta function $\zeta{(x)}$                               | (TODO)             | `std::riemann_zeta`   | (TODO)    |
+| Type                 | Function                                                            | Name in FuncSketch | In C++                | In Python |
+| :------------------- | :------------------------------------------------------------------ | :----------------- | :-------------------- | :-------- |
+| Beta                 | Beta function $B{(x, y)}$                                           | (TODO)             | `std::beta`           | (TODO)    |
+| Beta                 | Incomplete beta function $B{(x; a, b)}$                             | (TODO)             | (TODO)                | (TODO)    |
+| Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$                  | (TODO)             | (TODO)                | (TODO)    |
+| Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$                 | (TODO)             | (TODO)                | (TODO)    |
+| Bessel               | Cylindrical Bessel function $J_{\nu}{(x)}$                          | (TODO)             | `std::cyl_bessel_j`   | (TODO)    |
+| Bessel               | Cylindrical Neumann function $Y_{\nu}{(x)}$                         | (TODO)             | `std::cyl_neumann`    | (TODO)    |
+| Bessel               | Regular modified cylindrical Bessel function $I_{\nu}{(x)}$         | (TODO)             | `std::cyl_bessel_i`   | (TODO)    |
+| Bessel               | Irregular modified cylindrical Bessel function $K_{\nu}{(x)}$       | (TODO)             | `std::cyl_bessel_k`   | (TODO)    |
+| Bessel               | Spherical Bessel function $j_n{(x)}$                                | (TODO)             | `std::sph_bessel`     | (TODO)    |
+| Bessel               | Spherical Neumann function $y_n{(x)}$                               | (TODO)             | `std::sph_neumann`    | (TODO)    |
+| Bessel               | Cylindrical Hankel function of the first kind $H_{\nu}^{(1)}{(x)}$  | (TODO)             | (TODO)                | (TODO)    |
+| Bessel               | Cylindrical Hankel function of the second kind $H_{\nu}^{(2)}{(x)}$ | (TODO)             | (TODO)                | (TODO)    |
+| Bessel               | Spherical Hankel function of the first kind $h_n^{(1)}{(x)}$        | (TODO)             | (TODO)                | (TODO)    |
+| Bessel               | Spherical Hankel function of the second kind $h_n^{(2)}{(x)}$       | (TODO)             | (TODO)                | (TODO)    |
+| Kelvin               | Kelvin function $\mathrm{ber}_{\nu}{(x)}$                           | (TODO)             | (TODO)                | (TODO)    |
+| Kelvin               | Kelvin function $\mathrm{bei}_{\nu}{(x)}$                           | (TODO)             | (TODO)                | (TODO)    |
+| Kelvin               | Kelvin function $\mathrm{ker}_{\nu}{(x)}$                           | (TODO)             | (TODO)                | (TODO)    |
+| Kelvin               | Kelvin function $\mathrm{kei}_{\nu}{(x)}$                           | (TODO)             | (TODO)                | (TODO)    |
+| Gamma                | Digamma function $\psi{(x)}$                                        | (TODO)             | (TODO)                | (TODO)    |
+| Gamma                | Polygamma function $\psi^{(n)}{(x)}$                                | (TODO)             | (TODO)                | (TODO)    |
+| Gamma                | Upper incomplete gamma function $\Gamma{(a, x)}$                    | (TODO)             | (TODO)                | (TODO)    |
+| Gamma                | Lower incomplete gamma function $\gamma{(a, x)}$                    | (TODO)             | (TODO)                | (TODO)    |
+| Hermite              | Hermite polynomial $H_n{(x)}$ (physicist's)                         | (TODO)             | `std::hermite`        | (TODO)    |
+| Chebyshev            | Chebyshev polynomial of the first kind $T_n{(x)}$                   | (TODO)             | (TODO)                | (TODO)    |
+| Chebyshev            | Chebyshev polynomial of the second kind $U_n{(x)}$                  | (TODO)             | (TODO)                | (TODO)    |
+| Gegenbauer           | Gegenbauer polynomial $C_n^{(\lambda)}{(x)}$                        | (TODO)             | (TODO)                | (TODO)    |
+| Laguerre             | Laguerre polynomial $L_n{(x)}$                                      | (TODO)             | `std::laguerre`       | (TODO)    |
+| Laguerre             | Associated Laguerre polynomial $L_n^{(\alpha)}{(x)}$                | (TODO)             | `std::assoc_laguerre` | (TODO)    |
+| Legendre             | Legendre polynomial $P_n{(x)}$                                      | (TODO)             | `std::legendre`       | (TODO)    |
+| Legendre             | Associated Legendre polynomial $P_n^m{(x)}$                         | (TODO)             | `std::assoc_legendre` | (TODO)    |
+| Legendre             | Spherical associated Legendre polynomial                            | (TODO)             | `std::sph_legendre`   | (TODO)    |
+| Jacobi polynomial    | Jacobi polynomial $P_n^{(\alpha, \beta)}{(x)}$                      | (TODO)             | (TODO)                | (TODO)    |
+| Elliptic integral    | Complete elliptic integral of the first kind $K(k)$                 | (TODO)             | `std::comp_ellint_1`  | (TODO)    |
+| Elliptic integral    | Complete elliptic integral of the second kind $E(k)$                | (TODO)             | `std::comp_ellint_2`  | (TODO)    |
+| Elliptic integral    | Complete elliptic integral of the third kind $\Pi(n, k)$            | (TODO)             | `std::comp_ellint_3`  | (TODO)    |
+| Elliptic integral    | Incomplete elliptic integral of the first kind $F(\phi, k)$         | (TODO)             | `std::ellint_1`       | (TODO)    |
+| Elliptic integral    | Incomplete elliptic integral of the second kind $E(\phi, k)$        | (TODO)             | `std::ellint_2`       | (TODO)    |
+| Elliptic integral    | Incomplete elliptic integral of the third kind $\Pi(n, \phi, k)$    | (TODO)             | `std::ellint_3`       | (TODO)    |
+| Jacobi elliptic      | Jacobi elliptic function $\mathrm{sn}{(u, k)}$                      | (TODO)             | (TODO)                | (TODO)    |
+| Jacobi elliptic      | Jacobi elliptic function $\mathrm{cn}{(u, k)}$                      | (TODO)             | (TODO)                | (TODO)    |
+| Jacobi elliptic      | Jacobi elliptic function $\mathrm{dn}{(u, k)}$                      | (TODO)             | (TODO)                | (TODO)    |
+| Exponential integral | Exponential integral $Ei(x)$                                        | (TODO)             | `std::expint`         | (TODO)    |
+| Other integrals      | Dawson integral $F{(x)}$                                            | (TODO)             | (TODO)                | (TODO)    |
+| Other integrals      | Sine integral $\mathrm{Si}{(x)}$                                    | (TODO)             | (TODO)                | (TODO)    |
+| Other integrals      | Cosine integral $\mathrm{Ci}{(x)}$                                  | (TODO)             | (TODO)                | (TODO)    |
+| Hypergeometric       | Confluent hypergeometric function (Kummer's M) $M{(a, b, x)}$       | (TODO)             | (TODO)                | (TODO)    |
+| Hypergeometric       | Confluent hypergeometric function (Kummer's U) $U{(a, b, x)}$       | (TODO)             | (TODO)                | (TODO)    |
+| Hypergeometric       | Gauss hypergeometric function ${}_2F_1{(a, b; c; x)}$               | (TODO)             | (TODO)                | (TODO)    |
+| Zeta                 | Riemann zeta function $\zeta{(x)}$                                  | (TODO)             | `std::riemann_zeta`   | (TODO)    |
+| Zeta                 | Hurwitz zeta function $\zeta{(x, q)}$                               | (TODO)             | (TODO)                | (TODO)    |
+| Lambert W            | Lambert W function (principal branch) $W_0{(x)}$                    | (TODO)             | (TODO)                | (TODO)    |
+| Lambert W            | Lambert W function (secondary branch) $W_{-1}{(x)}$                 | (TODO)             | (TODO)                | (TODO)    |
+| Owen                 | Owen's T function $T{(h, a)}$                                       | (TODO)             | (TODO)                | (TODO)    |
 
-- TODO: Research for more special functions.
 - TODO: Names in Python will be researched later.
 - TODO: Names of functions in FuncSketch are not decided yet.
 - TODO: Some functions have several different definitions, so we need to determine the definitions to be used in FuncSketch.
