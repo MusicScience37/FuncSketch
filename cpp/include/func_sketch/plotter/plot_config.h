@@ -51,7 +51,7 @@ constexpr auto default_axes_color = RGBColor{.r = 0x24, .g = 0x24, .b = 0x24};
 constexpr auto default_grid_color = RGBColor{.r = 0xC8, .g = 0xC8, .b = 0xC8};
 
 //! Default number of points to sample for each function.
-constexpr int default_num_sample_points = 100;
+constexpr int default_num_sample_points = 200;
 
 /*!
  * \brief Class of configurations of a plot.

@@ -26,55 +26,12 @@
 #include <opencv2/imgproc.hpp>
 
 #include "func_sketch/common_types.h"
-#include "func_sketch/exceptions.h"
+#include "func_sketch/plotter/plotting_util.h"
 #include "func_sketch/plotter/point.h"
 
 namespace func_sketch::plotter {
 
 namespace {
-
-/*!
- * \brief Convert color from RGBColor to cv::Scalar.
- *
- * \param[in] color Color to convert.
- * \return Converted color.
- */
-[[nodiscard]] cv::Scalar convert_color(const RGBColor& color) {
-    // Use RGB order in this implementation.
-    return cv::Scalar(color.r, color.g, color.b);
-}
-
-/*!
- * \brief Convert a position from plot coordinates to image coordinates.
- *
- * \param[in] position Position in plot coordinates.
- * \param[in] range Range of plots.
- * \param[in] config Configuration of plots.
- * \param[in] size Size of the image.
- * \return Converted position in image coordinates.
- */
-[[nodiscard]] cv::Point convert_position(const Point& position,
-    const PlotRange& range, const PlotConfig& config, const cv::MatSize& size) {
-    const int plot_width =
-        size[1] - config.left_margin() - config.right_margin();
-    const int plot_height =
-        size[0] - config.top_margin() - config.bottom_margin();
-    if (plot_width <= 0 || plot_height <= 0) {
-        throw InvalidArgumentException("Too small image size.");
-    }
-
-    const Real x_ratio = (position.x - range.x_range().first) /
-        (range.x_range().second - range.x_range().first);
-    const Real y_ratio = (position.y - range.y_range().first) /
-        (range.y_range().second - range.y_range().first);
-
-    const int x_in_pixel =
-        static_cast<int>(plot_width * x_ratio) + config.left_margin();
-    const int y_in_pixel =
-        static_cast<int>(plot_height * (1.0 - y_ratio)) + config.top_margin();
-
-    return cv::Point(x_in_pixel, y_in_pixel);
-}
 
 /*!
  * \brief Adjust the position of text to be inside the image.
@@ -97,20 +54,6 @@ namespace {
         std::min(adjusted_position.y, image_size.height - text_size.height);
 
     return adjusted_position;
-}
-
-/*!
- * \brief Clamp a point inside the plot range.
- *
- * \param[in] point Point to clamp.
- * \param[in] range Range of plots.
- * \return Clamped point.
- */
-[[nodiscard]] Point clamp_point(const Point& point, const PlotRange& range) {
-    return Point{
-        .x = std::clamp(point.x, range.x_range().first, range.x_range().second),
-        .y =
-            std::clamp(point.y, range.y_range().first, range.y_range().second)};
 }
 
 }  // namespace
@@ -199,12 +142,8 @@ void Plotter::write_curve(const std::vector<Point>& samples,
             end_xy = clamp_point(end_xy, range_);
         }
 
-        const auto start_pixel =
-            convert_position(start_xy, range_, config_, size);
-        const auto end_pixel = convert_position(end_xy, range_, config_, size);
-
-        cv::line(
-            image, start_pixel, end_pixel, cv_color, line_width, cv::LINE_AA);
+        write_line(
+            image, start_xy, end_xy, cv_color, line_width, range_, config_);
     }
 }
 
@@ -213,27 +152,17 @@ void Plotter::write_grid_lines(Image& image) const {
 
     // vertical lines.
     for (const Real x_value : x_grid_positions_) {
-        const auto bottom_position =
-            convert_position(Point{.x = x_value, .y = range_.y_range().first},
-                range_, config_, size);
-        const auto top_position =
-            convert_position(Point{.x = x_value, .y = range_.y_range().second},
-                range_, config_, size);
-
-        cv::line(image, bottom_position, top_position,
-            convert_color(config_.grid_color()), config_.grid_line_width());
+        write_line(image, Point{.x = x_value, .y = range_.y_range().first},
+            Point{.x = x_value, .y = range_.y_range().second},
+            convert_color(config_.grid_color()), config_.grid_line_width(),
+            range_, config_);
     }
     // horizontal lines.
     for (const Real y_value : y_grid_positions_) {
-        const auto left_position =
-            convert_position(Point{.x = range_.x_range().first, .y = y_value},
-                range_, config_, size);
-        const auto right_position =
-            convert_position(Point{.x = range_.x_range().second, .y = y_value},
-                range_, config_, size);
-
-        cv::line(image, left_position, right_position,
-            convert_color(config_.grid_color()), config_.grid_line_width());
+        write_line(image, Point{.x = range_.x_range().first, .y = y_value},
+            Point{.x = range_.x_range().second, .y = y_value},
+            convert_color(config_.grid_color()), config_.grid_line_width(),
+            range_, config_);
     }
 }
 
@@ -248,14 +177,9 @@ void Plotter::write_x_axis(Image& image) const {
     const Real y_value = std::clamp(
         static_cast<Real>(0), range_.y_range().first, range_.y_range().second);
 
-    const auto left_position =
-        convert_position(Point{.x = range_.x_range().first, .y = y_value},
-            range_, config_, size);
-    const auto right_position =
-        convert_position(Point{.x = range_.x_range().second, .y = y_value},
-            range_, config_, size);
-    cv::line(
-        image, left_position, right_position, color, config_.axes_line_width());
+    write_line(image, Point{.x = range_.x_range().first, .y = y_value},
+        Point{.x = range_.x_range().second, .y = y_value}, color,
+        config_.axes_line_width(), range_, config_);
 
     const Real tick_threshold =
         std::min(range_.x_range().second - range_.x_range().first,
@@ -298,14 +222,9 @@ void Plotter::write_y_axis(Image& image) const {
     const Real x_value = std::clamp(
         static_cast<Real>(0), range_.x_range().first, range_.x_range().second);
 
-    const auto bottom_position =
-        convert_position(Point{.x = x_value, .y = range_.y_range().first},
-            range_, config_, size);
-    const auto top_position =
-        convert_position(Point{.x = x_value, .y = range_.y_range().second},
-            range_, config_, size);
-    cv::line(
-        image, bottom_position, top_position, color, config_.axes_line_width());
+    write_line(image, Point{.x = x_value, .y = range_.y_range().first},
+        Point{.x = x_value, .y = range_.y_range().second}, color,
+        config_.axes_line_width(), range_, config_);
 
     const Real tick_threshold =
         std::min(range_.x_range().second - range_.x_range().first,

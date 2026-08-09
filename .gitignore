@@ -650,6 +650,7 @@ FodyWeavers.xsd
 
 # Temporary files created by ApprovalTests.
 *.received.*
+*.diff.*
 
 # Build artifacts.
 /src/func_sketch/_cpp.*
