@@ -39,6 +39,8 @@ autodoc_default_options = {
     "no-value": True,
 }
 
+todo_include_todos = True
+
 # -- Options for PlantUML ----------------------------------------------------
 
 extensions += ["sphinxcontrib.plantuml"]
