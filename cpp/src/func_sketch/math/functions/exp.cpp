@@ -34,4 +34,16 @@ MathFunction exp_function() {
             "exp", [](Real arg) { return std::exp(arg); }));
 }
 
+MathFunction exp2_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "exp2", [](Real arg) { return std::exp2(arg); }));
+}
+
+MathFunction expm1_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "expm1", [](Real arg) { return std::expm1(arg); }));
+}
+
 }  // namespace func_sketch::math

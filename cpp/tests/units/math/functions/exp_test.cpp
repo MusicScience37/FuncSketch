@@ -64,3 +64,77 @@ TEST_CASE("func_sketch::math::exp_function") {
         CHECK_THROWS(function_object(std::vector<Number>{1.0, 2.0}, result));
     }
 }
+
+TEST_CASE("func_sketch::math::exp2_function") {
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::exp2_function;
+    using func_sketch::math::MathFunctionType;
+
+    SECTION("operate on a real number") {
+        const auto args = std::vector<Number>{1.0};
+        Number result = 0.0;
+
+        const auto function_object = exp2_function();
+        function_object(args, result);
+
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(std::exp2(1.0)));
+    }
+
+    SECTION("operate on an integer") {
+        const auto args = std::vector<Number>{2};
+        Number result = 0.0;
+
+        const auto function_object = exp2_function();
+        function_object(args, result);
+
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(std::exp2(2.0)));
+    }
+
+    SECTION("check the number of arguments") {
+        const auto function_object = exp2_function();
+        Number result = 0.0;
+
+        CHECK_THROWS(function_object(std::vector<Number>{}, result));
+        CHECK_THROWS(function_object(std::vector<Number>{1.0, 2.0}, result));
+    }
+}
+
+TEST_CASE("func_sketch::math::expm1_function") {
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::expm1_function;
+    using func_sketch::math::MathFunctionType;
+
+    SECTION("operate on a real number") {
+        const auto args = std::vector<Number>{1.0};
+        Number result = 0.0;
+
+        const auto function_object = expm1_function();
+        function_object(args, result);
+
+        CHECK_THAT(std::get<Real>(result),
+            Catch::Matchers::WithinRel(std::expm1(1.0)));
+    }
+
+    SECTION("operate on an integer") {
+        const auto args = std::vector<Number>{2};
+        Number result = 0.0;
+
+        const auto function_object = expm1_function();
+        function_object(args, result);
+
+        CHECK_THAT(std::get<Real>(result),
+            Catch::Matchers::WithinRel(std::expm1(2.0)));
+    }
+
+    SECTION("check the number of arguments") {
+        const auto function_object = expm1_function();
+        Number result = 0.0;
+
+        CHECK_THROWS(function_object(std::vector<Number>{}, result));
+        CHECK_THROWS(function_object(std::vector<Number>{1.0, 2.0}, result));
+    }
+}

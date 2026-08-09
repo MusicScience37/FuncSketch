@@ -20,10 +20,11 @@ Directory structure:
   - `src`: Source files
   - `tests`: Tests
 - `docs`: Documentation
-  - `sphinx/design_notes/classes_cpp.puml`: UML class diagram for C++ classes
-  - `sphinx/design_notes/classes_python.puml`: UML class diagram for Python classes
-  - `sphinx/design_notes/grammar.md`: Grammar for the parser
-  - `sphinx/design_notes/modules.puml`: UML diagram for module structure
+  - Some important files:
+    - `sphinx/design_notes/classes_cpp.puml`: UML class diagram for C++ classes
+    - `sphinx/design_notes/classes_python.puml`: UML class diagram for Python classes
+    - `sphinx/design_notes/grammar.md`: Grammar for the parser
+    - `sphinx/design_notes/modules.puml`: UML diagram for module structure
 - `src`: Python source codes
   - `func_sketch`: Python package
     - `_gui`: Package directory for GUI
@@ -50,3 +51,12 @@ Directory structure:
 - Use tools `black`, `isort`, `pylint`, `flake8`, and `mypy`.
 - Use `pytest` for unit tests.
 - Comments should be in Google style.
+
+## Notes on Sphinx Documentation
+
+- Use docs/build.sh to build the documentation.
+  This script runs `sphinx-build` with required arguments and environment variables.
+  And it also runs `sphinx-apidoc` to generate API reference included in the documentation.
+- conf.py defines a custom directive `funcsketch:function` for documenting functions in FuncSketch.
+  Functions documented with `funcsketch:function` directive can be referenced with `:funcsketch:func:` role.
+- Documentation can be written also in Markdown format using `myst_parser` extension.
