@@ -26,7 +26,9 @@
     "tamasfe.even-better-toml",
     "redhat.vscode-yaml",
     "executablebookproject.myst-highlight",
-    "ms-toolsai.jupyter"
+    "ms-toolsai.jupyter",
+    "mechatroner.rainbow-csv",
+    "janisdd.vscode-edit-csv"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []

@@ -103,11 +103,49 @@ class FuncSketchFunctionDescription(sphinx.directives.ObjectDescription):
                     paramlist += sphinx.addnodes.desc_parameter(arg, arg)
             signode += paramlist
 
+        # Remember the plain name so that ``_toc_entry_name`` below can build
+        # a table-of-contents entry for this function.
+        signode["funcsketch_name"] = name
+
         return name
 
     def get_signature_prefix(self, _sig: str) -> str:
         """Get signature prefix of function description."""
         return "function"
+
+    def _object_hierarchy_parts(
+        self, sig_node: sphinx.addnodes.desc_signature
+    ) -> tuple[str, ...]:
+        """Get the hierarchy of names of the object for table-of-contents entries.
+
+        Functions in FuncSketch have no hierarchy (no submodules, classes,
+        etc.), so this is simply a single-element tuple with the function
+        name.
+        """
+        name = sig_node.get("funcsketch_name")
+        if name is None:
+            return ()
+        return (name,)
+
+    def _toc_entry_name(self, sig_node: sphinx.addnodes.desc_signature) -> str:
+        """Get the text of the table-of-contents entry for this function.
+
+        Overriding this (together with ``_object_hierarchy_parts``) is what
+        makes ``funcsketch:function`` entries show up in ``.. toctree::``
+        listings and the theme's sidebar navigation, the same mechanism the
+        built-in Python domain uses for ``py:function`` etc.
+        See :py:meth:`sphinx.directives.ObjectDescription._toc_entry_name`.
+
+        Note that this method and ``_object_hierarchy_parts`` are prefixed
+        with an underscore in Sphinx itself, meaning they are not part of
+        Sphinx's officially stable extension API (unlike ``handle_signature``
+        etc.). Their behavior should be re-checked when upgrading to a new
+        major version of Sphinx.
+        """
+        if not sig_node.get("_toc_parts"):
+            return ""
+        (name,) = sig_node["_toc_parts"]
+        return f"{name}()"
 
     def add_target_and_index(
         self, name: str, _sig: str, signode: sphinx.addnodes.desc_signature
