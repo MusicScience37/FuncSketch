@@ -7,6 +7,12 @@ C++ API reference is separately generated and can be found in `here <doxygen>`_.
 
 .. toctree::
     :maxdepth: 1
+    :caption: User Guide
+
+    expression_reference/index
+
+.. toctree::
+    :maxdepth: 1
     :caption: Development
 
     python_api/modules
