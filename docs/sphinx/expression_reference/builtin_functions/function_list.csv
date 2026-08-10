@@ -8,6 +8,7 @@ Function,Short Description
 :funcsketch:func:`atan2`, "Arctangent function of two variables (:math:`\mathrm{atan2}(y, x)`)."
 :funcsketch:func:`atanh`, Hyperbolic arctangent function (:math:`\mathrm{atanh}(x)`).
 :funcsketch:func:`cbrt`, Cube root function (:math:`\sqrt[3]{x}`).
+:funcsketch:func:`ceil`, Ceiling function (:math:`\lceil x \rceil`).
 :funcsketch:func:`cos`, Cosine function (:math:`\cos(x)`).
 :funcsketch:func:`cosh`, Hyperbolic cosine function (:math:`\cosh(x)`).
 :funcsketch:func:`erf`, Error function (:math:`\mathrm{erf}(x)`).

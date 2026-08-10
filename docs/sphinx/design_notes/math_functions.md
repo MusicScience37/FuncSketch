@@ -9,7 +9,6 @@ Basic functions in `<cmath>` header in C++11:
 
 | Type | Function                                  | Name in FuncSketch | In C++       | In Python    |
 | :--- | :---------------------------------------- | :----------------- | :----------- | :----------- |
-| Misc | Ceiling function $\lceil{x}\rceil$        | `ceil`             | `std::ceil`  | `math.ceil`  |
 | Misc | Floor function $\lfloor{x}\rfloor$        | `floor`            | `std::floor` | `math.floor` |
 | Misc | Truncation function $\mathrm{trunc}\,{x}$ | `trunc`            | `std::trunc` | `math.trunc` |
 

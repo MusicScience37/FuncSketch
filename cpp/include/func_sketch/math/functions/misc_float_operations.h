@@ -31,4 +31,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction abs_function();
 
+/*!
+ * \brief Create `ceil` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction ceil_function();
+
 }  // namespace func_sketch::math

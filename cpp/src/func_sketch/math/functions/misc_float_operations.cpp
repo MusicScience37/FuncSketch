@@ -35,4 +35,10 @@ MathFunction abs_function() {
             "abs", [](Real arg) { return std::abs(arg); }));
 }
 
+MathFunction ceil_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "ceil", [](Real arg) { return std::ceil(arg); }));
+}
+
 }  // namespace func_sketch::math

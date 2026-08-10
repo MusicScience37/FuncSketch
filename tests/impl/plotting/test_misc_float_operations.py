@@ -24,3 +24,8 @@ class TestMiscFloatOperations:
         """Test of plotting abs(x)."""
         image = plot_function(["abs(x)"], (-3.0, 3.0), (-1.0, 5.0))
         image_approver.verify(image)
+
+    def test_plot_ceil(self, image_approver) -> None:
+        """Test of plotting ceil(x)."""
+        image = plot_function(["ceil(x)"], (-3.0, 3.0), (-4.0, 4.0))
+        image_approver.verify(image)
