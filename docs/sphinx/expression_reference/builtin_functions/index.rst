@@ -10,3 +10,4 @@ Built-in Functions
     trigonometric
     hyperbolic
     error
+    gamma

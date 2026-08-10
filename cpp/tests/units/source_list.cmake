@@ -14,6 +14,7 @@ set(SOURCE_FILES
     math/common_type_test.cpp
     math/functions/erf_test.cpp
     math/functions/exp_test.cpp
+    math/functions/gamma_test.cpp
     math/functions/hyperbolic_test.cpp
     math/functions/log_test.cpp
     math/functions/pow_test.cpp

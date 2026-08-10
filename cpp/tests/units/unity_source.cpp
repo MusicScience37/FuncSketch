@@ -13,6 +13,7 @@
 #include "math/common_type_test.cpp"
 #include "math/functions/erf_test.cpp"
 #include "math/functions/exp_test.cpp"
+#include "math/functions/gamma_test.cpp"
 #include "math/functions/hyperbolic_test.cpp"
 #include "math/functions/log_test.cpp"
 #include "math/functions/pow_test.cpp"
