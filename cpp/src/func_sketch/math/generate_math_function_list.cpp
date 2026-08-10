@@ -47,6 +47,8 @@ MathFunctionList generate_math_function_list() {
 
     // In trigonometric.h
     list.emplace(sin_function());
+    list.emplace(cos_function());
+    list.emplace(tan_function());
 
     return list;
 }

@@ -30,4 +30,18 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction sin_function();
 
+/*!
+ * \brief Create `cos` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction cos_function();
+
+/*!
+ * \brief Create `tan` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction tan_function();
+
 }  // namespace func_sketch::math

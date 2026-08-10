@@ -48,3 +48,45 @@ TEST_CASE("func_sketch::math::sin_function") {
         test_single_variate_function_errors<Real>(function_object);
     }
 }
+
+TEST_CASE("func_sketch::math::cos_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::cos_function;
+
+    const auto function_object = cos_function();
+    const auto reference_function = [](Real arg) { return std::cos(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.0, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
+
+TEST_CASE("func_sketch::math::tan_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::tan_function;
+
+    const auto function_object = tan_function();
+    const auto reference_function = [](Real arg) { return std::tan(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.0, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}

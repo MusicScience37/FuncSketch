@@ -34,4 +34,16 @@ MathFunction sin_function() {
             "sin", [](Real arg) { return std::sin(arg); }));
 }
 
+MathFunction cos_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "cos", [](Real arg) { return std::cos(arg); }));
+}
+
+MathFunction tan_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "tan", [](Real arg) { return std::tan(arg); }));
+}
+
 }  // namespace func_sketch::math

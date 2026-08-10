@@ -28,3 +28,15 @@ class TestTrigonometric:
             "sin(x)", (-2.0 * numpy.pi, 2.0 * numpy.pi), (-1.5, 1.5)
         )
         compare_vectors(y_values, numpy.sin(x_values))
+
+    def test_sample_cos(self) -> None:
+        """Test of sampling cos(x)."""
+        x_values, y_values = sample_function(
+            "cos(x)", (-2.0 * numpy.pi, 2.0 * numpy.pi), (-1.5, 1.5)
+        )
+        compare_vectors(y_values, numpy.cos(x_values))
+
+    def test_sample_tan(self) -> None:
+        """Test of sampling tan(x)."""
+        x_values, y_values = sample_function("tan(x)", (-1.0, 1.0), (-2.0, 2.0))
+        compare_vectors(y_values, numpy.tan(x_values))

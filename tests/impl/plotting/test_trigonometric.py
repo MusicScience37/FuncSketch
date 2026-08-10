@@ -28,3 +28,17 @@ class TestTrigonometric:
             ["sin(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-1.5, 1.5)
         )
         image_approver.verify(image)
+
+    def test_plot_cos(self, image_approver) -> None:
+        """Test of plotting cos(x)."""
+        image = plot_function(
+            ["cos(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-1.5, 1.5)
+        )
+        image_approver.verify(image)
+
+    def test_plot_tan(self, image_approver) -> None:
+        """Test of plotting tan(x)."""
+        image = plot_function(
+            ["tan(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-2.0, 2.0)
+        )
+        image_approver.verify(image)
