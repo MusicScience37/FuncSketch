@@ -12,6 +12,7 @@ set(SOURCE_FILES
     math/binary_operator_test.cpp
     math/binary_operators_test.cpp
     math/common_type_test.cpp
+    math/functions/erf_test.cpp
     math/functions/exp_test.cpp
     math/functions/hyperbolic_test.cpp
     math/functions/log_test.cpp
