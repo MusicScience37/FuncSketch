@@ -9,8 +9,6 @@ Basic functions in `<cmath>` header in C++11:
 
 | Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
 | :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Hyperbolic    | Hyperbolic cosine function $\cosh{x}$                           | `cosh`             | `std::cosh`   | `math.cosh`   |
-| Hyperbolic    | Hyperbolic tangent function $\tanh{x}$                          | `tanh`             | `std::tanh`   | `math.tanh`   |
 | Hyperbolic    | Hyperbolic arcsine function $\mathrm{asinh}\,{x}$               | `asinh`            | `std::asinh`  | `math.asinh`  |
 | Hyperbolic    | Hyperbolic arccosine function $\mathrm{acosh}\,{x}$             | `acosh`            | `std::acosh`  | `math.acosh`  |
 | Hyperbolic    | Hyperbolic arctangent function $\mathrm{atanh}\,{x}$            | `atanh`            | `std::atanh`  | `math.atanh`  |

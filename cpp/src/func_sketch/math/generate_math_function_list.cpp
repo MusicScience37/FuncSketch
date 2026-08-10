@@ -57,6 +57,8 @@ MathFunctionList generate_math_function_list() {
 
     // In hyperbolic.h
     list.emplace(sinh_function());
+    list.emplace(cosh_function());
+    list.emplace(tanh_function());
 
     return list;
 }

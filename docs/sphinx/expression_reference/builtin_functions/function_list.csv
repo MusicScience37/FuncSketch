@@ -5,6 +5,7 @@ Function,Short Description
 :funcsketch:func:`atan2`, "Arctangent function of two variables (:math:`\mathrm{atan2}(y, x)`)."
 :funcsketch:func:`cbrt`, Cube root function (:math:`\sqrt[3]{x}`).
 :funcsketch:func:`cos`, Cosine function (:math:`\cos(x)`).
+:funcsketch:func:`cosh`, Hyperbolic cosine function (:math:`\cosh(x)`).
 :funcsketch:func:`exp`, Exponential function (:math:`e^x`).
 :funcsketch:func:`exp2`, Base-2 exponential function (:math:`2^x`).
 :funcsketch:func:`expm1`, Exponential-minus-one function (:math:`e^x - 1`).
@@ -17,3 +18,4 @@ Function,Short Description
 :funcsketch:func:`sinh`, Hyperbolic sine function (:math:`\sinh(x)`).
 :funcsketch:func:`sqrt`, Square root function (:math:`\sqrt{x}`).
 :funcsketch:func:`tan`, Tangent function (:math:`\tan(x)`).
+:funcsketch:func:`tanh`, Hyperbolic tangent function (:math:`\tanh(x)`).

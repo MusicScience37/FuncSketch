@@ -26,3 +26,13 @@ class TestHyperbolic:
         """Test of sampling sinh(x)."""
         x_values, y_values = sample_function("sinh(x)", (-2.0, 2.0), (-4.0, 4.0))
         compare_vectors(y_values, numpy.sinh(x_values))
+
+    def test_sample_cosh(self) -> None:
+        """Test of sampling cosh(x)."""
+        x_values, y_values = sample_function("cosh(x)", (-2.0, 2.0), (-0.5, 4.5))
+        compare_vectors(y_values, numpy.cosh(x_values))
+
+    def test_sample_tanh(self) -> None:
+        """Test of sampling tanh(x)."""
+        x_values, y_values = sample_function("tanh(x)", (-3.0, 3.0), (-1.5, 1.5))
+        compare_vectors(y_values, numpy.tanh(x_values))

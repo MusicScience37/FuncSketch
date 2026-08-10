@@ -24,3 +24,13 @@ class TestHyperbolic:
         """Test of plotting sinh(x)."""
         image = plot_function(["sinh(x)"], (-2.0, 2.0), (-4.0, 4.0))
         image_approver.verify(image)
+
+    def test_plot_cosh(self, image_approver) -> None:
+        """Test of plotting cosh(x)."""
+        image = plot_function(["cosh(x)"], (-2.0, 2.0), (-0.5, 4.5))
+        image_approver.verify(image)
+
+    def test_plot_tanh(self, image_approver) -> None:
+        """Test of plotting tanh(x)."""
+        image = plot_function(["tanh(x)"], (-3.0, 3.0), (-1.5, 1.5))
+        image_approver.verify(image)

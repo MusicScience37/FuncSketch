@@ -30,4 +30,18 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction sinh_function();
 
+/*!
+ * \brief Create `cosh` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction cosh_function();
+
+/*!
+ * \brief Create `tanh` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction tanh_function();
+
 }  // namespace func_sketch::math
