@@ -14,3 +14,15 @@ The error function is a special function related to the normal distribution.
     :range: :math:`(-1, 1)`
     :returns: The value of :math:`\mathrm{erf}(x)`.
     :rtype: Real
+
+.. funcsketch:function:: erfc(x)
+
+    Complementary error function.
+
+    :param x: The value to take the complementary error function of.
+    :type x: Real
+    :definition: :math:`\mathrm{erfc}(x) = 1 - \mathrm{erf}(x)`
+    :domain: :math:`(-\infty, \infty)`
+    :range: :math:`(0, 2)`
+    :returns: The value of :math:`\mathrm{erfc}(x)`.
+    :rtype: Real

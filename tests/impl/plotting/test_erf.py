@@ -24,3 +24,8 @@ class TestErf:
         """Test of plotting erf(x)."""
         image = plot_function(["erf(x)"], (-3.0, 3.0), (-1.5, 1.5))
         image_approver.verify(image)
+
+    def test_plot_erfc(self, image_approver) -> None:
+        """Test of plotting erfc(x)."""
+        image = plot_function(["erfc(x)"], (-3.0, 3.0), (-0.5, 2.5))
+        image_approver.verify(image)

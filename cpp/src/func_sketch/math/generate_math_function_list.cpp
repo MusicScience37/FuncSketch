@@ -66,6 +66,7 @@ MathFunctionList generate_math_function_list() {
 
     // In erf.h
     list.emplace(erf_function());
+    list.emplace(erfc_function());
 
     return list;
 }

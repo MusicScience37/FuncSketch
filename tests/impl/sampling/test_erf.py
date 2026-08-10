@@ -28,3 +28,8 @@ class TestErf:
         """Test of sampling erf(x)."""
         x_values, y_values = sample_function("erf(x)", (-3.0, 3.0), (-1.5, 1.5))
         compare_vectors(y_values, numpy.array([math.erf(x) for x in x_values]))
+
+    def test_sample_erfc(self) -> None:
+        """Test of sampling erfc(x)."""
+        x_values, y_values = sample_function("erfc(x)", (-3.0, 3.0), (-0.5, 2.5))
+        compare_vectors(y_values, numpy.array([math.erfc(x) for x in x_values]))

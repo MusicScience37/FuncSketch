@@ -9,7 +9,6 @@ Basic functions in `<cmath>` header in C++11:
 
 | Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
 | :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Error         | Complementary error function $\mathrm{erfc}\,{x}$               | `erfc`             | `std::erfc`   | `math.erfc`   |
 | Gamma         | Gamma function $\Gamma{(x)}$                                    | `gamma`            | `std::tgamma` | `math.gamma`  |
 | Gamma         | Natural logarithm of the gamma function $\log{\|\Gamma{(x)}\|}$ | `lgamma`           | `std::lgamma` | `math.lgamma` |
 | Misc          | Absolute value function $\|x\|$                                 | `abs`              | `std::abs`    | `math.fabs`   |

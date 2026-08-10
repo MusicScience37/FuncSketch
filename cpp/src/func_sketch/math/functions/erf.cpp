@@ -34,4 +34,10 @@ MathFunction erf_function() {
             "erf", [](Real arg) { return std::erf(arg); }));
 }
 
+MathFunction erfc_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "erfc", [](Real arg) { return std::erfc(arg); }));
+}
+
 }  // namespace func_sketch::math

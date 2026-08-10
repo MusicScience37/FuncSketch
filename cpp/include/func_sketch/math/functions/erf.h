@@ -30,4 +30,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction erf_function();
 
+/*!
+ * \brief Create `erfc` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction erfc_function();
+
 }  // namespace func_sketch::math
