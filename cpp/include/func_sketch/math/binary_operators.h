@@ -22,6 +22,7 @@
 #include <string_view>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/math/pow_number.h"
 
 namespace func_sketch::math {
 
@@ -136,6 +137,35 @@ public:
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
                 result = left_value / right_value;
+            },
+            left, right);
+    }
+};
+
+/*!
+ * \brief Class of power operator.
+ */
+class PowerOperator {
+public:
+    /*!
+     * \brief Get the name of the operator.
+     *
+     * \return Name of the operator.
+     */
+    [[nodiscard]] static std::string_view name() noexcept { return "pow"; }
+
+    /*!
+     * \brief Operate on a pair of scalars.
+     *
+     * \param[in] left Left scalar.
+     * \param[in] right Right scalar.
+     * \param[out] result Result scalar.
+     */
+    static void operator()(
+        const Number& left, const Number& right, Number& result) noexcept {
+        std::visit(
+            [&result](const auto& left_value, const auto& right_value) {
+                result = pow_number(left_value, right_value);
             },
             left, right);
     }

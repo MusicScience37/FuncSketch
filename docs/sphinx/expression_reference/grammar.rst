@@ -32,6 +32,9 @@ Operators
     "``x - y``", "Subtraction"
     "``x * y``", "Multiplication"
     "``x / y``", "Division"
+    "``x ** y``", "Power (Works same as :funcsketch:func:`pow`)"
 
 .. note::
-    Future implementation will support the operator of power ``**``.
+    ``**`` is currently left-associative (e.g. ``2 ** 3 ** 4`` is parsed as
+    ``(2 ** 3) ** 4``). This is a known limitation; it is planned to be
+    changed to right-associative in the future.

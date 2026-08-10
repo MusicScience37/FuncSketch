@@ -161,6 +161,9 @@ namespace func_sketch::parser {
     if (operator_str == "/") {
         return math::BinaryOperator(math::DivisionOperator());
     }
+    if (operator_str == "**") {
+        return math::BinaryOperator(math::PowerOperator());
+    }
     throw InvalidExpressionException(
         "Unknown binary operator: " + operator_str);
 }
