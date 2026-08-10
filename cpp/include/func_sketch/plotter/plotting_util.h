@@ -68,6 +68,34 @@ void write_line(Image& image, const Point& start_point, const Point& end_point,
     const PlotConfig& config);
 
 /*!
+ * \brief Try to clamp a point with infinity to the range.
+ *
+ * \param[in,out] point Point to clamp.
+ * \param[in] range Range to clamp the point to.
+ * \retval true The point was clamped or the point was finite.
+ * \retval false The point could not be clamped because it was infinite in both
+ * coordinates.
+ *
+ * \note This function does not check for NaN values.
+ */
+[[nodiscard]] bool try_clamp_infinity(Point& point, const PlotRange& range);
+
+/*!
+ * \brief Compute the intersection of a line segment with the boundary of  the
+ * plot range.
+ *
+ * \param[in] point_in_range Point inside the range.
+ * \param[in] point_out_of_range Point outside the range.
+ * \param[in] range Range of plots.
+ * \return Intersection point of the line segment with the range.
+ *
+ * \note This function assumes that all coordinates are finite
+ * and that the line segment intersects with the boundary of the range.
+ */
+[[nodiscard]] Point compute_intersection_with_range(const Point& point_in_range,
+    const Point& point_out_of_range, const PlotRange& range);
+
+/*!
  * \brief Clamp a point inside the plot range.
  *
  * \param[in] point Point to clamp.

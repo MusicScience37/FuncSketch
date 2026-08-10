@@ -20,10 +20,12 @@
 #include "func_sketch/plotter/plotting_util.h"
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 
 #include <opencv2/imgproc.hpp>
 
+#include "func_sketch/common_types.h"
 #include "func_sketch/exceptions.h"
 
 namespace func_sketch::plotter {
@@ -109,6 +111,76 @@ void write_line(Image& image, const Point& start_point, const Point& end_point,
         end_point, range, config, image.size, shift);
     cv::line(
         image, start_pixel, end_pixel, color, line_width, cv::LINE_AA, shift);
+}
+
+bool try_clamp_infinity(Point& point, const PlotRange& range) {
+    if (std::isinf(point.x) && std::isinf(point.y)) {
+        return false;
+    }
+    if (std::isinf(point.x)) {
+        point.x =
+            (point.x > 0) ? range.x_range().second : range.x_range().first;
+    }
+    if (std::isinf(point.y)) {
+        point.y =
+            (point.y > 0) ? range.y_range().second : range.y_range().first;
+    }
+    return true;
+}
+
+/*!
+ * \brief Compute the intersection of a line segment with a vertical line.
+ *
+ * \param[in] point1 First point of the line segment.
+ * \param[in] point2 Second point of the line segment.
+ * \param[in] x_value X-coordinate of the vertical line.
+ * \return Intersection point of the line segment with the vertical line.
+ */
+Point compute_intersection_with_vertical_line(
+    const Point& point1, const Point& point2, Real x_value) {
+    assert(point1.x != point2.x);
+    const Real slope = (point2.y - point1.y) / (point2.x - point1.x);
+    const Real y_value = point1.y + slope * (x_value - point1.x);
+    return Point{.x = x_value, .y = y_value};
+}
+
+/*!
+ * \brief Compute the intersection of a line segment with a horizontal line.
+ *
+ * \param[in] point1 First point of the line segment.
+ * \param[in] point2 Second point of the line segment.
+ * \param[in] y_value Y-coordinate of the horizontal line.
+ * \return Intersection point of the line segment with the horizontal line.
+ */
+Point compute_intersection_with_horizontal_line(
+    const Point& point1, const Point& point2, Real y_value) {
+    assert(point1.y != point2.y);
+    const Real slope = (point2.x - point1.x) / (point2.y - point1.y);
+    const Real x_value = point1.x + slope * (y_value - point1.y);
+    return Point{.x = x_value, .y = y_value};
+}
+
+Point compute_intersection_with_range(const Point& point_in_range,
+    const Point& point_out_of_range, const PlotRange& range) {
+    Point intersection = point_out_of_range;
+
+    if (intersection.x < range.x_range().first) {
+        intersection = compute_intersection_with_vertical_line(
+            point_in_range, intersection, range.x_range().first);
+    } else if (intersection.x > range.x_range().second) {
+        intersection = compute_intersection_with_vertical_line(
+            point_in_range, intersection, range.x_range().second);
+    }
+
+    if (intersection.y < range.y_range().first) {
+        intersection = compute_intersection_with_horizontal_line(
+            point_in_range, intersection, range.y_range().first);
+    } else if (intersection.y > range.y_range().second) {
+        intersection = compute_intersection_with_horizontal_line(
+            point_in_range, intersection, range.y_range().second);
+    }
+
+    return intersection;
 }
 
 Point clamp_point(const Point& point, const PlotRange& range) {
