@@ -17,18 +17,6 @@ package func_sketch {
         using Number = std::variant<Integer, Real, Complex>
     }
 
-    class RealVector <<typedef>> <<future-implementation>> {
-        using RealVector = Eigen::VectorXd
-    }
-
-    class ComplexVector <<typedef>> <<future-implementation>> {
-        using ComplexVector = Eigen::VectorXcd
-    }
-
-    class VectorizedNumber <<typedef>> <<future-implementation>> {
-        using VectorizedNumber = std::variant<Integer, Real, Complex, RealVector, ComplexVector>
-    }
-
     enum ParameterType <<future-implementation>> {
         x
         t
@@ -44,19 +32,16 @@ package func_sketch {
     package math {
         class UnaryOperator {
             + operator()(arg : Number, result : Number&)
-            + operator()(arg : VectorizedNumber, result : VectorizedNumber&)
         }
         UnaryOperator o-- Any
 
         class BinaryOperator {
             + operator()(left : Number, right : Number, result : Number&)
-            + operator()(left : VectorizedNumber, right : VectorizedNumber, result : VectorizedNumber&)
         }
         BinaryOperator o-- Any
 
         class MathFunction {
             + operator()(args : std::vector<Number>, result : Number&)
-            + operator()(args : std::vector<VectorizedNumber>, result : VectorizedNumber&)
         }
         MathFunction o-- Any
 
@@ -117,7 +102,6 @@ package func_sketch {
 
         class ExpressionEvaluator {
             + operator()(expression : const Expression&, parameter : Real, result : Real&)
-            + operator()(expression : const Expression&, parameter : RealVector, result : RealVector&)
         }
 
         class ExpressionPtr
