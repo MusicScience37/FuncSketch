@@ -44,4 +44,25 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction tanh_function();
 
+/*!
+ * \brief Create `asinh` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction asinh_function();
+
+/*!
+ * \brief Create `acosh` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction acosh_function();
+
+/*!
+ * \brief Create `atanh` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction atanh_function();
+
 }  // namespace func_sketch::math

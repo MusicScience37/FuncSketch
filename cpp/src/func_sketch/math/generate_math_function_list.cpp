@@ -59,6 +59,9 @@ MathFunctionList generate_math_function_list() {
     list.emplace(sinh_function());
     list.emplace(cosh_function());
     list.emplace(tanh_function());
+    list.emplace(asinh_function());
+    list.emplace(acosh_function());
+    list.emplace(atanh_function());
 
     return list;
 }

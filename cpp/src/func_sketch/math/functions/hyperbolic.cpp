@@ -46,4 +46,22 @@ MathFunction tanh_function() {
             "tanh", [](Real arg) { return std::tanh(arg); }));
 }
 
+MathFunction asinh_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "asinh", [](Real arg) { return std::asinh(arg); }));
+}
+
+MathFunction acosh_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "acosh", [](Real arg) { return std::acosh(arg); }));
+}
+
+MathFunction atanh_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "atanh", [](Real arg) { return std::atanh(arg); }));
+}
+
 }  // namespace func_sketch::math

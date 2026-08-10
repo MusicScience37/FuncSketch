@@ -36,3 +36,18 @@ class TestHyperbolic:
         """Test of sampling tanh(x)."""
         x_values, y_values = sample_function("tanh(x)", (-3.0, 3.0), (-1.5, 1.5))
         compare_vectors(y_values, numpy.tanh(x_values))
+
+    def test_sample_asinh(self) -> None:
+        """Test of sampling asinh(x)."""
+        x_values, y_values = sample_function("asinh(x)", (-4.0, 4.0), (-2.5, 2.5))
+        compare_vectors(y_values, numpy.arcsinh(x_values))
+
+    def test_sample_acosh(self) -> None:
+        """Test of sampling acosh(x)."""
+        x_values, y_values = sample_function("acosh(x)", (1.0, 4.0), (-0.5, 2.5))
+        compare_vectors(y_values, numpy.arccosh(x_values))
+
+    def test_sample_atanh(self) -> None:
+        """Test of sampling atanh(x)."""
+        x_values, y_values = sample_function("atanh(x)", (-0.9, 0.9), (-3.0, 3.0))
+        compare_vectors(y_values, numpy.arctanh(x_values))

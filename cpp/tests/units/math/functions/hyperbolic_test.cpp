@@ -90,3 +90,66 @@ TEST_CASE("func_sketch::math::tanh_function") {
         test_single_variate_function_errors<Real>(function_object);
     }
 }
+
+TEST_CASE("func_sketch::math::asinh_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::asinh_function;
+
+    const auto function_object = asinh_function();
+    const auto reference_function = [](Real arg) { return std::asinh(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.0, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
+
+TEST_CASE("func_sketch::math::acosh_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::acosh_function;
+
+    const auto function_object = acosh_function();
+    const auto reference_function = [](Real arg) { return std::acosh(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.5, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
+
+TEST_CASE("func_sketch::math::atanh_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::atanh_function;
+
+    const auto function_object = atanh_function();
+    const auto reference_function = [](Real arg) { return std::atanh(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 0, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 0.5, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
