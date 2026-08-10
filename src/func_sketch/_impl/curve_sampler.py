@@ -14,6 +14,8 @@
 
 """Class to sample points of curves."""
 
+import logging
+
 from func_sketch._cpp import (
     ExpressionParser,
     FunctionSampler,
@@ -23,6 +25,8 @@ from func_sketch._cpp import (
 )
 from func_sketch._impl.curve_config import CurveConfig
 from func_sketch._impl.sampled_curve import SampledCurve
+
+LOGGER = logging.getLogger(__name__)
 
 
 class CurveSampler:
@@ -87,4 +91,5 @@ class CurveSampler:
             return SampledCurve(samples=PointList([]), color=curve_config.color)
         expression = self._parser(curve_config.function_expression_str)
         samples = self._sampler(expression)
+        LOGGER.debug("CurveSampler: Sampled %d points.", len(samples.points))
         return SampledCurve(samples, curve_config.color)

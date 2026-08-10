@@ -57,7 +57,7 @@ constexpr int default_num_sample_points =
     100;  // TODO Remove this value after implementing adaptive sampling.
 
 //! Default number of points to sample initially in adaptive sampling.
-constexpr std::size_t default_initial_num_sample_points = 100;
+constexpr std::size_t default_initial_num_sample_points = 110;
 
 //! Default maximum number of points to sample in adaptive sampling.
 constexpr std::size_t default_max_num_sample_points = 1000;
@@ -69,13 +69,13 @@ constexpr std::size_t max_max_num_sample_points = 10000;
 constexpr double default_max_coordinate_change_rate = 0.01;
 
 //! Default threshold of the change in slope normalized by the plot range in adaptive sampling.
-constexpr double default_slope_change_threshold = 0.2;
+constexpr double default_slope_change_threshold = 0.1;
 
 //! Default minimum rate of parameter change in adaptive sampling.
 constexpr double default_min_param_change_rate = 0.001;
 
 //! Minimum value of the minimum rate of parameter change in adaptive sampling for safety limit of memory usage.
-constexpr double min_min_param_change_rate = 1e-3;
+constexpr double min_min_param_change_rate = 1e-4;
 
 /*!
  * \brief Class of configurations of a plot.
