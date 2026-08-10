@@ -94,3 +94,33 @@ class TestPlotConfig:
         assert config.grid_color.r == color.r
         assert config.grid_color.g == color.g
         assert config.grid_color.b == color.b
+
+    def test_initial_num_sample_points(self) -> None:
+        """Test of initial_num_sample_points property."""
+        config = PlotConfig()
+        config.initial_num_sample_points = 200
+        assert config.initial_num_sample_points == 200
+
+    def test_max_num_sample_points(self) -> None:
+        """Test of max_num_sample_points property."""
+        config = PlotConfig()
+        config.max_num_sample_points = 3000
+        assert config.max_num_sample_points == 3000
+
+    def test_max_coordinate_change_rate(self) -> None:
+        """Test of max_coordinate_change_rate property."""
+        config = PlotConfig()
+        config.max_coordinate_change_rate = 0.05
+        assert config.max_coordinate_change_rate == 0.05
+
+    def test_slope_change_threshold(self) -> None:
+        """Test of slope_change_threshold property."""
+        config = PlotConfig()
+        config.slope_change_threshold = 0.5
+        assert config.slope_change_threshold == 0.5
+
+    def test_min_param_change_rate(self) -> None:
+        """Test of min_param_change_rate property."""
+        config = PlotConfig()
+        config.min_param_change_rate = 0.01
+        assert config.min_param_change_rate == 0.01
