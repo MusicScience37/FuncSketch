@@ -31,6 +31,7 @@ then insert additional points between samples as needed to satisfy the required 
   - A lower bound is set on this threshold to limit the number of recursions (roughly 1/1000 of the size of the domain).
   - Whether to connect the two points with a line when this threshold is reached needs further consideration:
     - When the change in `y` is large, the function is likely piecewise, so the points should not be connected with a line (this is handled in the plotting step).
+      However, this resulted in discontinuities of the line in many cases where the function is actually continuous, so not implemented for now.
 - The total number of points becomes too large.
   - Even after applying the criteria above, a maximum point count is set as a last resort to give up further subdivision.
     - A feature to warn the user when this limit is reached would be useful.
