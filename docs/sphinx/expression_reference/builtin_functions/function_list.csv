@@ -1,4 +1,11 @@
 Function,Short Description
+:funcsketch:func:`cbrt`, Cube root function (:math:`\sqrt[3]{x}`).
 :funcsketch:func:`exp`, Exponential function (:math:`e^x`).
 :funcsketch:func:`exp2`, Base-2 exponential function (:math:`2^x`).
 :funcsketch:func:`expm1`, Exponential-minus-one function (:math:`e^x - 1`).
+:funcsketch:func:`log`, Natural logarithm function (:math:`\log(x)`).
+:funcsketch:func:`log1p`, Natural logarithm of one plus x function (:math:`\log(1+x)`).
+:funcsketch:func:`log10`, Base-10 logarithm function (:math:`\log_{10}(x)`).
+:funcsketch:func:`log2`, Base-2 logarithm function (:math:`\log_{2}(x)`).
+:funcsketch:func:`pow`, Power function (:math:`\mathrm{base}^{\mathrm{exponent}}`).
+:funcsketch:func:`sqrt`, Square root function (:math:`\sqrt{x}`).

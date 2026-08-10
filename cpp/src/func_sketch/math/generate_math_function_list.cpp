@@ -21,18 +21,29 @@
 
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/functions/log.h"
+#include "func_sketch/math/functions/pow.h"
 
 namespace func_sketch::math {
 
 MathFunctionList generate_math_function_list() {
     MathFunctionList list;
+
+    // In exp.h
     list.emplace(exp_function());
     list.emplace(exp2_function());
     list.emplace(expm1_function());
+
+    // In log.h
     list.emplace(log_function());
     list.emplace(log1p_function());
     list.emplace(log10_function());
     list.emplace(log2_function());
+
+    // In pow.h
+    list.emplace(pow_function());
+    list.emplace(sqrt_function());
+    list.emplace(cbrt_function());
+
     return list;
 }
 

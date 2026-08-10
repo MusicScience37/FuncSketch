@@ -60,3 +60,4 @@ Directory structure:
 - conf.py defines a custom directive `funcsketch:function` for documenting functions in FuncSketch.
   Functions documented with `funcsketch:function` directive can be referenced with `:funcsketch:func:` role.
 - Documentation can be written also in Markdown format using `myst_parser` extension.
+- For natural logarithm function, use `log` instead of `ln`.

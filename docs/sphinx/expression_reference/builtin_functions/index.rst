@@ -6,3 +6,4 @@ Built-in Functions
 
     function_list
     exp_log
+    pow
