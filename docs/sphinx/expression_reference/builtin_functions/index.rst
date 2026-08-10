@@ -8,3 +8,4 @@ Built-in Functions
     exp_log
     pow
     trigonometric
+    hyperbolic

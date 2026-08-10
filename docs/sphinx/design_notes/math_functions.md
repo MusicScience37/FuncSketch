@@ -9,12 +9,6 @@ Basic functions in `<cmath>` header in C++11:
 
 | Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
 | :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Hyperbolic    | Hyperbolic sine function $\sinh{x}$                             | `sinh`             | `std::sinh`   | `math.sinh`   |
-| Hyperbolic    | Hyperbolic cosine function $\cosh{x}$                           | `cosh`             | `std::cosh`   | `math.cosh`   |
-| Hyperbolic    | Hyperbolic tangent function $\tanh{x}$                          | `tanh`             | `std::tanh`   | `math.tanh`   |
-| Hyperbolic    | Hyperbolic arcsine function $\mathrm{asinh}\,{x}$               | `asinh`            | `std::asinh`  | `math.asinh`  |
-| Hyperbolic    | Hyperbolic arccosine function $\mathrm{acosh}\,{x}$             | `acosh`            | `std::acosh`  | `math.acosh`  |
-| Hyperbolic    | Hyperbolic arctangent function $\mathrm{atanh}\,{x}$            | `atanh`            | `std::atanh`  | `math.atanh`  |
 | Error         | Error function $\mathrm{erf}\,{x}$                              | `erf`              | `std::erf`    | `math.erf`    |
 | Error         | Complementary error function $\mathrm{erfc}\,{x}$               | `erfc`             | `std::erfc`   | `math.erfc`   |
 | Gamma         | Gamma function $\Gamma{(x)}$                                    | `gamma`            | `std::tgamma` | `math.gamma`  |

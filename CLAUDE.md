@@ -50,6 +50,8 @@ Directory structure:
 - Use Python 3.13.
 - Use tools `black`, `isort`, `pylint`, `flake8`, and `mypy`.
 - Use `pytest` for unit tests.
+  - See `scripts/run_pytest.sh` for the appropriate way to run pytest.
+  - When testing plotting of functions with finite domain, specify the range with a larger domain than the function's domain to check that the function is not plotted outside its domain.
 - Comments should be in Google style.
 
 ## Notes on Sphinx Documentation
