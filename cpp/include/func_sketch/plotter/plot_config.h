@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include <cstddef>
+
 #include "func_sketch/plotter/rgb_color.h"
 
 namespace func_sketch::plotter {
@@ -50,8 +52,26 @@ constexpr auto default_axes_color = RGBColor{.r = 0x24, .g = 0x24, .b = 0x24};
 //! Default color of grid lines.
 constexpr auto default_grid_color = RGBColor{.r = 0xC8, .g = 0xC8, .b = 0xC8};
 
-//! Default number of points to sample for each function.
-constexpr int default_num_sample_points = 100;
+//! Default number of points to sample initially in adaptive sampling.
+constexpr std::size_t default_initial_num_sample_points = 110;
+
+//! Default maximum number of points to sample in adaptive sampling.
+constexpr std::size_t default_max_num_sample_points = 2000;
+
+//! Maximum value of the maximum number of points to sample in adaptive sampling for safety limit of memory usage.
+constexpr std::size_t max_max_num_sample_points = 10000;
+
+//! Default threshold of the change in coordinates of sample points relative to the plot range in adaptive sampling.
+constexpr double default_max_coordinate_change_rate = 0.01;
+
+//! Default threshold of the change in slope normalized by the plot range in adaptive sampling.
+constexpr double default_slope_change_threshold = 0.1;
+
+//! Default minimum rate of parameter change in adaptive sampling.
+constexpr double default_min_param_change_rate = 0.001;
+
+//! Minimum value of the minimum rate of parameter change in adaptive sampling for safety limit of memory usage.
+constexpr double min_min_param_change_rate = 1e-4;
 
 /*!
  * \brief Class of configurations of a plot.
@@ -152,12 +172,61 @@ public:
     PlotConfig& grid_color(const RGBColor& value);
 
     /*!
-     * \brief Set the number of points to sample for each function.
+     * \brief Set the number of points to sample initially in adaptive
+     * sampling.
      *
-     * \param[in] value Number of points to sample for each function.
+     * \param[in] value Number of points to sample initially in adaptive
+     * sampling.
      * \return Reference to this object.
      */
-    PlotConfig& num_sample_points(int value);
+    PlotConfig& initial_num_sample_points(std::size_t value);
+
+    /*!
+     * \brief Set the maximum number of points to sample in adaptive
+     * sampling.
+     *
+     * \param[in] value Maximum number of points to sample in adaptive
+     * sampling.
+     * \return Reference to this object.
+     *
+     * \note This value should be larger than initial_num_sample_points.
+     * Otherwise, this configuration has no effect.
+     * \note This value is limited to max_max_num_sample_points for safety limit
+     * of memory usage.
+     */
+    PlotConfig& max_num_sample_points(std::size_t value);
+
+    /*!
+     * \brief Set the threshold of the change in coordinates of sample points
+     * relative to the plot range in adaptive sampling.
+     *
+     * \param[in] value Threshold of the change in coordinates of sample
+     * points relative to the plot range in adaptive sampling.
+     * \return Reference to this object.
+     */
+    PlotConfig& max_coordinate_change_rate(double value);
+
+    /*!
+     * \brief Set the threshold of the change in slope normalized by the plot
+     * range in adaptive sampling.
+     *
+     * \param[in] value Threshold of the change in slope normalized by the
+     * plot range in adaptive sampling.
+     * \return Reference to this object.
+     */
+    PlotConfig& slope_change_threshold(double value);
+
+    /*!
+     * \brief Set the minimum rate of parameter change in adaptive sampling.
+     *
+     * \param[in] value Minimum rate of parameter change in adaptive
+     * sampling.
+     * \return Reference to this object.
+     *
+     * \note This value is limited to min_min_param_change_rate for safety limit
+     * of memory usage.
+     */
+    PlotConfig& min_param_change_rate(double value);
 
     /*!
      * \brief Get the left margin of plots in pixels.
@@ -237,11 +306,45 @@ public:
     [[nodiscard]] const RGBColor& grid_color() const noexcept;
 
     /*!
-     * \brief Get the number of points to sample for each function.
+     * \brief Get the number of points to sample initially in adaptive
+     * sampling.
      *
-     * \return Number of points to sample for each function.
+     * \return Number of points to sample initially in adaptive sampling.
      */
-    [[nodiscard]] int num_sample_points() const noexcept;
+    [[nodiscard]] std::size_t initial_num_sample_points() const noexcept;
+
+    /*!
+     * \brief Get the maximum number of points to sample in adaptive
+     * sampling.
+     *
+     * \return Maximum number of points to sample in adaptive sampling.
+     */
+    [[nodiscard]] std::size_t max_num_sample_points() const noexcept;
+
+    /*!
+     * \brief Get the threshold of the change in coordinates of sample points
+     * relative to the plot range in adaptive sampling.
+     *
+     * \return Threshold of the change in coordinates of sample points
+     * relative to the plot range in adaptive sampling.
+     */
+    [[nodiscard]] double max_coordinate_change_rate() const noexcept;
+
+    /*!
+     * \brief Get the threshold of the change in slope normalized by the plot
+     * range in adaptive sampling.
+     *
+     * \return Threshold of the change in slope normalized by the plot range
+     * in adaptive sampling.
+     */
+    [[nodiscard]] double slope_change_threshold() const noexcept;
+
+    /*!
+     * \brief Get the minimum rate of parameter change in adaptive sampling.
+     *
+     * \return Minimum rate of parameter change in adaptive sampling.
+     */
+    [[nodiscard]] double min_param_change_rate() const noexcept;
 
 private:
     //! Left margin of plots in pixels.
@@ -277,8 +380,22 @@ private:
     //! Color of grid lines.
     RGBColor grid_color_{default_grid_color};
 
-    //! Number of points to sample for each function.
-    int num_sample_points_{default_num_sample_points};
+    //! Number of points to sample initially in adaptive sampling.
+    std::size_t initial_num_sample_points_{default_initial_num_sample_points};
+
+    //! Maximum number of points to sample in adaptive sampling.
+    std::size_t max_num_sample_points_{default_max_num_sample_points};
+
+    //! Threshold of the change in coordinates of sample points relative to
+    //! the plot range in adaptive sampling.
+    double max_coordinate_change_rate_{default_max_coordinate_change_rate};
+
+    //! Threshold of the change in slope normalized by the plot range in
+    //! adaptive sampling.
+    double slope_change_threshold_{default_slope_change_threshold};
+
+    //! Minimum rate of parameter change in adaptive sampling.
+    double min_param_change_rate_{default_min_param_change_rate};
 };
 
 }  // namespace func_sketch::plotter

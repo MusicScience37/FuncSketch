@@ -193,12 +193,62 @@ Objects of this class can be called with a string to parse it into an Expression
             },
             "Color of grid lines.")
         .def_prop_rw(
-            "num_sample_points",
-            [](const PlotConfig& self) -> int {
-                return self.num_sample_points();
+            "initial_num_sample_points",
+            [](const PlotConfig& self) -> std::size_t {
+                return self.initial_num_sample_points();
             },
-            [](PlotConfig& self, int value) { self.num_sample_points(value); },
-            "Number of points to sample for each function.");
+            [](PlotConfig& self, std::size_t value) {
+                self.initial_num_sample_points(value);
+            },
+            "Number of points to sample initially in adaptive sampling.")
+        .def_prop_rw(
+            "max_num_sample_points",
+            [](const PlotConfig& self) -> std::size_t {
+                return self.max_num_sample_points();
+            },
+            [](PlotConfig& self, std::size_t value) {
+                self.max_num_sample_points(value);
+            },
+            "Maximum number of points to sample in adaptive sampling.\n\n"
+            "Note:\n"
+            "    This value should be larger than "
+            "initial_num_sample_points. Otherwise, this configuration has "
+            "no effect.\n\n"
+            "Note:\n"
+            "    This value is limited for safety limit of memory "
+            "usage.")
+        .def_prop_rw(
+            "max_coordinate_change_rate",
+            [](const PlotConfig& self) -> double {
+                return self.max_coordinate_change_rate();
+            },
+            [](PlotConfig& self, double value) {
+                self.max_coordinate_change_rate(value);
+            },
+            "Threshold of the change in coordinates of sample points "
+            "relative to the plot range in adaptive sampling.")
+        .def_prop_rw(
+            "slope_change_threshold",
+            [](const PlotConfig& self) -> double {
+                return self.slope_change_threshold();
+            },
+            [](PlotConfig& self, double value) {
+                self.slope_change_threshold(value);
+            },
+            "Threshold of the change in slope normalized by the plot range "
+            "in adaptive sampling.")
+        .def_prop_rw(
+            "min_param_change_rate",
+            [](const PlotConfig& self) -> double {
+                return self.min_param_change_rate();
+            },
+            [](PlotConfig& self, double value) {
+                self.min_param_change_rate(value);
+            },
+            "Minimum rate of parameter change in adaptive sampling.\n\n"
+            "Note:\n"
+            "    This value is limited for safety limit of memory "
+            "usage.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(

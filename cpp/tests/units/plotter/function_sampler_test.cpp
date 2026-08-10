@@ -43,9 +43,15 @@ TEST_CASE("func_sketch::plotter::FunctionSampler") {
     using func_sketch::plotter::PlotConfig;
     using func_sketch::plotter::PlotRange;
 
-    SECTION("sample a function") {
+    SECTION("sample initial points when adaptive sampling is disabled") {
         const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
-        const auto config = PlotConfig().num_sample_points(5);
+        // Use large thresholds so that no point is added by adaptive
+        // sampling, and only the initial sample points are checked.
+        constexpr double large_threshold = 1.0;
+        const auto config = PlotConfig()
+                                .initial_num_sample_points(5)
+                                .max_coordinate_change_rate(large_threshold)
+                                .slope_change_threshold(large_threshold);
         FunctionSampler sampler(range, config);
 
         auto pool = std::make_unique<ExpressionMemoryPool>();
@@ -70,4 +76,7 @@ TEST_CASE("func_sketch::plotter::FunctionSampler") {
         CHECK_THAT(samples[4].x, Catch::Matchers::WithinAbs(1.0, tolerance));
         CHECK_THAT(samples[4].y, Catch::Matchers::WithinAbs(1.0, tolerance));
     }
+
+    // Other cases will be tested in tests in Python with actual plotting, since
+    // they require more complex checks and visual confirmation.
 }

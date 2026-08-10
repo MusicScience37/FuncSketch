@@ -45,6 +45,7 @@ Directory structure:
 - Use `Boost.Math` for special functions not in C++ standard library.
 - Use `fmt` for formatting strings.
 - Use `OpenCV` for writing plots.
+- This project will support several platforms in the future, so platform-dependent functions should not be called directly. Instead, use existing cross-platform library functions.
 
 ## Notes on Python Source Codes
 
