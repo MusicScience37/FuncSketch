@@ -19,6 +19,7 @@
  */
 #include "func_sketch/math/generate_math_function_list.h"
 
+#include "func_sketch/math/functions/erf.h"
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/functions/hyperbolic.h"
 #include "func_sketch/math/functions/log.h"
@@ -62,6 +63,9 @@ MathFunctionList generate_math_function_list() {
     list.emplace(asinh_function());
     list.emplace(acosh_function());
     list.emplace(atanh_function());
+
+    // In erf.h
+    list.emplace(erf_function());
 
     return list;
 }

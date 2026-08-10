@@ -7,6 +7,7 @@ set(SOURCE_FILES
     expressions/function_call_expression.cpp
     expressions/parameter_expression.cpp
     expressions/unary_expression.cpp
+    math/functions/erf.cpp
     math/functions/exp.cpp
     math/functions/hyperbolic.cpp
     math/functions/log.cpp

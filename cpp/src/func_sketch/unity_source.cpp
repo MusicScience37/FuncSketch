@@ -6,6 +6,7 @@
 #include "expressions/function_call_expression.cpp"
 #include "expressions/parameter_expression.cpp"
 #include "expressions/unary_expression.cpp"
+#include "math/functions/erf.cpp"
 #include "math/functions/exp.cpp"
 #include "math/functions/hyperbolic.cpp"
 #include "math/functions/log.cpp"

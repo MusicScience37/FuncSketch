@@ -9,3 +9,4 @@ Built-in Functions
     pow
     trigonometric
     hyperbolic
+    error
