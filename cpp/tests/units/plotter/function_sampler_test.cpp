@@ -76,4 +76,7 @@ TEST_CASE("func_sketch::plotter::FunctionSampler") {
         CHECK_THAT(samples[4].x, Catch::Matchers::WithinAbs(1.0, tolerance));
         CHECK_THAT(samples[4].y, Catch::Matchers::WithinAbs(1.0, tolerance));
     }
+
+    // Other cases will be tested in tests in Python with actual plotting, since
+    // they require more complex checks and visual confirmation.
 }

@@ -89,40 +89,43 @@ private:
         const std::vector<Point>& initial_samples) const;
 
     /*!
-     * \brief Divide if the last change of y is large.
+     * \brief Divide if the change of y is large.
      *
      * \param[in] function Function to sample.
      * \param[in,out] samples Sampled points of the function.
+     * \param[in] left_index Index of the left point of the segment to check.
      * \retval true The segment was divided into two segments.
      * \retval false The segment was not divided into two segments.
      */
-    [[nodiscard]] bool divide_last_segment_according_to_y_change(
-        const expressions::Expression& function,
-        std::vector<Point>& samples) const;
+    [[nodiscard]] bool divide_segment_according_to_y_change(
+        const expressions::Expression& function, std::vector<Point>& samples,
+        std::size_t left_index) const;
 
     /*!
-     * \brief Divide if the last change of slope of y is large.
+     * \brief Divide if the change of slope of y is large.
      *
      * \param[in] function Function to sample.
      * \param[in,out] samples Sampled points of the function.
+     * \param[in] left_index Index of the left point of the segment to check.
      * \retval true The segment was divided into two segments.
      * \retval false The segment was not divided into two segments.
      */
-    [[nodiscard]] bool divide_last_segment_according_to_slope_change(
-        const expressions::Expression& function,
-        std::vector<Point>& samples) const;
+    [[nodiscard]] bool divide_segment_according_to_slope_change(
+        const expressions::Expression& function, std::vector<Point>& samples,
+        std::size_t left_index) const;
 
     /*!
-     * \brief Divide if one end of the last segment is not finite.
+     * \brief Divide if one end of the segment is not finite.
      *
      * \param[in] function Function to sample.
      * \param[in,out] samples Sampled points of the function.
+     * \param[in] left_index Index of the left point of the segment to check.
      * \retval true The segment was divided into two segments.
      * \retval false The segment was not divided into two segments.
      */
-    [[nodiscard]] bool divide_last_segment_when_one_end_is_not_finite(
-        const expressions::Expression& function,
-        std::vector<Point>& samples) const;
+    [[nodiscard]] bool divide_segment_when_one_end_is_not_finite(
+        const expressions::Expression& function, std::vector<Point>& samples,
+        std::size_t left_index) const;
 
     /*!
      * \brief Divide a segment into two segments in sample points if applicable.

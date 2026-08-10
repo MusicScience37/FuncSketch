@@ -70,72 +70,78 @@ std::vector<Point> FunctionSampler::sample_adaptive_points(
     const std::vector<Point>& initial_samples) const {
     std::vector<Point> samples;
     // Heuristic estimate for the number of the final sampled points.
-    // 3 is determined by experiments.
+    // 3 is determined by experiments. Memory reallocation did not occur in
+    // most cases in our experiments.
     const std::size_t num_reserved_points = initial_samples.size() * 3;
     samples.reserve(num_reserved_points);
 
-    for (auto iter = initial_samples.begin(); iter != initial_samples.end();
-        ++iter) {
-        const auto& point = *iter;
-        samples.push_back(point);
-        while (true) {
-            const bool is_divided_y =
-                divide_last_segment_according_to_y_change(function, samples);
-            const bool is_divided_slope =
-                divide_last_segment_according_to_slope_change(
-                    function, samples);
-            const bool is_divided_not_finite =
-                divide_last_segment_when_one_end_is_not_finite(
-                    function, samples);
-            if (samples.size() >= config_.max_num_sample_points()) {
-                // Stop additional sampling. Insert the remaining initial sample
-                // points and return the result.
-                samples.insert(samples.end(), iter + 1, initial_samples.end());
-                return samples;
+    auto initial_sample_iter = initial_samples.begin();
+    std::size_t left_index = 0;
+    while (true) {
+        // Insert points to provide three points if possible.
+        while (initial_sample_iter != initial_samples.end() &&
+            samples.size() < left_index + 3) {
+            samples.push_back(*initial_sample_iter);
+            ++initial_sample_iter;
+        }
+        const std::size_t num_points_from_here = samples.size() - left_index;
+        if (num_points_from_here < 2) {
+            // Finished sampling all segments.
+            break;
+        }
+        // At least two points are available.
+
+        bool is_divided = false;
+        if (divide_segment_according_to_y_change(
+                function, samples, left_index)) {
+            is_divided = true;
+        }
+        if (num_points_from_here >= 3) {
+            if (divide_segment_according_to_slope_change(
+                    function, samples, left_index)) {
+                is_divided = true;
             }
-            if (!is_divided_y && !is_divided_slope && !is_divided_not_finite) {
-                break;
-            }
+        }
+        if (divide_segment_when_one_end_is_not_finite(
+                function, samples, left_index)) {
+            is_divided = true;
+        }
+        if (!is_divided) {
+            ++left_index;
+        }
+
+        if (samples.size() >= config_.max_num_sample_points()) {
+            // Reached the maximum number of sample points. Insert remaining
+            // initial sample points and finish sampling.
+            samples.insert(
+                samples.end(), initial_sample_iter, initial_samples.end());
+            break;
         }
     }
     return samples;
 }
 
-bool FunctionSampler::divide_last_segment_according_to_y_change(
-    const expressions::Expression& function,
-    std::vector<Point>& samples) const {
-    if (samples.size() < 2) {
-        return false;
-    }
-    if (samples.size() >= config_.max_num_sample_points()) {
-        return false;
-    }
-
-    const auto& left_point = samples[samples.size() - 2];
-    const auto& right_point = samples[samples.size() - 1];
+bool FunctionSampler::divide_segment_according_to_y_change(
+    const expressions::Expression& function, std::vector<Point>& samples,
+    std::size_t left_index) const {
+    const auto& left_point = samples[left_index];
+    const auto& right_point = samples[left_index + 1];
     const double y_diff = std::abs(right_point.y - left_point.y);
     const double y_range = range_.y_range().second - range_.y_range().first;
     const double y_diff_rate = y_diff / y_range;
     if (std::isfinite(y_diff_rate) &&
         y_diff_rate > config_.max_coordinate_change_rate()) {
-        return divide_segment(function, samples, samples.size() - 2);
+        return divide_segment(function, samples, left_index);
     }
     return false;
 }
 
-bool FunctionSampler::divide_last_segment_according_to_slope_change(
-    const expressions::Expression& function,
-    std::vector<Point>& samples) const {
-    if (samples.size() < 3) {
-        return false;
-    }
-    if (samples.size() >= config_.max_num_sample_points()) {
-        return false;
-    }
-
-    const auto& left_point = samples[samples.size() - 3];
-    const auto& mid_point = samples[samples.size() - 2];
-    const auto& right_point = samples[samples.size() - 1];
+bool FunctionSampler::divide_segment_according_to_slope_change(
+    const expressions::Expression& function, std::vector<Point>& samples,
+    std::size_t left_index) const {
+    const auto& left_point = samples[left_index];
+    const auto& mid_point = samples[left_index + 1];
+    const auto& right_point = samples[left_index + 2];
     const double slope_normalization_coeff =
         (range_.x_range().second - range_.x_range().first) /
         (range_.y_range().second - range_.y_range().first);
@@ -146,34 +152,29 @@ bool FunctionSampler::divide_last_segment_according_to_slope_change(
     const double slope_diff = std::abs(right_slope - left_slope);
     if (std::isfinite(slope_diff) &&
         slope_diff > config_.slope_change_threshold()) {
-        const bool is_left_divided =
-            divide_segment(function, samples, samples.size() - 3);
+        // Divide the right segment first to avoid the change of the index of
+        // the right segment before dividing the right segment.
         const bool is_right_divided =
-            divide_segment(function, samples, samples.size() - 2);
+            divide_segment(function, samples, left_index + 1);
+        const bool is_left_divided =
+            divide_segment(function, samples, left_index);
         return is_left_divided || is_right_divided;
     }
     return false;
 }
 
-bool FunctionSampler::divide_last_segment_when_one_end_is_not_finite(
-    const expressions::Expression& function,
-    std::vector<Point>& samples) const {
-    if (samples.size() < 2) {
-        return false;
-    }
-    if (samples.size() >= config_.max_num_sample_points()) {
-        return false;
-    }
-
-    const auto& left_point = samples[samples.size() - 2];
-    const auto& right_point = samples[samples.size() - 1];
+bool FunctionSampler::divide_segment_when_one_end_is_not_finite(
+    const expressions::Expression& function, std::vector<Point>& samples,
+    std::size_t left_index) const {
+    const auto& left_point = samples[left_index];
+    const auto& right_point = samples[left_index + 1];
     const bool is_left_finite = std::isfinite(left_point.y);
     const bool is_right_finite = std::isfinite(right_point.y);
     if ((is_left_finite && is_right_finite) ||
         (!is_left_finite && !is_right_finite)) {
         return false;
     }
-    return divide_segment(function, samples, samples.size() - 2);
+    return divide_segment(function, samples, left_index);
 }
 
 bool FunctionSampler::divide_segment(const expressions::Expression& function,

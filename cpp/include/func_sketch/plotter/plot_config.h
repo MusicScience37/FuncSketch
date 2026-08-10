@@ -60,7 +60,7 @@ constexpr int default_num_sample_points =
 constexpr std::size_t default_initial_num_sample_points = 110;
 
 //! Default maximum number of points to sample in adaptive sampling.
-constexpr std::size_t default_max_num_sample_points = 1000;
+constexpr std::size_t default_max_num_sample_points = 2000;
 
 //! Maximum value of the maximum number of points to sample in adaptive sampling for safety limit of memory usage.
 constexpr std::size_t max_max_num_sample_points = 10000;
