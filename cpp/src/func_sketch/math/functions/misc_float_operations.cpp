@@ -41,4 +41,16 @@ MathFunction ceil_function() {
             "ceil", [](Real arg) { return std::ceil(arg); }));
 }
 
+MathFunction floor_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "floor", [](Real arg) { return std::floor(arg); }));
+}
+
+MathFunction trunc_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "trunc", [](Real arg) { return std::trunc(arg); }));
+}
+
 }  // namespace func_sketch::math

@@ -31,3 +31,13 @@ class TestMiscFloatOperations:
         """Test of sampling ceil(x)."""
         x_values, y_values = sample_function("ceil(x)", (-3.0, 3.0), (-4.0, 4.0))
         compare_vectors(y_values, numpy.ceil(x_values))
+
+    def test_sample_floor(self) -> None:
+        """Test of sampling floor(x)."""
+        x_values, y_values = sample_function("floor(x)", (-3.0, 3.0), (-4.0, 4.0))
+        compare_vectors(y_values, numpy.floor(x_values))
+
+    def test_sample_trunc(self) -> None:
+        """Test of sampling trunc(x)."""
+        x_values, y_values = sample_function("trunc(x)", (-3.0, 3.0), (-4.0, 4.0))
+        compare_vectors(y_values, numpy.trunc(x_values))

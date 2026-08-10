@@ -69,6 +69,8 @@ MathFunctionList generate_math_function_list() {
     // In misc_float_operations.h
     list.emplace(abs_function());
     list.emplace(ceil_function());
+    list.emplace(floor_function());
+    list.emplace(trunc_function());
 
     // In erf.h
     list.emplace(erf_function());

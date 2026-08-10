@@ -29,3 +29,13 @@ class TestMiscFloatOperations:
         """Test of plotting ceil(x)."""
         image = plot_function(["ceil(x)"], (-3.0, 3.0), (-4.0, 4.0))
         image_approver.verify(image)
+
+    def test_plot_floor(self, image_approver) -> None:
+        """Test of plotting floor(x)."""
+        image = plot_function(["floor(x)"], (-3.0, 3.0), (-4.0, 4.0))
+        image_approver.verify(image)
+
+    def test_plot_trunc(self, image_approver) -> None:
+        """Test of plotting trunc(x)."""
+        image = plot_function(["trunc(x)"], (-3.0, 3.0), (-4.0, 4.0))
+        image_approver.verify(image)

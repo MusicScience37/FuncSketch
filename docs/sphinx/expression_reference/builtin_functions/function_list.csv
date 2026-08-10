@@ -16,6 +16,7 @@ Function,Short Description
 :funcsketch:func:`exp`, Exponential function (:math:`e^x`).
 :funcsketch:func:`exp2`, Base-2 exponential function (:math:`2^x`).
 :funcsketch:func:`expm1`, Exponential-minus-one function (:math:`e^x - 1`).
+:funcsketch:func:`floor`, Floor function (:math:`\lfloor x \rfloor`).
 :funcsketch:func:`gamma`, Gamma function (:math:`\Gamma(x)`).
 :funcsketch:func:`lgamma`, Natural logarithm of the absolute value of the gamma function (:math:`\log{|\Gamma(x)|}`).
 :funcsketch:func:`log`, Natural logarithm function (:math:`\log(x)`).
@@ -28,3 +29,4 @@ Function,Short Description
 :funcsketch:func:`sqrt`, Square root function (:math:`\sqrt{x}`).
 :funcsketch:func:`tan`, Tangent function (:math:`\tan(x)`).
 :funcsketch:func:`tanh`, Hyperbolic tangent function (:math:`\tanh(x)`).
+:funcsketch:func:`trunc`, Truncation function (:math:`\mathrm{trunc}(x)`).

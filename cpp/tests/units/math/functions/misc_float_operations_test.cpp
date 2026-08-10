@@ -69,3 +69,45 @@ TEST_CASE("func_sketch::math::ceil_function") {
         test_single_variate_function_errors<Real>(function_object);
     }
 }
+
+TEST_CASE("func_sketch::math::floor_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::floor_function;
+
+    const auto function_object = floor_function();
+    const auto reference_function = [](Real arg) { return std::floor(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.5, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
+
+TEST_CASE("func_sketch::math::trunc_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::trunc_function;
+
+    const auto function_object = trunc_function();
+    const auto reference_function = [](Real arg) { return std::trunc(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.5, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}

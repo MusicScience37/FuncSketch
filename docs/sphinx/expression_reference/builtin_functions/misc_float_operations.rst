@@ -24,3 +24,27 @@ Miscellaneous Floating-point Operations
     :range: Integers
     :returns: The smallest integer not less than :math:`x`.
     :rtype: Real
+
+.. funcsketch:function:: floor(x)
+
+    Floor function.
+
+    :param x: The value of which the floor is taken.
+    :type x: Real
+    :definition: :math:`\mathrm{floor}(x) = \lfloor x \rfloor`
+    :domain: :math:`(-\infty, \infty)`
+    :range: Integers
+    :returns: The largest integer not greater than :math:`x`.
+    :rtype: Real
+
+.. funcsketch:function:: trunc(x)
+
+    Truncation function.
+
+    :param x: The value to truncate.
+    :type x: Real
+    :definition: :math:`\mathrm{trunc}(x) = \mathrm{sign}(x) \lfloor |x| \rfloor`
+    :domain: :math:`(-\infty, \infty)`
+    :range: Integers
+    :returns: The integer part of :math:`x`, discarding the fractional part.
+    :rtype: Real

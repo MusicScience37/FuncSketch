@@ -38,4 +38,18 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction ceil_function();
 
+/*!
+ * \brief Create `floor` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction floor_function();
+
+/*!
+ * \brief Create `trunc` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction trunc_function();
+
 }  // namespace func_sketch::math
