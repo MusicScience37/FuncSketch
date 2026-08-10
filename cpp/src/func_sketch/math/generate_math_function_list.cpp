@@ -21,6 +21,7 @@
 
 #include "func_sketch/math/functions/erf.h"
 #include "func_sketch/math/functions/exp.h"
+#include "func_sketch/math/functions/gamma.h"
 #include "func_sketch/math/functions/hyperbolic.h"
 #include "func_sketch/math/functions/log.h"
 #include "func_sketch/math/functions/pow.h"
@@ -67,6 +68,10 @@ MathFunctionList generate_math_function_list() {
     // In erf.h
     list.emplace(erf_function());
     list.emplace(erfc_function());
+
+    // In gamma.h
+    list.emplace(gamma_function());
+    list.emplace(lgamma_function());
 
     return list;
 }

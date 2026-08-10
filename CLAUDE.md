@@ -52,6 +52,7 @@ Directory structure:
 - Use `pytest` for unit tests.
   - See `scripts/run_pytest.sh` for the appropriate way to run pytest.
   - When testing plotting of functions with finite domain, specify the range with a larger domain than the function's domain to check that the function is not plotted outside its domain.
+    Also, singularities of functions should be included in the range to check behavior of the function near singularities.
 - Comments should be in Google style.
 
 ## Notes on Sphinx Documentation

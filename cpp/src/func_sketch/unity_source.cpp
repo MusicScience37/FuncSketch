@@ -8,6 +8,7 @@
 #include "expressions/unary_expression.cpp"
 #include "math/functions/erf.cpp"
 #include "math/functions/exp.cpp"
+#include "math/functions/gamma.cpp"
 #include "math/functions/hyperbolic.cpp"
 #include "math/functions/log.cpp"
 #include "math/functions/pow.cpp"

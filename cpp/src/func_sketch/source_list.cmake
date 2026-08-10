@@ -9,6 +9,7 @@ set(SOURCE_FILES
     expressions/unary_expression.cpp
     math/functions/erf.cpp
     math/functions/exp.cpp
+    math/functions/gamma.cpp
     math/functions/hyperbolic.cpp
     math/functions/log.cpp
     math/functions/pow.cpp

@@ -9,8 +9,6 @@ Basic functions in `<cmath>` header in C++11:
 
 | Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
 | :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Gamma         | Gamma function $\Gamma{(x)}$                                    | `gamma`            | `std::tgamma` | `math.gamma`  |
-| Gamma         | Natural logarithm of the gamma function $\log{\|\Gamma{(x)}\|}$ | `lgamma`           | `std::lgamma` | `math.lgamma` |
 | Misc          | Absolute value function $\|x\|$                                 | `abs`              | `std::abs`    | `math.fabs`   |
 | Misc          | Ceiling function $\lceil{x}\rceil$                              | `ceil`             | `std::ceil`   | `math.ceil`   |
 | Misc          | Floor function $\lfloor{x}\rfloor$                              | `floor`            | `std::floor`  | `math.floor`  |
