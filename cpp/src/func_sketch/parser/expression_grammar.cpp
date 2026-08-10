@@ -97,7 +97,7 @@ ExpressionGrammar::ExpressionGrammar()
             .operator_str = "**", .left_operand = left, .right_operand = right};
     };
     factor_expr_rule_ = value_expr_rule_[_val = _1] >
-        *("**" > value_expr_rule_[bind(handle_power, _val, _1)]);
+        -("**" > factor_expr_rule_[bind(handle_power, _val, _1)]);
 
     const auto handle_unary_minus = [](ParsedExpression& result,
                                         const ParsedExpression& operand) {

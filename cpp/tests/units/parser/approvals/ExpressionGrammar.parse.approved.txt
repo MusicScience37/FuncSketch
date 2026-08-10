@@ -40,6 +40,9 @@ Parsed: Binary(**, Constant(1.230000e+00), Constant(4.560000e+00))
 Input: 1.23 ** -4.56
 Parsed: Binary(**, Constant(1.230000e+00), Constant(-4.560000e+00))
 
+Input: -1.23 ** -4.56
+Parsed: Unary(-, Binary(**, Constant(1.230000e+00), Constant(-4.560000e+00)))
+
 Input: 1.23 * (4.56 + 7.89)
 Parsed: Binary(*, Constant(1.230000e+00), Binary(+, Constant(4.560000e+00), Constant(7.890000e+00)))
 
@@ -47,7 +50,7 @@ Input: exp(1.23)
 Parsed: FunctionCall(Identifier(exp), Constant(1.230000e+00))
 
 Input: 1.23 ** 4.56 ** 7.89
-Parsed: Binary(**, Binary(**, Constant(1.230000e+00), Constant(4.560000e+00)), Constant(7.890000e+00))
+Parsed: Binary(**, Constant(1.230000e+00), Binary(**, Constant(4.560000e+00), Constant(7.890000e+00)))
 
 Input: exp(exp(1.23) + 4.56)
 Parsed: FunctionCall(Identifier(exp), Binary(+, FunctionCall(Identifier(exp), Constant(1.230000e+00)), Constant(4.560000e+00)))
@@ -99,6 +102,9 @@ Exception: Expected <expression> at position 7.
 
 Input: -
 Exception: Expected <expression> at position 1.
+
+Input: --1
+Parsed: Unary(-, Constant(-1))
 
 Input: 1.23 *
 Exception: Expected <expression> at position 6.
