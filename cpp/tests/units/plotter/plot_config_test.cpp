@@ -221,31 +221,6 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(config.grid_color() == light_gray);
     }
 
-    SECTION("set and get number of sample points") {
-        PlotConfig config;
-
-        CHECK(config.num_sample_points() ==
-            func_sketch::plotter::default_num_sample_points);
-
-        CHECK_NOTHROW(config.num_sample_points(200));
-        CHECK(config.num_sample_points() == 200);
-
-        CHECK_THROWS(config.num_sample_points(-1));
-        CHECK(config.num_sample_points() == 200);
-
-        CHECK_THROWS(config.num_sample_points(0));
-        CHECK(config.num_sample_points() == 200);
-
-        CHECK_THROWS(config.num_sample_points(1));
-        CHECK(config.num_sample_points() == 200);
-
-        CHECK_NOTHROW(config.num_sample_points(2));
-        CHECK(config.num_sample_points() == 2);
-
-        CHECK_NOTHROW(config.num_sample_points(3));
-        CHECK(config.num_sample_points() == 3);
-    }
-
     SECTION("set and get initial number of sample points") {
         PlotConfig config;
 

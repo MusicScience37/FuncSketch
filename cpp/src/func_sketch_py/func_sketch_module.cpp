@@ -191,14 +191,7 @@ Objects of this class can be called with a string to parse it into an Expression
             [](PlotConfig& self, const RGBColor& value) {
                 self.grid_color(value);
             },
-            "Color of grid lines.")
-        .def_prop_rw(
-            "num_sample_points",
-            [](const PlotConfig& self) -> int {
-                return self.num_sample_points();
-            },
-            [](PlotConfig& self, int value) { self.num_sample_points(value); },
-            "Number of points to sample for each function.");
+            "Color of grid lines.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(

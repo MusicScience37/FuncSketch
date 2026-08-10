@@ -105,15 +105,6 @@ PlotConfig& PlotConfig::grid_color(const RGBColor& value) {
     return *this;
 }
 
-PlotConfig& PlotConfig::num_sample_points(int value) {
-    if (value < 2) {
-        throw InvalidArgumentException(
-            "Number of sample points must be at least 2");
-    }
-    num_sample_points_ = value;
-    return *this;
-}
-
 PlotConfig& PlotConfig::initial_num_sample_points(std::size_t value) {
     if (value < 2) {
         throw InvalidArgumentException(
@@ -190,10 +181,6 @@ const RGBColor& PlotConfig::background_color() const noexcept {
 const RGBColor& PlotConfig::axes_color() const noexcept { return axes_color_; }
 
 const RGBColor& PlotConfig::grid_color() const noexcept { return grid_color_; }
-
-int PlotConfig::num_sample_points() const noexcept {
-    return num_sample_points_;
-}
 
 std::size_t PlotConfig::initial_num_sample_points() const noexcept {
     return initial_num_sample_points_;

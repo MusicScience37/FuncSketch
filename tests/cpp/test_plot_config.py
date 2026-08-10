@@ -94,9 +94,3 @@ class TestPlotConfig:
         assert config.grid_color.r == color.r
         assert config.grid_color.g == color.g
         assert config.grid_color.b == color.b
-
-    def test_num_sample_points(self) -> None:
-        """Test of num_sample_points property."""
-        config = PlotConfig()
-        config.num_sample_points = 200
-        assert config.num_sample_points == 200
