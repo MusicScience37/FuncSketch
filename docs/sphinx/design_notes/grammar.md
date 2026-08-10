@@ -25,8 +25,8 @@
 
 TODO:
 
-- `2 ** -3` should be invalid.
 - `2 ** 3 ** 4` should be parsed as `2 ** (3 ** 4)`.
+- `--1` should be an error.
 
 ## Identifier Naming Rule
 

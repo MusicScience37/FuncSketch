@@ -45,7 +45,8 @@ std::vector<std::string> parser_test_strings() {
         "1.23 / 4.56",
         // Power.
         "1.23 ** 4.56",
-        "1.23 ** -4.56",  // TODO Future implementation may invalidate this.
+        "1.23 ** -4.56",
+        "-1.23 ** -4.56",
         // Parentheses.
         "1.23 * (4.56 + 7.89)",
         // Function calls.
@@ -80,6 +81,8 @@ std::vector<std::string> parser_test_strings() {
         "1.23 **",
         // Error at unary expression.
         "-",
+        "--1",  // TODO Currently this is parsed as `-( -1 )`. This should be
+                // invalid.
         // Error at term expression.
         "1.23 *",
         "1.23 /",
