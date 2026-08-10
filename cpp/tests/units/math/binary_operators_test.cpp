@@ -19,6 +19,8 @@
  */
 #include "func_sketch/math/binary_operators.h"
 
+#include <cmath>
+
 #include <catch2/catch_test_macros.hpp>
 
 #include "func_sketch/common_types.h"
@@ -222,6 +224,70 @@ TEST_CASE("func_sketch::math::DivisionOperator") {
 
         constexpr Number expected_result =
             static_cast<Real>(std::get<Integer>(left)) / std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+}
+
+TEST_CASE("func_sketch::math::PowerOperator") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::PowerOperator;
+
+    SECTION("check concept") {
+        STATIC_REQUIRE(func_sketch::math::BinaryOperatorType<PowerOperator>);
+    }
+
+    SECTION("operate on a pair of two real numbers") {
+        constexpr Number left = 2.5;
+        constexpr Number right = 3.5;
+        Number result = 0.0;
+
+        PowerOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::pow(std::get<Real>(left), std::get<Real>(right));
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of two integers") {
+        constexpr Number left = 2;
+        constexpr Number right = 3;
+        Number result = 0;
+
+        PowerOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::pow(static_cast<Real>(std::get<Integer>(left)),
+                static_cast<Real>(std::get<Integer>(right)));
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of an integer and a real number") {
+        constexpr Number left = 2;
+        constexpr Number right = 3.5;
+        Number result = 0.0;
+
+        PowerOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result = std::pow(
+            static_cast<Real>(std::get<Integer>(left)), std::get<Real>(right));
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a real number and an integer") {
+        constexpr Number left = 2.5;
+        constexpr Number right = 3;
+        Number result = 0.0;
+
+        PowerOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result = std::pow(
+            std::get<Real>(left), static_cast<Real>(std::get<Integer>(right)));
         CHECK(result == expected_result);
     }
 }

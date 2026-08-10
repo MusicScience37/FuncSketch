@@ -60,6 +60,21 @@ class TestSimple:
         image = plot_function(["1 / x"], (-3.0, 3.0), (-3.0, 3.0))
         image_approver.verify(image)
 
+    def test_plot_x_pow_2(self, image_approver) -> None:
+        """Test of plotting x ** 2."""
+        image = plot_function(["x ** 2"], (-3.0, 3.0), (-3.0, 3.0))
+        image_approver.verify(image)
+
+    def test_plot_2_pow_x(self, image_approver) -> None:
+        """Test of plotting 2 ** x."""
+        image = plot_function(["2 ** x"], (-3.0, 3.0), (-3.0, 3.0))
+        image_approver.verify(image)
+
+    def test_plot_x_pow_x(self, image_approver) -> None:
+        """Test of plotting x ** x."""
+        image = plot_function(["x ** x"], (-1.0, 5.0), (-1.0, 5.0))
+        image_approver.verify(image)
+
     def test_plot_minus_x_times_2(self, image_approver) -> None:
         """Test of plotting -x * 2."""
         image = plot_function(["-x * 2"], (-3.0, 3.0), (-3.0, 3.0))
