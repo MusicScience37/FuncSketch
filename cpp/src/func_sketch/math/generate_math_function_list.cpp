@@ -22,6 +22,7 @@
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/functions/log.h"
 #include "func_sketch/math/functions/pow.h"
+#include "func_sketch/math/functions/trigonometric.h"
 
 namespace func_sketch::math {
 
@@ -43,6 +44,9 @@ MathFunctionList generate_math_function_list() {
     list.emplace(pow_function());
     list.emplace(sqrt_function());
     list.emplace(cbrt_function());
+
+    // In trigonometric.h
+    list.emplace(sin_function());
 
     return list;
 }

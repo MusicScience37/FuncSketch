@@ -14,6 +14,7 @@ set(SOURCE_FILES
     math/functions/exp_test.cpp
     math/functions/log_test.cpp
     math/functions/pow_test.cpp
+    math/functions/trigonometric_test.cpp
     math/general_math_function_test.cpp
     math/math_function_list_test.cpp
     math/math_function_test.cpp
