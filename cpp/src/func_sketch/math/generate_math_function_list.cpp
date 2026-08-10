@@ -49,6 +49,10 @@ MathFunctionList generate_math_function_list() {
     list.emplace(sin_function());
     list.emplace(cos_function());
     list.emplace(tan_function());
+    list.emplace(asin_function());
+    list.emplace(acos_function());
+    list.emplace(atan_function());
+    list.emplace(atan2_function());
 
     return list;
 }

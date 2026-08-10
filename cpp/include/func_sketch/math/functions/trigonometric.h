@@ -44,4 +44,32 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction tan_function();
 
+/*!
+ * \brief Create `asin` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction asin_function();
+
+/*!
+ * \brief Create `acos` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction acos_function();
+
+/*!
+ * \brief Create `atan` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction atan_function();
+
+/*!
+ * \brief Create `atan2` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction atan2_function();
+
 }  // namespace func_sketch::math

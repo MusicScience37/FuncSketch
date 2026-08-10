@@ -42,3 +42,28 @@ class TestTrigonometric:
             ["tan(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-2.0, 2.0)
         )
         image_approver.verify(image)
+
+    def test_plot_asin(self, image_approver) -> None:
+        """Test of plotting asin(x)."""
+        image = plot_function(["asin(x)"], (-1.2, 1.2), (-2.0, 2.0))
+        image_approver.verify(image)
+
+    def test_plot_acos(self, image_approver) -> None:
+        """Test of plotting acos(x)."""
+        image = plot_function(["acos(x)"], (-1.2, 1.2), (-0.5, 3.5))
+        image_approver.verify(image)
+
+    def test_plot_atan(self, image_approver) -> None:
+        """Test of plotting atan(x)."""
+        image = plot_function(["atan(x)"], (-5.0, 5.0), (-2.0, 2.0))
+        image_approver.verify(image)
+
+    def test_plot_atan2_x_1(self, image_approver) -> None:
+        """Test of plotting atan2(x, 1)."""
+        image = plot_function(["atan2(x, 1)"], (-5.0, 5.0), (-4.0, 4.0))
+        image_approver.verify(image)
+
+    def test_plot_atan2_1_x(self, image_approver) -> None:
+        """Test of plotting atan2(1, x)."""
+        image = plot_function(["atan2(1, x)"], (-5.0, 5.0), (-4.0, 4.0))
+        image_approver.verify(image)

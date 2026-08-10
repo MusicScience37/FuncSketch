@@ -1,4 +1,8 @@
 Function,Short Description
+:funcsketch:func:`acos`, Arccosine function (:math:`\arccos(x)`).
+:funcsketch:func:`asin`, Arcsine function (:math:`\arcsin(x)`).
+:funcsketch:func:`atan`, Arctangent function (:math:`\arctan(x)`).
+:funcsketch:func:`atan2`, "Arctangent function of two variables (:math:`\mathrm{atan2}(y, x)`)."
 :funcsketch:func:`cbrt`, Cube root function (:math:`\sqrt[3]{x}`).
 :funcsketch:func:`cos`, Cosine function (:math:`\cos(x)`).
 :funcsketch:func:`exp`, Exponential function (:math:`e^x`).

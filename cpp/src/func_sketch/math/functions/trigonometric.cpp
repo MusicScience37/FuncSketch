@@ -46,4 +46,30 @@ MathFunction tan_function() {
             "tan", [](Real arg) { return std::tan(arg); }));
 }
 
+MathFunction asin_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "asin", [](Real arg) { return std::asin(arg); }));
+}
+
+MathFunction acos_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "acos", [](Real arg) { return std::acos(arg); }));
+}
+
+MathFunction atan_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "atan", [](Real arg) { return std::atan(arg); }));
+}
+
+MathFunction atan2_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "atan2", [](Real y_value, Real x_value) {
+            return std::atan2(y_value, x_value);
+        }));
+}
+
 }  // namespace func_sketch::math

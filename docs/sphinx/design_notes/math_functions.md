@@ -9,13 +9,6 @@ Basic functions in `<cmath>` header in C++11:
 
 | Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
 | :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Trigonometric | Sine function $\sin{x}$                                         | `sin`              | `std::sin`    | `math.sin`    |
-| Trigonometric | Cosine function $\cos{x}$                                       | `cos`              | `std::cos`    | `math.cos`    |
-| Trigonometric | Tangent function $\tan{x}$                                      | `tan`              | `std::tan`    | `math.tan`    |
-| Trigonometric | Arcsine function $\arcsin{x}$                                   | `asin`             | `std::asin`   | `math.asin`   |
-| Trigonometric | Arccosine function $\arccos{x}$                                 | `acos`             | `std::acos`   | `math.acos`   |
-| Trigonometric | Arctangent function $\arctan{x}$                                | `atan`             | `std::atan`   | `math.atan`   |
-| Trigonometric | Arctangent function on two variables                            | `atan2`            | `std::atan2`  | `math.atan2`  |
 | Hyperbolic    | Hyperbolic sine function $\sinh{x}$                             | `sinh`             | `std::sinh`   | `math.sinh`   |
 | Hyperbolic    | Hyperbolic cosine function $\cosh{x}$                           | `cosh`             | `std::cosh`   | `math.cosh`   |
 | Hyperbolic    | Hyperbolic tangent function $\tanh{x}$                          | `tanh`             | `std::tanh`   | `math.tanh`   |

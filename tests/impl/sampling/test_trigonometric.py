@@ -40,3 +40,28 @@ class TestTrigonometric:
         """Test of sampling tan(x)."""
         x_values, y_values = sample_function("tan(x)", (-1.0, 1.0), (-2.0, 2.0))
         compare_vectors(y_values, numpy.tan(x_values))
+
+    def test_sample_asin(self) -> None:
+        """Test of sampling asin(x)."""
+        x_values, y_values = sample_function("asin(x)", (-1.0, 1.0), (-2.0, 2.0))
+        compare_vectors(y_values, numpy.arcsin(x_values))
+
+    def test_sample_acos(self) -> None:
+        """Test of sampling acos(x)."""
+        x_values, y_values = sample_function("acos(x)", (-1.0, 1.0), (-0.5, 3.5))
+        compare_vectors(y_values, numpy.arccos(x_values))
+
+    def test_sample_atan(self) -> None:
+        """Test of sampling atan(x)."""
+        x_values, y_values = sample_function("atan(x)", (-5.0, 5.0), (-2.0, 2.0))
+        compare_vectors(y_values, numpy.arctan(x_values))
+
+    def test_sample_atan2_x_1(self) -> None:
+        """Test of sampling atan2(x, 1)."""
+        x_values, y_values = sample_function("atan2(x, 1)", (-5.0, 5.0), (-2.0, 2.0))
+        compare_vectors(y_values, numpy.arctan2(x_values, 1))
+
+    def test_sample_atan2_1_x(self) -> None:
+        """Test of sampling atan2(1, x)."""
+        x_values, y_values = sample_function("atan2(1, x)", (-5.0, 5.0), (-2.0, 2.0))
+        compare_vectors(y_values, numpy.arctan2(1, x_values))
