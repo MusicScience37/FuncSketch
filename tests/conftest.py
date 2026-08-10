@@ -74,9 +74,8 @@ class ImageApprover:
 
         self._data_dir.mkdir(parents=True, exist_ok=True)
 
-        skimage.io.imsave(str(received_path), received)
-
         if not approved_path.exists():
+            skimage.io.imsave(str(received_path), received)
             shutil.copy(received_path, approved_path)
             pytest.fail(
                 f"Approved image file does not exist: {approved_path}. "
@@ -87,6 +86,7 @@ class ImageApprover:
         approved = skimage.io.imread(str(approved_path))
 
         if received.shape != approved.shape:
+            skimage.io.imsave(str(received_path), received)
             shutil.copy(received_path, approved_path)
             pytest.fail(
                 f"Shape mismatch: received={received.shape}, approved={approved.shape}. "
@@ -99,9 +99,10 @@ class ImageApprover:
             received, approved, channel_axis=2, full=True
         )
         diff = (diff * 255).astype(numpy.uint8)
-        skimage.io.imsave(str(diff_path), diff, check_contrast=False)
 
         if score < self._threshold:
+            skimage.io.imsave(str(received_path), received)
+            skimage.io.imsave(str(diff_path), diff, check_contrast=False)
             shutil.copy(received_path, approved_path)
             pytest.fail(
                 f"Image mismatch: score={score}, threshold={self._threshold}. "
@@ -112,8 +113,8 @@ class ImageApprover:
             )
 
         # Successful verification, remove the received and diff images.
-        received_path.unlink()
-        diff_path.unlink()
+        received_path.unlink(missing_ok=True)
+        diff_path.unlink(missing_ok=True)
 
 
 @pytest.fixture
