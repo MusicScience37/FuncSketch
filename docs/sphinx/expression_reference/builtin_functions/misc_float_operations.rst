@@ -48,3 +48,15 @@ Miscellaneous Floating-point Operations
     :range: Integers
     :returns: The integer part of :math:`x`, discarding the fractional part.
     :rtype: Real
+
+.. funcsketch:function:: round(x)
+
+    Rounding function.
+
+    :param x: The value to round.
+    :type x: Real
+    :definition: :math:`\mathrm{round}(x)` is the nearest integer to :math:`x`, rounding halfway cases away from zero.
+    :domain: :math:`(-\infty, \infty)`
+    :range: Integers
+    :returns: The value of :math:`x` rounded to the nearest integer.
+    :rtype: Real

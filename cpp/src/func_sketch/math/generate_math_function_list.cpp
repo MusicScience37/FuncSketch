@@ -71,6 +71,7 @@ MathFunctionList generate_math_function_list() {
     list.emplace(ceil_function());
     list.emplace(floor_function());
     list.emplace(trunc_function());
+    list.emplace(round_function());
 
     // In erf.h
     list.emplace(erf_function());

@@ -41,3 +41,12 @@ class TestMiscFloatOperations:
         """Test of sampling trunc(x)."""
         x_values, y_values = sample_function("trunc(x)", (-3.0, 3.0), (-4.0, 4.0))
         compare_vectors(y_values, numpy.trunc(x_values))
+
+    def test_sample_round(self) -> None:
+        """Test of sampling round(x)."""
+        x_values, y_values = sample_function("round(x)", (-3.0, 3.0), (-4.0, 4.0))
+        # numpy.round uses round-half-to-even, whereas std::round (used by
+        # this function) rounds halfway cases away from zero, so the
+        # reference values are calculated manually here.
+        reference = numpy.sign(x_values) * numpy.floor(numpy.abs(x_values) + 0.5)
+        compare_vectors(y_values, reference)

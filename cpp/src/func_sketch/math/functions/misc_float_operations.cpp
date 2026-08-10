@@ -53,4 +53,10 @@ MathFunction trunc_function() {
             "trunc", [](Real arg) { return std::trunc(arg); }));
 }
 
+MathFunction round_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "round", [](Real arg) { return std::round(arg); }));
+}
+
 }  // namespace func_sketch::math

@@ -39,3 +39,8 @@ class TestMiscFloatOperations:
         """Test of plotting trunc(x)."""
         image = plot_function(["trunc(x)"], (-3.0, 3.0), (-4.0, 4.0))
         image_approver.verify(image)
+
+    def test_plot_round(self, image_approver) -> None:
+        """Test of plotting round(x)."""
+        image = plot_function(["round(x)"], (-3.0, 3.0), (-4.0, 4.0))
+        image_approver.verify(image)

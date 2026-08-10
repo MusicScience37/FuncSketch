@@ -52,4 +52,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction trunc_function();
 
+/*!
+ * \brief Create `round` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction round_function();
+
 }  // namespace func_sketch::math
