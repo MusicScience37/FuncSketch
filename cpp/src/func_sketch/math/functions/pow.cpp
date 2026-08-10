@@ -15,34 +15,25 @@
  */
 /*!
  * \file
- * \brief Implementation of generate_math_function_list function.
+ * \brief Implementation of functions to create power functions.
  */
-#include "func_sketch/math/generate_math_function_list.h"
-
-#include "func_sketch/math/functions/exp.h"
-#include "func_sketch/math/functions/log.h"
 #include "func_sketch/math/functions/pow.h"
+
+#include "func_sketch/common_types.h"
+#include "func_sketch/math/acceptable_types.h"
+#include "func_sketch/math/general_math_function.h"
+#include "func_sketch/math/math_function.h"
+#include "func_sketch/math/pow_number.h"
 
 namespace func_sketch::math {
 
-MathFunctionList generate_math_function_list() {
-    MathFunctionList list;
-
-    // In exp.h
-    list.emplace(exp_function());
-    list.emplace(exp2_function());
-    list.emplace(expm1_function());
-
-    // In log.h
-    list.emplace(log_function());
-    list.emplace(log1p_function());
-    list.emplace(log10_function());
-    list.emplace(log2_function());
-
-    // In pow.h
-    list.emplace(pow_function());
-
-    return list;
+MathFunction pow_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Integer, Real>,
+            AcceptableTypes<Integer, Real>>>(
+            "pow", [](auto base, auto exponent) {
+                return pow_number(base, exponent);
+            }));
 }
 
 }  // namespace func_sketch::math
