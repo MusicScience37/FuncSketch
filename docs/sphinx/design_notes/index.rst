@@ -9,3 +9,4 @@ Design Notes
     classes
     grammar
     math_functions
+    adaptive_sampling
