@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test of plotting."""
+"""Utility for testing plotting."""
 
 import numpy
 
@@ -26,11 +26,21 @@ from func_sketch._impl.curve_sampler import CurveSampler
 from func_sketch._impl.plotter import Plotter
 
 
-def _plot_function(
+def plot_function(
     expression_str_list: list[str],
     x_range: tuple[float, float],
     y_range: tuple[float, float],
 ) -> numpy.ndarray:
+    """Plot functions.
+
+    Args:
+        expression_str_list (list[str]): List of expressions of functions to plot.
+        x_range (tuple[float, float]): Range of x-axis.
+        y_range (tuple[float, float]): Range of y-axis.
+
+    Returns:
+        numpy.ndarray: Image of the plotted functions.
+    """
     height = 600
     width = 800
 
@@ -49,27 +59,3 @@ def _plot_function(
     plotter(sampled_curves, image)
 
     return image
-
-
-class TestPlotting:
-    """Test of plotting."""
-
-    def test_plot_x(self, image_approver) -> None:
-        """Test of plotting x."""
-        image = _plot_function(["x"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_minus_x_times_2(self, image_approver) -> None:
-        """Test of plotting -x * 2."""
-        image = _plot_function(["-x * 2"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_exp(self, image_approver) -> None:
-        """Test of plotting exp(x)."""
-        image = _plot_function(["exp(x)"], (-3.0, 3.0), (-1.0, 5.0))
-        image_approver.verify(image)
-
-    def test_plot_multi(self, image_approver) -> None:
-        """Test of plotting multiple curves."""
-        image = _plot_function(["x * x", "-x"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)

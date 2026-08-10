@@ -24,21 +24,21 @@
 namespace func_sketch::math {
 
 /*!
- * \brief Create an exponential function.
+ * \brief Create `exp` function.
  *
  * \return Function.
  */
 [[nodiscard]] MathFunction exp_function();
 
 /*!
- * \brief Create a function of 2 raised to the power of an argument.
+ * \brief Create `exp2` function.
  *
  * \return Function.
  */
 [[nodiscard]] MathFunction exp2_function();
 
 /*!
- * \brief Create a function of the exponential minus 1.
+ * \brief Create `expm1` function.
  *
  * \return Function.
  */

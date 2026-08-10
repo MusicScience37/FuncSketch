@@ -15,25 +15,40 @@
  */
 /*!
  * \file
- * \brief Implementation of generate_math_function_list function.
+ * \brief Declaration of functions to create logarithmic functions.
  */
-#include "func_sketch/math/generate_math_function_list.h"
+#pragma once
 
-#include "func_sketch/math/functions/exp.h"
-#include "func_sketch/math/functions/log.h"
+#include "func_sketch/math/math_function.h"
 
 namespace func_sketch::math {
 
-MathFunctionList generate_math_function_list() {
-    MathFunctionList list;
-    list.emplace(exp_function());
-    list.emplace(exp2_function());
-    list.emplace(expm1_function());
-    list.emplace(log_function());
-    list.emplace(log1p_function());
-    list.emplace(log10_function());
-    list.emplace(log2_function());
-    return list;
-}
+/*!
+ * \brief Create `log` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction log_function();
+
+/*!
+ * \brief Create `log1p` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction log1p_function();
+
+/*!
+ * \brief Create `log10` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction log10_function();
+
+/*!
+ * \brief Create `log2` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction log2_function();
 
 }  // namespace func_sketch::math

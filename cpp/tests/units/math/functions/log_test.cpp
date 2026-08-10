@@ -15,9 +15,9 @@
  */
 /*!
  * \file
- * \brief Test of exponential functions.
+ * \brief Test of functions to create logarithmic functions.
  */
-#include "func_sketch/math/functions/exp.h"
+#include "func_sketch/math/functions/log.h"
 
 #include <cmath>
 
@@ -26,15 +26,16 @@
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/math/math_function_type.h"
 #include "single_variate_function_util.h"
 
-TEST_CASE("func_sketch::math::exp_function") {
+TEST_CASE("func_sketch::math::log_function") {
     using func_sketch::Integer;
     using func_sketch::Real;
-    using func_sketch::math::exp_function;
+    using func_sketch::math::log_function;
 
-    const auto function_object = exp_function();
-    const auto reference_function = [](Real arg) { return std::exp(arg); };
+    const auto function_object = log_function();
+    const auto reference_function = [](Real arg) { return std::log(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
@@ -49,13 +50,13 @@ TEST_CASE("func_sketch::math::exp_function") {
     }
 }
 
-TEST_CASE("func_sketch::math::exp2_function") {
+TEST_CASE("func_sketch::math::log1p_function") {
     using func_sketch::Integer;
     using func_sketch::Real;
-    using func_sketch::math::exp2_function;
+    using func_sketch::math::log1p_function;
 
-    const auto function_object = exp2_function();
-    const auto reference_function = [](Real arg) { return std::exp2(arg); };
+    const auto function_object = log1p_function();
+    const auto reference_function = [](Real arg) { return std::log1p(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
@@ -70,13 +71,34 @@ TEST_CASE("func_sketch::math::exp2_function") {
     }
 }
 
-TEST_CASE("func_sketch::math::expm1_function") {
+TEST_CASE("func_sketch::math::log10_function") {
     using func_sketch::Integer;
     using func_sketch::Real;
-    using func_sketch::math::expm1_function;
+    using func_sketch::math::log10_function;
 
-    const auto function_object = expm1_function();
-    const auto reference_function = [](Real arg) { return std::expm1(arg); };
+    const auto function_object = log10_function();
+    const auto reference_function = [](Real arg) { return std::log10(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.0, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
+
+TEST_CASE("func_sketch::math::log2_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::log2_function;
+
+    const auto function_object = log2_function();
+    const auto reference_function = [](Real arg) { return std::log2(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
