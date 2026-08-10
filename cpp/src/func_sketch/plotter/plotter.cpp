@@ -123,6 +123,7 @@ void Plotter::write_curve(const std::vector<Point>& samples,
     for (std::size_t i = 0; i < num_samples - 1; ++i) {
         Point start_xy = samples[i];
         Point end_xy = samples[i + 1];
+
         const bool is_start_in_range = range_.contains(start_xy);
         const bool is_end_in_range = range_.contains(end_xy);
         if (!is_start_in_range && !is_end_in_range) {
@@ -130,16 +131,25 @@ void Plotter::write_curve(const std::vector<Point>& samples,
             // singularity of the function.
             continue;
         }
+
         if (std::isnan(start_xy.x) || std::isnan(start_xy.y) ||
             std::isnan(end_xy.x) || std::isnan(end_xy.y)) {
             // NaN cannot be fixed.
             continue;
         }
+
         if (!is_start_in_range) {
-            start_xy = clamp_point(start_xy, range_);
+            if (!try_clamp_infinity(start_xy, range_)) {
+                continue;
+            }
+            start_xy =
+                compute_intersection_with_range(end_xy, start_xy, range_);
         }
         if (!is_end_in_range) {
-            end_xy = clamp_point(end_xy, range_);
+            if (!try_clamp_infinity(end_xy, range_)) {
+                continue;
+            }
+            end_xy = compute_intersection_with_range(start_xy, end_xy, range_);
         }
 
         write_line(
