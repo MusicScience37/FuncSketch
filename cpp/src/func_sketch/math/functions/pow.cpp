@@ -19,6 +19,8 @@
  */
 #include "func_sketch/math/functions/pow.h"
 
+#include <cmath>
+
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/acceptable_types.h"
 #include "func_sketch/math/general_math_function.h"
@@ -34,6 +36,18 @@ MathFunction pow_function() {
             "pow", [](auto base, auto exponent) {
                 return pow_number(base, exponent);
             }));
+}
+
+MathFunction sqrt_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "sqrt", [](Real arg) { return std::sqrt(arg); }));
+}
+
+MathFunction cbrt_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "cbrt", [](Real arg) { return std::cbrt(arg); }));
 }
 
 }  // namespace func_sketch::math

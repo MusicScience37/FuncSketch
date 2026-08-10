@@ -26,6 +26,7 @@
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 #include "func_sketch/common_types.h"
+#include "single_variate_function_util.h"
 
 TEST_CASE("func_sketch::math::pow_function") {
     using func_sketch::Integer;
@@ -90,5 +91,47 @@ TEST_CASE("func_sketch::math::pow_function") {
         CHECK_THROWS(function_object(std::vector<Number>{arg}, result));
         CHECK_THROWS(
             function_object(std::vector<Number>{arg, arg, arg}, result));
+    }
+}
+
+TEST_CASE("func_sketch::math::sqrt_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::sqrt_function;
+
+    const auto function_object = sqrt_function();
+    const auto reference_function = [](Real arg) { return std::sqrt(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.23, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
+
+TEST_CASE("func_sketch::math::cbrt_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::cbrt_function;
+
+    const auto function_object = cbrt_function();
+    const auto reference_function = [](Real arg) { return std::cbrt(arg); };
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(
+            function_object, 2, reference_function);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 1.23, reference_function);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
     }
 }

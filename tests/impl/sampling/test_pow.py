@@ -31,3 +31,13 @@ class TestPower:
         """Test of sampling pow(2, x)."""
         x_values, y_values = sample_function("pow(2, x)", (-3.0, 3.0), (-1.0, 5.0))
         compare_vectors(y_values, numpy.power(2, x_values))
+
+    def test_sample_sqrt(self) -> None:
+        """Test of sampling sqrt(x)."""
+        x_values, y_values = sample_function("sqrt(x)", (0.0, 3.0), (-1.0, 5.0))
+        compare_vectors(y_values, numpy.sqrt(x_values))
+
+    def test_sample_cbrt(self) -> None:
+        """Test of sampling cbrt(x)."""
+        x_values, y_values = sample_function("cbrt(x)", (-3.0, 3.0), (-1.0, 5.0))
+        compare_vectors(y_values, numpy.cbrt(x_values))

@@ -17,3 +17,27 @@ Power Functions
     :range: :math:`(-\infty, \infty)`
     :returns: The value of :math:`\mathrm{base}^{\mathrm{exponent}}`.
     :rtype: Real
+
+.. funcsketch:function:: sqrt(x)
+
+    Square root function.
+
+    :param x: The value to take the square root of.
+    :type x: Real
+    :definition: :math:`\mathrm{sqrt}(x) = \sqrt{x}`
+    :domain: :math:`[0, \infty)`
+    :range: :math:`[0, \infty)`
+    :returns: The value of :math:`\sqrt{x}`.
+    :rtype: Real
+
+.. funcsketch:function:: cbrt(x)
+
+    Cube root function.
+
+    :param x: The value to take the cube root of.
+    :type x: Real
+    :definition: :math:`\mathrm{cbrt}(x) = \sqrt[3]{x}`
+    :domain: :math:`(-\infty, \infty)`
+    :range: :math:`(-\infty, \infty)`
+    :returns: The value of :math:`\sqrt[3]{x}`.
+    :rtype: Real

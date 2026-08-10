@@ -9,8 +9,6 @@ Basic functions in `<cmath>` header in C++11:
 
 | Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
 | :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Power         | Square root function $\sqrt{x}$                                 | `sqrt`             | `std::sqrt`   | `math.sqrt`   |
-| Power         | Cube root function $\sqrt[3]{x}$                                | `cbrt`             | `std::cbrt`   | `math.cbrt`   |
 | Trigonometric | Sine function $\sin{x}$                                         | `sin`              | `std::sin`    | `math.sin`    |
 | Trigonometric | Cosine function $\cos{x}$                                       | `cos`              | `std::cos`    | `math.cos`    |
 | Trigonometric | Tangent function $\tan{x}$                                      | `tan`              | `std::tan`    | `math.tan`    |

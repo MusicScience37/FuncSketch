@@ -30,4 +30,18 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction pow_function();
 
+/*!
+ * \brief Create `sqrt` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction sqrt_function();
+
+/*!
+ * \brief Create `cbrt` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction cbrt_function();
+
 }  // namespace func_sketch::math

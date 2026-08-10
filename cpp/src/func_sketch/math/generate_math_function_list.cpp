@@ -41,6 +41,8 @@ MathFunctionList generate_math_function_list() {
 
     // In pow.h
     list.emplace(pow_function());
+    list.emplace(sqrt_function());
+    list.emplace(cbrt_function());
 
     return list;
 }

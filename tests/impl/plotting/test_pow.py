@@ -29,3 +29,13 @@ class TestPower:
         """Test of plotting pow(2, x)."""
         image = plot_function(["pow(2, x)"], (-3.0, 3.0), (-1.0, 5.0))
         image_approver.verify(image)
+
+    def test_plot_sqrt(self, image_approver) -> None:
+        """Test of plotting sqrt(x)."""
+        image = plot_function(["sqrt(x)"], (-1.0, 3.0), (-1.0, 5.0))
+        image_approver.verify(image)
+
+    def test_plot_cbrt(self, image_approver) -> None:
+        """Test of plotting cbrt(x)."""
+        image = plot_function(["cbrt(x)"], (-3.0, 3.0), (-3.0, 3.0))
+        image_approver.verify(image)
