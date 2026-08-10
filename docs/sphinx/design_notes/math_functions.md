@@ -9,11 +9,6 @@ Basic functions in `<cmath>` header in C++11:
 
 | Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
 | :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Logarithm     | Natural logarithm function $\log{x}$                            | `log`              | `std::log`    | `math.log`    |
-| Logarithm     | Natural logarithm of 1 plus x $\log{(1+x)}$                     | `log1p`            | `std::log1p`  | `math.log1p`  |
-| Logarithm     | Common logarithm function $\log_{10}{x}$                        | `log10`            | `std::log10`  | `math.log10`  |
-| Logarithm     | Base 2 logarithm function $\log_{2}{x}$                         | `log2`             | `std::log2`   | `math.log2`   |
-| Power         | Power function $x^y$                                            | `pow`              | `std::pow`    | `math.pow`    |
 | Power         | Square root function $\sqrt{x}$                                 | `sqrt`             | `std::sqrt`   | `math.sqrt`   |
 | Power         | Cube root function $\sqrt[3]{x}$                                | `cbrt`             | `std::cbrt`   | `math.cbrt`   |
 | Trigonometric | Sine function $\sin{x}$                                         | `sin`              | `std::sin`    | `math.sin`    |
