@@ -20,6 +20,7 @@
 #include "func_sketch/math/generate_math_function_list.h"
 
 #include "func_sketch/math/functions/exp.h"
+#include "func_sketch/math/functions/hyperbolic.h"
 #include "func_sketch/math/functions/log.h"
 #include "func_sketch/math/functions/pow.h"
 #include "func_sketch/math/functions/trigonometric.h"
@@ -53,6 +54,9 @@ MathFunctionList generate_math_function_list() {
     list.emplace(acos_function());
     list.emplace(atan_function());
     list.emplace(atan2_function());
+
+    // In hyperbolic.h
+    list.emplace(sinh_function());
 
     return list;
 }

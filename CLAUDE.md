@@ -50,6 +50,7 @@ Directory structure:
 - Use Python 3.13.
 - Use tools `black`, `isort`, `pylint`, `flake8`, and `mypy`.
 - Use `pytest` for unit tests.
+  - See `scripts/run_pytest.sh` for the appropriate way to run pytest.
 - Comments should be in Google style.
 
 ## Notes on Sphinx Documentation
