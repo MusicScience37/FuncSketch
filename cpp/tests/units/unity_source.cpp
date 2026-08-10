@@ -16,6 +16,7 @@
 #include "math/functions/gamma_test.cpp"
 #include "math/functions/hyperbolic_test.cpp"
 #include "math/functions/log_test.cpp"
+#include "math/functions/misc_float_operations_test.cpp"
 #include "math/functions/pow_test.cpp"
 #include "math/functions/trigonometric_test.cpp"
 #include "math/general_math_function_test.cpp"

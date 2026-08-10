@@ -17,6 +17,7 @@ set(SOURCE_FILES
     math/functions/gamma_test.cpp
     math/functions/hyperbolic_test.cpp
     math/functions/log_test.cpp
+    math/functions/misc_float_operations_test.cpp
     math/functions/pow_test.cpp
     math/functions/trigonometric_test.cpp
     math/general_math_function_test.cpp

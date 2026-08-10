@@ -11,3 +11,4 @@ Built-in Functions
     hyperbolic
     error
     gamma
+    misc_float_operations

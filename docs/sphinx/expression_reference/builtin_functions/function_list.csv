@@ -1,4 +1,5 @@
 Function,Short Description
+:funcsketch:func:`abs`, Absolute value function (:math:`|x|`).
 :funcsketch:func:`acos`, Arccosine function (:math:`\arccos(x)`).
 :funcsketch:func:`acosh`, Hyperbolic arccosine function (:math:`\mathrm{acosh}(x)`).
 :funcsketch:func:`asin`, Arcsine function (:math:`\arcsin(x)`).
