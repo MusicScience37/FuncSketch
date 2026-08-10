@@ -11,6 +11,7 @@
 #include "math/functions/gamma.cpp"
 #include "math/functions/hyperbolic.cpp"
 #include "math/functions/log.cpp"
+#include "math/functions/misc_float_operations.cpp"
 #include "math/functions/pow.cpp"
 #include "math/functions/trigonometric.cpp"
 #include "math/generate_math_function_list.cpp"

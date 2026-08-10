@@ -5,19 +5,7 @@ Functions which has been implemented will be removed from this list.
 
 ## Basic Functions
 
-Basic functions in `<cmath>` header in C++11:
-
-| Type          | Function                                                        | Name in FuncSketch | In C++        | In Python     |
-| :------------ | :-------------------------------------------------------------- | :----------------- | :------------ | :------------ |
-| Misc          | Absolute value function $\|x\|$                                 | `abs`              | `std::abs`    | `math.fabs`   |
-| Misc          | Ceiling function $\lceil{x}\rceil$                              | `ceil`             | `std::ceil`   | `math.ceil`   |
-| Misc          | Floor function $\lfloor{x}\rfloor$                              | `floor`            | `std::floor`  | `math.floor`  |
-| Misc          | Truncation function $\mathrm{trunc}\,{x}$                       | `trunc`            | `std::trunc`  | `math.trunc`  |
-
-- `pow` and `atan2` functions have two arguments, whereas all other functions have one argument.
-- All functions will be calculated using floating-point numbers.
-- Some functions in `<cmath>` header have been omitted because of less importance for graphing calculators.
-- Error function and gamma function are special functions, so they should be written as special functions in the documentation for users.
+All basic functions in `<cmath>` header in C++11 have been implemented.
 
 ## Other Special Functions
 

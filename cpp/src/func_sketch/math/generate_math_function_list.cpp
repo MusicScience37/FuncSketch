@@ -24,6 +24,7 @@
 #include "func_sketch/math/functions/gamma.h"
 #include "func_sketch/math/functions/hyperbolic.h"
 #include "func_sketch/math/functions/log.h"
+#include "func_sketch/math/functions/misc_float_operations.h"
 #include "func_sketch/math/functions/pow.h"
 #include "func_sketch/math/functions/trigonometric.h"
 
@@ -64,6 +65,13 @@ MathFunctionList generate_math_function_list() {
     list.emplace(asinh_function());
     list.emplace(acosh_function());
     list.emplace(atanh_function());
+
+    // In misc_float_operations.h
+    list.emplace(abs_function());
+    list.emplace(ceil_function());
+    list.emplace(floor_function());
+    list.emplace(trunc_function());
+    list.emplace(round_function());
 
     // In erf.h
     list.emplace(erf_function());

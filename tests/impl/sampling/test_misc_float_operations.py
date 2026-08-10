@@ -1,0 +1,52 @@
+# Copyright 2026 MusicScience37 (Kenta Kabashima)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""Test of sampling of miscellaneous floating-point operations."""
+
+import numpy
+
+from .sampling_util import compare_vectors, sample_function
+
+
+class TestMiscFloatOperations:
+    """Test of sampling of miscellaneous floating-point operations."""
+
+    def test_sample_abs(self) -> None:
+        """Test of sampling abs(x)."""
+        x_values, y_values = sample_function("abs(x)", (-3.0, 3.0), (-1.0, 5.0))
+        compare_vectors(y_values, numpy.abs(x_values))
+
+    def test_sample_ceil(self) -> None:
+        """Test of sampling ceil(x)."""
+        x_values, y_values = sample_function("ceil(x)", (-3.0, 3.0), (-4.0, 4.0))
+        compare_vectors(y_values, numpy.ceil(x_values))
+
+    def test_sample_floor(self) -> None:
+        """Test of sampling floor(x)."""
+        x_values, y_values = sample_function("floor(x)", (-3.0, 3.0), (-4.0, 4.0))
+        compare_vectors(y_values, numpy.floor(x_values))
+
+    def test_sample_trunc(self) -> None:
+        """Test of sampling trunc(x)."""
+        x_values, y_values = sample_function("trunc(x)", (-3.0, 3.0), (-4.0, 4.0))
+        compare_vectors(y_values, numpy.trunc(x_values))
+
+    def test_sample_round(self) -> None:
+        """Test of sampling round(x)."""
+        x_values, y_values = sample_function("round(x)", (-3.0, 3.0), (-4.0, 4.0))
+        # numpy.round uses round-half-to-even, whereas std::round (used by
+        # this function) rounds halfway cases away from zero, so the
+        # reference values are calculated manually here.
+        reference = numpy.sign(x_values) * numpy.floor(numpy.abs(x_values) + 0.5)
+        compare_vectors(y_values, reference)

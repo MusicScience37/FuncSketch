@@ -1,4 +1,5 @@
 Function,Short Description
+:funcsketch:func:`abs`, Absolute value function (:math:`|x|`).
 :funcsketch:func:`acos`, Arccosine function (:math:`\arccos(x)`).
 :funcsketch:func:`acosh`, Hyperbolic arccosine function (:math:`\mathrm{acosh}(x)`).
 :funcsketch:func:`asin`, Arcsine function (:math:`\arcsin(x)`).
@@ -7,6 +8,7 @@ Function,Short Description
 :funcsketch:func:`atan2`, "Arctangent function of two variables (:math:`\mathrm{atan2}(y, x)`)."
 :funcsketch:func:`atanh`, Hyperbolic arctangent function (:math:`\mathrm{atanh}(x)`).
 :funcsketch:func:`cbrt`, Cube root function (:math:`\sqrt[3]{x}`).
+:funcsketch:func:`ceil`, Ceiling function (:math:`\lceil x \rceil`).
 :funcsketch:func:`cos`, Cosine function (:math:`\cos(x)`).
 :funcsketch:func:`cosh`, Hyperbolic cosine function (:math:`\cosh(x)`).
 :funcsketch:func:`erf`, Error function (:math:`\mathrm{erf}(x)`).
@@ -14,6 +16,7 @@ Function,Short Description
 :funcsketch:func:`exp`, Exponential function (:math:`e^x`).
 :funcsketch:func:`exp2`, Base-2 exponential function (:math:`2^x`).
 :funcsketch:func:`expm1`, Exponential-minus-one function (:math:`e^x - 1`).
+:funcsketch:func:`floor`, Floor function (:math:`\lfloor x \rfloor`).
 :funcsketch:func:`gamma`, Gamma function (:math:`\Gamma(x)`).
 :funcsketch:func:`lgamma`, Natural logarithm of the absolute value of the gamma function (:math:`\log{|\Gamma(x)|}`).
 :funcsketch:func:`log`, Natural logarithm function (:math:`\log(x)`).
@@ -21,8 +24,10 @@ Function,Short Description
 :funcsketch:func:`log10`, Base-10 logarithm function (:math:`\log_{10}(x)`).
 :funcsketch:func:`log2`, Base-2 logarithm function (:math:`\log_{2}(x)`).
 :funcsketch:func:`pow`, Power function (:math:`\mathrm{base}^{\mathrm{exponent}}`).
+:funcsketch:func:`round`, Rounding function (:math:`\mathrm{round}(x)`).
 :funcsketch:func:`sin`, Sine function (:math:`\sin(x)`).
 :funcsketch:func:`sinh`, Hyperbolic sine function (:math:`\sinh(x)`).
 :funcsketch:func:`sqrt`, Square root function (:math:`\sqrt{x}`).
 :funcsketch:func:`tan`, Tangent function (:math:`\tan(x)`).
 :funcsketch:func:`tanh`, Hyperbolic tangent function (:math:`\tanh(x)`).
+:funcsketch:func:`trunc`, Truncation function (:math:`\mathrm{trunc}(x)`).
