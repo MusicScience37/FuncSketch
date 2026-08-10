@@ -1,0 +1,69 @@
+# Copyright 2026 MusicScience37 (Kenta Kabashima)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""Test of plotting of trigonometric functions."""
+
+import numpy
+
+from .plotting_util import plot_function
+
+
+class TestTrigonometric:
+    """Test of plotting of trigonometric functions."""
+
+    def test_plot_sin(self, image_approver) -> None:
+        """Test of plotting sin(x)."""
+        image = plot_function(
+            ["sin(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-1.5, 1.5)
+        )
+        image_approver.verify(image)
+
+    def test_plot_cos(self, image_approver) -> None:
+        """Test of plotting cos(x)."""
+        image = plot_function(
+            ["cos(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-1.5, 1.5)
+        )
+        image_approver.verify(image)
+
+    def test_plot_tan(self, image_approver) -> None:
+        """Test of plotting tan(x)."""
+        image = plot_function(
+            ["tan(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-2.0, 2.0)
+        )
+        image_approver.verify(image)
+
+    def test_plot_asin(self, image_approver) -> None:
+        """Test of plotting asin(x)."""
+        image = plot_function(["asin(x)"], (-1.2, 1.2), (-2.0, 2.0))
+        image_approver.verify(image)
+
+    def test_plot_acos(self, image_approver) -> None:
+        """Test of plotting acos(x)."""
+        image = plot_function(["acos(x)"], (-1.2, 1.2), (-0.5, 3.5))
+        image_approver.verify(image)
+
+    def test_plot_atan(self, image_approver) -> None:
+        """Test of plotting atan(x)."""
+        image = plot_function(["atan(x)"], (-5.0, 5.0), (-2.0, 2.0))
+        image_approver.verify(image)
+
+    def test_plot_atan2_x_1(self, image_approver) -> None:
+        """Test of plotting atan2(x, 1)."""
+        image = plot_function(["atan2(x, 1)"], (-5.0, 5.0), (-4.0, 4.0))
+        image_approver.verify(image)
+
+    def test_plot_atan2_1_x(self, image_approver) -> None:
+        """Test of plotting atan2(1, x)."""
+        image = plot_function(["atan2(1, x)"], (-5.0, 5.0), (-4.0, 4.0))
+        image_approver.verify(image)

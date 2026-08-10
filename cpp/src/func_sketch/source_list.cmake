@@ -9,6 +9,7 @@ set(SOURCE_FILES
     math/functions/exp.cpp
     math/functions/log.cpp
     math/functions/pow.cpp
+    math/functions/trigonometric.cpp
     math/generate_math_function_list.cpp
     parser/convert_expression.cpp
     parser/expression_grammar.cpp

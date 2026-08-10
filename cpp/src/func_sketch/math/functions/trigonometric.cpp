@@ -1,0 +1,75 @@
+/*
+ * Copyright 2026 MusicScience37 (Kenta Kabashima)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*!
+ * \file
+ * \brief Implementation of functions to create trigonometric functions.
+ */
+#include "func_sketch/math/functions/trigonometric.h"
+
+#include <cmath>
+
+#include "func_sketch/common_types.h"
+#include "func_sketch/math/acceptable_types.h"
+#include "func_sketch/math/general_math_function.h"
+#include "func_sketch/math/math_function.h"
+
+namespace func_sketch::math {
+
+MathFunction sin_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "sin", [](Real arg) { return std::sin(arg); }));
+}
+
+MathFunction cos_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "cos", [](Real arg) { return std::cos(arg); }));
+}
+
+MathFunction tan_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "tan", [](Real arg) { return std::tan(arg); }));
+}
+
+MathFunction asin_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "asin", [](Real arg) { return std::asin(arg); }));
+}
+
+MathFunction acos_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "acos", [](Real arg) { return std::acos(arg); }));
+}
+
+MathFunction atan_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "atan", [](Real arg) { return std::atan(arg); }));
+}
+
+MathFunction atan2_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "atan2", [](Real y_value, Real x_value) {
+            return std::atan2(y_value, x_value);
+        }));
+}
+
+}  // namespace func_sketch::math

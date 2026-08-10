@@ -8,6 +8,7 @@
 #include "math/functions/exp.cpp"
 #include "math/functions/log.cpp"
 #include "math/functions/pow.cpp"
+#include "math/functions/trigonometric.cpp"
 #include "math/generate_math_function_list.cpp"
 #include "parser/convert_expression.cpp"
 #include "parser/expression_grammar.cpp"
