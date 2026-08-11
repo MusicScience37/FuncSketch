@@ -20,6 +20,7 @@ set(SOURCE_FILES
     parser/expression_grammar.cpp
     parser/expression_parser.cpp
     parser/parsed_expression.cpp
+    plotter/axis_ticks.cpp
     plotter/function_sampler.cpp
     plotter/plot_config.cpp
     plotter/plot_range.cpp
