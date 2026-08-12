@@ -30,7 +30,7 @@
 #include "func_sketch/parser/parsed_expression.h"
 
 BOOST_FUSION_ADAPT_STRUCT(
-    func_sketch::parser::ParsedConstant, (func_sketch::Number, value))
+    func_sketch::parser::ParsedLiteral, (func_sketch::Number, value))
 BOOST_FUSION_ADAPT_STRUCT(
     func_sketch::parser::ParsedIdentifier, (std::string, name))
 BOOST_FUSION_ADAPT_STRUCT(func_sketch::parser::ParsedFunctionCallExpression,
@@ -76,7 +76,7 @@ ExpressionGrammar::ExpressionGrammar()
     // "exp(1.23)" (function call expression) and "x" (identifier only).
 
     const real_parser<double, strict_real_policies<double>> strict_double;
-    constant_rule_ =
+    literal_rule_ =
         strict_double[at_c<0>(_val) = _1] | int_[at_c<0>(_val) = _1];
 
     identifier_rule_ = lexeme[(alpha | char_('_'))[at_c<0>(_val) += _1] >
@@ -87,7 +87,7 @@ ExpressionGrammar::ExpressionGrammar()
             *(',' > sum_expr_rule_[push_back(at_c<1>(_val), _1)])) > ')';
 
     atomic_value_expr_rule_ =
-        function_call_expr_rule_ | constant_rule_ | identifier_rule_;
+        function_call_expr_rule_ | literal_rule_ | identifier_rule_;
 
     value_expr_rule_ = atomic_value_expr_rule_ | '(' > sum_expr_rule_ > ')';
 
@@ -139,7 +139,7 @@ ExpressionGrammar::ExpressionGrammar()
 
     // NOLINTEND(bugprone-chained-comparison)
 
-    constant_rule_.name("constant");
+    literal_rule_.name("literal");
     identifier_rule_.name("identifier");
     // For error messages, we want to show all expressions as "expression"
     // instead of actual rule names, since almost users will not know about

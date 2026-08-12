@@ -1,20 +1,20 @@
 Input: 1.23
-Parsed: Constant(1.230000e+00)
+Parsed: Literal(1.230000e+00)
 
 Input: -2.34
-Parsed: Unary(-, Constant(2.340000e+00))
+Parsed: Unary(-, Literal(2.340000e+00))
 
 Input: 1.0
-Parsed: Constant(1.000000e+00)
+Parsed: Literal(1.000000e+00)
 
 Input: 1
-Parsed: Constant(1)
+Parsed: Literal(1)
 
 Input: 123.0
-Parsed: Constant(1.230000e+02)
+Parsed: Literal(1.230000e+02)
 
 Input: 123
-Parsed: Constant(123)
+Parsed: Literal(123)
 
 Input: x
 Parsed: Identifier(x)
@@ -23,43 +23,43 @@ Input: -x
 Parsed: Unary(-, Identifier(x))
 
 Input: 1.23 + 4.56
-Parsed: Binary(+, Constant(1.230000e+00), Constant(4.560000e+00))
+Parsed: Binary(+, Literal(1.230000e+00), Literal(4.560000e+00))
 
 Input: 1.23 - 4.56
-Parsed: Binary(-, Constant(1.230000e+00), Constant(4.560000e+00))
+Parsed: Binary(-, Literal(1.230000e+00), Literal(4.560000e+00))
 
 Input: 1.23 * 4.56
-Parsed: Binary(*, Constant(1.230000e+00), Constant(4.560000e+00))
+Parsed: Binary(*, Literal(1.230000e+00), Literal(4.560000e+00))
 
 Input: 1.23 / 4.56
-Parsed: Binary(/, Constant(1.230000e+00), Constant(4.560000e+00))
+Parsed: Binary(/, Literal(1.230000e+00), Literal(4.560000e+00))
 
 Input: 1.23 ** 4.56
-Parsed: Binary(**, Constant(1.230000e+00), Constant(4.560000e+00))
+Parsed: Binary(**, Literal(1.230000e+00), Literal(4.560000e+00))
 
 Input: 1.23 ** -4.56
-Parsed: Binary(**, Constant(1.230000e+00), Constant(-4.560000e+00))
+Parsed: Binary(**, Literal(1.230000e+00), Literal(-4.560000e+00))
 
 Input: -1.23 ** -4.56
-Parsed: Unary(-, Binary(**, Constant(1.230000e+00), Constant(-4.560000e+00)))
+Parsed: Unary(-, Binary(**, Literal(1.230000e+00), Literal(-4.560000e+00)))
 
 Input: 1.23 * (4.56 + 7.89)
-Parsed: Binary(*, Constant(1.230000e+00), Binary(+, Constant(4.560000e+00), Constant(7.890000e+00)))
+Parsed: Binary(*, Literal(1.230000e+00), Binary(+, Literal(4.560000e+00), Literal(7.890000e+00)))
 
 Input: exp(1.23)
-Parsed: FunctionCall(Identifier(exp), Constant(1.230000e+00))
+Parsed: FunctionCall(Identifier(exp), Literal(1.230000e+00))
 
 Input: 1.23 ** 4.56 ** 7.89
-Parsed: Binary(**, Constant(1.230000e+00), Binary(**, Constant(4.560000e+00), Constant(7.890000e+00)))
+Parsed: Binary(**, Literal(1.230000e+00), Binary(**, Literal(4.560000e+00), Literal(7.890000e+00)))
 
 Input: exp(exp(1.23) + 4.56)
-Parsed: FunctionCall(Identifier(exp), Binary(+, FunctionCall(Identifier(exp), Constant(1.230000e+00)), Constant(4.560000e+00)))
+Parsed: FunctionCall(Identifier(exp), Binary(+, FunctionCall(Identifier(exp), Literal(1.230000e+00)), Literal(4.560000e+00)))
 
 Input: 1.23 * 3.45 / (6.78 - 9.01)
-Parsed: Binary(/, Binary(*, Constant(1.230000e+00), Constant(3.450000e+00)), Binary(-, Constant(6.780000e+00), Constant(9.010000e+00)))
+Parsed: Binary(/, Binary(*, Literal(1.230000e+00), Literal(3.450000e+00)), Binary(-, Literal(6.780000e+00), Literal(9.010000e+00)))
 
 Input: -exp(1.23)
-Parsed: Unary(-, FunctionCall(Identifier(exp), Constant(1.230000e+00)))
+Parsed: Unary(-, FunctionCall(Identifier(exp), Literal(1.230000e+00)))
 
 Input: TestIdentifier
 Parsed: Identifier(TestIdentifier)
@@ -104,7 +104,7 @@ Input: -
 Exception: Expected <expression> at position 1.
 
 Input: --1
-Parsed: Unary(-, Constant(-1))
+Parsed: Unary(-, Literal(-1))
 
 Input: 1.23 *
 Exception: Expected <expression> at position 6.

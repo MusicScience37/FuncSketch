@@ -76,7 +76,7 @@ private:
         boost::spirit::ascii::space_type>;
 
     //! Rule of constants.
-    Rule<ParsedConstant> constant_rule_;
+    Rule<ParsedLiteral> literal_rule_;
 
     //! Rule of identifiers.
     Rule<ParsedIdentifier> identifier_rule_;

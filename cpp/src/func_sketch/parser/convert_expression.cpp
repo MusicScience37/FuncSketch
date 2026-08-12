@@ -30,6 +30,7 @@
 #include "func_sketch/math/binary_operators.h"
 #include "func_sketch/math/math_function_list.h"
 #include "func_sketch/math/unary_operators.h"
+#include "func_sketch/parser/parsed_expression.h"
 
 namespace func_sketch::parser {
 
@@ -54,7 +55,7 @@ namespace func_sketch::parser {
  * \return Converted expression.
  */
 [[nodiscard]] expressions::Expression* convert_expression(
-    const ParsedConstant& parsed_expression,
+    const ParsedLiteral& parsed_expression,
     const math::MathFunctionList& /*math_function_list*/,
     expressions::ExpressionMemoryPool& pool) {
     return pool.create<expressions::ConstantExpression>(
