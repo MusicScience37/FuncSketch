@@ -48,7 +48,7 @@ public:
      * \return Stored value.
      */
     template <typename T>
-    const T& get() const {
+    [[nodiscard]] const T& get() const {
         return std::any_cast<const T&>(value_);
     }
 

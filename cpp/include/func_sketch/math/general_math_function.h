@@ -159,8 +159,7 @@ private:
         using AcceptableTypes =
             std::tuple_element_t<Index, AcceptableTypesTuples>;
         return static_cast<
-            typename AcceptableTypes::template SelectTypeToUse<GivenType>>(
-            value);
+            AcceptableTypes::template SelectTypeToUse<GivenType>>(value);
     }
 
     /*!
