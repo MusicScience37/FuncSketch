@@ -127,7 +127,8 @@ def check_tests_for_condition(
     execute_command(command, cwd=build_dir)
 
     # Build
-    execute_command(["cmake", "--build", "."], cwd=build_dir)
+    if test_type not in ["clang-tidy"]:
+        execute_command(["cmake", "--build", "."], cwd=build_dir)
 
     # Prepare
     env = os.environ.copy()
