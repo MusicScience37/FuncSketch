@@ -84,6 +84,8 @@ if(FUNC_SKETCH_BUILD_TESTS)
     add_library(ApprovalTestsCpp INTERFACE)
     target_include_directories(ApprovalTestsCpp
                                INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
+
+    find_package(benchmark CONFIG REQUIRED)
 endif()
 
 # ##############################################################################

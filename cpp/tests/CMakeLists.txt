@@ -34,3 +34,4 @@ macro(target_add_catch2 TARGET)
 endmacro()
 
 add_subdirectory(units)
+add_subdirectory(bench)
