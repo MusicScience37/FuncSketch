@@ -141,5 +141,16 @@ TEST_CASE("func_sketch::plotter::AxisTicks") {
         CHECK(ticks.strings.at(3) == "4e-5");
     }
 
-    // TODO Remaining tests.
+    SECTION("check the number of ticks") {
+        constexpr std::pair<double, double> range{0.0, 1.0};
+
+        AxisTicks ticks;
+        CHECK_THROWS(generate_axis_ticks(range, 0, ticks));
+        CHECK_THROWS(generate_axis_ticks(range, 1, ticks));
+        CHECK_THROWS(generate_axis_ticks(range, 2, ticks));
+        CHECK_NOTHROW(generate_axis_ticks(range, 3, ticks));
+        CHECK(ticks.values.size() >= 2);
+        CHECK_NOTHROW(generate_axis_ticks(range, 4, ticks));
+        CHECK(ticks.values.size() >= 2);
+    }
 }

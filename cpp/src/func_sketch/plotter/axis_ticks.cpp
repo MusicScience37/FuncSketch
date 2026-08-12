@@ -33,13 +33,13 @@ namespace func_sketch::plotter {
 
 void generate_axis_ticks(const std::pair<Real, Real>& range,
     std::size_t approx_num_ticks, AxisTicks& ticks) {
-    if (approx_num_ticks < 2) {
-        throw InvalidArgumentException("Number of ticks must be at least 2.");
+    if (approx_num_ticks < 3) {
+        throw InvalidArgumentException("Number of ticks must be at least 3.");
     }
 
     const auto [min_value, max_value] = range;
     const Real range_size = max_value - min_value;
-    // Ranges should be checked in PlotRange class, so only assert here.
+    // Ranges should be checked in the PlotRange class, so only assert here.
     assert(range_size > 0.0);
     const Real approx_tick_interval =
         range_size / static_cast<Real>(approx_num_ticks - 1);
