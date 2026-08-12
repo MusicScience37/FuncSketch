@@ -10,21 +10,14 @@ This project aims to provide:
 
 ## Installation
 
-TODO
-
-## Usage
-
-TODO
+Currently, the project is under development and available only via building from source.
+See [Build FuncSketch in Repository](docs/sphinx/build_in_repository.md) for instructions.
 
 ## Documentation
 
 Documentation is available for:
 
 - [Development version](https://func-sketch-35a65d.gitlab.io/)
-
-## Contributing
-
-TODO
 
 ## License
 
