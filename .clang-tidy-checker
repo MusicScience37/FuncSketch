@@ -1,0 +1,5 @@
+build_dir: build/Debug
+file_patterns:
+  - cpp/src/**/*.cpp
+  - cpp/tests/**/*.cpp
+cache_dir: .clang-tidy-cache

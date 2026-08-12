@@ -170,6 +170,38 @@ python coverage:
         coverage_format: cobertura
         path: coverage_python.xml
 
+clang-tidy:
+  extends: .test linux base
+  parallel:
+    matrix:
+      - COMPILER_TYPE: ["clang22"]
+        IMAGE_PATH: "musicscience37/clang-ci"
+        TEST_TYPE: "clang-tidy"
+  script:
+    - poetry run python ./scripts/ci_linux_test.py
+      --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
+  cache:
+    - key:
+        prefix: poetry-${COMPILER_TYPE}-${TEST_TYPE}
+        files:
+          - poetry.lock
+      paths:
+        - .poetry-cache
+    - key:
+        prefix: vcpkg-${COMPILER_TYPE}-${TEST_TYPE}
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+    - key:
+        prefix: clang-tidy-cache-${COMPILER_TYPE}-${TEST_TYPE}
+        files:
+          - .clang-tidy
+          - vcpkg-configuration.json
+      paths:
+        - .clang-tidy-cache
+  allow_failure: true
+
 pre-commit:
   extends: .test linux base
   parallel:

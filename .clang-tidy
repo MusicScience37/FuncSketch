@@ -9,6 +9,7 @@ Checks: >
     -google-readability-todo,
   performance-*,
   portability-*,
+    -portability-avoid-pragma-once,
   readability-*,
     readability-identifier-naming,
     -readability-function-cognitive-complexity,
@@ -48,6 +49,7 @@ Checks: >
 # - readability-qualified-auto make source codes less changeable.
 # - modernize-use-trailing-return-type reduces readability.
 # - readability-magic-numbers generates too many warnings in test codes.
+# - portability-avoid-pragma-once is not necessary because such old compilers don't support C++23.
 
 CheckOptions:
   # Naming Conventions
