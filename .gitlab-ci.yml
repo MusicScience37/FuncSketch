@@ -1,6 +1,7 @@
 stages:
   - test
   - deploy
+  - release
 
 include:
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
