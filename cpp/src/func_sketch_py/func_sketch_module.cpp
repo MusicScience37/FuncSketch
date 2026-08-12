@@ -159,6 +159,13 @@ Objects of this class can be called with a string to parse it into an Expression
             [](PlotConfig& self, int value) { self.grid_line_width(value); },
             "Line width of grid lines in pixels.")
         .def_prop_rw(
+            "zero_line_width",
+            [](const PlotConfig& self) -> int {
+                return self.zero_line_width();
+            },
+            [](PlotConfig& self, int value) { self.zero_line_width(value); },
+            "Line width of the grid line at zero in pixels.")
+        .def_prop_rw(
             "curve_line_width",
             [](const PlotConfig& self) -> int {
                 return self.curve_line_width();

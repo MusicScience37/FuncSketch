@@ -62,6 +62,12 @@ class TestPlotConfig:
         config.grid_line_width = 3
         assert config.grid_line_width == 3
 
+    def test_zero_line_width(self) -> None:
+        """Test of zero_line_width property."""
+        config = PlotConfig()
+        config.zero_line_width = 3
+        assert config.zero_line_width == 3
+
     def test_curve_line_width(self) -> None:
         """Test of curve_line_width property."""
         config = PlotConfig()

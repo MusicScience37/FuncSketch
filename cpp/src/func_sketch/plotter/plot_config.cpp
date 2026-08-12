@@ -82,6 +82,14 @@ PlotConfig& PlotConfig::grid_line_width(int value) {
     return *this;
 }
 
+PlotConfig& PlotConfig::zero_line_width(int value) {
+    if (value < 0) {
+        throw InvalidArgumentException("Zero line width must be non-negative");
+    }
+    zero_line_width_ = value;
+    return *this;
+}
+
 PlotConfig& PlotConfig::curve_line_width(int value) {
     if (value < 0) {
         throw InvalidArgumentException("Curve line width must be non-negative");
@@ -189,6 +197,8 @@ int PlotConfig::tick_label_font_size() const noexcept {
 int PlotConfig::axes_line_width() const noexcept { return axes_line_width_; }
 
 int PlotConfig::grid_line_width() const noexcept { return grid_line_width_; }
+
+int PlotConfig::zero_line_width() const noexcept { return zero_line_width_; }
 
 int PlotConfig::curve_line_width() const noexcept { return curve_line_width_; }
 

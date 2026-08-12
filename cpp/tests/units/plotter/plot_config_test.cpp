@@ -156,6 +156,25 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(config.grid_line_width() == 1);
     }
 
+    SECTION("set and get zero line width") {
+        PlotConfig config;
+
+        CHECK(config.zero_line_width() ==
+            func_sketch::plotter::default_zero_line_width);
+
+        CHECK_NOTHROW(config.zero_line_width(3));
+        CHECK(config.zero_line_width() == 3);
+
+        CHECK_THROWS(config.zero_line_width(-1));
+        CHECK(config.zero_line_width() == 3);
+
+        CHECK_NOTHROW(config.zero_line_width(0));
+        CHECK(config.zero_line_width() == 0);
+
+        CHECK_NOTHROW(config.zero_line_width(1));
+        CHECK(config.zero_line_width() == 1);
+    }
+
     SECTION("set and get curve line width") {
         PlotConfig config;
 

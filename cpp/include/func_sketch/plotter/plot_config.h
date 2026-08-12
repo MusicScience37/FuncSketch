@@ -48,6 +48,9 @@ constexpr int default_axes_line_width = 1;
 //! Default line width of grid lines in pixels.
 constexpr int default_grid_line_width = 1;
 
+//! Default line width of the grid line at zero in pixels.
+constexpr int default_zero_line_width = 2;
+
 //! Default line width of curves in pixels.
 constexpr int default_curve_line_width = 1;
 
@@ -153,6 +156,14 @@ public:
      * \return Reference to this object.
      */
     PlotConfig& grid_line_width(int value);
+
+    /*!
+     * \brief Set the line width of the grid line at zero in pixels.
+     *
+     * \param[in] value Line width of the grid line at zero in pixels.
+     * \return Reference to this object.
+     */
+    PlotConfig& zero_line_width(int value);
 
     /*!
      * \brief Set the line width of curves in pixels.
@@ -309,6 +320,13 @@ public:
     [[nodiscard]] int grid_line_width() const noexcept;
 
     /*!
+     * \brief Get the line width of the grid line at zero in pixels.
+     *
+     * \return Line width of the grid line at zero in pixels.
+     */
+    [[nodiscard]] int zero_line_width() const noexcept;
+
+    /*!
      * \brief Get the line width of curves in pixels.
      *
      * \return Line width of curves in pixels.
@@ -412,6 +430,9 @@ private:
 
     //! Line width of grid lines in pixels.
     int grid_line_width_{default_grid_line_width};
+
+    //! Line width of the grid line at zero in pixels.
+    int zero_line_width_{default_zero_line_width};
 
     //! Line width of curves in pixels.
     int curve_line_width_{default_curve_line_width};
