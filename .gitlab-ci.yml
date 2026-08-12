@@ -197,6 +197,8 @@ docs:
 
 pages main:
   stage: deploy
+  only:
+    - main
   needs:
     - "docs: [clang22, musicscience37/sphinx-doxygen, docs]"
     - "cpp coverage: [clang22, musicscience37/clang-ci, coverage_cpp]"
