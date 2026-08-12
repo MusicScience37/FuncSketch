@@ -116,6 +116,9 @@ test linux:
       - COMPILER_TYPE: ["clang22"]
         IMAGE_PATH: "musicscience37/clang-ci"
         TEST_TYPE: ["debug", "release", "ausan"]
+      - COMPILER_TYPE: ["gcc15"]
+        IMAGE_PATH: "musicscience37/gcc-ci"
+        TEST_TYPE: ["debug", "release"]
   script:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
