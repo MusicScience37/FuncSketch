@@ -21,11 +21,13 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 
 #include <fmt/format.h>
 #include <opencv2/imgproc.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/plotter/axis_ticks.h"
 #include "func_sketch/plotter/plotting_util.h"
 #include "func_sketch/plotter/point.h"
 
@@ -56,57 +58,58 @@ namespace {
     return adjusted_position;
 }
 
+/*!
+ * \brief Update axis ticks.
+ *
+ * \param[in] range Range of the axis. Pair of minimum and maximum values.
+ * \param[in] image_size Size of the image.
+ * \param[in] config Configuration of the plot.
+ * \param[out] x_axis_ticks Ticks of the x-axis.
+ * \param[out] y_axis_ticks Ticks of the y-axis.
+ */
+void update_axis_ticks(const PlotRange& range, const cv::MatSize& image_size,
+    const PlotConfig& config, AxisTicks& x_axis_ticks,
+    AxisTicks& y_axis_ticks) {
+    const std::size_t approx_num_ticks_x = std::max(static_cast<std::size_t>(1),
+        static_cast<std::size_t>(image_size[1]) /
+            config.num_pixels_per_tick_in_x_axis());
+    const std::size_t approx_num_ticks_y = std::max(static_cast<std::size_t>(1),
+        static_cast<std::size_t>(image_size[0]) /
+            config.num_pixels_per_tick_in_y_axis());
+
+    generate_axis_ticks(range.x_range(), approx_num_ticks_x, x_axis_ticks);
+    generate_axis_ticks(range.y_range(), approx_num_ticks_y, y_axis_ticks);
+}
+
 }  // namespace
 
 // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
 Plotter::Plotter(const PlotRange& range, const PlotConfig& config)
-    : range_(range), config_(config) {
-    update_grid_positions();
-}
+    : range_(range), config_(config) {}
 
 Plotter& Plotter::range(const PlotRange& value) {
     range_ = value;
-    update_grid_positions();
     return *this;
 }
 
 Plotter& Plotter::config(const PlotConfig& value) {
     config_ = value;
-    update_grid_positions();
     return *this;
 }
 
-void Plotter::update_grid_positions() {
-    // TODO Better determination of grid lines.
-    constexpr int num_grid_lines = 5;
-    // vertical lines.
-    x_grid_positions_.clear();
-    x_grid_positions_.reserve(num_grid_lines);
-    for (int i = 0; i < num_grid_lines; ++i) {
-        const Real x_ratio = static_cast<Real>(i) / (num_grid_lines - 1);
-        const Real x_value = range_.x_range().first +
-            x_ratio * (range_.x_range().second - range_.x_range().first);
-        x_grid_positions_.push_back(x_value);
-    }
-    // horizontal lines.
-    y_grid_positions_.clear();
-    y_grid_positions_.reserve(num_grid_lines);
-    for (int i = 0; i < num_grid_lines; ++i) {
-        const Real y_ratio = static_cast<Real>(i) / (num_grid_lines - 1);
-        const Real y_value = range_.y_range().first +
-            y_ratio * (range_.y_range().second - range_.y_range().first);
-        y_grid_positions_.push_back(y_value);
-    }
-}
-
 void Plotter::write_background(Image& image) const {
+    const auto size = image.size;
+    AxisTicks x_axis_ticks;
+    AxisTicks y_axis_ticks;
+    update_axis_ticks(range_, size, config_, x_axis_ticks, y_axis_ticks);
+
     // Background.
     const auto color = convert_color(config_.background_color());
     image = color;
 
-    write_grid_lines(image);
-    write_x_axis(image);
-    write_y_axis(image);
+    write_grid_lines(image, x_axis_ticks, y_axis_ticks);
+    write_x_axis(image, x_axis_ticks);
+    write_y_axis(image, y_axis_ticks);
 }
 
 void Plotter::write_curve(const std::vector<Point>& samples,
@@ -157,18 +160,19 @@ void Plotter::write_curve(const std::vector<Point>& samples,
     }
 }
 
-void Plotter::write_grid_lines(Image& image) const {
+void Plotter::write_grid_lines(Image& image, const AxisTicks& x_axis_ticks,
+    const AxisTicks& y_axis_ticks) const {
     const auto size = image.size;
 
     // vertical lines.
-    for (const Real x_value : x_grid_positions_) {
+    for (const Real x_value : x_axis_ticks.values) {
         write_line(image, Point{.x = x_value, .y = range_.y_range().first},
             Point{.x = x_value, .y = range_.y_range().second},
             convert_color(config_.grid_color()), config_.grid_line_width(),
             range_, config_);
     }
     // horizontal lines.
-    for (const Real y_value : y_grid_positions_) {
+    for (const Real y_value : y_axis_ticks.values) {
         write_line(image, Point{.x = range_.x_range().first, .y = y_value},
             Point{.x = range_.x_range().second, .y = y_value},
             convert_color(config_.grid_color()), config_.grid_line_width(),
@@ -179,7 +183,7 @@ void Plotter::write_grid_lines(Image& image) const {
 //! Ratio of the threshold to check whether a tick label is at zero.
 constexpr Real axis_tick_threshold_ratio = 5e-2;
 
-void Plotter::write_x_axis(Image& image) const {
+void Plotter::write_x_axis(Image& image, const AxisTicks& x_axis_ticks) const {
     const auto size = image.size;
 
     const auto color = convert_color(config_.axes_color());
@@ -196,12 +200,14 @@ void Plotter::write_x_axis(Image& image) const {
             range_.y_range().second - range_.y_range().first) *
         axis_tick_threshold_ratio;
 
-    for (const Real x_value : x_grid_positions_) {
+    assert(x_axis_ticks.values.size() == x_axis_ticks.strings.size());
+    for (std::size_t i = 0; i < x_axis_ticks.values.size(); ++i) {
+        const Real x_value = x_axis_ticks.values[i];
         if (std::abs(x_value) < tick_threshold) {
             continue;
         }
 
-        const auto text = fmt::format("{:.1e}", x_value);
+        const auto text = x_axis_ticks.strings[i];
         constexpr int font_face = cv::FONT_HERSHEY_SIMPLEX;
         const int font_size = config_.tick_label_font_size();
         const double font_scale =
@@ -224,7 +230,7 @@ void Plotter::write_x_axis(Image& image) const {
     }
 }
 
-void Plotter::write_y_axis(Image& image) const {
+void Plotter::write_y_axis(Image& image, const AxisTicks& y_axis_ticks) const {
     const auto size = image.size;
 
     const auto color = convert_color(config_.axes_color());
@@ -241,12 +247,14 @@ void Plotter::write_y_axis(Image& image) const {
             range_.y_range().second - range_.y_range().first) *
         axis_tick_threshold_ratio;
 
-    for (const Real y_value : y_grid_positions_) {
+    assert(y_axis_ticks.values.size() == y_axis_ticks.strings.size());
+    for (std::size_t i = 0; i < y_axis_ticks.values.size(); ++i) {
+        const Real y_value = y_axis_ticks.values[i];
         if (std::abs(y_value) < tick_threshold) {
             continue;
         }
 
-        const auto text = fmt::format("{:.1e}", y_value);
+        const auto text = y_axis_ticks.strings[i];
         constexpr int font_face = cv::FONT_HERSHEY_SIMPLEX;
         const int font_size = config_.tick_label_font_size();
         const double font_scale =

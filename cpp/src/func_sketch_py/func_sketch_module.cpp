@@ -248,7 +248,25 @@ Objects of this class can be called with a string to parse it into an Expression
             "Minimum rate of parameter change in adaptive sampling.\n\n"
             "Note:\n"
             "    This value is limited for safety limit of memory "
-            "usage.");
+            "usage.")
+        .def_prop_rw(
+            "num_pixels_per_tick_in_x_axis",
+            [](const PlotConfig& self) -> std::size_t {
+                return self.num_pixels_per_tick_in_x_axis();
+            },
+            [](PlotConfig& self, std::size_t value) {
+                self.num_pixels_per_tick_in_x_axis(value);
+            },
+            "Number of pixels per tick in the x-axis.")
+        .def_prop_rw(
+            "num_pixels_per_tick_in_y_axis",
+            [](const PlotConfig& self) -> std::size_t {
+                return self.num_pixels_per_tick_in_y_axis();
+            },
+            [](PlotConfig& self, std::size_t value) {
+                self.num_pixels_per_tick_in_y_axis(value);
+            },
+            "Number of pixels per tick in the y-axis.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(

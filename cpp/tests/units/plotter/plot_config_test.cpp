@@ -323,4 +323,36 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(config.min_param_change_rate() ==
             func_sketch::plotter::min_min_param_change_rate);
     }
+
+    SECTION("set and get number of pixels per tick in the x-axis") {
+        PlotConfig config;
+
+        CHECK(config.num_pixels_per_tick_in_x_axis() ==
+            func_sketch::plotter::default_num_pixels_per_tick_in_x_axis);
+
+        CHECK_NOTHROW(config.num_pixels_per_tick_in_x_axis(150));
+        CHECK(config.num_pixels_per_tick_in_x_axis() == 150);
+
+        CHECK_THROWS(config.num_pixels_per_tick_in_x_axis(0));
+        CHECK(config.num_pixels_per_tick_in_x_axis() == 150);
+
+        CHECK_NOTHROW(config.num_pixels_per_tick_in_x_axis(1));
+        CHECK(config.num_pixels_per_tick_in_x_axis() == 1);
+    }
+
+    SECTION("set and get number of pixels per tick in the y-axis") {
+        PlotConfig config;
+
+        CHECK(config.num_pixels_per_tick_in_y_axis() ==
+            func_sketch::plotter::default_num_pixels_per_tick_in_y_axis);
+
+        CHECK_NOTHROW(config.num_pixels_per_tick_in_y_axis(150));
+        CHECK(config.num_pixels_per_tick_in_y_axis() == 150);
+
+        CHECK_THROWS(config.num_pixels_per_tick_in_y_axis(0));
+        CHECK(config.num_pixels_per_tick_in_y_axis() == 150);
+
+        CHECK_NOTHROW(config.num_pixels_per_tick_in_y_axis(1));
+        CHECK(config.num_pixels_per_tick_in_y_axis() == 1);
+    }
 }

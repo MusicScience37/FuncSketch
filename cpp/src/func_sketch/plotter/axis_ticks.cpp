@@ -27,15 +27,12 @@
 
 #include <fmt/format.h>
 
-#include "func_sketch/exceptions.h"
-
 namespace func_sketch::plotter {
 
 void generate_axis_ticks(const std::pair<Real, Real>& range,
     std::size_t approx_num_ticks, AxisTicks& ticks) {
-    if (approx_num_ticks < 3) {
-        throw InvalidArgumentException("Number of ticks must be at least 3.");
-    }
+    constexpr std::size_t min_approx_num_ticks = 3;
+    approx_num_ticks = std::max(approx_num_ticks, min_approx_num_ticks);
 
     const auto [min_value, max_value] = range;
     const Real range_size = max_value - min_value;

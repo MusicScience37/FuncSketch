@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include "func_sketch/common_types.h"
+#include "func_sketch/plotter/axis_ticks.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
@@ -78,42 +78,36 @@ public:
 
 private:
     /*!
-     * \brief Update grid positions.
-     */
-    void update_grid_positions();
-
-    /*!
      * \brief Write grid lines of plots.
      *
      * \param[in] image Image to write.
+     * \param[in] x_axis_ticks Ticks of the x-axis.
+     * \param[in] y_axis_ticks Ticks of the y-axis.
      */
-    void write_grid_lines(Image& image) const;
+    void write_grid_lines(Image& image, const AxisTicks& x_axis_ticks,
+        const AxisTicks& y_axis_ticks) const;
 
     /*!
      * \brief Write x axis.
      *
      * \param[in] image Image to write.
+     * \param[in] x_axis_ticks Ticks of the x-axis.
      */
-    void write_x_axis(Image& image) const;
+    void write_x_axis(Image& image, const AxisTicks& x_axis_ticks) const;
 
     /*!
      * \brief Write y axis.
      *
      * \param[in] image Image to write.
+     * \param[in] y_axis_ticks Ticks of the y-axis.
      */
-    void write_y_axis(Image& image) const;
+    void write_y_axis(Image& image, const AxisTicks& y_axis_ticks) const;
 
     //! Range of plots.
     PlotRange range_;
 
     //! Configuration of plots.
     PlotConfig config_;
-
-    //! Grid positions in x axis.
-    std::vector<Real> x_grid_positions_;
-
-    //! Grid positions in y axis.
-    std::vector<Real> y_grid_positions_;
 };
 
 }  // namespace func_sketch::plotter

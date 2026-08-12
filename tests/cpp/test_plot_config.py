@@ -124,3 +124,15 @@ class TestPlotConfig:
         config = PlotConfig()
         config.min_param_change_rate = 0.01
         assert config.min_param_change_rate == 0.01
+
+    def test_num_pixels_per_tick_in_x_axis(self) -> None:
+        """Test of num_pixels_per_tick_in_x_axis property."""
+        config = PlotConfig()
+        config.num_pixels_per_tick_in_x_axis = 150
+        assert config.num_pixels_per_tick_in_x_axis == 150
+
+    def test_num_pixels_per_tick_in_y_axis(self) -> None:
+        """Test of num_pixels_per_tick_in_y_axis property."""
+        config = PlotConfig()
+        config.num_pixels_per_tick_in_y_axis = 150
+        assert config.num_pixels_per_tick_in_y_axis == 150

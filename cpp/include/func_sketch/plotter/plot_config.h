@@ -73,6 +73,12 @@ constexpr double default_min_param_change_rate = 0.001;
 //! Minimum value of the minimum rate of parameter change in adaptive sampling for safety limit of memory usage.
 constexpr double min_min_param_change_rate = 1e-4;
 
+//! Default number of pixels per tick in the x-axis.
+constexpr std::size_t default_num_pixels_per_tick_in_x_axis = 120;
+
+//! Default number of pixels per tick in the y-axis.
+constexpr std::size_t default_num_pixels_per_tick_in_y_axis = 100;
+
 /*!
  * \brief Class of configurations of a plot.
  */
@@ -229,6 +235,22 @@ public:
     PlotConfig& min_param_change_rate(double value);
 
     /*!
+     * \brief Set the number of pixels per tick in the x-axis.
+     *
+     * \param[in] value Number of pixels per tick in the x-axis.
+     * \return Reference to this object.
+     */
+    PlotConfig& num_pixels_per_tick_in_x_axis(std::size_t value);
+
+    /*!
+     * \brief Set the number of pixels per tick in the y-axis.
+     *
+     * \param[in] value Number of pixels per tick in the y-axis.
+     * \return Reference to this object.
+     */
+    PlotConfig& num_pixels_per_tick_in_y_axis(std::size_t value);
+
+    /*!
      * \brief Get the left margin of plots in pixels.
      *
      * \return Left margin of plots in pixels.
@@ -346,6 +368,20 @@ public:
      */
     [[nodiscard]] double min_param_change_rate() const noexcept;
 
+    /*!
+     * \brief Get the number of pixels per tick in the x-axis.
+     *
+     * \return Number of pixels per tick in the x-axis.
+     */
+    [[nodiscard]] std::size_t num_pixels_per_tick_in_x_axis() const noexcept;
+
+    /*!
+     * \brief Get the number of pixels per tick in the y-axis.
+     *
+     * \return Number of pixels per tick in the y-axis.
+     */
+    [[nodiscard]] std::size_t num_pixels_per_tick_in_y_axis() const noexcept;
+
 private:
     //! Left margin of plots in pixels.
     int left_margin_{default_margins};
@@ -396,6 +432,14 @@ private:
 
     //! Minimum rate of parameter change in adaptive sampling.
     double min_param_change_rate_{default_min_param_change_rate};
+
+    //! Number of pixels per tick in the x-axis.
+    std::size_t num_pixels_per_tick_in_x_axis_{
+        default_num_pixels_per_tick_in_x_axis};
+
+    //! Number of pixels per tick in the y-axis.
+    std::size_t num_pixels_per_tick_in_y_axis_{
+        default_num_pixels_per_tick_in_y_axis};
 };
 
 }  // namespace func_sketch::plotter
