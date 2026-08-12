@@ -16,6 +16,12 @@ Parsed: Literal(1.230000e+02)
 Input: 123
 Parsed: Literal(123)
 
+Input: pi
+Parsed: Identifier(pi)
+
+Input: e
+Parsed: Identifier(e)
+
 Input: x
 Parsed: Identifier(x)
 

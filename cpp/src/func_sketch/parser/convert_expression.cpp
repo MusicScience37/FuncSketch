@@ -39,12 +39,14 @@ namespace func_sketch::parser {
  *
  * \param[in] parsed_expression Parsed expression to convert.
  * \param[in] math_function_list List of math functions.
+ * \param[in] constant_list List of constants.
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
 [[nodiscard]] expressions::Expression* convert_expression(
     const ParsedExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
+    const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool);
 
 /*!
@@ -57,6 +59,7 @@ namespace func_sketch::parser {
 [[nodiscard]] expressions::Expression* convert_expression(
     const ParsedLiteral& parsed_expression,
     const math::MathFunctionList& /*math_function_list*/,
+    const math::ConstantList& /*constant_list*/,
     expressions::ExpressionMemoryPool& pool) {
     return pool.create<expressions::ConstantExpression>(
         parsed_expression.value);
@@ -66,15 +69,21 @@ namespace func_sketch::parser {
  * \brief Convert parsed expression.
  *
  * \param[in] parsed_expression Parsed expression to convert.
+ * \param[in] constant_list List of constants.
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
 [[nodiscard]] expressions::Expression* convert_expression(
     const ParsedIdentifier& parsed_expression,
     const math::MathFunctionList& /*math_function_list*/,
+    const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
     if (parsed_expression.name == "x") {
         return pool.create<expressions::ParameterExpression>();
+    }
+    const auto constant = constant_list.get(parsed_expression.name);
+    if (constant) {
+        return pool.create<expressions::ConstantExpression>(*constant);
     }
     throw InvalidExpressionException(
         "Unknown identifier: " + parsed_expression.name);
@@ -85,12 +94,14 @@ namespace func_sketch::parser {
  *
  * \param[in] parsed_expression Parsed expression to convert.
  * \param[in] math_function_list List of math functions.
+ * \param[in] constant_list List of constants.
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
 [[nodiscard]] expressions::Expression* convert_expression(
     const ParsedFunctionCallExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
+    const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
     auto function =
         math_function_list.get(parsed_expression.function_name.name);
@@ -101,8 +112,8 @@ namespace func_sketch::parser {
     std::vector<expressions::Expression*> arguments;
     arguments.reserve(parsed_expression.arguments.size());
     for (const auto& argument : parsed_expression.arguments) {
-        arguments.push_back(
-            convert_expression(argument, math_function_list, pool));
+        arguments.push_back(convert_expression(
+            argument, math_function_list, constant_list, pool));
     }
     return pool.create<expressions::FunctionCallExpression>(
         std::move(arguments), std::move(*function));
@@ -130,15 +141,18 @@ namespace func_sketch::parser {
  *
  * \param[in] parsed_expression Parsed expression to convert.
  * \param[in] math_function_list List of math functions.
+ * \param[in] constant_list List of constants.
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
 [[nodiscard]] expressions::Expression* convert_expression(
     const ParsedUnaryExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
+    const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
     return pool.create<expressions::UnaryExpression>(
-        convert_expression(parsed_expression.operand, math_function_list, pool),
+        convert_expression(
+            parsed_expression.operand, math_function_list, constant_list, pool),
         get_unary_operator(parsed_expression.operator_str));
 }
 
@@ -174,40 +188,44 @@ namespace func_sketch::parser {
  *
  * \param[in] parsed_expression Parsed expression to convert.
  * \param[in] math_function_list List of math functions.
+ * \param[in] constant_list List of constants.
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
 [[nodiscard]] expressions::Expression* convert_expression(
     const ParsedBinaryExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
+    const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
     return pool.create<expressions::BinaryExpression>(
-        convert_expression(
-            parsed_expression.left_operand, math_function_list, pool),
-        convert_expression(
-            parsed_expression.right_operand, math_function_list, pool),
+        convert_expression(parsed_expression.left_operand, math_function_list,
+            constant_list, pool),
+        convert_expression(parsed_expression.right_operand, math_function_list,
+            constant_list, pool),
         get_binary_operator(parsed_expression.operator_str));
 }
 
 [[nodiscard]] expressions::Expression* convert_expression(
     const ParsedExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
+    const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
     return boost::apply_visitor(
-        [&pool, &math_function_list](
+        [&pool, &math_function_list, &constant_list](
             const auto& concrete_expression) -> expressions::Expression* {
             return convert_expression(
-                concrete_expression, math_function_list, pool);
+                concrete_expression, math_function_list, constant_list, pool);
         },
         parsed_expression);
 }
 
 [[nodiscard]] expressions::ExpressionPtr convert_expression(
     const ParsedExpression& parsed_expression,
-    const math::MathFunctionList& math_function_list) {
+    const math::MathFunctionList& math_function_list,
+    const math::ConstantList& constant_list) {
     auto pool = std::make_unique<expressions::ExpressionMemoryPool>();
-    auto* expression =
-        convert_expression(parsed_expression, math_function_list, *pool);
+    auto* expression = convert_expression(
+        parsed_expression, math_function_list, constant_list, *pool);
     return expressions::ExpressionPtr(expression, std::move(pool));
 }
 

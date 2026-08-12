@@ -24,13 +24,16 @@ std::vector<std::string> parser_test_strings() {
         // *******************************
         // Valid expressions
         // *******************************
-        // Constants.
+        // Literals.
         "1.23",
         "-2.34",
         "1.0",
         "1",
         "123.0",
         "123",
+        // Constants.
+        "pi",
+        "e",
         // Parameters.
         "x",
         // Unary minus.

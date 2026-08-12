@@ -11,6 +11,7 @@
 #include "math/binary_operator_test.cpp"
 #include "math/binary_operators_test.cpp"
 #include "math/common_type_test.cpp"
+#include "math/constant_list_test.cpp"
 #include "math/functions/erf_test.cpp"
 #include "math/functions/exp_test.cpp"
 #include "math/functions/gamma_test.cpp"

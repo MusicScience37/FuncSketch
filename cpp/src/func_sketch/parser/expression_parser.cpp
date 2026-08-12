@@ -38,6 +38,9 @@ struct ExpressionParser::Impl {
     //! List of mathematical functions.
     math::MathFunctionList math_function_list{
         math::generate_math_function_list()};
+
+    //! List of constants.
+    math::ConstantList constant_list{math::generate_constant_list()};
 };
 
 ExpressionParser::ExpressionParser() : pimpl_(std::make_unique<Impl>()) {}
@@ -53,7 +56,8 @@ ExpressionParser::~ExpressionParser() = default;
 expressions::ExpressionPtr ExpressionParser::operator()(
     const std::string& expression_str) const {
     const auto parsed_expression = pimpl_->grammar.parse(expression_str);
-    return convert_expression(parsed_expression, pimpl_->math_function_list);
+    return convert_expression(
+        parsed_expression, pimpl_->math_function_list, pimpl_->constant_list);
 }
 
 }  // namespace func_sketch::parser
