@@ -320,7 +320,7 @@ Objects of this class can be called with a string to parse it into an Expression
             "Configuration of plots. (write-only)")
         .def(
             "write_background",
-            [](const Plotter& self, const RawImage& raw_image) {
+            [](Plotter& self, const RawImage& raw_image) {
                 auto image = to_image(raw_image);
                 self.write_background(image);
             },
@@ -329,7 +329,7 @@ Objects of this class can be called with a string to parse it into an Expression
             "The pixels of image are modified in place.")
         .def(
             "write_curve",
-            [](const Plotter& self, const PointList& point_list,
+            [](Plotter& self, const PointList& point_list,
                 const RGBColor& color, const RawImage& raw_image) {
                 auto image = to_image(raw_image);
                 self.write_curve(point_list.points, color, image);

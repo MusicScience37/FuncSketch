@@ -81,6 +81,33 @@ void update_axis_ticks(const PlotRange& range, const cv::MatSize& image_size,
     generate_axis_ticks(range.y_range(), approx_num_ticks_y, y_axis_ticks);
 }
 
+//! Font face used for texts in plots.
+constexpr int plot_text_font_face = cv::FONT_HERSHEY_SIMPLEX;
+
+//! Thickness of texts in plots.
+constexpr int plot_text_thickness = 1;
+
+/*!
+ * \brief Compute the required width for y-axis tick labels in pixels.
+ *
+ * \param[in] y_axis_ticks Ticks of the y-axis.
+ * \param[in] config Configuration of the plot.
+ * \return Required width for y-axis tick labels in pixels.
+ */
+[[nodiscard]] int compute_required_width_for_y_axis_tick_labels(
+    const AxisTicks& y_axis_ticks, const PlotConfig& config) {
+    const int font_size = config.tick_label_font_size();
+    const double font_scale =
+        cv::getFontScaleFromHeight(plot_text_font_face, font_size);
+    int required_width = 0;
+    for (const auto& text : y_axis_ticks.strings) {
+        const cv::Size text_size = cv::getTextSize(text, plot_text_font_face,
+            font_scale, plot_text_thickness, nullptr);
+        required_width = std::max(required_width, text_size.width);
+    }
+    return required_width;
+}
+
 }  // namespace
 
 // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
@@ -97,23 +124,27 @@ Plotter& Plotter::config(const PlotConfig& value) {
     return *this;
 }
 
-void Plotter::write_background(Image& image) const {
+void Plotter::write_background(Image& image) {
     const auto size = image.size;
-    AxisTicks x_axis_ticks;
-    AxisTicks y_axis_ticks;
-    update_axis_ticks(range_, size, config_, x_axis_ticks, y_axis_ticks);
+    update_axis_ticks(range_, size, config_, x_axis_ticks_, y_axis_ticks_);
+    left_margin_ = config_.left_margin();
+    const int required_width_for_y_axis_tick_labels =
+        compute_required_width_for_y_axis_tick_labels(y_axis_ticks_, config_);
+    const int margin_for_y_axis_tick_labels = config_.tick_label_font_size();
+    left_margin_ = std::max(left_margin_,
+        required_width_for_y_axis_tick_labels + margin_for_y_axis_tick_labels);
 
     // Background.
     const auto color = convert_color(config_.background_color());
     image = color;
 
-    write_grid_lines(image, x_axis_ticks, y_axis_ticks);
-    write_x_axis(image, x_axis_ticks);
-    write_y_axis(image, y_axis_ticks);
+    write_grid_lines(image);
+    write_x_axis(image);
+    write_y_axis(image);
 }
 
-void Plotter::write_curve(const std::vector<Point>& samples,
-    const RGBColor& color, Image& image) const {
+void Plotter::write_curve(
+    const std::vector<Point>& samples, const RGBColor& color, Image& image) {
     const auto size = image.size;
 
     const auto cv_color = convert_color(color);
@@ -155,69 +186,69 @@ void Plotter::write_curve(const std::vector<Point>& samples,
             end_xy = compute_intersection_with_range(start_xy, end_xy, range_);
         }
 
-        write_line(
-            image, start_xy, end_xy, cv_color, line_width, range_, config_);
+        write_line(image, start_xy, end_xy, cv_color, line_width, range_,
+            config_, left_margin_);
     }
 }
 
-void Plotter::write_grid_lines(Image& image, const AxisTicks& x_axis_ticks,
-    const AxisTicks& y_axis_ticks) const {
+void Plotter::write_grid_lines(Image& image) {
     const auto size = image.size;
 
     // vertical lines.
-    for (const Real x_value : x_axis_ticks.values) {
+    for (const Real x_value : x_axis_ticks_.values) {
+        int line_width = config_.grid_line_width();
+        if (x_value == 0.0) {
+            // TODO Make this configurable.
+            line_width *= 2;
+        }
         write_line(image, Point{.x = x_value, .y = range_.y_range().first},
             Point{.x = x_value, .y = range_.y_range().second},
-            convert_color(config_.grid_color()), config_.grid_line_width(),
-            range_, config_);
+            convert_color(config_.grid_color()), line_width, range_, config_,
+            left_margin_);
     }
     // horizontal lines.
-    for (const Real y_value : y_axis_ticks.values) {
+    for (const Real y_value : y_axis_ticks_.values) {
+        int line_width = config_.grid_line_width();
+        if (y_value == 0.0) {
+            line_width *= 2;
+        }
         write_line(image, Point{.x = range_.x_range().first, .y = y_value},
             Point{.x = range_.x_range().second, .y = y_value},
-            convert_color(config_.grid_color()), config_.grid_line_width(),
-            range_, config_);
+            convert_color(config_.grid_color()), line_width, range_, config_,
+            left_margin_);
     }
 }
 
 //! Ratio of the threshold to check whether a tick label is at zero.
 constexpr Real axis_tick_threshold_ratio = 5e-2;
 
-void Plotter::write_x_axis(Image& image, const AxisTicks& x_axis_ticks) const {
+void Plotter::write_x_axis(Image& image) {
     const auto size = image.size;
 
     const auto color = convert_color(config_.axes_color());
 
-    const Real y_value = std::clamp(
-        static_cast<Real>(0), range_.y_range().first, range_.y_range().second);
+    // Draw the x-axis at the bottom in the plot.
+    const Real y_value = range_.y_range().first;
 
     write_line(image, Point{.x = range_.x_range().first, .y = y_value},
         Point{.x = range_.x_range().second, .y = y_value}, color,
-        config_.axes_line_width(), range_, config_);
+        config_.axes_line_width(), range_, config_, left_margin_);
 
-    const Real tick_threshold =
-        std::min(range_.x_range().second - range_.x_range().first,
-            range_.y_range().second - range_.y_range().first) *
-        axis_tick_threshold_ratio;
+    const int font_size = config_.tick_label_font_size();
+    const double font_scale =
+        cv::getFontScaleFromHeight(plot_text_font_face, font_size);
 
-    assert(x_axis_ticks.values.size() == x_axis_ticks.strings.size());
-    for (std::size_t i = 0; i < x_axis_ticks.values.size(); ++i) {
-        const Real x_value = x_axis_ticks.values[i];
-        if (std::abs(x_value) < tick_threshold) {
-            continue;
-        }
+    assert(x_axis_ticks_.values.size() == x_axis_ticks_.strings.size());
+    for (std::size_t i = 0; i < x_axis_ticks_.values.size(); ++i) {
+        const Real x_value = x_axis_ticks_.values[i];
 
-        const auto text = x_axis_ticks.strings[i];
-        constexpr int font_face = cv::FONT_HERSHEY_SIMPLEX;
-        const int font_size = config_.tick_label_font_size();
-        const double font_scale =
-            cv::getFontScaleFromHeight(font_face, font_size);
-        constexpr int thickness = 1;
-        const cv::Size text_size =
-            cv::getTextSize(text, font_face, font_scale, thickness, nullptr);
+        const auto text = x_axis_ticks_.strings[i];
+        const cv::Size text_size = cv::getTextSize(text, plot_text_font_face,
+            font_scale, plot_text_thickness, nullptr);
 
-        const auto base_position = convert_position(
-            Point{.x = x_value, .y = y_value}, range_, config_, size);
+        const auto base_position =
+            convert_position(Point{.x = x_value, .y = y_value}, range_, config_,
+                left_margin_, size);
         const int tick_margin = font_size / 2;
         auto top_left_position =
             cv::Point(base_position.x - text_size.width / 2,
@@ -225,61 +256,48 @@ void Plotter::write_x_axis(Image& image, const AxisTicks& x_axis_ticks) const {
         top_left_position = adjust_text_position(
             top_left_position, text_size, cv::Size(size[1], size[0]));
 
-        cv::putText(image, text, top_left_position, font_face, font_scale,
-            color, thickness, cv::LINE_AA);
+        cv::putText(image, text, top_left_position, plot_text_font_face,
+            font_scale, color, plot_text_thickness, cv::LINE_AA);
     }
 }
 
-void Plotter::write_y_axis(Image& image, const AxisTicks& y_axis_ticks) const {
+void Plotter::write_y_axis(Image& image) {
     const auto size = image.size;
 
     const auto color = convert_color(config_.axes_color());
 
-    const Real x_value = std::clamp(
-        static_cast<Real>(0), range_.x_range().first, range_.x_range().second);
+    // Draw the y-axis at the left in the plot.
+    const Real x_value = range_.x_range().first;
 
     write_line(image, Point{.x = x_value, .y = range_.y_range().first},
         Point{.x = x_value, .y = range_.y_range().second}, color,
-        config_.axes_line_width(), range_, config_);
+        config_.axes_line_width(), range_, config_, left_margin_);
 
-    const Real tick_threshold =
-        std::min(range_.x_range().second - range_.x_range().first,
-            range_.y_range().second - range_.y_range().first) *
-        axis_tick_threshold_ratio;
+    const int font_size = config_.tick_label_font_size();
+    const double font_scale =
+        cv::getFontScaleFromHeight(plot_text_font_face, font_size);
 
-    assert(y_axis_ticks.values.size() == y_axis_ticks.strings.size());
-    for (std::size_t i = 0; i < y_axis_ticks.values.size(); ++i) {
-        const Real y_value = y_axis_ticks.values[i];
-        if (std::abs(y_value) < tick_threshold) {
-            continue;
-        }
+    assert(y_axis_ticks_.values.size() == y_axis_ticks_.strings.size());
+    for (std::size_t i = 0; i < y_axis_ticks_.values.size(); ++i) {
+        const Real y_value = y_axis_ticks_.values[i];
 
-        const auto text = y_axis_ticks.strings[i];
-        constexpr int font_face = cv::FONT_HERSHEY_SIMPLEX;
-        const int font_size = config_.tick_label_font_size();
-        const double font_scale =
-            cv::getFontScaleFromHeight(font_face, font_size);
-        constexpr int thickness = 1;
-        const cv::Size text_size =
-            cv::getTextSize(text, font_face, font_scale, thickness, nullptr);
+        const auto text = y_axis_ticks_.strings[i];
+        const cv::Size text_size = cv::getTextSize(text, plot_text_font_face,
+            font_scale, plot_text_thickness, nullptr);
 
-        const auto base_position = convert_position(
-            Point{.x = x_value, .y = y_value}, range_, config_, size);
+        const auto base_position =
+            convert_position(Point{.x = x_value, .y = y_value}, range_, config_,
+                left_margin_, size);
         const int tick_margin = font_size / 2;
         cv::Point top_left_position;
-        if (base_position.x + tick_margin + text_size.width < size[1]) {
-            top_left_position = cv::Point(base_position.x + tick_margin,
+        top_left_position =
+            cv::Point(base_position.x - tick_margin - text_size.width,
                 base_position.y + text_size.height / 2);
-        } else {
-            top_left_position =
-                cv::Point(base_position.x - tick_margin - text_size.width,
-                    base_position.y + text_size.height / 2);
-        }
         top_left_position = adjust_text_position(
             top_left_position, text_size, cv::Size(size[1], size[0]));
 
-        cv::putText(image, text, top_left_position, font_face, font_scale,
-            color, thickness, cv::LINE_AA);
+        cv::putText(image, text, top_left_position, plot_text_font_face,
+            font_scale, color, plot_text_thickness, cv::LINE_AA);
     }
 }
 

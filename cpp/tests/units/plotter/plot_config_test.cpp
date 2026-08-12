@@ -27,7 +27,8 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
     SECTION("set and get left margin") {
         PlotConfig config;
 
-        CHECK(config.left_margin() == func_sketch::plotter::default_margins);
+        CHECK(
+            config.left_margin() == func_sketch::plotter::default_left_margin);
 
         CHECK_NOTHROW(config.left_margin(7));
         CHECK(config.left_margin() == 7);
@@ -45,7 +46,8 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
     SECTION("set and get right margin") {
         PlotConfig config;
 
-        CHECK(config.right_margin() == func_sketch::plotter::default_margins);
+        CHECK(config.right_margin() ==
+            func_sketch::plotter::default_right_margin);
 
         CHECK_NOTHROW(config.right_margin(10));
         CHECK(config.right_margin() == 10);
@@ -63,7 +65,7 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
     SECTION("set and get top margin") {
         PlotConfig config;
 
-        CHECK(config.top_margin() == func_sketch::plotter::default_margins);
+        CHECK(config.top_margin() == func_sketch::plotter::default_top_margin);
 
         CHECK_NOTHROW(config.top_margin(20));
         CHECK(config.top_margin() == 20);
@@ -81,7 +83,8 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
     SECTION("set and get bottom margin") {
         PlotConfig config;
 
-        CHECK(config.bottom_margin() == func_sketch::plotter::default_margins);
+        CHECK(config.bottom_margin() ==
+            func_sketch::plotter::default_bottom_margin);
 
         CHECK_NOTHROW(config.bottom_margin(25));
         CHECK(config.bottom_margin() == 25);

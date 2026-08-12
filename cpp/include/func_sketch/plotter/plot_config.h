@@ -27,8 +27,17 @@ namespace func_sketch::plotter {
 
 // TODO Tune these values
 
-//! Default margins in pixels.
-constexpr int default_margins = 40;
+//! Default left margin in pixels.
+constexpr int default_left_margin = 60;
+
+//! Default right margin in pixels.
+constexpr int default_right_margin = 60;
+
+//! Default top margin in pixels.
+constexpr int default_top_margin = 50;
+
+//! Default bottom margin in pixels.
+constexpr int default_bottom_margin = 50;
 
 //! Default font size of tick labels in pixels.
 constexpr int default_tick_label_font_size = 11;
@@ -384,16 +393,16 @@ public:
 
 private:
     //! Left margin of plots in pixels.
-    int left_margin_{default_margins};
+    int left_margin_{default_left_margin};
 
     //! Right margin of plots in pixels.
-    int right_margin_{default_margins};
+    int right_margin_{default_right_margin};
 
     //! Top margin of plots in pixels.
-    int top_margin_{default_margins};
+    int top_margin_{default_top_margin};
 
     //! Bottom margin of plots in pixels.
-    int bottom_margin_{default_margins};
+    int bottom_margin_{default_bottom_margin};
 
     //! Font size of tick labels in pixels.
     int tick_label_font_size_{default_tick_label_font_size};
