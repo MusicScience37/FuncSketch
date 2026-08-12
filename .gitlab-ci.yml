@@ -187,12 +187,14 @@ clang-tidy:
           - poetry.lock
       paths:
         - .poetry-cache
+      when: always
     - key:
         prefix: vcpkg-${COMPILER_TYPE}-${TEST_TYPE}
         files:
           - vcpkg-configuration.json
       paths:
         - .vcpkg-cache
+      when: always
     - key:
         prefix: clang-tidy-cache-${COMPILER_TYPE}-${TEST_TYPE}
         files:
@@ -200,6 +202,7 @@ clang-tidy:
           - vcpkg-configuration.json
       paths:
         - .clang-tidy-cache
+      when: always
   allow_failure: true
 
 pre-commit:
