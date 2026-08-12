@@ -51,13 +51,6 @@ target_link_libraries(OpenCV INTERFACE ${OpenCV_LIBS})
 
 find_package(fmt CONFIG REQUIRED)
 
-find_package(Catch2 CONFIG REQUIRED)
-
-find_path(APPROVAL_TESTS_CPP_INCLUDE_DIRS "ApprovalTests.hpp")
-add_library(ApprovalTestsCpp INTERFACE)
-target_include_directories(ApprovalTestsCpp
-                           INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
-
 # Find nanobind installed via poetry.
 find_program(POETRY_EXECUTABLE NAMES poetry)
 if(POETRY_EXECUTABLE)
@@ -83,6 +76,15 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
     OUTPUT_VARIABLE nanobind_ROOT)
 find_package(nanobind CONFIG REQUIRED)
+
+if(FUNC_SKETCH_BUILD_TESTS)
+    find_package(Catch2 CONFIG REQUIRED)
+
+    find_path(APPROVAL_TESTS_CPP_INCLUDE_DIRS "ApprovalTests.hpp")
+    add_library(ApprovalTestsCpp INTERFACE)
+    target_include_directories(ApprovalTestsCpp
+                               INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
+endif()
 
 # ##############################################################################
 # Import modules for configurations
