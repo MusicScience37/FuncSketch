@@ -1,4 +1,13 @@
 cmake_minimum_required(VERSION 3.18)
+
+# ##############################################################################
+# Options
+# ##############################################################################
+option(FUNC_SKETCH_BUILD_TESTS "Build tests" OFF)
+if(FUNC_SKETCH_BUILD_TESTS)
+    list(APPEND VCPKG_MANIFEST_FEATURES "tests")
+endif()
+
 project(func_sketch LANGUAGES CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cpp/cmake")
@@ -12,10 +21,8 @@ set(BUILDNAME
 include(CTest)
 
 # ##############################################################################
-# Options
+# Settings of CMake
 # ##############################################################################
-option(FUNC_SKETCH_BUILD_TESTS "Build tests" OFF)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS
     ON
     CACHE BOOL "export compile commands" FORCE)
