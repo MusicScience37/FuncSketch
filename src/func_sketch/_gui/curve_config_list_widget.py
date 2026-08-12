@@ -44,9 +44,9 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
 
     def __init__(self, **kwargs) -> None:
         """Constructor."""
-        super().__init__(**kwargs)
         self._curve_config_widgets: list[CurveConfigWidget] = []
         self._curve_sampler = CurveSampler(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG)
+        super().__init__(**kwargs)
 
     def on_curve_config_list_layout(self, _instance: object, _value: object) -> None:
         """Callback when the curve_config_list_layout property is set."""
