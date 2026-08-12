@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include "func_sketch/common_types.h"
+#include "func_sketch/plotter/axis_ticks.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
@@ -63,8 +63,11 @@ public:
      * \brief Write background of plots.
      *
      * \param[in] image Image to write.
+     *
+     * \note This changes the internal states holding some parameters used in
+     * write_curve function.
      */
-    void write_background(Image& image) const;
+    void write_background(Image& image);
 
     /*!
      * \brief Write a curve on plots.
@@ -72,36 +75,35 @@ public:
      * \param[in] samples Samples points of the curve.
      * \param[in] color Color of the curve.
      * \param[in] image Image to write.
+     *
+     * \note This function must be called after write_background function
+     * because this function uses some parameters computed in write_background
+     * function.
      */
-    void write_curve(const std::vector<Point>& samples, const RGBColor& color,
-        Image& image) const;
+    void write_curve(
+        const std::vector<Point>& samples, const RGBColor& color, Image& image);
 
 private:
-    /*!
-     * \brief Update grid positions.
-     */
-    void update_grid_positions();
-
     /*!
      * \brief Write grid lines of plots.
      *
      * \param[in] image Image to write.
      */
-    void write_grid_lines(Image& image) const;
+    void write_grid_lines(Image& image);
 
     /*!
      * \brief Write x axis.
      *
      * \param[in] image Image to write.
      */
-    void write_x_axis(Image& image) const;
+    void write_x_axis(Image& image);
 
     /*!
      * \brief Write y axis.
      *
      * \param[in] image Image to write.
      */
-    void write_y_axis(Image& image) const;
+    void write_y_axis(Image& image);
 
     //! Range of plots.
     PlotRange range_;
@@ -109,11 +111,17 @@ private:
     //! Configuration of plots.
     PlotConfig config_;
 
-    //! Grid positions in x axis.
-    std::vector<Real> x_grid_positions_;
+    /*!
+     * \brief Left margin of plots in pixels. (This value is used over the value
+     * in config because tuning of the left margin is needed.)
+     */
+    int left_margin_{};
 
-    //! Grid positions in y axis.
-    std::vector<Real> y_grid_positions_;
+    //! Ticks of the x-axis.
+    AxisTicks x_axis_ticks_;
+
+    //! Ticks of the y-axis.
+    AxisTicks y_axis_ticks_;
 };
 
 }  // namespace func_sketch::plotter

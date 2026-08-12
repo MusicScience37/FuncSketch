@@ -46,11 +46,14 @@ namespace func_sketch::plotter {
  * \param[in] position Position in plot coordinates.
  * \param[in] range Range of plots.
  * \param[in] config Configuration of plots.
+ * \param[in] left_margin Left margin of plots in pixels. (This value is used
+ * over the value in config because tuning of the left margin is needed.)
  * \param[in] size Size of the image.
  * \return Converted position in image coordinates.
  */
 [[nodiscard]] cv::Point convert_position(const Point& position,
-    const PlotRange& range, const PlotConfig& config, const cv::MatSize& size);
+    const PlotRange& range, const PlotConfig& config, int left_margin,
+    const cv::MatSize& size);
 
 /*!
  * \brief Write a line on an image.
@@ -62,10 +65,12 @@ namespace func_sketch::plotter {
  * \param[in] line_width Width of the line.
  * \param[in] range Range of plots.
  * \param[in] config Configuration of plots.
+ * \param[in] left_margin Left margin of plots in pixels. (This value is used
+ * over the value in config because tuning of the left margin is needed.)
  */
 void write_line(Image& image, const Point& start_point, const Point& end_point,
     const cv::Scalar& color, int line_width, const PlotRange& range,
-    const PlotConfig& config);
+    const PlotConfig& config, int left_margin);
 
 /*!
  * \brief Try to clamp a point with infinity to the range.
@@ -94,14 +99,5 @@ void write_line(Image& image, const Point& start_point, const Point& end_point,
  */
 [[nodiscard]] Point compute_intersection_with_range(const Point& point_in_range,
     const Point& point_out_of_range, const PlotRange& range);
-
-/*!
- * \brief Clamp a point inside the plot range.
- *
- * \param[in] point Point to clamp.
- * \param[in] range Range of plots.
- * \return Clamped point.
- */
-[[nodiscard]] Point clamp_point(const Point& point, const PlotRange& range);
 
 }  // namespace func_sketch::plotter

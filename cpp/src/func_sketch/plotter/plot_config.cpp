@@ -82,6 +82,14 @@ PlotConfig& PlotConfig::grid_line_width(int value) {
     return *this;
 }
 
+PlotConfig& PlotConfig::zero_line_width(int value) {
+    if (value < 0) {
+        throw InvalidArgumentException("Zero line width must be non-negative");
+    }
+    zero_line_width_ = value;
+    return *this;
+}
+
 PlotConfig& PlotConfig::curve_line_width(int value) {
     if (value < 0) {
         throw InvalidArgumentException("Curve line width must be non-negative");
@@ -156,6 +164,24 @@ PlotConfig& PlotConfig::min_param_change_rate(double value) {
     return *this;
 }
 
+PlotConfig& PlotConfig::num_pixels_per_tick_in_x_axis(std::size_t value) {
+    if (value == 0) {
+        throw InvalidArgumentException(
+            "Number of pixels per tick in the x-axis must be positive.");
+    }
+    num_pixels_per_tick_in_x_axis_ = value;
+    return *this;
+}
+
+PlotConfig& PlotConfig::num_pixels_per_tick_in_y_axis(std::size_t value) {
+    if (value == 0) {
+        throw InvalidArgumentException(
+            "Number of pixels per tick in the y-axis must be positive.");
+    }
+    num_pixels_per_tick_in_y_axis_ = value;
+    return *this;
+}
+
 int PlotConfig::left_margin() const noexcept { return left_margin_; }
 
 int PlotConfig::right_margin() const noexcept { return right_margin_; }
@@ -171,6 +197,8 @@ int PlotConfig::tick_label_font_size() const noexcept {
 int PlotConfig::axes_line_width() const noexcept { return axes_line_width_; }
 
 int PlotConfig::grid_line_width() const noexcept { return grid_line_width_; }
+
+int PlotConfig::zero_line_width() const noexcept { return zero_line_width_; }
 
 int PlotConfig::curve_line_width() const noexcept { return curve_line_width_; }
 
@@ -200,6 +228,14 @@ double PlotConfig::slope_change_threshold() const noexcept {
 
 double PlotConfig::min_param_change_rate() const noexcept {
     return min_param_change_rate_;
+}
+
+std::size_t PlotConfig::num_pixels_per_tick_in_x_axis() const noexcept {
+    return num_pixels_per_tick_in_x_axis_;
+}
+
+std::size_t PlotConfig::num_pixels_per_tick_in_y_axis() const noexcept {
+    return num_pixels_per_tick_in_y_axis_;
 }
 
 }  // namespace func_sketch::plotter

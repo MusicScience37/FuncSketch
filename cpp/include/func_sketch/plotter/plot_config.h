@@ -27,8 +27,17 @@ namespace func_sketch::plotter {
 
 // TODO Tune these values
 
-//! Default margins in pixels.
-constexpr int default_margins = 40;
+//! Default left margin in pixels.
+constexpr int default_left_margin = 60;
+
+//! Default right margin in pixels.
+constexpr int default_right_margin = 60;
+
+//! Default top margin in pixels.
+constexpr int default_top_margin = 50;
+
+//! Default bottom margin in pixels.
+constexpr int default_bottom_margin = 50;
 
 //! Default font size of tick labels in pixels.
 constexpr int default_tick_label_font_size = 11;
@@ -38,6 +47,9 @@ constexpr int default_axes_line_width = 1;
 
 //! Default line width of grid lines in pixels.
 constexpr int default_grid_line_width = 1;
+
+//! Default line width of the grid line at zero in pixels.
+constexpr int default_zero_line_width = 2;
 
 //! Default line width of curves in pixels.
 constexpr int default_curve_line_width = 1;
@@ -72,6 +84,12 @@ constexpr double default_min_param_change_rate = 0.001;
 
 //! Minimum value of the minimum rate of parameter change in adaptive sampling for safety limit of memory usage.
 constexpr double min_min_param_change_rate = 1e-4;
+
+//! Default number of pixels per tick in the x-axis.
+constexpr std::size_t default_num_pixels_per_tick_in_x_axis = 120;
+
+//! Default number of pixels per tick in the y-axis.
+constexpr std::size_t default_num_pixels_per_tick_in_y_axis = 100;
 
 /*!
  * \brief Class of configurations of a plot.
@@ -138,6 +156,14 @@ public:
      * \return Reference to this object.
      */
     PlotConfig& grid_line_width(int value);
+
+    /*!
+     * \brief Set the line width of the grid line at zero in pixels.
+     *
+     * \param[in] value Line width of the grid line at zero in pixels.
+     * \return Reference to this object.
+     */
+    PlotConfig& zero_line_width(int value);
 
     /*!
      * \brief Set the line width of curves in pixels.
@@ -229,6 +255,22 @@ public:
     PlotConfig& min_param_change_rate(double value);
 
     /*!
+     * \brief Set the number of pixels per tick in the x-axis.
+     *
+     * \param[in] value Number of pixels per tick in the x-axis.
+     * \return Reference to this object.
+     */
+    PlotConfig& num_pixels_per_tick_in_x_axis(std::size_t value);
+
+    /*!
+     * \brief Set the number of pixels per tick in the y-axis.
+     *
+     * \param[in] value Number of pixels per tick in the y-axis.
+     * \return Reference to this object.
+     */
+    PlotConfig& num_pixels_per_tick_in_y_axis(std::size_t value);
+
+    /*!
      * \brief Get the left margin of plots in pixels.
      *
      * \return Left margin of plots in pixels.
@@ -276,6 +318,13 @@ public:
      * \return Line width of grid lines in pixels.
      */
     [[nodiscard]] int grid_line_width() const noexcept;
+
+    /*!
+     * \brief Get the line width of the grid line at zero in pixels.
+     *
+     * \return Line width of the grid line at zero in pixels.
+     */
+    [[nodiscard]] int zero_line_width() const noexcept;
 
     /*!
      * \brief Get the line width of curves in pixels.
@@ -346,18 +395,32 @@ public:
      */
     [[nodiscard]] double min_param_change_rate() const noexcept;
 
+    /*!
+     * \brief Get the number of pixels per tick in the x-axis.
+     *
+     * \return Number of pixels per tick in the x-axis.
+     */
+    [[nodiscard]] std::size_t num_pixels_per_tick_in_x_axis() const noexcept;
+
+    /*!
+     * \brief Get the number of pixels per tick in the y-axis.
+     *
+     * \return Number of pixels per tick in the y-axis.
+     */
+    [[nodiscard]] std::size_t num_pixels_per_tick_in_y_axis() const noexcept;
+
 private:
     //! Left margin of plots in pixels.
-    int left_margin_{default_margins};
+    int left_margin_{default_left_margin};
 
     //! Right margin of plots in pixels.
-    int right_margin_{default_margins};
+    int right_margin_{default_right_margin};
 
     //! Top margin of plots in pixels.
-    int top_margin_{default_margins};
+    int top_margin_{default_top_margin};
 
     //! Bottom margin of plots in pixels.
-    int bottom_margin_{default_margins};
+    int bottom_margin_{default_bottom_margin};
 
     //! Font size of tick labels in pixels.
     int tick_label_font_size_{default_tick_label_font_size};
@@ -367,6 +430,9 @@ private:
 
     //! Line width of grid lines in pixels.
     int grid_line_width_{default_grid_line_width};
+
+    //! Line width of the grid line at zero in pixels.
+    int zero_line_width_{default_zero_line_width};
 
     //! Line width of curves in pixels.
     int curve_line_width_{default_curve_line_width};
@@ -396,6 +462,14 @@ private:
 
     //! Minimum rate of parameter change in adaptive sampling.
     double min_param_change_rate_{default_min_param_change_rate};
+
+    //! Number of pixels per tick in the x-axis.
+    std::size_t num_pixels_per_tick_in_x_axis_{
+        default_num_pixels_per_tick_in_x_axis};
+
+    //! Number of pixels per tick in the y-axis.
+    std::size_t num_pixels_per_tick_in_y_axis_{
+        default_num_pixels_per_tick_in_y_axis};
 };
 
 }  // namespace func_sketch::plotter

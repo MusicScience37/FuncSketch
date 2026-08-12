@@ -14,6 +14,8 @@
 
 """Class of widgets to show plots."""
 
+import logging
+
 import kivy.graphics.texture
 import kivy.properties
 import kivy.uix.image
@@ -21,6 +23,8 @@ import numpy
 
 from func_sketch._gui.constants import DEFAULT_PLOT_CONFIG, DEFAULT_PLOT_RANGE
 from func_sketch._impl.plotter import Plotter
+
+LOGGER = logging.getLogger(__name__)
 
 
 class PlotWidget(kivy.uix.image.Image):
@@ -67,17 +71,47 @@ class PlotWidget(kivy.uix.image.Image):
 
     def _prepare_texture(self) -> None:
         """Prepare texture for the plot."""
-        self._image_buffer = numpy.zeros(
-            (int(self.height), int(self.width), 3), dtype=numpy.uint8
-        )
+        width, height = self._get_plot_image_size()
+
+        self._image_buffer = numpy.zeros((height, width, 3), dtype=numpy.uint8)
         self._texture = kivy.graphics.texture.Texture.create(
-            size=(int(self.width), int(self.height)), colorfmt="rgb"
+            size=(width, height), colorfmt="rgb"
         )
         self._texture.blit_buffer(
             self._image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
         )
         self._texture.flip_vertical()
         self.texture = self._texture
+
+    def _get_plot_image_size(self) -> tuple[int, int]:
+        """Get size of the plot image."""
+        if self.shared_state is not None:
+            min_height = int(
+                self.shared_state.plot_config.top_margin
+                + self.shared_state.plot_config.bottom_margin
+                + 200
+            )
+            min_width = int(
+                self.shared_state.plot_config.left_margin
+                + self.shared_state.plot_config.right_margin
+                + 200
+            )
+        else:
+            min_height = 300
+            min_width = 300
+
+        width, height = self.size
+
+        if height < min_height:
+            scale = float(min_height) / float(height)
+            height = min_height
+            width = width * scale
+        if width < min_width:
+            scale = float(min_width) / float(width)
+            width = min_width
+            height = height * scale
+
+        return (int(width), int(height))
 
     def _update_plot(self) -> None:
         """Update the plot."""

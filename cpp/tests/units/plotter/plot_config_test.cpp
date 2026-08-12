@@ -27,7 +27,8 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
     SECTION("set and get left margin") {
         PlotConfig config;
 
-        CHECK(config.left_margin() == func_sketch::plotter::default_margins);
+        CHECK(
+            config.left_margin() == func_sketch::plotter::default_left_margin);
 
         CHECK_NOTHROW(config.left_margin(7));
         CHECK(config.left_margin() == 7);
@@ -45,7 +46,8 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
     SECTION("set and get right margin") {
         PlotConfig config;
 
-        CHECK(config.right_margin() == func_sketch::plotter::default_margins);
+        CHECK(config.right_margin() ==
+            func_sketch::plotter::default_right_margin);
 
         CHECK_NOTHROW(config.right_margin(10));
         CHECK(config.right_margin() == 10);
@@ -63,7 +65,7 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
     SECTION("set and get top margin") {
         PlotConfig config;
 
-        CHECK(config.top_margin() == func_sketch::plotter::default_margins);
+        CHECK(config.top_margin() == func_sketch::plotter::default_top_margin);
 
         CHECK_NOTHROW(config.top_margin(20));
         CHECK(config.top_margin() == 20);
@@ -81,7 +83,8 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
     SECTION("set and get bottom margin") {
         PlotConfig config;
 
-        CHECK(config.bottom_margin() == func_sketch::plotter::default_margins);
+        CHECK(config.bottom_margin() ==
+            func_sketch::plotter::default_bottom_margin);
 
         CHECK_NOTHROW(config.bottom_margin(25));
         CHECK(config.bottom_margin() == 25);
@@ -151,6 +154,25 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
 
         CHECK_NOTHROW(config.grid_line_width(1));
         CHECK(config.grid_line_width() == 1);
+    }
+
+    SECTION("set and get zero line width") {
+        PlotConfig config;
+
+        CHECK(config.zero_line_width() ==
+            func_sketch::plotter::default_zero_line_width);
+
+        CHECK_NOTHROW(config.zero_line_width(3));
+        CHECK(config.zero_line_width() == 3);
+
+        CHECK_THROWS(config.zero_line_width(-1));
+        CHECK(config.zero_line_width() == 3);
+
+        CHECK_NOTHROW(config.zero_line_width(0));
+        CHECK(config.zero_line_width() == 0);
+
+        CHECK_NOTHROW(config.zero_line_width(1));
+        CHECK(config.zero_line_width() == 1);
     }
 
     SECTION("set and get curve line width") {
@@ -322,5 +344,37 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
             func_sketch::plotter::min_min_param_change_rate / 2.0));
         CHECK(config.min_param_change_rate() ==
             func_sketch::plotter::min_min_param_change_rate);
+    }
+
+    SECTION("set and get number of pixels per tick in the x-axis") {
+        PlotConfig config;
+
+        CHECK(config.num_pixels_per_tick_in_x_axis() ==
+            func_sketch::plotter::default_num_pixels_per_tick_in_x_axis);
+
+        CHECK_NOTHROW(config.num_pixels_per_tick_in_x_axis(150));
+        CHECK(config.num_pixels_per_tick_in_x_axis() == 150);
+
+        CHECK_THROWS(config.num_pixels_per_tick_in_x_axis(0));
+        CHECK(config.num_pixels_per_tick_in_x_axis() == 150);
+
+        CHECK_NOTHROW(config.num_pixels_per_tick_in_x_axis(1));
+        CHECK(config.num_pixels_per_tick_in_x_axis() == 1);
+    }
+
+    SECTION("set and get number of pixels per tick in the y-axis") {
+        PlotConfig config;
+
+        CHECK(config.num_pixels_per_tick_in_y_axis() ==
+            func_sketch::plotter::default_num_pixels_per_tick_in_y_axis);
+
+        CHECK_NOTHROW(config.num_pixels_per_tick_in_y_axis(150));
+        CHECK(config.num_pixels_per_tick_in_y_axis() == 150);
+
+        CHECK_THROWS(config.num_pixels_per_tick_in_y_axis(0));
+        CHECK(config.num_pixels_per_tick_in_y_axis() == 150);
+
+        CHECK_NOTHROW(config.num_pixels_per_tick_in_y_axis(1));
+        CHECK(config.num_pixels_per_tick_in_y_axis() == 1);
     }
 }

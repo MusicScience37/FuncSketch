@@ -62,6 +62,12 @@ class TestPlotConfig:
         config.grid_line_width = 3
         assert config.grid_line_width == 3
 
+    def test_zero_line_width(self) -> None:
+        """Test of zero_line_width property."""
+        config = PlotConfig()
+        config.zero_line_width = 3
+        assert config.zero_line_width == 3
+
     def test_curve_line_width(self) -> None:
         """Test of curve_line_width property."""
         config = PlotConfig()
@@ -124,3 +130,15 @@ class TestPlotConfig:
         config = PlotConfig()
         config.min_param_change_rate = 0.01
         assert config.min_param_change_rate == 0.01
+
+    def test_num_pixels_per_tick_in_x_axis(self) -> None:
+        """Test of num_pixels_per_tick_in_x_axis property."""
+        config = PlotConfig()
+        config.num_pixels_per_tick_in_x_axis = 150
+        assert config.num_pixels_per_tick_in_x_axis == 150
+
+    def test_num_pixels_per_tick_in_y_axis(self) -> None:
+        """Test of num_pixels_per_tick_in_y_axis property."""
+        config = PlotConfig()
+        config.num_pixels_per_tick_in_y_axis = 150
+        assert config.num_pixels_per_tick_in_y_axis == 150

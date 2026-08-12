@@ -159,6 +159,13 @@ Objects of this class can be called with a string to parse it into an Expression
             [](PlotConfig& self, int value) { self.grid_line_width(value); },
             "Line width of grid lines in pixels.")
         .def_prop_rw(
+            "zero_line_width",
+            [](const PlotConfig& self) -> int {
+                return self.zero_line_width();
+            },
+            [](PlotConfig& self, int value) { self.zero_line_width(value); },
+            "Line width of the grid line at zero in pixels.")
+        .def_prop_rw(
             "curve_line_width",
             [](const PlotConfig& self) -> int {
                 return self.curve_line_width();
@@ -248,7 +255,25 @@ Objects of this class can be called with a string to parse it into an Expression
             "Minimum rate of parameter change in adaptive sampling.\n\n"
             "Note:\n"
             "    This value is limited for safety limit of memory "
-            "usage.");
+            "usage.")
+        .def_prop_rw(
+            "num_pixels_per_tick_in_x_axis",
+            [](const PlotConfig& self) -> std::size_t {
+                return self.num_pixels_per_tick_in_x_axis();
+            },
+            [](PlotConfig& self, std::size_t value) {
+                self.num_pixels_per_tick_in_x_axis(value);
+            },
+            "Number of pixels per tick in the x-axis.")
+        .def_prop_rw(
+            "num_pixels_per_tick_in_y_axis",
+            [](const PlotConfig& self) -> std::size_t {
+                return self.num_pixels_per_tick_in_y_axis();
+            },
+            [](PlotConfig& self, std::size_t value) {
+                self.num_pixels_per_tick_in_y_axis(value);
+            },
+            "Number of pixels per tick in the y-axis.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(
@@ -302,7 +327,7 @@ Objects of this class can be called with a string to parse it into an Expression
             "Configuration of plots. (write-only)")
         .def(
             "write_background",
-            [](const Plotter& self, const RawImage& raw_image) {
+            [](Plotter& self, const RawImage& raw_image) {
                 auto image = to_image(raw_image);
                 self.write_background(image);
             },
@@ -311,7 +336,7 @@ Objects of this class can be called with a string to parse it into an Expression
             "The pixels of image are modified in place.")
         .def(
             "write_curve",
-            [](const Plotter& self, const PointList& point_list,
+            [](Plotter& self, const PointList& point_list,
                 const RGBColor& color, const RawImage& raw_image) {
                 auto image = to_image(raw_image);
                 self.write_curve(point_list.points, color, image);
