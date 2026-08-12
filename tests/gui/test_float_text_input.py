@@ -123,3 +123,21 @@ class TestFloatTextInput:
         assert float_text_input.text == "1.0"
         assert float_text_input.is_valid is True
         assert len(on_text_count) == 0
+
+    def test_update_text_to_invalid_value_and_then_valid_value(self):
+        """Test that the value is updated correctly after an invalid text input followed by a valid one."""
+        float_text_input = FloatTextInput(value=1.0)
+        on_value_count = []
+        float_text_input.bind(value=lambda instance, value: on_value_count.append(1))
+
+        # Set an invalid text input
+        float_text_input.text = "invalid"
+        assert float_text_input.value == 1.0
+        assert float_text_input.is_valid is False
+        assert len(on_value_count) == 0
+
+        # Now set a valid text input
+        float_text_input.text = "2.5"
+        assert float_text_input.value == 2.5
+        assert float_text_input.is_valid is True
+        assert len(on_value_count) == 1

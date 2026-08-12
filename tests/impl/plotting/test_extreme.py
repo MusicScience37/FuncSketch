@@ -39,3 +39,8 @@ class TestExtreme:
         """Test of plotting with tan(10x)."""
         image = plot_function(["tan(10*x)"], (-1.0, 1.0), (-10.0, 10.0))
         image_approver.verify(image)
+
+    def test_plot_exp_in_large_range(self, image_approver) -> None:
+        """Test of plotting with exp(x) in a large range."""
+        image = plot_function(["exp(x)"], (-1e6, 1e6), (-1e6, 1e6))
+        image_approver.verify(image)

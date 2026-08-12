@@ -2,4 +2,4 @@
 
 cd $(dirname $0)/..
 
-xvfb-run poetry run pytest tests $@
+xvfb-run poetry run pytest tests "$@"
