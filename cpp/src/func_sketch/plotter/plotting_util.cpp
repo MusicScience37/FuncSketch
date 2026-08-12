@@ -19,7 +19,6 @@
  */
 #include "func_sketch/plotter/plotting_util.h"
 
-#include <algorithm>
 #include <cassert>
 #include <cmath>
 
@@ -180,14 +179,6 @@ Point compute_intersection_with_range(const Point& point_in_range,
     }
 
     return intersection;
-}
-
-Point clamp_point(const Point& point, const PlotRange& range) {
-    // TODO Better implementation.
-    return Point{
-        .x = std::clamp(point.x, range.x_range().first, range.x_range().second),
-        .y =
-            std::clamp(point.y, range.y_range().first, range.y_range().second)};
 }
 
 }  // namespace func_sketch::plotter

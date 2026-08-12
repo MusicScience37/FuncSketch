@@ -100,13 +100,4 @@ void write_line(Image& image, const Point& start_point, const Point& end_point,
 [[nodiscard]] Point compute_intersection_with_range(const Point& point_in_range,
     const Point& point_out_of_range, const PlotRange& range);
 
-/*!
- * \brief Clamp a point inside the plot range.
- *
- * \param[in] point Point to clamp.
- * \param[in] range Range of plots.
- * \return Clamped point.
- */
-[[nodiscard]] Point clamp_point(const Point& point, const PlotRange& range);
-
 }  // namespace func_sketch::plotter

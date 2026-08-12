@@ -214,9 +214,6 @@ void Plotter::write_grid_lines(Image& image) {
     }
 }
 
-//! Ratio of the threshold to check whether a tick label is at zero.
-constexpr Real axis_tick_threshold_ratio = 5e-2;
-
 void Plotter::write_x_axis(Image& image) {
     const auto size = image.size;
 
