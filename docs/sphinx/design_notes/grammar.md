@@ -12,10 +12,10 @@
 
 | Name                 | Rule                                                             |
 | :------------------- | :--------------------------------------------------------------- |
-| `constant`           | Floating-point number or integer (complex numbers in the future) |
+| `literal`            | Floating-point number or integer (complex numbers in the future) |
 | `identifier`         | (See below)                                                      |
 | `function_call_expr` | `identifier (sum_expr, sum_expr, ...)`                           |
-| `atomic_value_expr`  | `function_call_expr` or `constant` or `identifier`               |
+| `atomic_value_expr`  | `function_call_expr` or `literal` or `identifier`                |
 | `value_expr`         | `atomic_value_expr` or `'(' sum_expr ')'`                        |
 | `factor_expr`        | `value_expr -('**' factor_expr)`                                 |
 | `unary_expr`         | `('-' factor_expr) or factor_expr`                               |
@@ -27,7 +27,14 @@ TODO:
 
 - `--1` should be an error.
 
-## Identifier Naming Rule
+## Identifiers
 
-- First character must be a letter (a-z, A-Z) or underscore (\_)
-- Subsequent characters can be letters, digits (0-9), or underscores
+- Identifiers are used in followings:
+  - Parameter names when used in `atomic_value_expr`. Currently only `x` is allowed.
+  - Constant names when used in `atomic_value_expr`.
+    - A parameter name and a constant name cannot have the same identifier.
+  - Function names when used in `function_call_expr`.
+- Identifiers are case-sensitive.
+- Identifiers must be named as follows:
+  - First character must be a letter (a-z, A-Z) or underscore (\_)
+  - Subsequent characters can be letters, digits (0-9), or underscores

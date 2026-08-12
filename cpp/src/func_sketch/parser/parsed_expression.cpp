@@ -27,8 +27,8 @@
 #include "func_sketch/common_types.h"
 
 // NOLINTNEXTLINE(*-static): API of an external library.
-auto fmt::formatter<func_sketch::parser::ParsedConstant>::format(
-    const func_sketch::parser::ParsedConstant& value,
+auto fmt::formatter<func_sketch::parser::ParsedLiteral>::format(
+    const func_sketch::parser::ParsedLiteral& value,
     format_context& context) const -> format_context::iterator {
     return std::visit(
         [&context](const auto& actual_value) {
@@ -37,10 +37,10 @@ auto fmt::formatter<func_sketch::parser::ParsedConstant>::format(
                 // For testing purposes, we want to distinguish between 1.0 and
                 // 1 in the output.
                 return fmt::format_to(
-                    context.out(), "Constant({:e})", actual_value);
+                    context.out(), "Literal({:e})", actual_value);
             } else {
                 return fmt::format_to(
-                    context.out(), "Constant({})", actual_value);
+                    context.out(), "Literal({})", actual_value);
             }
         },
         value.value);

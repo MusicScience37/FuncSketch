@@ -29,11 +29,11 @@
 namespace func_sketch::parser {
 
 /*!
- * \brief Struct of parsed constants.
+ * \brief Struct of parsed literals.
  */
-struct ParsedConstant {
+struct ParsedLiteral {
     //! Value.
-    Number value{};
+    Number value;
 };
 
 /*!
@@ -51,7 +51,7 @@ struct ParsedBinaryExpression;
 /*!
  * \brief Variant of parsed expressions.
  */
-using ParsedExpression = boost::variant<ParsedConstant, ParsedIdentifier,
+using ParsedExpression = boost::variant<ParsedLiteral, ParsedIdentifier,
     boost::recursive_wrapper<ParsedFunctionCallExpression>,
     boost::recursive_wrapper<ParsedUnaryExpression>,
     boost::recursive_wrapper<ParsedBinaryExpression>>;
@@ -98,10 +98,10 @@ struct ParsedBinaryExpression {
 
 /*!
  * \brief Specialization of fmt::formatter for
- * func_sketch::parser::ParsedConstant.
+ * func_sketch::parser::ParsedLiteral.
  */
 template <>
-struct fmt::formatter<func_sketch::parser::ParsedConstant>
+struct fmt::formatter<func_sketch::parser::ParsedLiteral>
     : fmt::formatter<string_view> {
     /*!
      * \brief Format a value.
@@ -110,7 +110,7 @@ struct fmt::formatter<func_sketch::parser::ParsedConstant>
      * \param[in] context Format context.
      * \return Iterator to the end of the formatted output.
      */
-    auto format(const func_sketch::parser::ParsedConstant& value,
+    auto format(const func_sketch::parser::ParsedLiteral& value,
         format_context& context) const -> format_context::iterator;
 };
 

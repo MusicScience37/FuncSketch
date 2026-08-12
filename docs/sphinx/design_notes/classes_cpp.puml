@@ -51,6 +51,11 @@ package func_sketch {
         }
         MathFunctionList o-- MathFunction
 
+        class ConstantList {
+            + emplace(name : std::string, value : Number)
+            + get(name : std::string) : std::optional<Number>
+        }
+
         note as math_functions_note
             Actual mathematical functions and operators
             are implemented here too.
@@ -114,6 +119,7 @@ package func_sketch {
             + operator()(expression_str : std::string) : ExpressionPtr
         }
         ExpressionParser o-- MathFunctionList
+        ExpressionParser o-- ConstantList
         ExpressionParser ..> ExpressionPtr
     }
 
