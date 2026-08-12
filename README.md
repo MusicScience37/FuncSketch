@@ -1,6 +1,6 @@
 # FuncSketch
 
-Graphing calculator currently in development.
+A graphing calculator currently in development.
 
 This project aims to provide:
 
@@ -18,6 +18,11 @@ See [Build FuncSketch in Repository](docs/sphinx/build_in_repository.md) for ins
 Documentation is available for:
 
 - [Development version](https://func-sketch-35a65d.gitlab.io/)
+
+## Repositories
+
+- [Main repository in GitLab](https://gitlab.com/MusicScience37Projects/tools/func-sketch)
+- [Mirror in GitHub](https://github.com/MusicScience37/FuncSketch)
 
 ## License
 
