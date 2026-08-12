@@ -18,6 +18,7 @@ BUILD_TYPE_DICT = {
     "coverage_cpp": "Debug",
     "coverage_python": "Release",
     "pre-commit": "Release",
+    "clang-tidy": "Release",
     "docs": "Release",
 }
 
@@ -55,6 +56,12 @@ TEST_TYPE_VARIABLES = {
         "FUNC_SKETCH_WRITE_JUNIT": "ON",
     },
     "pre-commit": {
+        "FUNC_SKETCH_BUILD_TESTS": "OFF",
+        "FUNC_SKETCH_ENABLE_CCACHE": "ON",
+        "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
+        "FUNC_SKETCH_WRITE_JUNIT": "OFF",
+    },
+    "clang-tidy": {
         "FUNC_SKETCH_BUILD_TESTS": "OFF",
         "FUNC_SKETCH_ENABLE_CCACHE": "ON",
         "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
@@ -120,7 +127,8 @@ def check_tests_for_condition(
     execute_command(command, cwd=build_dir)
 
     # Build
-    execute_command(["cmake", "--build", "."], cwd=build_dir)
+    if test_type not in ["clang-tidy"]:
+        execute_command(["cmake", "--build", "."], cwd=build_dir)
 
     # Prepare
     env = os.environ.copy()
@@ -158,6 +166,14 @@ def check_tests_for_condition(
     if test_type == "pre-commit":
         execute_command(
             ["poetry", "run", "pre-commit", "run", "--all-files"],
+            cwd=str(ROOT_DIR),
+            env=env,
+        )
+
+    # clang-tidy
+    if test_type == "clang-tidy":
+        execute_command(
+            ["poetry", "run", "clang-tidy-checker", "--build_dir", build_dir],
             cwd=str(ROOT_DIR),
             env=env,
         )

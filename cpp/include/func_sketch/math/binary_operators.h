@@ -46,7 +46,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Number& left, const Number& right, Number& result) noexcept {
+        const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
                 result = left_value + right_value;
@@ -75,7 +75,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Number& left, const Number& right, Number& result) noexcept {
+        const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
                 result = left_value - right_value;
@@ -104,7 +104,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Number& left, const Number& right, Number& result) noexcept {
+        const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
                 result = left_value * right_value;
@@ -133,7 +133,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Number& left, const Number& right, Number& result) noexcept {
+        const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
                 result = left_value / right_value;
@@ -162,7 +162,7 @@ public:
      * \param[out] result Result scalar.
      */
     static void operator()(
-        const Number& left, const Number& right, Number& result) noexcept {
+        const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
                 result = pow_number(left_value, right_value);

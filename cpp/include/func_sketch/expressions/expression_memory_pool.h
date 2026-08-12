@@ -65,7 +65,7 @@ public:
      * Use of the expression after calling this function is undefined behavior.
      * \note This function does nothing if the argument is nullptr.
      */
-    void destroy(Expression* expression) noexcept {
+    void destroy(Expression* expression) noexcept {  // NOLINT(*-exception-*)
         if (expression == nullptr) {
             return;
         }
