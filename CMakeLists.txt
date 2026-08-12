@@ -1,4 +1,13 @@
 cmake_minimum_required(VERSION 3.18)
+
+# ##############################################################################
+# Options
+# ##############################################################################
+option(FUNC_SKETCH_BUILD_TESTS "Build tests" OFF)
+if(FUNC_SKETCH_BUILD_TESTS)
+    list(APPEND VCPKG_MANIFEST_FEATURES "tests")
+endif()
+
 project(func_sketch LANGUAGES CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cpp/cmake")
@@ -12,10 +21,8 @@ set(BUILDNAME
 include(CTest)
 
 # ##############################################################################
-# Options
+# Settings of CMake
 # ##############################################################################
-option(FUNC_SKETCH_BUILD_TESTS "Build tests" OFF)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS
     ON
     CACHE BOOL "export compile commands" FORCE)
@@ -44,13 +51,6 @@ target_link_libraries(OpenCV INTERFACE ${OpenCV_LIBS})
 
 find_package(fmt CONFIG REQUIRED)
 
-find_package(Catch2 CONFIG REQUIRED)
-
-find_path(APPROVAL_TESTS_CPP_INCLUDE_DIRS "ApprovalTests.hpp")
-add_library(ApprovalTestsCpp INTERFACE)
-target_include_directories(ApprovalTestsCpp
-                           INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
-
 # Find nanobind installed via poetry.
 find_program(POETRY_EXECUTABLE NAMES poetry)
 if(POETRY_EXECUTABLE)
@@ -76,6 +76,17 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
     OUTPUT_VARIABLE nanobind_ROOT)
 find_package(nanobind CONFIG REQUIRED)
+
+if(FUNC_SKETCH_BUILD_TESTS)
+    find_package(Catch2 CONFIG REQUIRED)
+
+    find_path(APPROVAL_TESTS_CPP_INCLUDE_DIRS "ApprovalTests.hpp")
+    add_library(ApprovalTestsCpp INTERFACE)
+    target_include_directories(ApprovalTestsCpp
+                               INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
+
+    find_package(benchmark CONFIG REQUIRED)
+endif()
 
 # ##############################################################################
 # Import modules for configurations

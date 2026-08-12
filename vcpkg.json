@@ -9,8 +9,12 @@
       "default-features": false,
       "features": ["intrinsics", "png"]
     },
-    "fmt",
-    "catch2",
-    "approval-tests-cpp"
-  ]
+    "fmt"
+  ],
+  "features": {
+    "tests": {
+      "description": "Dependencies for tests.",
+      "dependencies": ["catch2", "approval-tests-cpp", "benchmark"]
+    }
+  }
 }

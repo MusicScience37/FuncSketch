@@ -2,4 +2,8 @@
 
 cd $(dirname $0)/..
 
-xvfb-run poetry run pytest tests "$@"
+if [ "$#" -ge 1 ]; then
+    xvfb-run poetry run pytest "$@"
+else
+    xvfb-run poetry run pytest tests
+fi
