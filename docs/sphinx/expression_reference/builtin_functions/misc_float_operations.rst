@@ -1,3 +1,5 @@
+.. _builtin_functions_misc_float_operations:
+
 Miscellaneous Floating-point Operations
 =============================================
 
@@ -6,9 +8,10 @@ Miscellaneous Floating-point Operations
     Absolute value function.
 
     :param x: The value of which the absolute value is taken.
-    :type x: Real
+    :type x: Real or Complex
     :definition: :math:`\mathrm{abs}(x) = \lvert x \rvert`
-    :domain: :math:`(-\infty, \infty)`
+    :domain: :math:`(-\infty, \infty)` for real :math:`x`,
+        or :math:`\mathbb{C}` for complex :math:`x`
     :range: :math:`[0, \infty)`
     :returns: The absolute value of :math:`x`.
     :rtype: Real
