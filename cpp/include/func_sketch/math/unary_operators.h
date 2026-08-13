@@ -66,7 +66,7 @@ public:
      * \param[in] arg Argument.
      * \param[out] result Result.
      */
-    static void operator()(const Number& arg, Number& result) noexcept {
+    static void operator()(const Number& arg, Number& result) {
         std::visit([&result](const auto& value) { result = -value; }, arg);
     }
 };
