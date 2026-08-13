@@ -10,3 +10,4 @@ Design Notes
     grammar
     math_functions
     adaptive_sampling
+    color_palette
