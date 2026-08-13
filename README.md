@@ -17,7 +17,7 @@ See [Build FuncSketch in Repository](docs/sphinx/build_in_repository.md) for ins
 
 Documentation is available for:
 
-- [Development version](https://func-sketch-35a65d.gitlab.io/)
+- [Development version](https://funcsketch.musicscience37.com/)
 
 ## Repositories
 
@@ -30,5 +30,5 @@ This project is licensed under the [Apache License 2.0](LICENSE.txt).
 
 ## Links for Developers
 
-- [Coverage of C++](https://func-sketch-35a65d.gitlab.io/coverage_cpp/)
-- [Coverage of Python](https://func-sketch-35a65d.gitlab.io/coverage_python/)
+- [Coverage of C++](https://funcsketch.musicscience37.com/coverage_cpp/)
+- [Coverage of Python](https://funcsketch.musicscience37.com/coverage_python/)
