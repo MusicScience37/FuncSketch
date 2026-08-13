@@ -24,10 +24,10 @@
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 #include "func_sketch/common_types.h"
-#include "func_sketch/math/math_function_type.h"
 #include "single_variate_function_util.h"
 
 TEST_CASE("func_sketch::math::log_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::log_function;
@@ -40,6 +40,9 @@ TEST_CASE("func_sketch::math::log_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 2.5, 0.9162907318741551);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0), Complex(0.8047189562170503, 1.1071487177940904));
     }
 
     SECTION("check the number of arguments") {
@@ -68,6 +71,7 @@ TEST_CASE("func_sketch::math::log1p_function") {
 }
 
 TEST_CASE("func_sketch::math::log10_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::log10_function;
@@ -80,6 +84,9 @@ TEST_CASE("func_sketch::math::log10_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 2.5, 0.3979400086720376);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0), Complex(0.3494850021680094, 0.480828578784234));
     }
 
     SECTION("check the number of arguments") {

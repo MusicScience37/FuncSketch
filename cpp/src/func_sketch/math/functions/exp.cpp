@@ -30,8 +30,8 @@ namespace func_sketch::math {
 
 MathFunction exp_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "exp", [](Real arg) { return std::exp(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "exp", [](auto arg) { return std::exp(arg); }));
 }
 
 MathFunction exp2_function() {

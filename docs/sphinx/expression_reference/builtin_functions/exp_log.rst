@@ -6,12 +6,14 @@ Exponential and Logarithmic Functions
     Exponential function.
 
     :param x: The exponent to which :math:`e` is raised.
-    :type x: Real
+    :type x: Real or Complex
     :definition: :math:`\exp(x) = e^x`
-    :domain: :math:`(-\infty, \infty)`
-    :range: :math:`(0, \infty)`
+    :domain: :math:`(-\infty, \infty)` for real :math:`x`,
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :range: :math:`(0, \infty)` for real :math:`x`,
+        or :math:`\mathbb{C} \setminus \{0\}` for complex :math:`x`
     :returns: The value of :math:`e^x`.
-    :rtype: Real
+    :rtype: Real or Complex according to the type of ``x``.
 
 .. funcsketch:function:: exp2(x)
 
@@ -42,12 +44,16 @@ Exponential and Logarithmic Functions
     Natural logarithm function.
 
     :param x: The value to take the natural logarithm of.
-    :type x: Real
-    :definition: :math:`\log(x) = \log_e(x)`
-    :domain: :math:`(0, \infty)`
-    :range: :math:`(-\infty, \infty)`
+    :type x: Real or Complex
+    :definition: :math:`\log(x) = \log_e(x)`.
+        For complex :math:`x`, the principal branch is used,
+        with a branch cut along :math:`(-\infty, 0]` on the real axis.
+    :domain: :math:`(0, \infty)` for real :math:`x`,
+        or :math:`\mathbb{C} \setminus \{0\}` for complex :math:`x`
+    :range: :math:`(-\infty, \infty)` for real :math:`x`,
+        or :math:`\{w \in \mathbb{C} : -\pi < \operatorname{Im}(w) \leq \pi\}` for complex :math:`x`
     :returns: The value of :math:`\log(x)`.
-    :rtype: Real
+    :rtype: Real or Complex according to the type of ``x``.
 
 .. funcsketch:function:: log1p(x)
 
@@ -66,12 +72,16 @@ Exponential and Logarithmic Functions
     Base-10 logarithm function.
 
     :param x: The value to take the base-10 logarithm of.
-    :type x: Real
-    :definition: :math:`\mathrm{log10}(x) = \log_{10}(x)`
-    :domain: :math:`(0, \infty)`
-    :range: :math:`(-\infty, \infty)`
+    :type x: Real or Complex
+    :definition: :math:`\mathrm{log10}(x) = \log_{10}(x)`.
+        For complex :math:`x`, the principal branch is used,
+        with a branch cut along :math:`(-\infty, 0]` on the real axis.
+    :domain: :math:`(0, \infty)` for real :math:`x`,
+        or :math:`\mathbb{C} \setminus \{0\}` for complex :math:`x`
+    :range: :math:`(-\infty, \infty)` for real :math:`x`,
+        or :math:`\left\{w \in \mathbb{C} : -\dfrac{\pi}{\log 10} < \operatorname{Im}(w) \leq \dfrac{\pi}{\log 10}\right\}` for complex :math:`x`
     :returns: The value of :math:`\log_{10}(x)`.
-    :rtype: Real
+    :rtype: Real or Complex according to the type of ``x``.
 
 .. funcsketch:function:: log2(x)
 

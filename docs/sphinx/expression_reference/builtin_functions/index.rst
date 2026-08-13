@@ -21,4 +21,5 @@ Following pages describe the built-in functions.
     hyperbolic
     error
     gamma
+    complex
     misc_float_operations

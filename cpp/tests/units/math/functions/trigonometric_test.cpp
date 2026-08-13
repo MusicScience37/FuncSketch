@@ -27,6 +27,7 @@
 #include "single_variate_function_util.h"
 
 TEST_CASE("func_sketch::math::sin_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::sin_function;
@@ -39,6 +40,9 @@ TEST_CASE("func_sketch::math::sin_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 1.0, 0.8414709848078965);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0), Complex(3.165778513216168, 1.9596010414216063));
     }
 
     SECTION("check the number of arguments") {
@@ -47,6 +51,7 @@ TEST_CASE("func_sketch::math::sin_function") {
 }
 
 TEST_CASE("func_sketch::math::cos_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::cos_function;
@@ -59,6 +64,9 @@ TEST_CASE("func_sketch::math::cos_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 1.0, 0.5403023058681398);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0), Complex(2.0327230070196656, -3.0518977991518));
     }
 
     SECTION("check the number of arguments") {
@@ -67,6 +75,7 @@ TEST_CASE("func_sketch::math::cos_function") {
 }
 
 TEST_CASE("func_sketch::math::tan_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::tan_function;
@@ -79,6 +88,9 @@ TEST_CASE("func_sketch::math::tan_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 1.0, 1.5574077246549023);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0), Complex(0.0338128260798967, 1.0147936161466335));
     }
 
     SECTION("check the number of arguments") {
@@ -87,6 +99,7 @@ TEST_CASE("func_sketch::math::tan_function") {
 }
 
 TEST_CASE("func_sketch::math::asin_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::asin_function;
@@ -98,6 +111,9 @@ TEST_CASE("func_sketch::math::asin_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 0.5, 0.5235987755982989);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0), Complex(0.4270785863924761, 1.5285709194809982));
     }
 
     SECTION("check the number of arguments") {
@@ -106,6 +122,7 @@ TEST_CASE("func_sketch::math::asin_function") {
 }
 
 TEST_CASE("func_sketch::math::acos_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::acos_function;
@@ -118,6 +135,10 @@ TEST_CASE("func_sketch::math::acos_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 0.5, 1.0471975511965979);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0),
+            Complex(1.1437177404024204, -1.5285709194809982));
     }
 
     SECTION("check the number of arguments") {
@@ -126,6 +147,7 @@ TEST_CASE("func_sketch::math::acos_function") {
 }
 
 TEST_CASE("func_sketch::math::atan_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::atan_function;
@@ -138,6 +160,10 @@ TEST_CASE("func_sketch::math::atan_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 1.0, 0.7853981633974483);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0),
+            Complex(1.3389725222944935, 0.40235947810852507));
     }
 
     SECTION("check the number of arguments") {

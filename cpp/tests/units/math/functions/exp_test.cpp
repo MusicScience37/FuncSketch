@@ -27,6 +27,7 @@
 #include "single_variate_function_util.h"
 
 TEST_CASE("func_sketch::math::exp_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::exp_function;
@@ -39,6 +40,10 @@ TEST_CASE("func_sketch::math::exp_function") {
 
         test_single_variate_function<Real, Real>(function_object, 1.0,
             2.718281828459045);  // NOLINT(modernize-use-std-numbers)
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0),
+            Complex(-1.1312043837568135, 2.4717266720048188));
     }
 
     SECTION("check the number of arguments") {

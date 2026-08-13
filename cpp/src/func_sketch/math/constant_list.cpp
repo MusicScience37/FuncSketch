@@ -25,8 +25,12 @@ namespace func_sketch::math {
 
 ConstantList generate_constant_list() {
     ConstantList list;
+
+    // Mathematical constants
     list.emplace("pi", Number(std::numbers::pi));
     list.emplace("e", Number(std::numbers::e));
+    list.emplace("i", Number(Complex(0.0, 1.0)));
+
     return list;
 }
 

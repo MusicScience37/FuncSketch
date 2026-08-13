@@ -27,6 +27,8 @@ it is automatically recognized as follows:
 
   - Complex numbers can be written as ``a + bi`` or ``a - bi``.
     (e.g. ``1 + 2.3i``, ``-1.2 - 3.4i``)
+  - ``1i`` can be written as ``i`` and ``-1i`` can be written as ``-i``.
+    (``i`` is defined as a built-in constant in FuncSketch.)
 
 Implicit Conversions
 ..........................
