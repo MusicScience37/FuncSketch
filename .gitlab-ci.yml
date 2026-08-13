@@ -207,7 +207,6 @@ clang-tidy:
       paths:
         - .clang-tidy-cache
       when: always
-  allow_failure: true
 
 pre-commit:
   extends: .test linux base
