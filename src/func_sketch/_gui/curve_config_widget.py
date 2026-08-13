@@ -16,8 +16,8 @@
 
 import kivy.properties
 import kivy.uix.boxlayout
-import kivy.uix.textinput
 
+from func_sketch._gui.plain_text_input import PlainTextInput
 from func_sketch._impl.curve_config import CurveConfig
 
 
@@ -71,7 +71,7 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
             self._syncing_expression_text = False
 
     def on_expression_text_input(
-        self, _instance: object, value: kivy.uix.textinput.TextInput | None
+        self, _instance: object, value: PlainTextInput | None
     ) -> None:
         """Callback when the expression_text_input property is set."""
         if value:

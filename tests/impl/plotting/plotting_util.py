@@ -17,10 +17,9 @@
 import numpy
 
 from func_sketch._cpp import (
-    PlotConfig,
     PlotRange,
 )
-from func_sketch._gui.constants import CURVE_COLORS
+from func_sketch._gui.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
 from func_sketch._impl.curve_config import CurveConfig
 from func_sketch._impl.curve_sampler import CurveSampler
 from func_sketch._impl.plotter import Plotter
@@ -44,7 +43,7 @@ def plot_function(
     height = 600
     width = 800
 
-    config = PlotConfig()
+    config = DEFAULT_PLOT_CONFIG
     range = PlotRange(x_range, y_range)
     sampler = CurveSampler(range, config)
     plotter = Plotter(range, config)

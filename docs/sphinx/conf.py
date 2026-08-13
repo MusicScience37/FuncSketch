@@ -4,6 +4,7 @@
 # pylint: disable=redefined-builtin
 
 import collections.abc
+import pathlib
 import re
 import typing
 
@@ -17,6 +18,8 @@ import sphinx.environment
 import sphinx.roles
 import sphinx.util.docfields
 import sphinx.util.nodes
+
+THIS_DIR = pathlib.Path(__file__).absolute().parent
 
 # -- Project information -----------------------------------------------------
 
@@ -48,9 +51,10 @@ extensions += ["sphinxcontrib.plantuml"]
 plantuml_output_format = "svg"
 plantuml_syntax_error_image = True
 
-# -- Options for Myst-Parser -------------------------------------------------
+# -- Options for Myst-Parser and Myst-NB -------------------------------------
 
-extensions += ["myst_parser"]
+# Myst-NB automatically enables Myst-Parser.
+extensions += ["myst_nb"]
 
 myst_enable_extensions = [
     "tasklist",
@@ -58,6 +62,26 @@ myst_enable_extensions = [
 ]
 
 myst_heading_anchors = 4
+
+nb_execution_mode = "cache"
+nb_execution_cache_path = str(THIS_DIR.parent.parent / ".jupyter_cache")
+
+# setting of MathJax
+# Extension for MathJax is already enabled by myst_nb.
+# MathJax URL working with Plotly was written in https://www.npmjs.com/package/plotly.js/v/3.0.1.
+mathjax_path = "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"
+mathjax3_config = {
+    "tex": {
+        "inlineMath": [["$", "$"], ["\\(", "\\)"]],
+        "displayMath": [["$$", "$$"], ["\\[", "\\]"]],
+        "macros": {
+            "bm": ["{\\boldsymbol{#1}}", 1],
+        },
+    },
+}
+mathjax_options = {
+    "defer": None,
+}
 
 # -- Options for HTML output -------------------------------------------------
 
