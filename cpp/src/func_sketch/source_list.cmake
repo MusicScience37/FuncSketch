@@ -8,6 +8,7 @@ set(SOURCE_FILES
     expressions/parameter_expression.cpp
     expressions/unary_expression.cpp
     math/constant_list.cpp
+    math/functions/complex.cpp
     math/functions/erf.cpp
     math/functions/exp.cpp
     math/functions/gamma.cpp

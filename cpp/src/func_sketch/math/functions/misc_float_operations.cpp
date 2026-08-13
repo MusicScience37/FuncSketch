@@ -31,8 +31,8 @@ namespace func_sketch::math {
 
 MathFunction abs_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "abs", [](Real arg) { return std::abs(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "abs", [](auto arg) { return std::abs(arg); }));
 }
 
 MathFunction ceil_function() {

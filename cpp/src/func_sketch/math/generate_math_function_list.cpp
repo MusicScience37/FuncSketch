@@ -19,6 +19,7 @@
  */
 #include "func_sketch/math/generate_math_function_list.h"
 
+#include "func_sketch/math/functions/complex.h"
 #include "func_sketch/math/functions/erf.h"
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/functions/gamma.h"
@@ -72,6 +73,12 @@ MathFunctionList generate_math_function_list() {
     list.emplace(floor_function());
     list.emplace(trunc_function());
     list.emplace(round_function());
+
+    // In complex.h
+    list.emplace(real_function());
+    list.emplace(imag_function());
+    list.emplace(arg_function());
+    list.emplace(conj_function());
 
     // In erf.h
     list.emplace(erf_function());
