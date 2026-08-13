@@ -33,6 +33,7 @@ class PlainTextInput(kivy.uix.textinput.TextInput):
     """Class of text input widget."""
 
     is_error = kivy.properties.BooleanProperty(False)
+    """Whether the text input is in error state."""
 
     def __init__(self, **kwargs):
         """Constructor."""
