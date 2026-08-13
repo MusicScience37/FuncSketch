@@ -19,7 +19,11 @@
  */
 #include "func_sketch/expressions/constant_expression.h"
 
+#include <type_traits>
+
 #include <fmt/format.h>
+
+#include "func_sketch/common_types.h"
 
 // NOLINTNEXTLINE(*-static): API of an external library.
 auto fmt::formatter<func_sketch::expressions::ConstantExpression>::format(
@@ -27,7 +31,13 @@ auto fmt::formatter<func_sketch::expressions::ConstantExpression>::format(
     format_context& context) const -> format_context::iterator {
     return std::visit(
         [&context](const auto& actual_value) {
-            return fmt::format_to(context.out(), "{}", actual_value);
+            using ValueType = std::decay_t<decltype(actual_value)>;
+            if constexpr (std::is_same_v<ValueType, func_sketch::Complex>) {
+                return fmt::format_to(context.out(), "({} + {}i)",
+                    actual_value.real(), actual_value.imag());
+            } else {
+                return fmt::format_to(context.out(), "{}", actual_value);
+            }
         },
         value.value);
 }

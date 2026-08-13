@@ -22,6 +22,7 @@
 #include <string_view>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/math/common_type.h"
 #include "func_sketch/math/pow_number.h"
 
 namespace func_sketch::math {
@@ -49,7 +50,10 @@ public:
         const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
-                result = left_value + right_value;
+                using ResultType =
+                    CommonType<decltype(left_value), decltype(right_value)>;
+                result = static_cast<ResultType>(left_value) +
+                    static_cast<ResultType>(right_value);
             },
             left, right);
     }
@@ -78,7 +82,10 @@ public:
         const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
-                result = left_value - right_value;
+                using ResultType =
+                    CommonType<decltype(left_value), decltype(right_value)>;
+                result = static_cast<ResultType>(left_value) -
+                    static_cast<ResultType>(right_value);
             },
             left, right);
     }
@@ -107,7 +114,10 @@ public:
         const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
-                result = left_value * right_value;
+                using ResultType =
+                    CommonType<decltype(left_value), decltype(right_value)>;
+                result = static_cast<ResultType>(left_value) *
+                    static_cast<ResultType>(right_value);
             },
             left, right);
     }
@@ -136,7 +146,10 @@ public:
         const Number& left, const Number& right, Number& result) {
         std::visit(
             [&result](const auto& left_value, const auto& right_value) {
-                result = left_value / right_value;
+                using ResultType =
+                    CommonType<decltype(left_value), decltype(right_value)>;
+                result = static_cast<ResultType>(left_value) /
+                    static_cast<ResultType>(right_value);
             },
             left, right);
     }

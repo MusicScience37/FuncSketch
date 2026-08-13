@@ -21,56 +21,24 @@
 
 #include <cmath>
 
-#include "func_sketch/common_types.h"
+#include "func_sketch/math/common_type.h"
 
 namespace func_sketch::math {
 
 /*!
- * \brief Compute power for number types in this library. (Overload for
- * two integers.)
+ * \brief Compute power for number types in this library.
  *
+ * \tparam Base Type of base.
+ * \tparam Exponent Type of exponent.
  * \param [in] base Base.
  * \param [in] exponent Exponent.
  * \return Result.
  */
-[[nodiscard]] inline Real pow_number(Integer base, Integer exponent) {
-    return std::pow(static_cast<Real>(base), exponent);
-}
-
-/*!
- * \brief Compute power for number types in this library. (Overload for
- * an integer base and a real exponent.)
- *
- * \param [in] base Base.
- * \param [in] exponent Exponent.
- * \return Result.
- */
-[[nodiscard]] inline Real pow_number(Integer base, Real exponent) {
-    return std::pow(static_cast<Real>(base), exponent);
-}
-
-/*!
- * \brief Compute power for number types in this library. (Overload for
- * a real base and an integer exponent.)
- *
- * \param [in] base Base.
- * \param [in] exponent Exponent.
- * \return Result.
- */
-[[nodiscard]] inline Real pow_number(Real base, Integer exponent) {
-    return std::pow(base, static_cast<Real>(exponent));
-}
-
-/*!
- * \brief Compute power for number types in this library. (Overload for
- * two reals.)
- *
- * \param [in] base Base.
- * \param [in] exponent Exponent.
- * \return Result.
- */
-[[nodiscard]] inline Real pow_number(Real base, Real exponent) {
-    return std::pow(base, exponent);
+template <typename Base, typename Exponent>
+[[nodiscard]] inline auto pow_number(Base base, Exponent exponent) {
+    using ResultType = CommonType<Base, Exponent>;
+    return std::pow(
+        static_cast<ResultType>(base), static_cast<ResultType>(exponent));
 }
 
 }  // namespace func_sketch::math
