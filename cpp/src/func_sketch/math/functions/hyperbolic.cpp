@@ -30,38 +30,38 @@ namespace func_sketch::math {
 
 MathFunction sinh_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "sinh", [](Real arg) { return std::sinh(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "sinh", [](auto arg) { return std::sinh(arg); }));
 }
 
 MathFunction cosh_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "cosh", [](Real arg) { return std::cosh(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "cosh", [](auto arg) { return std::cosh(arg); }));
 }
 
 MathFunction tanh_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "tanh", [](Real arg) { return std::tanh(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "tanh", [](auto arg) { return std::tanh(arg); }));
 }
 
 MathFunction asinh_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "asinh", [](Real arg) { return std::asinh(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "asinh", [](auto arg) { return std::asinh(arg); }));
 }
 
 MathFunction acosh_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "acosh", [](Real arg) { return std::acosh(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "acosh", [](auto arg) { return std::acosh(arg); }));
 }
 
 MathFunction atanh_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "atanh", [](Real arg) { return std::atanh(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "atanh", [](auto arg) { return std::atanh(arg); }));
 }
 
 }  // namespace func_sketch::math

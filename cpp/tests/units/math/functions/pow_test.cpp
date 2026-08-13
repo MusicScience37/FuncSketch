@@ -27,6 +27,7 @@
 #include "single_variate_function_util.h"
 
 TEST_CASE("func_sketch::math::pow_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Number;
     using func_sketch::Real;
@@ -82,6 +83,81 @@ TEST_CASE("func_sketch::math::pow_function") {
             std::get<Real>(result), Catch::Matchers::WithinRel(expected));
     }
 
+    SECTION("operate on a complex base and an integer exponent") {
+        const Complex base{1.5, 2.0};
+        constexpr Integer exponent = 3;
+
+        Number result;
+        function_object(std::vector<Number>{base, exponent}, result);
+
+        const Complex expected{-14.625, 5.5};
+        const auto& result_value = std::get<Complex>(result);
+        CHECK_THAT(
+            result_value.real(), Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(
+            result_value.imag(), Catch::Matchers::WithinRel(expected.imag()));
+    }
+
+    SECTION("operate on a complex base and a real exponent") {
+        const Complex base{1.5, 2.0};
+        constexpr Real exponent = 3.5;
+
+        Number result;
+        function_object(std::vector<Number>{base, exponent}, result);
+
+        const Complex expected{-24.57196064623253, -2.5632620818012297};
+        const auto& result_value = std::get<Complex>(result);
+        CHECK_THAT(
+            result_value.real(), Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(
+            result_value.imag(), Catch::Matchers::WithinRel(expected.imag()));
+    }
+
+    SECTION("operate on a complex base and a complex exponent") {
+        const Complex base{1.5, 2.0};
+        const Complex exponent{0.5, 1.2};
+
+        Number result;
+        function_object(std::vector<Number>{base, exponent}, result);
+
+        const Complex expected{0.0039491825678131635, 0.5196302517132119};
+        const auto& result_value = std::get<Complex>(result);
+        CHECK_THAT(
+            result_value.real(), Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(
+            result_value.imag(), Catch::Matchers::WithinRel(expected.imag()));
+    }
+
+    SECTION("operate on an integer base and a complex exponent") {
+        constexpr Integer base = 2;
+        const Complex exponent{0.5, 1.2};
+
+        Number result;
+        function_object(std::vector<Number>{base, exponent}, result);
+
+        const Complex expected{0.9525628836094384, 1.0452865409875285};
+        const auto& result_value = std::get<Complex>(result);
+        CHECK_THAT(
+            result_value.real(), Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(
+            result_value.imag(), Catch::Matchers::WithinRel(expected.imag()));
+    }
+
+    SECTION("operate on a real base and a complex exponent") {
+        constexpr Real base = 2.5;
+        const Complex exponent{0.5, 1.2};
+
+        Number result;
+        function_object(std::vector<Number>{base, exponent}, result);
+
+        const Complex expected{0.7178340535990325, 1.408798875458659};
+        const auto& result_value = std::get<Complex>(result);
+        CHECK_THAT(
+            result_value.real(), Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(
+            result_value.imag(), Catch::Matchers::WithinRel(expected.imag()));
+    }
+
     SECTION("check the number of arguments") {
         Number result;
         const Number arg = 1;
@@ -93,6 +169,7 @@ TEST_CASE("func_sketch::math::pow_function") {
 }
 
 TEST_CASE("func_sketch::math::sqrt_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::sqrt_function;
@@ -105,6 +182,9 @@ TEST_CASE("func_sketch::math::sqrt_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 1.23, 1.1090536506409416);
+
+        test_single_variate_function<Complex, Complex>(function_object,
+            Complex(1.0, 2.0), Complex(1.272019649514069, 0.7861513777574233));
     }
 
     SECTION("check the number of arguments") {

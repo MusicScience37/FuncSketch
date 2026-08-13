@@ -30,38 +30,38 @@ namespace func_sketch::math {
 
 MathFunction sin_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "sin", [](Real arg) { return std::sin(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "sin", [](auto arg) { return std::sin(arg); }));
 }
 
 MathFunction cos_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "cos", [](Real arg) { return std::cos(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "cos", [](auto arg) { return std::cos(arg); }));
 }
 
 MathFunction tan_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "tan", [](Real arg) { return std::tan(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "tan", [](auto arg) { return std::tan(arg); }));
 }
 
 MathFunction asin_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "asin", [](Real arg) { return std::asin(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "asin", [](auto arg) { return std::asin(arg); }));
 }
 
 MathFunction acos_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "acos", [](Real arg) { return std::acos(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "acos", [](auto arg) { return std::acos(arg); }));
 }
 
 MathFunction atan_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "atan", [](Real arg) { return std::atan(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "atan", [](auto arg) { return std::atan(arg); }));
 }
 
 MathFunction atan2_function() {

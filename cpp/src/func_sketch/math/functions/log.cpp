@@ -30,8 +30,8 @@ namespace func_sketch::math {
 
 MathFunction log_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "log", [](Real arg) { return std::log(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "log", [](auto arg) { return std::log(arg); }));
 }
 
 MathFunction log1p_function() {
@@ -42,8 +42,8 @@ MathFunction log1p_function() {
 
 MathFunction log10_function() {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "log10", [](Real arg) { return std::log10(arg); }));
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "log10", [](auto arg) { return std::log10(arg); }));
 }
 
 MathFunction log2_function() {
