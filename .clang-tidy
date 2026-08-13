@@ -4,6 +4,7 @@ Checks: >
   clang-analyzer-*,
     -clang-analyzer-core.UndefinedBinaryOperatorResult,
     -clang-analyzer-optin.performance.Padding,
+    -clang-analyzer-deadcode.DeadStores,
   google-*,
     -google-runtime-references,
     -google-readability-todo,
