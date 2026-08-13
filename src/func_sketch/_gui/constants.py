@@ -14,9 +14,8 @@
 
 """Constants for the GUI."""
 
-from func_sketch._cpp import PlotConfig, PlotRange
+from func_sketch._cpp import PlotConfig, PlotRange, RGBColor
 from func_sketch._impl.color_util import (
-    hex_to_rgb_color,
     hex_to_rgba,
     rgba_to_rgb_color,
 )
@@ -29,6 +28,7 @@ _PRIMARY50 = hex_to_rgba("#8E5225")
 
 _GRAY99 = hex_to_rgba("#FCFCFB")
 _GRAY97 = hex_to_rgba("#F6F5F4")
+_GRAY90 = hex_to_rgba("#E2DDDA")
 _GRAY85 = hex_to_rgba("#D3CCC8")
 _GRAY50 = hex_to_rgba("#6A615C")
 _GRAY30 = hex_to_rgba("#312D2A")
@@ -78,12 +78,12 @@ PLOT_BACKGROUND_COLOR = _WHITE
 """Background color for the plot area."""
 
 CURVE_COLORS = [
-    # Colors in https://gitlab.com/MusicScience37Projects/utility-libraries/ms37-designs
-    hex_to_rgb_color("#CA6F28"),
-    hex_to_rgb_color("#7AA504"),
-    hex_to_rgb_color("#5640B0"),
-    hex_to_rgb_color("#DA59A5"),
-    hex_to_rgb_color("#02C1F7"),
+    # Colors in https://jfly.uni-koeln.de/color/#pallet
+    RGBColor(0, 114, 178),  # Blue
+    RGBColor(204, 121, 167),  # Reddish purple
+    RGBColor(86, 180, 233),  # Sky blue
+    RGBColor(213, 94, 0),  # Vermilion
+    RGBColor(230, 159, 0),  # Orange
 ]
 """Colors for curves in the plot area."""
 
@@ -134,6 +134,8 @@ def _default_plot_config() -> PlotConfig:
     """
     config = PlotConfig()
     config.background_color = rgba_to_rgb_color(PLOT_BACKGROUND_COLOR)
+    config.grid_color = rgba_to_rgb_color(_GRAY90)
+    config.axes_color = rgba_to_rgb_color(NORMAL_TEXT_COLOR)
     return config
 
 
