@@ -19,8 +19,6 @@
  */
 #include "func_sketch/math/functions/misc_float_operations.h"
 
-#include <cmath>
-
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -35,17 +33,14 @@ TEST_CASE("func_sketch::math::abs_function") {
     using func_sketch::math::abs_function;
 
     const auto function_object = abs_function();
-    const auto reference_function = [](auto arg) { return std::abs(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 2, 2.0);
 
-        test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+        test_single_variate_function<Real, Real>(function_object, 1.0, 1.0);
 
         test_single_variate_function<Complex, Real>(
-            function_object, Complex(1.0, 2.0), reference_function);
+            function_object, Complex(1.0, 2.0), 2.23606797749979);
     }
 
     SECTION("check the number of arguments") {
@@ -59,14 +54,11 @@ TEST_CASE("func_sketch::math::ceil_function") {
     using func_sketch::math::ceil_function;
 
     const auto function_object = ceil_function();
-    const auto reference_function = [](Real arg) { return std::ceil(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 2, 2.0);
 
-        test_single_variate_function<Real, Real>(
-            function_object, 1.5, reference_function);
+        test_single_variate_function<Real, Real>(function_object, 1.5, 2.0);
     }
 
     SECTION("check the number of arguments") {
@@ -80,14 +72,11 @@ TEST_CASE("func_sketch::math::floor_function") {
     using func_sketch::math::floor_function;
 
     const auto function_object = floor_function();
-    const auto reference_function = [](Real arg) { return std::floor(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 2, 2.0);
 
-        test_single_variate_function<Real, Real>(
-            function_object, 1.5, reference_function);
+        test_single_variate_function<Real, Real>(function_object, 1.5, 1.0);
     }
 
     SECTION("check the number of arguments") {
@@ -101,14 +90,11 @@ TEST_CASE("func_sketch::math::trunc_function") {
     using func_sketch::math::trunc_function;
 
     const auto function_object = trunc_function();
-    const auto reference_function = [](Real arg) { return std::trunc(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 2, 2.0);
 
-        test_single_variate_function<Real, Real>(
-            function_object, 1.5, reference_function);
+        test_single_variate_function<Real, Real>(function_object, 1.5, 1.0);
     }
 
     SECTION("check the number of arguments") {
@@ -122,14 +108,11 @@ TEST_CASE("func_sketch::math::round_function") {
     using func_sketch::math::round_function;
 
     const auto function_object = round_function();
-    const auto reference_function = [](Real arg) { return std::round(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 2, 2.0);
 
-        test_single_variate_function<Real, Real>(
-            function_object, 1.5, reference_function);
+        test_single_variate_function<Real, Real>(function_object, 1.5, 2.0);
     }
 
     SECTION("check the number of arguments") {

@@ -19,8 +19,6 @@
  */
 #pragma once
 
-#include <functional>
-
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -35,12 +33,12 @@
  * \tparam ResultType Type of the result.
  * \param[in] function Single-variate function to test.
  * \param[in] arg Argument to pass to the function.
- * \param[in] reference_function Reference function to compare the result with.
+ * \param[in] reference_value Reference value to compare the result with.
  */
 template <typename ArgType, typename ResultType>
 inline void test_single_variate_function(
     const func_sketch::math::MathFunction& function, const ArgType& arg,
-    const std::function<ResultType(ArgType)>& reference_function) {
+    const ResultType& reference_value) {
     const auto args = std::vector<func_sketch::Number>{arg};
     func_sketch::Number result;
 
@@ -48,14 +46,13 @@ inline void test_single_variate_function(
 
     if constexpr (std::is_same_v<ResultType, func_sketch::Complex>) {
         const auto result_value = std::get<ResultType>(result);
-        const auto reference_value = reference_function(arg);
         CHECK_THAT(result_value.real(),
             Catch::Matchers::WithinRel(reference_value.real()));
         CHECK_THAT(result_value.imag(),
             Catch::Matchers::WithinRel(reference_value.imag()));
     } else {
         CHECK_THAT(std::get<ResultType>(result),
-            Catch::Matchers::WithinRel(reference_function(arg)));
+            Catch::Matchers::WithinRel(reference_value));
     }
 }
 

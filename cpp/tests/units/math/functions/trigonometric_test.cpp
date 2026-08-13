@@ -19,8 +19,6 @@
  */
 #include "func_sketch/math/functions/trigonometric.h"
 
-#include <cmath>
-
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -34,14 +32,13 @@ TEST_CASE("func_sketch::math::sin_function") {
     using func_sketch::math::sin_function;
 
     const auto function_object = sin_function();
-    const auto reference_function = [](Real arg) { return std::sin(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 0.9092974268256817);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 0.8414709848078965);
     }
 
     SECTION("check the number of arguments") {
@@ -55,14 +52,13 @@ TEST_CASE("func_sketch::math::cos_function") {
     using func_sketch::math::cos_function;
 
     const auto function_object = cos_function();
-    const auto reference_function = [](Real arg) { return std::cos(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, -0.4161468365471424);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 0.5403023058681398);
     }
 
     SECTION("check the number of arguments") {
@@ -76,14 +72,13 @@ TEST_CASE("func_sketch::math::tan_function") {
     using func_sketch::math::tan_function;
 
     const auto function_object = tan_function();
-    const auto reference_function = [](Real arg) { return std::tan(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, -2.185039863261519);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 1.5574077246549023);
     }
 
     SECTION("check the number of arguments") {
@@ -97,14 +92,12 @@ TEST_CASE("func_sketch::math::asin_function") {
     using func_sketch::math::asin_function;
 
     const auto function_object = asin_function();
-    const auto reference_function = [](Real arg) { return std::asin(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 0, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 0, 0.0);
 
         test_single_variate_function<Real, Real>(
-            function_object, 0.5, reference_function);
+            function_object, 0.5, 0.5235987755982989);
     }
 
     SECTION("check the number of arguments") {
@@ -118,14 +111,13 @@ TEST_CASE("func_sketch::math::acos_function") {
     using func_sketch::math::acos_function;
 
     const auto function_object = acos_function();
-    const auto reference_function = [](Real arg) { return std::acos(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 0, reference_function);
+            function_object, 0, 1.5707963267948966);
 
         test_single_variate_function<Real, Real>(
-            function_object, 0.5, reference_function);
+            function_object, 0.5, 1.0471975511965979);
     }
 
     SECTION("check the number of arguments") {
@@ -139,14 +131,13 @@ TEST_CASE("func_sketch::math::atan_function") {
     using func_sketch::math::atan_function;
 
     const auto function_object = atan_function();
-    const auto reference_function = [](Real arg) { return std::atan(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 1.1071487177940904);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 0.7853981633974483);
     }
 
     SECTION("check the number of arguments") {
@@ -169,7 +160,7 @@ TEST_CASE("func_sketch::math::atan2_function") {
         Number result;
         function_object(std::vector<Number>{y_value, x_value}, result);
 
-        const Real expected = std::atan2(y_value, x_value);
+        constexpr Real expected = 0.4636476090008061;
         CHECK_THAT(
             std::get<Real>(result), Catch::Matchers::WithinRel(expected));
     }

@@ -19,8 +19,6 @@
  */
 #include "func_sketch/math/functions/pow.h"
 
-#include <cmath>
-
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -43,7 +41,7 @@ TEST_CASE("func_sketch::math::pow_function") {
         Number result;
         function_object(std::vector<Number>{base, exponent}, result);
 
-        const Real expected = std::pow(base, exponent);
+        constexpr Real expected = 8.0;
         CHECK_THAT(
             std::get<Real>(result), Catch::Matchers::WithinRel(expected));
     }
@@ -55,7 +53,7 @@ TEST_CASE("func_sketch::math::pow_function") {
         Number result;
         function_object(std::vector<Number>{base, exponent}, result);
 
-        const Real expected = std::pow(base, exponent);
+        constexpr Real expected = 11.313708498984761;
         CHECK_THAT(
             std::get<Real>(result), Catch::Matchers::WithinRel(expected));
     }
@@ -67,7 +65,7 @@ TEST_CASE("func_sketch::math::pow_function") {
         Number result;
         function_object(std::vector<Number>{base, exponent}, result);
 
-        const Real expected = std::pow(base, exponent);
+        constexpr Real expected = 15.625;
         CHECK_THAT(
             std::get<Real>(result), Catch::Matchers::WithinRel(expected));
     }
@@ -79,7 +77,7 @@ TEST_CASE("func_sketch::math::pow_function") {
         Number result;
         function_object(std::vector<Number>{base, exponent}, result);
 
-        const Real expected = std::pow(base, exponent);
+        constexpr Real expected = 24.705294220065465;
         CHECK_THAT(
             std::get<Real>(result), Catch::Matchers::WithinRel(expected));
     }
@@ -100,14 +98,13 @@ TEST_CASE("func_sketch::math::sqrt_function") {
     using func_sketch::math::sqrt_function;
 
     const auto function_object = sqrt_function();
-    const auto reference_function = [](Real arg) { return std::sqrt(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 2,
+            1.4142135623730951);  // NOLINT(modernize-use-std-numbers)
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.23, reference_function);
+            function_object, 1.23, 1.1090536506409416);
     }
 
     SECTION("check the number of arguments") {
@@ -121,14 +118,13 @@ TEST_CASE("func_sketch::math::cbrt_function") {
     using func_sketch::math::cbrt_function;
 
     const auto function_object = cbrt_function();
-    const auto reference_function = [](Real arg) { return std::cbrt(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 1.2599210498948732);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.23, reference_function);
+            function_object, 1.23, 1.0714412696907731);
     }
 
     SECTION("check the number of arguments") {
