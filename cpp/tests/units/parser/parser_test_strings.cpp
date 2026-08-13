@@ -31,6 +31,9 @@ std::vector<std::string> parser_test_strings() {
         "1",
         "123.0",
         "123",
+        "1i",
+        "-2.34i",
+        "1e-5i",
         // Constants.
         "pi",
         "e",
@@ -67,8 +70,10 @@ std::vector<std::string> parser_test_strings() {
         // *******************************
         // Invalid expressions
         // *******************************
-        // Error at constant.
+        // Error at literal.
         "1.23.45",
+        "1.23e",
+        "1.23 i",  // No space is allowed between number and "i".
         // Error at identifier.
         "1x",
         // Error at function call expression.

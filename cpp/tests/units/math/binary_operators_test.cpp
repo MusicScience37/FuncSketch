@@ -27,6 +27,7 @@
 #include "func_sketch/math/binary_operator_type.h"
 
 TEST_CASE("func_sketch::math::AdditionOperator") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Number;
     using func_sketch::Real;
@@ -74,9 +75,49 @@ TEST_CASE("func_sketch::math::AdditionOperator") {
             static_cast<Real>(std::get<Integer>(left)) + std::get<Real>(right);
         CHECK(result == expected_result);
     }
+
+    SECTION("operate on a pair of complex numbers") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = Complex(3.0, 4.0);
+        Number result = 0.0;
+
+        AdditionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::get<Complex>(left) + std::get<Complex>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and a real number") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3.0;
+        Number result = 0.0;
+
+        AdditionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::get<Complex>(left) + std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and an integer") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3;
+        Number result = 0.0;
+
+        AdditionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result = std::get<Complex>(left) +
+            static_cast<Real>(std::get<Integer>(right));
+        CHECK(result == expected_result);
+    }
 }
 
 TEST_CASE("func_sketch::math::SubtractionOperator") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Number;
     using func_sketch::Real;
@@ -125,9 +166,49 @@ TEST_CASE("func_sketch::math::SubtractionOperator") {
             static_cast<Real>(std::get<Integer>(left)) - std::get<Real>(right);
         CHECK(result == expected_result);
     }
+
+    SECTION("operate on a pair of complex numbers") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = Complex(3.0, 4.0);
+        Number result = 0.0;
+
+        SubtractionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::get<Complex>(left) - std::get<Complex>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and a real number") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3.0;
+        Number result = 0.0;
+
+        SubtractionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::get<Complex>(left) - std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and an integer") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3;
+        Number result = 0.0;
+
+        SubtractionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result = std::get<Complex>(left) -
+            static_cast<Real>(std::get<Integer>(right));
+        CHECK(result == expected_result);
+    }
 }
 
 TEST_CASE("func_sketch::math::MultiplicationOperator") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Number;
     using func_sketch::Real;
@@ -176,9 +257,49 @@ TEST_CASE("func_sketch::math::MultiplicationOperator") {
             static_cast<Real>(std::get<Integer>(left)) * std::get<Real>(right);
         CHECK(result == expected_result);
     }
+
+    SECTION("operate on a pair of complex numbers") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = Complex(3.0, 4.0);
+        Number result = 0.0;
+
+        MultiplicationOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::get<Complex>(left) * std::get<Complex>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and a real number") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3.0;
+        Number result = 0.0;
+
+        MultiplicationOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::get<Complex>(left) * std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and an integer") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3;
+        Number result = 0.0;
+
+        MultiplicationOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result = std::get<Complex>(left) *
+            static_cast<Real>(std::get<Integer>(right));
+        CHECK(result == expected_result);
+    }
 }
 
 TEST_CASE("func_sketch::math::DivisionOperator") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Number;
     using func_sketch::Real;
@@ -226,9 +347,49 @@ TEST_CASE("func_sketch::math::DivisionOperator") {
             static_cast<Real>(std::get<Integer>(left)) / std::get<Real>(right);
         CHECK(result == expected_result);
     }
+
+    SECTION("operate on a pair of complex numbers") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = Complex(3.0, 4.0);
+        Number result = 0.0;
+
+        DivisionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::get<Complex>(left) / std::get<Complex>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and a real number") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3.0;
+        Number result = 0.0;
+
+        DivisionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::get<Complex>(left) / std::get<Real>(right);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and an integer") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3;
+        Number result = 0.0;
+
+        DivisionOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result = std::get<Complex>(left) /
+            static_cast<Real>(std::get<Integer>(right));
+        CHECK(result == expected_result);
+    }
 }
 
 TEST_CASE("func_sketch::math::PowerOperator") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Number;
     using func_sketch::Real;
@@ -288,6 +449,45 @@ TEST_CASE("func_sketch::math::PowerOperator") {
 
         const Number expected_result = std::pow(
             std::get<Real>(left), static_cast<Real>(std::get<Integer>(right)));
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of complex numbers") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = Complex(3.0, 4.0);
+        Number result = 0.0;
+
+        PowerOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::pow(std::get<Complex>(left), std::get<Complex>(right));
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and a real number") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3.0;
+        Number result = 0.0;
+
+        PowerOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result =
+            std::pow(std::get<Complex>(left), std::get<Real>(right));
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a pair of a complex number and an integer") {
+        constexpr Number left = Complex(1.0, 2.0);
+        constexpr Number right = 3;
+        Number result = 0.0;
+
+        PowerOperator operator_object;
+        operator_object(left, right, result);
+
+        const Number expected_result = std::pow(std::get<Complex>(left),
+            static_cast<Real>(std::get<Integer>(right)));
         CHECK(result == expected_result);
     }
 }

@@ -19,6 +19,7 @@
  */
 #include "func_sketch/expressions/expression_evaluator.h"
 
+#include <type_traits>
 #include <variant>
 #include <vector>
 
@@ -32,7 +33,14 @@ void ExpressionEvaluator::operator()(
     Number result_as_number;
     evaluate(expression, parameter_as_number, result_as_number);
     std::visit(
-        [&result](const auto& value) { result = static_cast<Real>(value); },
+        [&result](const auto& value) {
+            using ValueType = std::decay_t<decltype(value)>;
+            if constexpr (std::is_same_v<ValueType, Complex>) {
+                result = std::real(value);
+            } else {
+                result = static_cast<Real>(value);
+            }
+        },
         result_as_number);
 }
 

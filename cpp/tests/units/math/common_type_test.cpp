@@ -26,6 +26,7 @@
 #include "func_sketch/common_types.h"
 
 TEST_CASE("func_sketch::math::CommonType") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::CommonType;
@@ -34,7 +35,12 @@ TEST_CASE("func_sketch::math::CommonType") {
         // Check all cases because number types in this project are limited.
         STATIC_REQUIRE(std::is_same_v<CommonType<Integer, Integer>, Integer>);
         STATIC_REQUIRE(std::is_same_v<CommonType<Integer, Real>, Real>);
+        STATIC_REQUIRE(std::is_same_v<CommonType<Integer, Complex>, Complex>);
         STATIC_REQUIRE(std::is_same_v<CommonType<Real, Integer>, Real>);
         STATIC_REQUIRE(std::is_same_v<CommonType<Real, Real>, Real>);
+        STATIC_REQUIRE(std::is_same_v<CommonType<Real, Complex>, Complex>);
+        STATIC_REQUIRE(std::is_same_v<CommonType<Complex, Integer>, Complex>);
+        STATIC_REQUIRE(std::is_same_v<CommonType<Complex, Real>, Complex>);
+        STATIC_REQUIRE(std::is_same_v<CommonType<Complex, Complex>, Complex>);
     }
 }

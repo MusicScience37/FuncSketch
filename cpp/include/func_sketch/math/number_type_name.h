@@ -62,6 +62,17 @@ struct NumberTypeNameTraits<Integer> {
     static constexpr std::string_view name = "integer number";
 };
 
+/*!
+ * \brief Specialization of NumberTypeNameTraits for Complex.
+ */
+template <>
+struct NumberTypeNameTraits<Complex> {
+    /*!
+     * \brief Name of number type.
+     */
+    static constexpr std::string_view name = "complex number";
+};
+
 }  // namespace details
 
 /*!

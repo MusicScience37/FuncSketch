@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <complex>
 #include <cstdint>
 #include <variant>
 
@@ -30,12 +31,15 @@ using Real = double;
 //! Type of integer numbers in this project.
 using Integer = std::int32_t;
 
+//! Type of complex numbers in this project.
+using Complex = std::complex<Real>;
+
 /*!
  * \brief Type of numbers.
  *
  * \note Integer is written before Real to avoid implicit conversion from
  * Integer to Real.
  */
-using Number = std::variant<Integer, Real>;
+using Number = std::variant<Integer, Real, Complex>;
 
 }  // namespace func_sketch

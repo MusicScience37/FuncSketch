@@ -76,8 +76,15 @@ ExpressionGrammar::ExpressionGrammar()
     // Only function call expression rule has (>>) to allow parsing both
     // "exp(1.23)" (function call expression) and "x" (identifier only).
 
+    const auto handle_imaginary_number = [](Complex& result,
+                                             const Real& value) {
+        result = Complex{0.0, value};
+    };
+    imaginary_number_rule_ =
+        lexeme[double_[bind(handle_imaginary_number, _val, _1)] >> 'i'];
+
     const real_parser<double, strict_real_policies<double>> strict_double;
-    literal_rule_ =
+    literal_rule_ = imaginary_number_rule_[at_c<0>(_val) = _1] |
         strict_double[at_c<0>(_val) = _1] | int_[at_c<0>(_val) = _1];
 
     identifier_rule_ = lexeme[(alpha | char_('_'))[at_c<0>(_val) += _1] >
@@ -144,6 +151,7 @@ ExpressionGrammar::ExpressionGrammar()
 
     // NOLINTEND(bugprone-chained-comparison)
 
+    imaginary_number_rule_.name("imaginary number");
     literal_rule_.name("literal");
     identifier_rule_.name("identifier");
     // For error messages, we want to show all expressions as "expression"

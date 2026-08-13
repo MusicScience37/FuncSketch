@@ -21,9 +21,11 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "func_sketch/common_types.h"
 #include "func_sketch/math/unary_operator_type.h"
 
 TEST_CASE("func_sketch::math::UnaryPlusOperator") {
+    using func_sketch::Complex;
     using func_sketch::Number;
     using func_sketch::math::UnaryPlusOperator;
 
@@ -31,8 +33,30 @@ TEST_CASE("func_sketch::math::UnaryPlusOperator") {
         STATIC_REQUIRE(func_sketch::math::UnaryOperatorType<UnaryPlusOperator>);
     }
 
-    SECTION("operate on a scalar") {
+    SECTION("operate on an integer") {
+        constexpr Number arg = 1;
+        Number result = 0.0;
+
+        UnaryPlusOperator operator_object;
+        operator_object(arg, result);
+
+        constexpr Number expected_result = arg;
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a real number") {
         constexpr Number arg = 1.0;
+        Number result = 0.0;
+
+        UnaryPlusOperator operator_object;
+        operator_object(arg, result);
+
+        constexpr Number expected_result = arg;
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a complex number") {
+        constexpr Number arg = Complex(1.0, 2.0);
         Number result = 0.0;
 
         UnaryPlusOperator operator_object;
@@ -52,7 +76,18 @@ TEST_CASE("func_sketch::math::UnaryMinusOperator") {
             func_sketch::math::UnaryOperatorType<UnaryMinusOperator>);
     }
 
-    SECTION("operate on a scalar") {
+    SECTION("operate on an integer") {
+        constexpr Number arg = 1;
+        Number result = 0.0;
+
+        UnaryMinusOperator operator_object;
+        operator_object(arg, result);
+
+        constexpr Number expected_result = -std::get<int>(arg);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a real number") {
         constexpr Number arg = 1.0;
         Number result = 0.0;
 
@@ -60,6 +95,17 @@ TEST_CASE("func_sketch::math::UnaryMinusOperator") {
         operator_object(arg, result);
 
         constexpr Number expected_result = -std::get<double>(arg);
+        CHECK(result == expected_result);
+    }
+
+    SECTION("operate on a complex number") {
+        constexpr Number arg = func_sketch::Complex(1.0, 2.0);
+        Number result = 0.0;
+
+        UnaryMinusOperator operator_object;
+        operator_object(arg, result);
+
+        constexpr Number expected_result = -std::get<func_sketch::Complex>(arg);
         CHECK(result == expected_result);
     }
 }

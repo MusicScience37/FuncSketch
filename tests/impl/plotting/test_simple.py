@@ -14,6 +14,8 @@
 
 """Test of plotting of simple expressions like binary operators."""
 
+import math
+
 from .plotting_util import plot_function
 
 
@@ -78,4 +80,11 @@ class TestSimple:
     def test_plot_minus_x_times_2(self, image_approver) -> None:
         """Test of plotting -x * 2."""
         image = plot_function(["-x * 2"], (-3.0, 3.0), (-3.0, 3.0))
+        image_approver.verify(image)
+
+    def test_plot_e_pow_1ix(self, image_approver) -> None:
+        """Test of plotting e ** (1i * x)."""
+        image = plot_function(
+            ["e ** (1i * x)"], (-2.0 * math.pi, 2.0 * math.pi), (-1.5, 1.5)
+        )
         image_approver.verify(image)

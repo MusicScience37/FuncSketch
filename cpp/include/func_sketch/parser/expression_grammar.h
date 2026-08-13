@@ -75,7 +75,10 @@ private:
     using Rule = boost::spirit::qi::rule<IteratorType, T(),
         boost::spirit::ascii::space_type>;
 
-    //! Rule of constants.
+    //! Rule of imaginary numbers.
+    Rule<Complex> imaginary_number_rule_;
+
+    //! Rule of literals.
     Rule<ParsedLiteral> literal_rule_;
 
     //! Rule of identifiers.

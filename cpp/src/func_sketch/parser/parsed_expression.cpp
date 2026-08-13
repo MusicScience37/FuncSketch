@@ -32,8 +32,11 @@ auto fmt::formatter<func_sketch::parser::ParsedLiteral>::format(
     format_context& context) const -> format_context::iterator {
     return std::visit(
         [&context](const auto& actual_value) {
-            if constexpr (std::is_same_v<std::decay_t<decltype(actual_value)>,
-                              func_sketch::Real>) {
+            using ValueType = std::decay_t<decltype(actual_value)>;
+            if constexpr (std::is_same_v<ValueType, func_sketch::Complex>) {
+                return fmt::format_to(context.out(), "Literal({} + {}i)",
+                    actual_value.real(), actual_value.imag());
+            } else if constexpr (std::is_same_v<ValueType, func_sketch::Real>) {
                 // For testing purposes, we want to distinguish between 1.0 and
                 // 1 in the output.
                 return fmt::format_to(

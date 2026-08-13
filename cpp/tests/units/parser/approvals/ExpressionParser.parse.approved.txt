@@ -16,6 +16,15 @@ Parsed: 123
 Input: 123
 Parsed: 123
 
+Input: 1i
+Parsed: (0 + 1i)
+
+Input: -2.34i
+Parsed: negate((0 + 2.34i))
+
+Input: 1e-5i
+Parsed: (0 + 1e-05i)
+
 Input: pi
 Parsed: 3.141592653589793
 
@@ -78,6 +87,12 @@ Exception: Unknown identifier: test123
 
 Input: 1.23.45
 Exception: Unexpected token at position 5.
+
+Input: 1.23e
+Exception: Unexpected token at position 5.
+
+Input: 1.23 i
+Exception: Unexpected token at position 6.
 
 Input: 1x
 Exception: Unexpected token at position 2.
