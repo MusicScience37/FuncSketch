@@ -13,17 +13,20 @@ FuncSketch supports the following types of values:
 
     Integer, "32-bit signed integers."
     Real, "Double-precision floating-point numbers."
+    Complex, "Complex numbers with double-precision floating-point real and imaginary parts."
 
 When you write a number in a function expression,
 it is automatically recognized as follows:
 
-- ``Integer`` if it is an integer number without a decimal point
+- ``Integer`` if it is an integer number without a decimal point or an exponent
   (e.g. ``1``, ``-12``, ``0``)
 - ``Real`` if it is a number with a decimal point and/or an exponent
   (e.g. ``1.0``, ``-12.34``, ``1e+6``)
+- imaginary number of ``Complex`` if it is a number followed by ``i``
+  (e.g. ``1i``, ``-2.34i``, ``1e-5i``)
 
-.. note::
-    Future implementation may support boolean and complex numbers.
+  - Complex numbers can be written as ``a + bi`` or ``a - bi``.
+    (e.g. ``1 + 2.3i``, ``-1.2 - 3.4i``)
 
 Implicit Conversions
 ..........................
@@ -33,6 +36,8 @@ Implicit Conversions
   used with a ``Real`` value in binary operations (e.g. ``1 + 2.0``),
   or when an ``Integer`` value is passed to a function that takes
   a ``Real`` argument.
+- Similarly, ``Integer`` and ``Real`` can be
+  implicitly converted to ``Complex``.
 
 Operators
 --------------

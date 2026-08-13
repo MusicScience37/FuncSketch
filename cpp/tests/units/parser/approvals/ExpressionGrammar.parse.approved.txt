@@ -16,6 +16,15 @@ Parsed: Literal(1.230000e+02)
 Input: 123
 Parsed: Literal(123)
 
+Input: 1i
+Parsed: Literal(0 + 1i)
+
+Input: -2.34i
+Parsed: Unary(-, Literal(0 + 2.34i))
+
+Input: 1e-5i
+Parsed: Literal(0 + 1e-05i)
+
 Input: pi
 Parsed: Identifier(pi)
 
@@ -78,6 +87,12 @@ Parsed: Identifier(test123)
 
 Input: 1.23.45
 Exception: Unexpected token at position 5.
+
+Input: 1.23e
+Exception: Unexpected token at position 5.
+
+Input: 1.23 i
+Exception: Unexpected token at position 6.
 
 Input: 1x
 Exception: Unexpected token at position 2.
