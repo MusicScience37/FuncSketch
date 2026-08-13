@@ -67,7 +67,8 @@ ExpressionGrammar::ExpressionGrammar()
     using boost::spirit::qi::labels::_val;
 
     // NOLINTBEGIN(bugprone-chained-comparison): This is a grammar definition, so the code is not a chained comparison.
-#if defined(__clang__)
+#ifdef __clang__
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Woverloaded-shift-op-parentheses"
 #endif
 
@@ -136,6 +137,10 @@ ExpressionGrammar::ExpressionGrammar()
             '-' > term_expr_rule_[bind(handle_subtraction, _val, _1)]);
 
     expr_rule_ = sum_expr_rule_[_val = _1];
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
     // NOLINTEND(bugprone-chained-comparison)
 

@@ -62,7 +62,7 @@ TEST_TYPE_VARIABLES = {
         "FUNC_SKETCH_WRITE_JUNIT": "OFF",
     },
     "clang-tidy": {
-        "FUNC_SKETCH_BUILD_TESTS": "OFF",
+        "FUNC_SKETCH_BUILD_TESTS": "ON",
         "FUNC_SKETCH_ENABLE_CCACHE": "ON",
         "FUNC_SKETCH_ENABLE_AUSAN": "OFF",
         "FUNC_SKETCH_WRITE_JUNIT": "OFF",

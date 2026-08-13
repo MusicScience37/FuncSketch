@@ -4,6 +4,7 @@ Checks: >
   clang-analyzer-*,
     -clang-analyzer-core.UndefinedBinaryOperatorResult,
     -clang-analyzer-optin.performance.Padding,
+    -clang-analyzer-deadcode.DeadStores,
   google-*,
     -google-runtime-references,
     -google-readability-todo,
@@ -30,6 +31,7 @@ Checks: >
     -bugprone-optional-value-conversion,
     -bugprone-misplaced-widening-cast,
     -bugprone-suspicious-include,
+    -bugprone-unchecked-optional-access,
   concurrency-*,
   boost-*,
 
@@ -50,6 +52,7 @@ Checks: >
 # - modernize-use-trailing-return-type reduces readability.
 # - readability-magic-numbers generates too many warnings in test codes.
 # - portability-avoid-pragma-once is not necessary because such old compilers don't support C++23.
+# - bugprone-unchecked-optional-access generates false positives.
 
 CheckOptions:
   # Naming Conventions
@@ -97,6 +100,9 @@ CheckOptions:
   # Workaround of https://github.com/llvm/llvm-project/issues/46097.
   - key: readability-identifier-naming.TypeTemplateParameterIgnoredRegexp
     value: expr-type
+
+  - key: readability-identifier-length.IgnoredVariableNames
+    value: "^_$"
 
   - key: modernize-use-trailing-return-type.TransformLambdas
     value: none
