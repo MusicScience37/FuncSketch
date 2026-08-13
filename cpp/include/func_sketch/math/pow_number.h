@@ -21,7 +21,7 @@
 
 #include <cmath>
 
-#include "func_sketch/math/common_type.h"
+#include "func_sketch/common_types.h"
 
 namespace func_sketch::math {
 
@@ -36,9 +36,44 @@ namespace func_sketch::math {
  */
 template <typename Base, typename Exponent>
 [[nodiscard]] inline auto pow_number(Base base, Exponent exponent) {
-    using ResultType = CommonType<Base, Exponent>;
-    return std::pow(
-        static_cast<ResultType>(base), static_cast<ResultType>(exponent));
+    return std::pow(base, exponent);
+}
+
+/*!
+ * \brief Compute power for number types in this library.
+ *
+ * \tparam Exponent Type of exponent.
+ * \param [in] base Base.
+ * \param [in] exponent Exponent.
+ * \return Result.
+ */
+template <typename Exponent>
+[[nodiscard]] inline auto pow_number(Integer base, Exponent exponent) {
+    return std::pow(static_cast<Real>(base), exponent);
+}
+
+/*!
+ * \brief Compute power for number types in this library.
+ *
+ * \tparam Base Type of base.
+ * \param [in] base Base.
+ * \param [in] exponent Exponent.
+ * \return Result.
+ */
+template <typename Base>
+[[nodiscard]] inline auto pow_number(Base base, Integer exponent) {
+    return std::pow(base, static_cast<Real>(exponent));
+}
+
+/*!
+ * \brief Compute power for number types in this library.
+ *
+ * \param [in] base Base.
+ * \param [in] exponent Exponent.
+ * \return Result.
+ */
+inline auto pow_number(Integer base, Integer exponent) {
+    return std::pow(static_cast<Real>(base), static_cast<Real>(exponent));
 }
 
 }  // namespace func_sketch::math
