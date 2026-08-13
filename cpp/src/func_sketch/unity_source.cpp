@@ -7,6 +7,7 @@
 #include "expressions/parameter_expression.cpp"
 #include "expressions/unary_expression.cpp"
 #include "math/constant_list.cpp"
+#include "math/functions/complex.cpp"
 #include "math/functions/erf.cpp"
 #include "math/functions/exp.cpp"
 #include "math/functions/gamma.cpp"

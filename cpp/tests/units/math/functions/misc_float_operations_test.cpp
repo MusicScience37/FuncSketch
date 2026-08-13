@@ -29,12 +29,13 @@
 #include "single_variate_function_util.h"
 
 TEST_CASE("func_sketch::math::abs_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::abs_function;
 
     const auto function_object = abs_function();
-    const auto reference_function = [](Real arg) { return std::abs(arg); };
+    const auto reference_function = [](auto arg) { return std::abs(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
@@ -42,6 +43,9 @@ TEST_CASE("func_sketch::math::abs_function") {
 
         test_single_variate_function<Real, Real>(
             function_object, 1.0, reference_function);
+
+        test_single_variate_function<Complex, Real>(
+            function_object, Complex(1.0, 2.0), reference_function);
     }
 
     SECTION("check the number of arguments") {

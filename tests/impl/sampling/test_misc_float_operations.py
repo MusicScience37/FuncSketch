@@ -27,6 +27,13 @@ class TestMiscFloatOperations:
         x_values, y_values = sample_function("abs(x)", (-3.0, 3.0), (-1.0, 5.0))
         compare_vectors(y_values, numpy.abs(x_values))
 
+    def test_sample_abs_complex(self) -> None:
+        """Test of sampling abs(x + 1i * x ** 2)."""
+        x_values, y_values = sample_function(
+            "abs(x + 1i * x ** 2)", (-3.0, 3.0), (-1.0, 5.0)
+        )
+        compare_vectors(y_values, numpy.hypot(x_values, x_values**2))
+
     def test_sample_ceil(self) -> None:
         """Test of sampling ceil(x)."""
         x_values, y_values = sample_function("ceil(x)", (-3.0, 3.0), (-4.0, 4.0))
