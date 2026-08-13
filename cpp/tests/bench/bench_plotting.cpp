@@ -49,7 +49,7 @@ public:
      */
     void benchmark_plotting(
         benchmark::State& state, const std::string& expression_str) {
-        for (auto unused : state) {
+        for (auto _ : state) {
             auto expression = parser_(expression_str);
             auto samples = sampler_(*expression);
             plotter_.write_background(image_);
