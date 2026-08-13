@@ -19,8 +19,6 @@
  */
 #include "func_sketch/math/functions/erf.h"
 
-#include <cmath>
-
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -34,14 +32,13 @@ TEST_CASE("func_sketch::math::erf_function") {
     using func_sketch::math::erf_function;
 
     const auto function_object = erf_function();
-    const auto reference_function = [](Real arg) { return std::erf(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 1, reference_function);
+            function_object, 1, 0.8427007929497149);
 
         test_single_variate_function<Real, Real>(
-            function_object, 0.5, reference_function);
+            function_object, 0.5, 0.5204998778130465);
     }
 
     SECTION("check the number of arguments") {
@@ -55,14 +52,13 @@ TEST_CASE("func_sketch::math::erfc_function") {
     using func_sketch::math::erfc_function;
 
     const auto function_object = erfc_function();
-    const auto reference_function = [](Real arg) { return std::erfc(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 1, reference_function);
+            function_object, 1, 0.15729920705028513);
 
         test_single_variate_function<Real, Real>(
-            function_object, 0.5, reference_function);
+            function_object, 0.5, 0.4795001221869535);
     }
 
     SECTION("check the number of arguments") {

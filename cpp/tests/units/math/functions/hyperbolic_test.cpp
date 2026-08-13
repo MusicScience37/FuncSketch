@@ -19,8 +19,6 @@
  */
 #include "func_sketch/math/functions/hyperbolic.h"
 
-#include <cmath>
-
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -34,14 +32,13 @@ TEST_CASE("func_sketch::math::sinh_function") {
     using func_sketch::math::sinh_function;
 
     const auto function_object = sinh_function();
-    const auto reference_function = [](Real arg) { return std::sinh(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 3.626860407847019);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 1.1752011936438014);
     }
 
     SECTION("check the number of arguments") {
@@ -55,14 +52,13 @@ TEST_CASE("func_sketch::math::cosh_function") {
     using func_sketch::math::cosh_function;
 
     const auto function_object = cosh_function();
-    const auto reference_function = [](Real arg) { return std::cosh(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 3.7621956910836314);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 1.5430806348152437);
     }
 
     SECTION("check the number of arguments") {
@@ -76,14 +72,13 @@ TEST_CASE("func_sketch::math::tanh_function") {
     using func_sketch::math::tanh_function;
 
     const auto function_object = tanh_function();
-    const auto reference_function = [](Real arg) { return std::tanh(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 0.9640275800758169);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 0.7615941559557649);
     }
 
     SECTION("check the number of arguments") {
@@ -97,14 +92,13 @@ TEST_CASE("func_sketch::math::asinh_function") {
     using func_sketch::math::asinh_function;
 
     const auto function_object = asinh_function();
-    const auto reference_function = [](Real arg) { return std::asinh(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 2,
+            1.4436354751788103);  // NOLINT(modernize-use-std-numbers)
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 0.881373587019543);
     }
 
     SECTION("check the number of arguments") {
@@ -118,14 +112,13 @@ TEST_CASE("func_sketch::math::acosh_function") {
     using func_sketch::math::acosh_function;
 
     const auto function_object = acosh_function();
-    const auto reference_function = [](Real arg) { return std::acosh(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 1.3169578969248168);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.5, reference_function);
+            function_object, 1.5, 0.9624236501192069);
     }
 
     SECTION("check the number of arguments") {
@@ -139,14 +132,12 @@ TEST_CASE("func_sketch::math::atanh_function") {
     using func_sketch::math::atanh_function;
 
     const auto function_object = atanh_function();
-    const auto reference_function = [](Real arg) { return std::atanh(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 0, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 0, 0.0);
 
         test_single_variate_function<Real, Real>(
-            function_object, 0.5, reference_function);
+            function_object, 0.5, 0.5493061443340549);
     }
 
     SECTION("check the number of arguments") {

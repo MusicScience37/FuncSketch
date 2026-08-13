@@ -32,11 +32,10 @@ TEST_CASE("func_sketch::math::real_function") {
     using func_sketch::math::real_function;
 
     const auto function_object = real_function();
-    const auto reference_function = [](Complex arg) { return arg.real(); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Complex, Real>(
-            function_object, Complex(1.23, 2.34), reference_function);
+            function_object, Complex(1.23, 2.34), 1.23);
     }
 
     SECTION("check the number of arguments") {
@@ -50,11 +49,10 @@ TEST_CASE("func_sketch::math::imag_function") {
     using func_sketch::math::imag_function;
 
     const auto function_object = imag_function();
-    const auto reference_function = [](Complex arg) { return arg.imag(); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Complex, Real>(
-            function_object, Complex(1.23, 2.34), reference_function);
+            function_object, Complex(1.23, 2.34), 2.34);
     }
 
     SECTION("check the number of arguments") {
@@ -68,11 +66,10 @@ TEST_CASE("func_sketch::math::arg_function") {
     using func_sketch::math::arg_function;
 
     const auto function_object = arg_function();
-    const auto reference_function = [](Complex arg) { return std::arg(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Complex, Real>(
-            function_object, Complex(1.23, 2.34), reference_function);
+            function_object, Complex(1.23, 2.34), 1.086846938934872);
     }
 
     SECTION("check the number of arguments") {
@@ -86,11 +83,10 @@ TEST_CASE("func_sketch::math::conj_function") {
     using func_sketch::math::conj_function;
 
     const auto function_object = conj_function();
-    const auto reference_function = [](Complex arg) { return std::conj(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Complex, Complex>(
-            function_object, Complex(1.23, 2.34), reference_function);
+            function_object, Complex(1.23, 2.34), Complex(1.23, -2.34));
     }
 
     SECTION("check the number of arguments") {

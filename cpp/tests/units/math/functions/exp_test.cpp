@@ -19,8 +19,6 @@
  */
 #include "func_sketch/math/functions/exp.h"
 
-#include <cmath>
-
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -34,14 +32,13 @@ TEST_CASE("func_sketch::math::exp_function") {
     using func_sketch::math::exp_function;
 
     const auto function_object = exp_function();
-    const auto reference_function = [](Real arg) { return std::exp(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 7.38905609893065);
 
-        test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+        test_single_variate_function<Real, Real>(function_object, 1.0,
+            2.718281828459045);  // NOLINT(modernize-use-std-numbers)
     }
 
     SECTION("check the number of arguments") {
@@ -55,14 +52,11 @@ TEST_CASE("func_sketch::math::exp2_function") {
     using func_sketch::math::exp2_function;
 
     const auto function_object = exp2_function();
-    const auto reference_function = [](Real arg) { return std::exp2(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 2, 4.0);
 
-        test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+        test_single_variate_function<Real, Real>(function_object, 1.0, 2.0);
     }
 
     SECTION("check the number of arguments") {
@@ -76,14 +70,13 @@ TEST_CASE("func_sketch::math::expm1_function") {
     using func_sketch::math::expm1_function;
 
     const auto function_object = expm1_function();
-    const auto reference_function = [](Real arg) { return std::expm1(arg); };
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(
-            function_object, 2, reference_function);
+            function_object, 2, 6.38905609893065);
 
         test_single_variate_function<Real, Real>(
-            function_object, 1.0, reference_function);
+            function_object, 1.0, 1.718281828459045);
     }
 
     SECTION("check the number of arguments") {

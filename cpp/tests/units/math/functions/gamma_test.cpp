@@ -19,8 +19,6 @@
  */
 #include "func_sketch/math/functions/gamma.h"
 
-#include <cmath>
-
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -34,14 +32,12 @@ TEST_CASE("func_sketch::math::gamma_function") {
     using func_sketch::math::gamma_function;
 
     const auto function_object = gamma_function();
-    const auto reference_function = [](Real arg) { return std::tgamma(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 3, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 3, 2.0);
 
         test_single_variate_function<Real, Real>(
-            function_object, 0.5, reference_function);
+            function_object, 0.5, 1.7724538509055159);
     }
 
     SECTION("check the number of arguments") {
@@ -55,15 +51,13 @@ TEST_CASE("func_sketch::math::lgamma_function") {
     using func_sketch::math::lgamma_function;
 
     const auto function_object = lgamma_function();
-    // NOLINTNEXTLINE(concurrency-mt-unsafe): Tests won't run in parallel.
-    const auto reference_function = [](Real arg) { return std::lgamma(arg); };
 
     SECTION("operate on numbers") {
-        test_single_variate_function<Integer, Real>(
-            function_object, 3, reference_function);
+        test_single_variate_function<Integer, Real>(function_object, 3,
+            0.6931471805599453);  // NOLINT(modernize-use-std-numbers)
 
         test_single_variate_function<Real, Real>(
-            function_object, 0.5, reference_function);
+            function_object, 0.5, 0.5723649429247004);
     }
 
     SECTION("check the number of arguments") {
