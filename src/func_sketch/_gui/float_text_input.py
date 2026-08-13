@@ -18,17 +18,13 @@ import logging
 import math
 
 import kivy.properties
-import kivy.uix.textinput
 
-from func_sketch._gui.constants import (
-    ERROR_BACKGROUND_COLOR,
-    NAVIGATION_BACKGROUND_COLOR,
-)
+from func_sketch._gui.plain_text_input import PlainTextInput
 
 LOGGER = logging.getLogger(__name__)
 
 
-class FloatTextInput(kivy.uix.textinput.TextInput):
+class FloatTextInput(PlainTextInput):
     """Class of text input field for floating point numbers."""
 
     value = kivy.properties.NumericProperty(0.0)
@@ -47,34 +43,25 @@ class FloatTextInput(kivy.uix.textinput.TextInput):
         self._syncing = False
         super().__init__(**kwargs)
         self.text = str(self.value)
-        self.background_color = NAVIGATION_BACKGROUND_COLOR
 
         self.bind(text=self._on_text_changed)
         self.bind(value=self._on_value_changed)
         self.bind(is_valid=self._update_error_color)
 
-    def _update_error_color(
-        self, _instance: kivy.uix.textinput.TextInput, is_valid: bool
-    ) -> None:
+    def _update_error_color(self, _instance: object, is_valid: bool) -> None:
         """Change the background color depending on the validity.
 
         Args:
-            _instance (kivy.uix.textinput.TextInput): Instance of the event.
+            _instance (object): Instance of the event.
             is_valid (bool): Whether the current text is a valid float.
         """
+        self.is_error = not is_valid
 
-        if is_valid:
-            self.background_color = NAVIGATION_BACKGROUND_COLOR
-        else:
-            self.background_color = ERROR_BACKGROUND_COLOR
-
-    def _on_text_changed(
-        self, _instance: kivy.uix.textinput.TextInput, text: str
-    ) -> None:
+    def _on_text_changed(self, _instance: object, text: str) -> None:
         """Update the value when the text is changed to a valid float.
 
         Args:
-            _instance (kivy.uix.textinput.TextInput): Instance of the event.
+            _instance (object): Instance of the event.
             text (str): New text.
         """
 
@@ -95,13 +82,11 @@ class FloatTextInput(kivy.uix.textinput.TextInput):
         finally:
             self._syncing = False
 
-    def _on_value_changed(
-        self, _instance: kivy.uix.textinput.TextInput, value: float
-    ) -> None:
+    def _on_value_changed(self, _instance: object, value: float) -> None:
         """Update the text when the value is changed.
 
         Args:
-            _instance (kivy.uix.textinput.TextInput): Instance of the event.
+            _instance (object): Instance of the event.
             value (float): New value.
         """
 

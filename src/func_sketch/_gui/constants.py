@@ -23,23 +23,59 @@ from func_sketch._impl.color_util import (
 
 # Colors
 
-PLOT_BACKGROUND_COLOR = hex_to_rgba("#FFFFFF")
-"""Background color for the plot area."""
+_PRIMARY99 = hex_to_rgba("#FEFBF9")
+_PRIMARY65 = hex_to_rgba("#CB7739")
+_PRIMARY50 = hex_to_rgba("#8E5225")
 
-NAVIGATION_BACKGROUND_COLOR = hex_to_rgba("#FDF4EF")
-"""Background color for the navigation area."""
+_GRAY99 = hex_to_rgba("#FCFCFB")
+_GRAY97 = hex_to_rgba("#F6F5F4")
+_GRAY85 = hex_to_rgba("#D3CCC8")
+_GRAY50 = hex_to_rgba("#6A615C")
+_GRAY30 = hex_to_rgba("#312D2A")
 
-NORMAL_TEXT_COLOR = hex_to_rgba("#2E2925")
+_ERROR95 = hex_to_rgba("#FEE9E9")
+_ERROR50 = hex_to_rgba("#B9043A")
+
+_WHITE = hex_to_rgba("#FFFFFF")
+
+# Colors in GUI elements
+
+NORMAL_TEXT_COLOR = _GRAY30
 """Color for normal text."""
 
-SPLITTER_COLOR = hex_to_rgba("#C7BCB5")
+SPLITTER_COLOR = _GRAY85
 """Color for the splitter between the navigation and main content areas."""
 
-ERROR_MESSAGE_COLOR = hex_to_rgba("#CF264A")
+TEXT_INPUT_NORMAL_BACKGROUND_COLOR = _GRAY99
+"""Background color for text input fields."""
+
+TEXT_INPUT_FOCUSED_BACKGROUND_COLOR = _PRIMARY99
+"""Background color for text input fields in focused state."""
+
+TEXT_INPUT_ERROR_BACKGROUND_COLOR = _ERROR95
+"""Background color for text input fields in error state."""
+
+TEXT_INPUT_NORMAL_BORDER_COLOR = _GRAY50
+"""Border color for text input fields in normal state."""
+
+TEXT_INPUT_FOCUSED_BORDER_COLOR = _PRIMARY65
+"""Border color for text input fields in focused state."""
+
+TEXT_INPUT_ERROR_BORDER_COLOR = _ERROR50
+"""Border color for text input fields in error state."""
+
+ERROR_MESSAGE_COLOR = _ERROR50
 """Color for error messages."""
 
-ERROR_BACKGROUND_COLOR = hex_to_rgba("#FDE7E8")
-"""Background color for error messages."""
+# Colors in navigation area
+
+NAVIGATION_BACKGROUND_COLOR = _GRAY97
+"""Background color for the navigation area."""
+
+# Colors in plot area
+
+PLOT_BACKGROUND_COLOR = _WHITE
+"""Background color for the plot area."""
 
 CURVE_COLORS = [
     # Colors in https://gitlab.com/MusicScience37Projects/utility-libraries/ms37-designs
@@ -76,7 +112,7 @@ SPACING_HEADER1 = 35
 SPACING_HEADER2 = 15
 """Spacing for level 2 headers."""
 
-PADDING_NAVIGATION = 10
+PADDING_NAVIGATION = 15
 """Padding for the navigation area."""
 
 # Curves
