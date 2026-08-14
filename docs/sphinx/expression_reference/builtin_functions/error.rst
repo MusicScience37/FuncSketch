@@ -15,6 +15,8 @@ The error function is a special function related to the normal distribution.
     :returns: The value of :math:`\mathrm{erf}(x)`.
     :rtype: Real
 
+    .. image:: plots/erf.png
+
 .. funcsketch:function:: erfc(x)
 
     Complementary error function.
@@ -25,4 +27,6 @@ The error function is a special function related to the normal distribution.
     :domain: :math:`(-\infty, \infty)`
     :range: :math:`(0, 2)`
     :returns: The value of :math:`\mathrm{erfc}(x)`.
-    :rtype: Real
+    :rtype: Real4
+
+    .. image:: plots/erfc.png

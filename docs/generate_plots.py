@@ -1,0 +1,120 @@
+#!/usr/bin/env python3
+
+# Copyright 2026 MusicScience37 (Kenta Kabashima)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""Script to generate plots for documents."""
+
+import os
+
+# This must be set before importing Kivy.
+os.environ["KIVY_NO_ARGS"] = "1"
+
+# flake8: noqa: E402
+# pylint: disable=wrong-import-position
+
+import dataclasses
+import pathlib
+
+import numpy
+import skimage.io
+
+from func_sketch._cpp import (
+    PlotRange,
+)
+from func_sketch._gui.constants import (
+    CURVE_COLORS,
+    DEFAULT_PLOT_CONFIG,
+    DEFAULT_PLOT_RANGE,
+)
+from func_sketch._impl.curve_config import CurveConfig
+from func_sketch._impl.curve_sampler import CurveSampler
+from func_sketch._impl.plotter import Plotter
+
+THIS_DIR = pathlib.Path(__file__).absolute().parent
+
+
+@dataclasses.dataclass
+class PlotInfo:
+    """Class to store information of a plot."""
+
+    file_path: str
+    """File path of the plot relative to this directory."""
+
+    expression_str: str
+    """String of the function expression."""
+
+    x_range: tuple[float, float]
+    """Range of x-axis."""
+
+    y_range: tuple[float, float]
+    """Range of y-axis."""
+
+
+PLOT_LIST = [
+    # For error.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/erf.png",
+        expression_str="erf(x)",
+        x_range=(-3.0, 3.0),
+        y_range=(-1.5, 1.5),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/erfc.png",
+        expression_str="erfc(x)",
+        x_range=(-3.0, 3.0),
+        y_range=(-0.5, 2.5),
+    ),
+    # For gamma.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/gamma.png",
+        expression_str="gamma(x)",
+        x_range=(-3.0, 5.0),
+        y_range=(-10.0, 10.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/lgamma.png",
+        expression_str="lgamma(x)",
+        x_range=(-3.0, 5.0),
+        y_range=(-1.0, 3.0),
+    ),
+]
+
+
+def generate_plots() -> None:
+    """Generate plots."""
+    height = 480
+    width = 640
+    config = DEFAULT_PLOT_CONFIG
+    range = DEFAULT_PLOT_RANGE
+
+    sampler = CurveSampler(range, config)
+    plotter = Plotter(range, config)
+
+    image = numpy.ndarray((height, width, 3), dtype=numpy.uint8)
+
+    for plot_info in PLOT_LIST:
+        curve_config = CurveConfig(
+            function_expression_str=plot_info.expression_str, color=CURVE_COLORS[0]
+        )
+        range = PlotRange(plot_info.x_range, plot_info.y_range)
+        sampler.plot_range = range
+        plotter.plot_range = range
+        sampled_curve = sampler(curve_config)
+        plotter([sampled_curve], image)
+        skimage.io.imsave(str(THIS_DIR / plot_info.file_path), image)
+
+
+if __name__ == "__main__":
+    generate_plots()

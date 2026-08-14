@@ -23,7 +23,7 @@ import pytest
 import skimage.io
 import skimage.metrics
 
-# These must be set before importing Kivy.
+# This must be set before importing Kivy.
 os.environ["KIVY_NO_ARGS"] = "1"
 
 
