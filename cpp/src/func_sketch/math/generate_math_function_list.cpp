@@ -31,7 +31,8 @@
 
 namespace func_sketch::math {
 
-MathFunctionList generate_math_function_list() {
+MathFunctionList generate_math_function_list(
+    const PythonFunctionList& python_functions) {
     MathFunctionList list;
 
     // In exp.h
@@ -85,7 +86,7 @@ MathFunctionList generate_math_function_list() {
     list.emplace(erfc_function());
 
     // In gamma.h
-    list.emplace(gamma_function());
+    list.emplace(gamma_function(python_functions.complex_gamma));
     list.emplace(lgamma_function());
 
     return list;

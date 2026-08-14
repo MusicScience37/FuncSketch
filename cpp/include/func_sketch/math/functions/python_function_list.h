@@ -15,22 +15,26 @@
  */
 /*!
  * \file
- * \brief Declaration of generate_math_function_list function.
+ * \brief Definition of PythonFunctionList struct.
  */
 #pragma once
 
-#include "func_sketch/math/functions/python_function_list.h"
-#include "func_sketch/math/math_function_list.h"
+#include <functional>
+
+#include "func_sketch/common_types.h"
 
 namespace func_sketch::math {
 
 /*!
- * \brief Generate a list of mathematical functions.
+ * \brief Struct of functions from Python.
  *
- * \param[in] python_functions List of functions from Python.
- * \return List of mathematical functions.
+ * \note This struct holds functions from Python which are difficult to
+ * implement in C++. Functions are inserted into this struct in the binding
+ * code.
  */
-[[nodiscard]] MathFunctionList generate_math_function_list(
-    const PythonFunctionList& python_functions);
+struct PythonFunctionList {
+    //! Gamma function for complex arguments.
+    std::function<Complex(Complex)> complex_gamma;
+};
 
 }  // namespace func_sketch::math

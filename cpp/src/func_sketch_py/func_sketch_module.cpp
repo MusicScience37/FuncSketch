@@ -5,10 +5,13 @@
 #include <fmt/format.h>
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
+#include <nanobind/stl/complex.h>
 #include <nanobind/stl/pair.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
 
+#include "func_sketch/common_types.h"
+#include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/function_sampler.h"
@@ -56,6 +59,26 @@ func_sketch::plotter::Image to_image(const RawImage& raw_image) {
         static_cast<int>(raw_image.shape(1)), CV_8UC3, raw_image.data());
 }
 
+/*!
+ * \brief Generate the list of functions from Python.
+ *
+ * \return List of functions.
+ */
+func_sketch::math::PythonFunctionList generate_python_function_list() {
+    nanobind::module_ scipy_special =
+        nanobind::module_::import_("scipy.special");
+    nanobind::object gamma = scipy_special.attr("gamma");
+    return func_sketch::math::PythonFunctionList{
+        .complex_gamma = [gamma = gamma](
+                             func_sketch::Complex arg) -> func_sketch::Complex {
+            try {
+                return nanobind::cast<func_sketch::Complex>(gamma(arg));
+            } catch (const std::exception& e) {
+                return std::numeric_limits<func_sketch::Real>::quiet_NaN();
+            }
+        }};
+}
+
 }  // namespace
 
 // NOLINTNEXTLINE(*-identifier-length,*-vararg,*-c-arrays,*-array-decay,*-value-param): external library.
@@ -76,7 +99,12 @@ NB_MODULE(_cpp, m) {
         m, "ExpressionParser", R"(Class of parser for expressions.
 
 Objects of this class can be called with a string to parse it into an Expression object.)")
-        .def(nanobind::init<>(), "Constructor.")
+        .def(
+            "__init__",
+            [](ExpressionParser* self) {
+                new (self) ExpressionParser(generate_python_function_list());
+            },
+            "Constructor.")
         .def(
             "__call__",
             [](const ExpressionParser& self,
@@ -84,6 +112,21 @@ Objects of this class can be called with a string to parse it into an Expression
                 return self(expression_str);
             },
             "expression_str"_a, "Parse a string into an Expression object.");
+
+    using func_sketch::expressions::ExpressionEvaluator;
+    nanobind::class_<ExpressionEvaluator>(
+        m, "ExpressionEvaluator", "Class to evaluate expressions.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def(
+            "__call__",
+            [](const ExpressionEvaluator& self, const ExpressionPtr& expression,
+                func_sketch::Real parameter) {
+                func_sketch::Real result;
+                self(*expression, parameter, result);
+                return result;
+            },
+            "expression"_a, "parameter"_a,
+            "Evaluate an expression at a parameter and return the result.");
 
     using func_sketch::plotter::RGBColor;
     nanobind::class_<RGBColor>(m, "RGBColor", "Class of RGB colors.")

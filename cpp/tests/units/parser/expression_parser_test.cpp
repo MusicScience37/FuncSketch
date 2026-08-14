@@ -29,10 +29,11 @@
 #include "parser_test_strings.h"
 
 TEST_CASE("func_sketch::parser::ExpressionParser") {
+    using func_sketch::math::PythonFunctionList;
     using func_sketch::parser::ExpressionParser;
 
     SECTION("parse") {
-        ExpressionParser parser;
+        ExpressionParser parser{PythonFunctionList{}};
         fmt::memory_buffer results;
         for (const auto& str : parser_test_strings()) {
             fmt::format_to(std::back_inserter(results), "Input: {}\n", str);

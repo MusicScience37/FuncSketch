@@ -25,6 +25,11 @@ class TestGamma:
         image = plot_function(["gamma(x)"], (-3.0, 5.0), (-10.0, 25.0))
         image_approver.verify(image)
 
+    def test_plot_gamma_on_imag(self, image_approver) -> None:
+        """Test of plotting abs(gamma(i * x))."""
+        image = plot_function(["abs(gamma(i * x))"], (-3.0, 3.0), (-1.0, 5.0))
+        image_approver.verify(image)
+
     def test_plot_lgamma(self, image_approver) -> None:
         """Test of plotting lgamma(x)."""
         image = plot_function(["lgamma(x)"], (-3.0, 5.0), (-1.0, 4.0))

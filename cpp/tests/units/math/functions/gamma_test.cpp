@@ -27,11 +27,16 @@
 #include "single_variate_function_util.h"
 
 TEST_CASE("func_sketch::math::gamma_function") {
+    using func_sketch::Complex;
     using func_sketch::Integer;
     using func_sketch::Real;
     using func_sketch::math::gamma_function;
 
-    const auto function_object = gamma_function();
+    // Gamma function for complex arguments will be assigned in the binding
+    // code, so empty function is used here. Tests for complex arguments will be
+    // done in Python.
+    const std::function<Complex(Complex)> complex_gamma;
+    const auto function_object = gamma_function(complex_gamma);
 
     SECTION("operate on numbers") {
         test_single_variate_function<Integer, Real>(function_object, 3, 2.0);
