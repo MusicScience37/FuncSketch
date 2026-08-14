@@ -27,6 +27,6 @@ The error function is a special function related to the normal distribution.
     :domain: :math:`(-\infty, \infty)`
     :range: :math:`(0, 2)`
     :returns: The value of :math:`\mathrm{erfc}(x)`.
-    :rtype: Real4
+    :rtype: Real
 
     .. image:: plots/erfc.png
