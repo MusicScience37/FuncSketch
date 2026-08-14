@@ -99,7 +99,7 @@ func_sketch::math::PythonFunctionList generate_python_function_list() {
             scipy_special.attr("jv")),
         .complex_bessel_y = wrap_python_function<Complex, Real, Complex>(
             scipy_special.attr("yv"))};
-}
+}  // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks): false positive.
 
 }  // namespace
 
