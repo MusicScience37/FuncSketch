@@ -49,6 +49,7 @@
     "doctrees",
     "dollarmath",
     "Doxyfile",
+    "dvipdfmx",
     "Eigen",
     "ellint",
     "endfunction",

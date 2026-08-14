@@ -1,5 +1,13 @@
 # FuncSketch
 
+![icon](docs/icon/icon.svg)
+
+[![Latest Release](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/badges/release.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/releases)
+[![pipeline status](https://gitlab.com/MusicScience37Projects/tools/func-sketch/badges/main/pipeline.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/commits/main)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![coverage report](https://gitlab.com/MusicScience37Projects/tools/func-sketch/badges/main/coverage.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/commits/main)
+![Scc Count Badge](https://sloc.xyz/github/MusicScience37/FuncSketch/?lower=true&category=lines)
+
 A graphing calculator currently in development.
 
 This project aims to provide:
