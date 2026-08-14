@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <functional>
 #include <utility>
 #include <vector>
 
@@ -60,23 +61,44 @@ func_sketch::plotter::Image to_image(const RawImage& raw_image) {
 }
 
 /*!
+ * \brief Wrap a Python function to C++ function.
+ *
+ * \tparam ResultType Type of the result of the function.
+ * \tparam ArgsType Types of the arguments of the function.
+ * \param[in] python_function Python function.
+ * \return C++ function that wraps the Python function.
+ */
+template <typename ResultType, typename... ArgsType>
+[[nodiscard]] std::function<ResultType(ArgsType...)> wrap_python_function(
+    const nanobind::object& python_function) {
+    return [python_function](ArgsType... args) -> ResultType {
+        try {
+            return nanobind::cast<ResultType>(python_function(args...));
+        } catch (const std::exception& e) {
+            return std::numeric_limits<ResultType>::quiet_NaN();
+        }
+    };
+}
+
+/*!
  * \brief Generate the list of functions from Python.
  *
  * \return List of functions.
  */
 func_sketch::math::PythonFunctionList generate_python_function_list() {
+    using func_sketch::Complex;
+    using func_sketch::Real;
+
     nanobind::module_ scipy_special =
         nanobind::module_::import_("scipy.special");
-    nanobind::object gamma = scipy_special.attr("gamma");
+
     return func_sketch::math::PythonFunctionList{
-        .complex_gamma = [gamma = gamma](
-                             func_sketch::Complex arg) -> func_sketch::Complex {
-            try {
-                return nanobind::cast<func_sketch::Complex>(gamma(arg));
-            } catch (const std::exception& e) {
-                return std::numeric_limits<func_sketch::Real>::quiet_NaN();
-            }
-        }};
+        .complex_gamma =
+            wrap_python_function<Complex, Complex>(scipy_special.attr("gamma")),
+        .complex_bessel_j = wrap_python_function<Complex, Real, Complex>(
+            scipy_special.attr("jv")),
+        .complex_bessel_y = wrap_python_function<Complex, Real, Complex>(
+            scipy_special.attr("yv"))};
 }
 
 }  // namespace

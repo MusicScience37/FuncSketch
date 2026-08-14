@@ -37,3 +37,29 @@ class TestPythonFunctions:
         expression = parser("imag(gamma(0.5 + 0.5i))")
         result = evaluator(expression, 0.0)
         assert result == pytest.approx(-0.7633138287, abs=1e-8)
+
+    def test_complex_bessel_j(self) -> None:
+        """Test of Bessel function of the first kind for complex numbers."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("real(bessel_j(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.126243584981202, abs=1e-10)
+
+        expression = parser("imag(bessel_j(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.272957360460756, abs=1e-10)
+
+    def test_complex_bessel_y(self) -> None:
+        """Test of Bessel function of the second kind for complex numbers."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("real(bessel_y(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(-0.690684625336248, abs=1e-10)
+
+        expression = parser("imag(bessel_y(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.736574842122034, abs=1e-10)

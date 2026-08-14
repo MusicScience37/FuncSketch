@@ -13,6 +13,7 @@ set(SOURCE_FILES
     math/binary_operators_test.cpp
     math/common_type_test.cpp
     math/constant_list_test.cpp
+    math/functions/bessel_test.cpp
     math/functions/complex_test.cpp
     math/functions/erf_test.cpp
     math/functions/exp_test.cpp

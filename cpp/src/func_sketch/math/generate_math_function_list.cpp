@@ -19,6 +19,7 @@
  */
 #include "func_sketch/math/generate_math_function_list.h"
 
+#include "func_sketch/math/functions/bessel.h"
 #include "func_sketch/math/functions/complex.h"
 #include "func_sketch/math/functions/erf.h"
 #include "func_sketch/math/functions/exp.h"
@@ -80,6 +81,10 @@ MathFunctionList generate_math_function_list(
     list.emplace(imag_function());
     list.emplace(arg_function());
     list.emplace(conj_function());
+
+    // In bessel.h
+    list.emplace(bessel_j_function(python_functions.complex_bessel_j));
+    list.emplace(bessel_y_function(python_functions.complex_bessel_y));
 
     // In erf.h
     list.emplace(erf_function());

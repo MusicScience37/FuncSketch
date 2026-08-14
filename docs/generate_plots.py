@@ -64,6 +64,31 @@ class PlotInfo:
 
 
 PLOT_LIST = [
+    # For bessel.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_j0.png",
+        expression_str="bessel_j(0, x)",
+        x_range=(-10.0, 10.0),
+        y_range=(-0.5, 1.2),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_j1.png",
+        expression_str="bessel_j(1, x)",
+        x_range=(-10.0, 10.0),
+        y_range=(-1.0, 1.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_y0.png",
+        expression_str="bessel_y(0, x)",
+        x_range=(0.0, 10.0),
+        y_range=(-1.0, 1.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_y1.png",
+        expression_str="bessel_y(1, x)",
+        x_range=(0.0, 10.0),
+        y_range=(-1.0, 1.0),
+    ),
     # For error.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/erf.png",

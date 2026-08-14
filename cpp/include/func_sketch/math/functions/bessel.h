@@ -15,32 +15,34 @@
  */
 /*!
  * \file
- * \brief Definition of PythonFunctionList struct.
+ * \brief Declaration of functions to create Bessel functions and related
+ * functions.
  */
 #pragma once
 
 #include <functional>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/math/math_function.h"
 
 namespace func_sketch::math {
 
 /*!
- * \brief Struct of functions from Python.
+ * \brief Create `bessel_j` function.
  *
- * \note This struct holds functions from Python which are difficult to
- * implement in C++. Functions are inserted into this struct in the binding
- * code.
+ * \param[in] complex_bessel_j Function for complex arguments.
+ * \return Function.
  */
-struct PythonFunctionList {
-    //! Gamma function for complex arguments.
-    std::function<Complex(Complex)> complex_gamma;
+[[nodiscard]] MathFunction bessel_j_function(
+    std::function<Complex(Real, Complex)> complex_bessel_j);
 
-    //! Cylindrical Bessel function of the first kind for complex arguments.
-    std::function<Complex(Real, Complex)> complex_bessel_j;
-
-    //! Cylindrical Bessel function of the second kind for complex arguments.
-    std::function<Complex(Real, Complex)> complex_bessel_y;
-};
+/*!
+ * \brief Create `bessel_y` function.
+ *
+ * \param[in] complex_bessel_y Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction bessel_y_function(
+    std::function<Complex(Real, Complex)> complex_bessel_y);
 
 }  // namespace func_sketch::math
