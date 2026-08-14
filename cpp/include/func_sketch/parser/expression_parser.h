@@ -23,6 +23,7 @@
 #include <string>
 
 #include "func_sketch/expressions/expression_ptr.h"
+#include "func_sketch/math/functions/python_function_list.h"
 
 namespace func_sketch::parser {
 
@@ -33,8 +34,10 @@ class ExpressionParser {
 public:
     /*!
      * \brief Constructor.
+     *
+     * \param[in] python_functions List of Python functions.
      */
-    ExpressionParser();
+    explicit ExpressionParser(const math::PythonFunctionList& python_functions);
 
     ExpressionParser(const ExpressionParser&) = delete;
     ExpressionParser& operator=(const ExpressionParser&) = delete;

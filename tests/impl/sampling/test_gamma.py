@@ -29,6 +29,16 @@ class TestGamma:
         x_values, y_values = sample_function("gamma(x)", (0.2, 5.0), (-2.0, 25.0))
         compare_vectors(y_values, numpy.array([math.gamma(x) for x in x_values]))
 
+    def test_sample_gamma_on_imag(self) -> None:
+        """Test of sampling abs(gamma(i * x))."""
+        x_values, y_values = sample_function(
+            "abs(gamma(i * x))", (0.1, 3.0), (-1.0, 5.0)
+        )
+        compare_vectors(
+            y_values,
+            numpy.sqrt(numpy.pi / (x_values * numpy.sinh(numpy.pi * x_values))),
+        )
+
     def test_sample_lgamma(self) -> None:
         """Test of sampling lgamma(x)."""
         x_values, y_values = sample_function("lgamma(x)", (0.1, 5.0), (-1.0, 4.0))

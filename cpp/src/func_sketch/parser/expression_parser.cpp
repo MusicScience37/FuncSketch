@@ -36,14 +36,24 @@ struct ExpressionParser::Impl {
     ExpressionGrammar grammar;
 
     //! List of mathematical functions.
-    math::MathFunctionList math_function_list{
-        math::generate_math_function_list()};
+    math::MathFunctionList math_function_list;
 
     //! List of constants.
     math::ConstantList constant_list{math::generate_constant_list()};
+
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] python_functions List of Python functions.
+     */
+    explicit Impl(const math::PythonFunctionList& python_functions)
+        : math_function_list{
+              math::generate_math_function_list(python_functions)} {}
 };
 
-ExpressionParser::ExpressionParser() : pimpl_(std::make_unique<Impl>()) {}
+ExpressionParser::ExpressionParser(
+    const math::PythonFunctionList& python_functions)
+    : pimpl_(std::make_unique<Impl>(python_functions)) {}
 
 ExpressionParser::ExpressionParser(
     ExpressionParser&& /*other*/) noexcept = default;

@@ -23,6 +23,7 @@
 #include <benchmark/benchmark.h>
 #include <opencv2/core.hpp>
 
+#include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/function_sampler.h"
 #include "func_sketch/plotter/plotter.h"
@@ -63,7 +64,8 @@ public:
 
 private:
     //! Parser.
-    func_sketch::parser::ExpressionParser parser_;
+    func_sketch::parser::ExpressionParser parser_{
+        func_sketch::math::PythonFunctionList{}};
 
     //! Sampler.
     func_sketch::plotter::FunctionSampler sampler_{

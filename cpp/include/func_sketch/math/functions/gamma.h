@@ -19,6 +19,9 @@
  */
 #pragma once
 
+#include <functional>
+
+#include "func_sketch/common_types.h"
 #include "func_sketch/math/math_function.h"
 
 namespace func_sketch::math {
@@ -26,9 +29,11 @@ namespace func_sketch::math {
 /*!
  * \brief Create `gamma` function.
  *
+ * \param[in] complex_gamma Gamma function for complex arguments.
  * \return Function.
  */
-[[nodiscard]] MathFunction gamma_function();
+[[nodiscard]] MathFunction gamma_function(
+    std::function<Complex(Complex)> complex_gamma);
 
 /*!
  * \brief Create `lgamma` function.

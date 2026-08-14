@@ -19,6 +19,8 @@
  */
 #include "func_sketch/math/functions/gamma.h"
 
+#include <utility>
+
 #include <boost/math/special_functions/gamma.hpp>
 
 #include "func_sketch/common_types.h"
@@ -28,14 +30,19 @@
 
 namespace func_sketch::math {
 
-MathFunction gamma_function() {
+MathFunction gamma_function(std::function<Complex(Complex)> complex_gamma) {
     return MathFunction(
-        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "gamma", [](Real arg) {
-                try {
-                    return boost::math::tgamma(arg);
-                } catch (const std::exception& e) {
-                    return std::numeric_limits<Real>::quiet_NaN();
+        make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
+            "gamma", [complex_gamma = std::move(complex_gamma)](auto arg) {
+                using ArgType = std::decay_t<decltype(arg)>;
+                if constexpr (std::is_same_v<ArgType, Complex>) {
+                    return complex_gamma(arg);
+                } else {
+                    try {
+                        return boost::math::tgamma(arg);
+                    } catch (const std::exception& e) {
+                        return std::numeric_limits<Real>::quiet_NaN();
+                    }
                 }
             }));
 }
