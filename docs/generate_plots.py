@@ -27,11 +27,12 @@ os.environ["KIVY_NO_ARGS"] = "1"
 import dataclasses
 import pathlib
 
+import cv2
 import numpy
-import skimage.io
 
 from func_sketch._cpp import (
     PlotRange,
+    RGBColor,
 )
 from func_sketch._gui.constants import (
     CURVE_COLORS,
@@ -97,6 +98,8 @@ def generate_plots() -> None:
     height = 480
     width = 640
     config = DEFAULT_PLOT_CONFIG
+    config.top_margin = 70
+    config.background_color = RGBColor(0xFF, 0xFF, 0xFF)
     range = DEFAULT_PLOT_RANGE
 
     sampler = CurveSampler(range, config)
@@ -113,7 +116,27 @@ def generate_plots() -> None:
         plotter.plot_range = range
         sampled_curve = sampler(curve_config)
         plotter([sampled_curve], image)
-        skimage.io.imsave(str(THIS_DIR / plot_info.file_path), image)
+
+        cv2.cvtColor(image, cv2.COLOR_RGB2BGR, dst=image)
+
+        text_font_face = cv2.FONT_HERSHEY_SIMPLEX
+        text_thickness = 1
+        text_font_size = 22
+        text_font_scale = cv2.getFontScaleFromHeight(
+            text_font_face, text_font_size, text_thickness
+        )
+        cv2.putText(
+            image,
+            f"Plot of {plot_info.expression_str}",
+            (60, 45),
+            text_font_face,
+            text_font_scale,
+            (0x2A, 0x2D, 0x31),
+            text_thickness,
+            cv2.LINE_AA,
+        )
+
+        cv2.imwrite(str(THIS_DIR / plot_info.file_path), image)
 
 
 if __name__ == "__main__":
