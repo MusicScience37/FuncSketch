@@ -87,8 +87,13 @@ mathjax_options = {
 
 html_theme = "sphinx_orange_book_theme"
 html_static_path: list[str] = []
-
+html_favicon = "../icon/icon.svg"
 html_theme_options = {
+    "logo": {
+        "image_light": "../icon/icon_web_light.svg",
+        "image_dark": "../icon/icon_web_dark.svg",
+        "text": "FuncSketch",
+    },
     # pygments configuration must be specified here.
     "pygments_light_style": "gruvbox-light",
     "pygments_dark_style": "native",
@@ -96,6 +101,8 @@ html_theme_options = {
     "use_repository_button": True,
 }
 
+
+# -- Definition of funcsketch domain -----------------------------------------
 
 # cspell: ignore signode, fromdocname, contnode, docname, todocname, refnode
 # cspell: ignore paramlist, parameterlist, docfields, returnvalue, returntype
