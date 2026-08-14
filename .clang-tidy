@@ -5,6 +5,7 @@ Checks: >
     -clang-analyzer-core.UndefinedBinaryOperatorResult,
     -clang-analyzer-optin.performance.Padding,
     -clang-analyzer-deadcode.DeadStores,
+    -clang-analyzer-cplusplus.NewDeleteLeaks,
   google-*,
     -google-runtime-references,
     -google-readability-todo,
@@ -53,6 +54,7 @@ Checks: >
 # - readability-magic-numbers generates too many warnings in test codes.
 # - portability-avoid-pragma-once is not necessary because such old compilers don't support C++23.
 # - bugprone-unchecked-optional-access generates false positives.
+# - clang-analyzer-cplusplus.NewDeleteLeaks generate a false positive which cannot be suppressed by NOLINT.
 
 CheckOptions:
   # Naming Conventions
