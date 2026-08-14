@@ -664,3 +664,6 @@ FodyWeavers.xsd
 # Cache
 /.clang-tidy-cache/
 /.jupyter_cache/
+
+# Output of pytest-benchmark
+/.benchmarks/
