@@ -35,6 +35,7 @@ EXPRESSION_STR_LIST = [
     "log10(x)",
     "acosh(x)",
     "gamma(x)",
+    "gamma(x+0.5i)",
 ]
 
 
