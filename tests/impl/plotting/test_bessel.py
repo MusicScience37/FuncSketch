@@ -135,3 +135,27 @@ class TestBessel:
             (-3.0, 1.0),
         )
         image_approver.verify(image)
+
+    def test_plot_spherical_hankel1(self, image_approver) -> None:
+        """Test of plotting real and imaginary parts of spherical_hankel1(n, x)."""
+        image = plot_function(
+            [
+                "real(spherical_hankel1(0, x))",
+                "imag(spherical_hankel1(0, x))",
+            ],
+            (0.0, 10.0),
+            (-3.0, 3.0),
+        )
+        image_approver.verify(image)
+
+    def test_plot_spherical_hankel2(self, image_approver) -> None:
+        """Test of plotting real and imaginary parts of spherical_hankel2(n, x)."""
+        image = plot_function(
+            [
+                "real(spherical_hankel2(0, x))",
+                "imag(spherical_hankel2(0, x))",
+            ],
+            (0.0, 10.0),
+            (-3.0, 3.0),
+        )
+        image_approver.verify(image)

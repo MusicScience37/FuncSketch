@@ -144,3 +144,41 @@ Bessel Functions
 
     .. image:: plots/spherical_bessel_y0.png
     .. image:: plots/spherical_bessel_y1.png
+
+.. funcsketch:function:: spherical_hankel1(n, x)
+
+    Spherical Hankel function of the first kind.
+
+    :param n: The order of the spherical Hankel function.
+    :type n: Integer
+    :param x: The argument of the spherical Hankel function.
+    :type x: Real or Complex
+    :definition: :math:`\displaystyle h_n^{(1)}(x) = j_n(x) + i y_n(x)`.
+    :domain: :math:`(0, \infty)` for real :math:`x`
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :returns: The value of :math:`h_n^{(1)}(x)`.
+    :rtype: Real or Complex according to the type of ``x``.
+
+    For the plot of spherical Hankel functions, see the plots of spherical Bessel functions
+    :funcsketch:func:`spherical_bessel_j` and :funcsketch:func:`spherical_bessel_y`,
+    because spherical Hankel functions have the same shape as spherical Bessel functions
+    in real and imaginary parts.
+
+.. funcsketch:function:: spherical_hankel2(n, x)
+
+    Spherical Hankel function of the second kind.
+
+    :param n: The order of the spherical Hankel function.
+    :type n: Integer
+    :param x: The argument of the spherical Hankel function.
+    :type x: Real or Complex
+    :definition: :math:`\displaystyle h_n^{(2)}(x) = j_n(x) - i y_n(x)`.
+    :domain: :math:`(0, \infty)` for real :math:`x`
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :returns: The value of :math:`h_n^{(2)}(x)`.
+    :rtype: Real or Complex according to the type of ``x``.
+
+    For the plot of spherical Hankel functions, see the plots of spherical Bessel functions
+    :funcsketch:func:`spherical_bessel_j` and :funcsketch:func:`spherical_bessel_y`,
+    because spherical Hankel functions have the same shape as spherical Bessel functions
+    in real and imaginary parts.
