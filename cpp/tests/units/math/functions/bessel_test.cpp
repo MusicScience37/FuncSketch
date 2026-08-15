@@ -177,3 +177,87 @@ TEST_CASE("func_sketch::math::bessel_k_function") {
             std::get<Real>(result), Catch::Matchers::WithinRel(expected));
     }
 }
+
+TEST_CASE("func_sketch::math::hankel1_function") {
+    using func_sketch::Complex;
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::hankel1_function;
+
+    // Bessel function for complex arguments will be assigned in the binding
+    // code, so empty function is used here. Tests for complex arguments will be
+    // done in Python.
+    const std::function<Complex(Real, Complex)> complex_hankel1;
+    const auto function_object = hankel1_function(complex_hankel1);
+
+    SECTION("operate on an integer order and a real argument") {
+        constexpr Integer order = 2;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Complex expected{0.23208767214421475, -0.9321937597629739};
+        CHECK_THAT(std::get<Complex>(result).real(),
+            Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(std::get<Complex>(result).imag(),
+            Catch::Matchers::WithinRel(expected.imag()));
+    }
+
+    SECTION("operate on a real order and a real argument") {
+        constexpr Real order = 2.5;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Complex expected{0.12444635979838772, -1.315037204805194};
+        CHECK_THAT(std::get<Complex>(result).real(),
+            Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(std::get<Complex>(result).imag(),
+            Catch::Matchers::WithinRel(expected.imag()));
+    }
+}
+
+TEST_CASE("func_sketch::math::hankel2_function") {
+    using func_sketch::Complex;
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::hankel2_function;
+
+    // Bessel function for complex arguments will be assigned in the binding
+    // code, so empty function is used here. Tests for complex arguments will be
+    // done in Python.
+    const std::function<Complex(Real, Complex)> complex_hankel2;
+    const auto function_object = hankel2_function(complex_hankel2);
+
+    SECTION("operate on an integer order and a real argument") {
+        constexpr Integer order = 2;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Complex expected{0.23208767214421475, 0.9321937597629739};
+        CHECK_THAT(std::get<Complex>(result).real(),
+            Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(std::get<Complex>(result).imag(),
+            Catch::Matchers::WithinRel(expected.imag()));
+    }
+
+    SECTION("operate on a real order and a real argument") {
+        constexpr Real order = 2.5;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Complex expected{0.12444635979838772, 1.315037204805194};
+        CHECK_THAT(std::get<Complex>(result).real(),
+            Catch::Matchers::WithinRel(expected.real()));
+        CHECK_THAT(std::get<Complex>(result).imag(),
+            Catch::Matchers::WithinRel(expected.imag()));
+    }
+}

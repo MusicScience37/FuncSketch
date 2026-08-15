@@ -23,6 +23,7 @@
 #include <utility>
 
 #include <boost/math/special_functions/bessel.hpp>
+#include <boost/math/special_functions/hankel.hpp>
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/acceptable_types.h"
@@ -104,6 +105,46 @@ MathFunction bessel_k_function(
                 } else {
                     try {
                         return boost::math::cyl_bessel_k(order, arg);
+                    } catch (const std::exception& e) {
+                        return std::numeric_limits<Real>::quiet_NaN();
+                    }
+                }
+            }));
+}
+
+MathFunction hankel1_function(
+    std::function<Complex(Real, Complex)> complex_hankel1) {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Integer, Real>,
+            AcceptableTypes<Real, Complex>>>("hankel1",
+            [complex_hankel1 = std::move(complex_hankel1)](
+                auto order, auto arg) -> Complex {
+                using ArgType = std::decay_t<decltype(arg)>;
+                if constexpr (std::is_same_v<ArgType, Complex>) {
+                    return complex_hankel1(static_cast<Real>(order), arg);
+                } else {
+                    try {
+                        return boost::math::cyl_hankel_1(order, arg);
+                    } catch (const std::exception& e) {
+                        return std::numeric_limits<Real>::quiet_NaN();
+                    }
+                }
+            }));
+}
+
+MathFunction hankel2_function(
+    std::function<Complex(Real, Complex)> complex_hankel2) {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Integer, Real>,
+            AcceptableTypes<Real, Complex>>>("hankel2",
+            [complex_hankel2 = std::move(complex_hankel2)](
+                auto order, auto arg) -> Complex {
+                using ArgType = std::decay_t<decltype(arg)>;
+                if constexpr (std::is_same_v<ArgType, Complex>) {
+                    return complex_hankel2(static_cast<Real>(order), arg);
+                } else {
+                    try {
+                        return boost::math::cyl_hankel_2(order, arg);
                     } catch (const std::exception& e) {
                         return std::numeric_limits<Real>::quiet_NaN();
                     }
