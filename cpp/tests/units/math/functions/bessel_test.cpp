@@ -33,7 +33,7 @@ TEST_CASE("func_sketch::math::bessel_j_function") {
     using func_sketch::Real;
     using func_sketch::math::bessel_j_function;
 
-    // Gamma function for complex arguments will be assigned in the binding
+    // Bessel function for complex arguments will be assigned in the binding
     // code, so empty function is used here. Tests for complex arguments will be
     // done in Python.
     const std::function<Complex(Real, Complex)> complex_bessel_j;
@@ -59,6 +59,120 @@ TEST_CASE("func_sketch::math::bessel_j_function") {
         function_object(std::vector<Number>{order, argument}, result);
 
         constexpr Real expected = 0.12444635979838772;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+}
+
+TEST_CASE("func_sketch::math::bessel_y_function") {
+    using func_sketch::Complex;
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::bessel_y_function;
+
+    // Bessel function for complex arguments will be assigned in the binding
+    // code, so empty function is used here. Tests for complex arguments will be
+    // done in Python.
+    const std::function<Complex(Real, Complex)> complex_bessel_y;
+    const auto function_object = bessel_y_function(complex_bessel_y);
+
+    SECTION("operate on an integer order and a real argument") {
+        constexpr Integer order = 2;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = -0.9321937597629739;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on a real order and a real argument") {
+        constexpr Real order = 2.5;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = -1.315037204805194;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+}
+
+TEST_CASE("func_sketch::math::bessel_i_function") {
+    using func_sketch::Complex;
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::bessel_i_function;
+
+    // Bessel function for complex arguments will be assigned in the binding
+    // code, so empty function is used here. Tests for complex arguments will be
+    // done in Python.
+    const std::function<Complex(Real, Complex)> complex_bessel_i;
+    const auto function_object = bessel_i_function(complex_bessel_i);
+
+    SECTION("operate on an integer order and a real argument") {
+        constexpr Integer order = 2;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = 0.33783461833568074;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on a real order and a real argument") {
+        constexpr Real order = 2.5;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = 0.17166202218829626;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+}
+
+TEST_CASE("func_sketch::math::bessel_k_function") {
+    using func_sketch::Complex;
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::bessel_k_function;
+
+    // Bessel function for complex arguments will be assigned in the binding
+    // code, so empty function is used here. Tests for complex arguments will be
+    // done in Python.
+    const std::function<Complex(Real, Complex)> complex_bessel_k;
+    const auto function_object = bessel_k_function(complex_bessel_k);
+
+    SECTION("operate on an integer order and a real argument") {
+        constexpr Integer order = 2;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = 0.5836559632566507;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on a real order and a real argument") {
+        constexpr Real order = 2.5;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = 0.9894518929891505;
         CHECK_THAT(
             std::get<Real>(result), Catch::Matchers::WithinRel(expected));
     }

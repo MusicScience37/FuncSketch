@@ -13,7 +13,6 @@ Bessel Functions
     :domain: :math:`\mathbb{R}` for real :math:`x` and an integer :math:`\nu`,
         :math:`[0, \infty)` for real :math:`x` and a non-integer :math:`\nu`,
         or :math:`\mathbb{C}` for complex :math:`x`
-    :range: (To be written)
     :returns: The value of :math:`J_{\nu}(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
@@ -32,9 +31,44 @@ Bessel Functions
         The limit is taken as :math:`\nu \to n` for integer order :math:`n`.
     :domain: :math:`(0, \infty)` for real :math:`x`
         or :math:`\mathbb{C}` for complex :math:`x`
-    :range: (To be written)
     :returns: The value of :math:`Y_{\nu}(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
     .. image:: plots/bessel_y0.png
     .. image:: plots/bessel_y1.png
+
+.. funcsketch:function:: bessel_i(v, x)
+
+    Cylindrical modified Bessel function of the first kind.
+
+    :param v: The order of the Bessel function.
+    :type v: Integer or Real
+    :param x: The argument of the Bessel function.
+    :type x: Real or Complex
+    :definition: :math:`\displaystyle I_{\nu}(x) = e^{-i \nu \pi / 2} J_{\nu}(i x)`.
+    :domain: :math:`\mathbb{R}` for real :math:`x` and an integer :math:`\nu`,
+        :math:`[0, \infty)` for real :math:`x` and a non-integer :math:`\nu`,
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :returns: The value of :math:`I_{\nu}(x)`.
+    :rtype: Real or Complex according to the type of ``x``.
+
+    .. image:: plots/bessel_i0.png
+    .. image:: plots/bessel_i1.png
+
+.. funcsketch:function:: bessel_k(v, x)
+
+    Cylindrical modified Bessel function of the second kind.
+
+    :param v: The order of the Bessel function.
+    :type v: Integer or Real
+    :param x: The argument of the Bessel function.
+    :type x: Real or Complex
+    :definition: :math:`\displaystyle K_{\nu}(x) = \frac{\pi}{2} \frac{I_{-\nu}(x) - I_{\nu}(x)}{\sin(\nu \pi)}`.
+        The limit is taken as :math:`\nu \to n` for integer order :math:`n`.
+    :domain: :math:`(0, \infty)` for real :math:`x`
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :returns: The value of :math:`K_{\nu}(x)`.
+    :rtype: Real or Complex according to the type of ``x``.
+
+    .. image:: plots/bessel_k0.png
+    .. image:: plots/bessel_k1.png

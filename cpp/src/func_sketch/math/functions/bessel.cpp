@@ -71,4 +71,44 @@ MathFunction bessel_y_function(
             }));
 }
 
+MathFunction bessel_i_function(
+    std::function<Complex(Real, Complex)> complex_bessel_i) {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Integer, Real>,
+            AcceptableTypes<Real, Complex>>>("bessel_i",
+            [complex_bessel_i = std::move(complex_bessel_i)](
+                auto order, auto arg) {
+                using ArgType = std::decay_t<decltype(arg)>;
+                if constexpr (std::is_same_v<ArgType, Complex>) {
+                    return complex_bessel_i(static_cast<Real>(order), arg);
+                } else {
+                    try {
+                        return boost::math::cyl_bessel_i(order, arg);
+                    } catch (const std::exception& e) {
+                        return std::numeric_limits<Real>::quiet_NaN();
+                    }
+                }
+            }));
+}
+
+MathFunction bessel_k_function(
+    std::function<Complex(Real, Complex)> complex_bessel_k) {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Integer, Real>,
+            AcceptableTypes<Real, Complex>>>("bessel_k",
+            [complex_bessel_k = std::move(complex_bessel_k)](
+                auto order, auto arg) {
+                using ArgType = std::decay_t<decltype(arg)>;
+                if constexpr (std::is_same_v<ArgType, Complex>) {
+                    return complex_bessel_k(static_cast<Real>(order), arg);
+                } else {
+                    try {
+                        return boost::math::cyl_bessel_k(order, arg);
+                    } catch (const std::exception& e) {
+                        return std::numeric_limits<Real>::quiet_NaN();
+                    }
+                }
+            }));
+}
+
 }  // namespace func_sketch::math
