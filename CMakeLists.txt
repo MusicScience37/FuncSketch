@@ -1,4 +1,27 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.19)
+
+# ##############################################################################
+# Configuration of vcpkg
+# ##############################################################################
+if(DEFINED ENV{VCPKG_ROOT})
+    set(VCPKG_ROOT $ENV{VCPKG_ROOT})
+else()
+    set(VCPKG_CONFIG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg-configuration.json)
+    file(READ ${VCPKG_CONFIG_FILE} VCPKG_CONFIG_CONTENT)
+    string(JSON VCPKG_BASELINE GET ${VCPKG_CONFIG_CONTENT} "default-registry"
+           "baseline")
+
+    include(FetchContent)
+    fetchcontent_declare(
+        vcpkg
+        GIT_REPOSITORY "https://github.com/Microsoft/vcpkg"
+        GIT_TAG "${VCPKG_BASELINE}")
+    fetchcontent_makeavailable(vcpkg)
+    set(VCPKG_ROOT ${vcpkg_SOURCE_DIR})
+endif()
+set(CMAKE_TOOLCHAIN_FILE
+    "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+    CACHE STRING "" FORCE)
 
 # ##############################################################################
 # Options

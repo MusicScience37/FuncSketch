@@ -8,7 +8,7 @@ The environment contains all dependencies required for development of FuncSketch
 as follows:
 
 - [Python](https://www.python.org/) 3.13
-  - You may want to use [pyenv](https://github.com/pyenv/pyenv).
+  - You may want to use [pyenv](https://github.com/pyenv/pyenv) optionally.
 - [poetry](https://python-poetry.org/)
   - Required Python packages can be installed using poetry.
     Execute the command `poetry sync` on this directory.
@@ -17,35 +17,26 @@ as follows:
   - Following compilers are tested in CI:
     - GCC 15
     - Clang 22
-- [Doxygen](https://www.doxygen.nl/index.html) (for documentation)
-- [Graphviz](https://graphviz.org/) (for documentation)
-- [PlantUML](https://plantuml.com) (for documentation)
-  - Set `PLANTUML_JAR_PATH` environment variable to specify the place of `plantuml.jar` file.
-- Java runtime environment (JRE) for PlantUML. (for documentation)
+- Requirements only for documentation:
+  - [Doxygen](https://www.doxygen.nl/index.html)
+  - [Graphviz](https://graphviz.org/)
+  - [PlantUML](https://plantuml.com)
+    - Set `PLANTUML_JAR_PATH` environment variable to specify the place of `plantuml.jar` file.
+  - Java runtime environment (JRE) for PlantUML.
 
 ## Build commands
 
 After installation of dependencies,
-execute the following commands to build the C++ module:
+you can build C++ module using CMake Tools in VSCode or executing the following commands in the terminal.
 
-1. Download vcpkg if you haven't already.
+```bash
+mkdir <repository-root>/build
+cd <repository-root>/build
+cmake ..
+cmake --build .
+```
 
-   ```bash
-   git submodule update --init
-   ```
-
-2. Build C++ module.
-
-   CMake tools in VSCode can build the C++ module.
-   Alternatively, you can build it from the command line as follows:
-
-   ```bash
-   poetry sync
-   mkdir <repository-root>/build
-   cd <repository-root>/build
-   cmake .. -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
-   cmake --build .
-   ```
+Note that the build directory can be changed to any directory you like.
 
 After the build, you can
 
