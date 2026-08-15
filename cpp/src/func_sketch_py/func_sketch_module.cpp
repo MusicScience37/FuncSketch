@@ -106,7 +106,14 @@ func_sketch::math::PythonFunctionList generate_python_function_list() {
         .complex_hankel1 = wrap_python_function<Complex, Real, Complex>(
             scipy_special.attr("hankel1")),
         .complex_hankel2 = wrap_python_function<Complex, Real, Complex>(
-            scipy_special.attr("hankel2"))};
+            scipy_special.attr("hankel2")),
+        .complex_spherical_bessel_j =
+            wrap_python_function<Complex, unsigned, Complex>(
+                scipy_special.attr("spherical_jn")),
+        .complex_spherical_bessel_y =
+            wrap_python_function<Complex, unsigned, Complex>(
+                scipy_special.attr("spherical_yn")),
+    };
 }
 
 }  // namespace

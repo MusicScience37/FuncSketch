@@ -81,4 +81,44 @@ namespace func_sketch::math {
 [[nodiscard]] MathFunction hankel2_function(
     std::function<Complex(Real, Complex)> complex_hankel2);
 
+/*!
+ * \brief Create `spherical_bessel_j` function.
+ *
+ * \param[in] complex_spherical_bessel_j Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction spherical_bessel_j_function(
+    std::function<Complex(unsigned, Complex)> complex_spherical_bessel_j);
+
+/*!
+ * \brief Create `spherical_bessel_y` function.
+ *
+ * \param[in] complex_spherical_bessel_y Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction spherical_bessel_y_function(
+    std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y);
+
+/*!
+ * \brief Create `spherical_hankel1` function.
+ *
+ * \param[in] complex_spherical_bessel_j Function for complex arguments.
+ * \param[in] complex_spherical_bessel_y Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction spherical_hankel1_function(
+    std::function<Complex(unsigned, Complex)> complex_spherical_bessel_j,
+    std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y);
+
+/*!
+ * \brief Create `spherical_hankel2` function.
+ *
+ * \param[in] complex_spherical_bessel_j Function for complex arguments.
+ * \param[in] complex_spherical_bessel_y Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction spherical_hankel2_function(
+    std::function<Complex(unsigned, Complex)> complex_spherical_bessel_j,
+    std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y);
+
 }  // namespace func_sketch::math

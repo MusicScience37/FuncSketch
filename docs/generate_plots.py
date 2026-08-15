@@ -113,6 +113,30 @@ PLOT_LIST = [
         x_range=(0.0, 3.0),
         y_range=(0.0, 3.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_j0.png",
+        expression_str="spherical_bessel_j(0, x)",
+        x_range=(-1.0, 10.0),
+        y_range=(-0.5, 1.2),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_j1.png",
+        expression_str="spherical_bessel_j(1, x)",
+        x_range=(-1.0, 10.0),
+        y_range=(-0.5, 0.5),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_y0.png",
+        expression_str="spherical_bessel_y(0, x)",
+        x_range=(-1.0, 10.0),
+        y_range=(-3.0, 1.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_y1.png",
+        expression_str="spherical_bessel_y(1, x)",
+        x_range=(-1.0, 10.0),
+        y_range=(-3.0, 1.0),
+    ),
     # For error.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/erf.png",

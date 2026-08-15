@@ -102,3 +102,45 @@ class TestBessel:
             "imag(hankel2(0, x))", (0.1, 10.0), (-1.0, 1.2)
         )
         compare_vectors(y_values, numpy.imag(scipy.special.hankel2(0, x_values)))
+
+    def test_sample_spherical_bessel_j0(self) -> None:
+        """Test of sampling spherical_bessel_j(0, x)."""
+        x_values, y_values = sample_function(
+            "spherical_bessel_j(0, x)", (0.1, 10.0), (-1.0, 1.2)
+        )
+        compare_vectors(y_values, scipy.special.spherical_jn(0, x_values))
+
+    def test_sample_spherical_bessel_y0(self) -> None:
+        """Test of sampling spherical_bessel_y(0, x)."""
+        x_values, y_values = sample_function(
+            "spherical_bessel_y(0, x)", (0.1, 10.0), (-1.0, 1.2)
+        )
+        compare_vectors(y_values, scipy.special.spherical_yn(0, x_values))
+
+    def test_sample_spherical_hankel1_0_real(self) -> None:
+        """Test of sampling real(spherical_hankel1(0, x))."""
+        x_values, y_values = sample_function(
+            "real(spherical_hankel1(0, x))", (0.1, 10.0), (-1.0, 1.2)
+        )
+        compare_vectors(y_values, scipy.special.spherical_jn(0, x_values))
+
+    def test_sample_spherical_hankel1_0_imag(self) -> None:
+        """Test of sampling imag(spherical_hankel1(0, x))."""
+        x_values, y_values = sample_function(
+            "imag(spherical_hankel1(0, x))", (0.1, 10.0), (-1.0, 1.2)
+        )
+        compare_vectors(y_values, scipy.special.spherical_yn(0, x_values))
+
+    def test_sample_spherical_hankel2_0_real(self) -> None:
+        """Test of sampling real(spherical_hankel2(0, x))."""
+        x_values, y_values = sample_function(
+            "real(spherical_hankel2(0, x))", (0.1, 10.0), (-1.0, 1.2)
+        )
+        compare_vectors(y_values, scipy.special.spherical_jn(0, x_values))
+
+    def test_sample_spherical_hankel2_0_imag(self) -> None:
+        """Test of sampling imag(spherical_hankel2(0, x))."""
+        x_values, y_values = sample_function(
+            "imag(spherical_hankel2(0, x))", (0.1, 10.0), (-1.0, 1.2)
+        )
+        compare_vectors(y_values, -scipy.special.spherical_yn(0, x_values))
