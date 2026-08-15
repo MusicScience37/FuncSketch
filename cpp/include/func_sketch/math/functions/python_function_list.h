@@ -41,6 +41,12 @@ struct PythonFunctionList {
 
     //! Cylindrical Bessel function of the second kind for complex arguments.
     std::function<Complex(Real, Complex)> complex_bessel_y;
+
+    //! Cylindrical modified Bessel function of the first kind for complex arguments.
+    std::function<Complex(Real, Complex)> complex_bessel_i;
+
+    //! Cylindrical modified Bessel function of the second kind for complex arguments.
+    std::function<Complex(Real, Complex)> complex_bessel_k;
 };
 
 }  // namespace func_sketch::math

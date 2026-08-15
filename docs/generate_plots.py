@@ -89,6 +89,30 @@ PLOT_LIST = [
         x_range=(0.0, 10.0),
         y_range=(-1.0, 1.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_i0.png",
+        expression_str="bessel_i(0, x)",
+        x_range=(-3.0, 3.0),
+        y_range=(-3.0, 3.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_i1.png",
+        expression_str="bessel_i(1, x)",
+        x_range=(-3.0, 3.0),
+        y_range=(-3.0, 3.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_k0.png",
+        expression_str="bessel_k(0, x)",
+        x_range=(0.0, 3.0),
+        y_range=(0.0, 3.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_k1.png",
+        expression_str="bessel_k(1, x)",
+        x_range=(0.0, 3.0),
+        y_range=(0.0, 3.0),
+    ),
     # For error.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/erf.png",

@@ -33,7 +33,25 @@ class TestBessel:
         """Test of plotting bessel_y(n, x)."""
         image = plot_function(
             ["bessel_y(0, x)", "bessel_y(1, x)", "bessel_y(2, x)"],
-            (0.1, 10.0),
+            (0.0, 10.0),
             (-3.0, 1.0),
+        )
+        image_approver.verify(image)
+
+    def test_plot_bessel_i(self, image_approver) -> None:
+        """Test of plotting bessel_i(n, x)."""
+        image = plot_function(
+            ["bessel_i(0, x)", "bessel_i(1, x)", "bessel_i(2, x)"],
+            (0.0, 4.0),
+            (-1.0, 4.0),
+        )
+        image_approver.verify(image)
+
+    def test_plot_bessel_k(self, image_approver) -> None:
+        """Test of plotting bessel_k(n, x)."""
+        image = plot_function(
+            ["bessel_k(0, x)", "bessel_k(1, x)", "bessel_k(2, x)"],
+            (0.0, 4.0),
+            (-1.0, 4.0),
         )
         image_approver.verify(image)

@@ -45,4 +45,22 @@ namespace func_sketch::math {
 [[nodiscard]] MathFunction bessel_y_function(
     std::function<Complex(Real, Complex)> complex_bessel_y);
 
+/*!
+ * \brief Create `bessel_i` function.
+ *
+ * \param[in] complex_bessel_i Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction bessel_i_function(
+    std::function<Complex(Real, Complex)> complex_bessel_i);
+
+/*!
+ * \brief Create `bessel_k` function.
+ *
+ * \param[in] complex_bessel_k Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction bessel_k_function(
+    std::function<Complex(Real, Complex)> complex_bessel_k);
+
 }  // namespace func_sketch::math

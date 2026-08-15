@@ -63,3 +63,29 @@ class TestPythonFunctions:
         expression = parser("imag(bessel_y(1.23, 0.45 + 0.67i))")
         result = evaluator(expression, 0.0)
         assert result == pytest.approx(0.736574842122034, abs=1e-10)
+
+    def test_complex_bessel_i(self) -> None:
+        """Test of modified Bessel function of the first kind for complex numbers."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("real(bessel_i(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.08356057467441566, abs=1e-10)
+
+        expression = parser("imag(bessel_i(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.2720393265407485, abs=1e-10)
+
+    def test_complex_bessel_k(self) -> None:
+        """Test of modified Bessel function of the second kind for complex numbers."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("real(bessel_k(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.07353396460130068, abs=1e-10)
+
+        expression = parser("imag(bessel_k(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(-1.3660736982459514, abs=1e-10)
