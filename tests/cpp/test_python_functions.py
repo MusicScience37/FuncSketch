@@ -89,3 +89,29 @@ class TestPythonFunctions:
         expression = parser("imag(bessel_k(1.23, 0.45 + 0.67i))")
         result = evaluator(expression, 0.0)
         assert result == pytest.approx(-1.3660736982459514, abs=1e-10)
+
+    def test_complex_hankel1(self) -> None:
+        """Test of Hankel function of the first kind for complex numbers."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("real(hankel1(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(-0.6103312571408326, abs=1e-10)
+
+        expression = parser("imag(hankel1(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(-0.4177272648754929, abs=1e-10)
+
+    def test_complex_hankel2(self) -> None:
+        """Test of Hankel function of the second kind for complex numbers."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("real(hankel2(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.862818427103236, abs=1e-10)
+
+        expression = parser("imag(hankel2(1.23, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.9636419857970038, abs=1e-10)

@@ -44,6 +44,8 @@ dev = [
     "lcov-cobertura (>=2.1.1,<3.0.0)",
     "types-docutils (>=0.22.3.20260724,<0.23.0.0)",
     "clang-tidy-checker (>=0.7.0,<0.8.0)",
+    "scipy (>=1.18.0,<2.0.0)",
+    "scipy-stubs (>=1.18.0.1,<2.0.0.0)",
 ]
 bind = ["nanobind (>=2.14.0,<3.0.0)"]
 test = [

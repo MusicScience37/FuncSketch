@@ -3,7 +3,7 @@ Bessel Functions
 
 .. funcsketch:function:: bessel_j(v, x)
 
-    Cylindrical Bessel function of the first kind.
+    (Cylindrical) Bessel function of the first kind.
 
     :param v: The order of the Bessel function.
     :type v: Integer or Real
@@ -21,7 +21,7 @@ Bessel Functions
 
 .. funcsketch:function:: bessel_y(v, x)
 
-    Cylindrical Bessel function of the second kind.
+    (Cylindrical) Bessel function of the second kind.
 
     :param v: The order of the Bessel function.
     :type v: Integer or Real
@@ -39,7 +39,7 @@ Bessel Functions
 
 .. funcsketch:function:: bessel_i(v, x)
 
-    Cylindrical modified Bessel function of the first kind.
+    (Cylindrical) modified Bessel function of the first kind.
 
     :param v: The order of the Bessel function.
     :type v: Integer or Real
@@ -57,7 +57,7 @@ Bessel Functions
 
 .. funcsketch:function:: bessel_k(v, x)
 
-    Cylindrical modified Bessel function of the second kind.
+    (Cylindrical) modified Bessel function of the second kind.
 
     :param v: The order of the Bessel function.
     :type v: Integer or Real
@@ -72,3 +72,31 @@ Bessel Functions
 
     .. image:: plots/bessel_k0.png
     .. image:: plots/bessel_k1.png
+
+.. funcsketch:function:: hankel1(v, x)
+
+    (Cylindrical) Hankel function of the first kind.
+
+    :param v: The order of the Hankel function.
+    :type v: Integer or Real
+    :param x: The argument of the Hankel function.
+    :type x: Real or Complex
+    :definition: :math:`\displaystyle H_{\nu}^{(1)}(x) = J_{\nu}(x) + i Y_{\nu}(x)`.
+    :domain: :math:`(0, \infty)` for real :math:`x`
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :returns: The value of :math:`H_{\nu}^{(1)}(x)`.
+    :rtype: Real or Complex according to the type of ``x``.
+
+.. funcsketch:function:: hankel2(v, x)
+
+    (Cylindrical) Hankel function of the second kind.
+
+    :param v: The order of the Hankel function.
+    :type v: Integer or Real
+    :param x: The argument of the Hankel function.
+    :type x: Real or Complex
+    :definition: :math:`\displaystyle H_{\nu}^{(2)}(x) = J_{\nu}(x) - i Y_{\nu}(x)`.
+    :domain: :math:`(0, \infty)` for real :math:`x`
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :returns: The value of :math:`H_{\nu}^{(2)}(x)`.
+    :rtype: Real or Complex according to the type of ``x``.

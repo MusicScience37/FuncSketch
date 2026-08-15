@@ -63,4 +63,22 @@ namespace func_sketch::math {
 [[nodiscard]] MathFunction bessel_k_function(
     std::function<Complex(Real, Complex)> complex_bessel_k);
 
+/*!
+ * \brief Create `hankel1` function.
+ *
+ * \param[in] complex_hankel1 Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction hankel1_function(
+    std::function<Complex(Real, Complex)> complex_hankel1);
+
+/*!
+ * \brief Create `hankel2` function.
+ *
+ * \param[in] complex_hankel2 Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction hankel2_function(
+    std::function<Complex(Real, Complex)> complex_hankel2);
+
 }  // namespace func_sketch::math

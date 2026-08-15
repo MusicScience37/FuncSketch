@@ -87,6 +87,8 @@ MathFunctionList generate_math_function_list(
     list.emplace(bessel_y_function(python_functions.complex_bessel_y));
     list.emplace(bessel_i_function(python_functions.complex_bessel_i));
     list.emplace(bessel_k_function(python_functions.complex_bessel_k));
+    list.emplace(hankel1_function(python_functions.complex_hankel1));
+    list.emplace(hankel2_function(python_functions.complex_hankel2));
 
     // In erf.h
     list.emplace(erf_function());
