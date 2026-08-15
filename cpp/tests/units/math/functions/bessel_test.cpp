@@ -261,3 +261,95 @@ TEST_CASE("func_sketch::math::hankel2_function") {
             Catch::Matchers::WithinRel(expected.imag()));
     }
 }
+
+TEST_CASE("func_sketch::math::spherical_bessel_j_function") {
+    using func_sketch::Complex;
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::spherical_bessel_j_function;
+
+    // Bessel function for complex arguments will be assigned in the binding
+    // code, so empty function is used here. Tests for complex arguments will be
+    // done in Python.
+    const std::function<Complex(unsigned, Complex)> complex_spherical_bessel_j;
+    const auto function_object =
+        spherical_bessel_j_function(complex_spherical_bessel_j);
+
+    SECTION("operate on an integer order and a real argument") {
+        constexpr Integer order = 2;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = 0.12734928368840834;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("try to operate on a negative order") {
+        constexpr Integer order = -1;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        CHECK(std::isnan(std::get<Real>(result)));
+    }
+
+    SECTION("try to operate on a real number order") {
+        constexpr Real order = 2.5;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        CHECK_THROWS(
+            function_object(std::vector<Number>{order, argument}, result));
+    }
+}
+
+TEST_CASE("func_sketch::math::spherical_bessel_y_function") {
+    using func_sketch::Complex;
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::spherical_bessel_y_function;
+
+    // Bessel function for complex arguments will be assigned in the binding
+    // code, so empty function is used here. Tests for complex arguments will be
+    // done in Python.
+    const std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y;
+    const auto function_object =
+        spherical_bessel_y_function(complex_spherical_bessel_y);
+
+    SECTION("operate on an integer order and a real argument") {
+        constexpr Integer order = 2;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = -1.3457126936204509;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("try to operate on a negative order") {
+        constexpr Integer order = -1;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        CHECK(std::isnan(std::get<Real>(result)));
+    }
+
+    SECTION("try to operate on a real number order") {
+        constexpr Real order = 2.5;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        CHECK_THROWS(
+            function_object(std::vector<Number>{order, argument}, result));
+    }
+}

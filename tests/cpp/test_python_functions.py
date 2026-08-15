@@ -115,3 +115,29 @@ class TestPythonFunctions:
         expression = parser("imag(hankel2(1.23, 0.45 + 0.67i))")
         result = evaluator(expression, 0.0)
         assert result == pytest.approx(0.9636419857970038, abs=1e-10)
+
+    def test_complex_spherical_bessel_j(self) -> None:
+        """Test of spherical Bessel function of the first kind for complex numbers."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("real(spherical_bessel_j(1, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.16723358931297416, abs=1e-10)
+
+        expression = parser("imag(spherical_bessel_j(1, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.2193878365394319, abs=1e-10)
+
+    def test_complex_spherical_bessel_y(self) -> None:
+        """Test of spherical Bessel function of the second kind for complex numbers."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("real(spherical_bessel_y(1, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.052038633338083784, abs=1e-10)
+
+        expression = parser("imag(spherical_bessel_y(1, 0.45 + 0.67i))")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(1.4985098757444921, abs=1e-10)

@@ -152,4 +152,54 @@ MathFunction hankel2_function(
             }));
 }
 
+MathFunction spherical_bessel_j_function(
+    std::function<Complex(unsigned, Complex)> complex_spherical_bessel_j) {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real, Complex>>>(
+        "spherical_bessel_j",
+        [complex_spherical_bessel_j = std::move(complex_spherical_bessel_j)](
+            Integer order, auto arg) {
+            using ArgType = std::decay_t<decltype(arg)>;
+            if (order < 0) {
+                return static_cast<ArgType>(
+                    std::numeric_limits<Real>::quiet_NaN());
+            }
+            const unsigned unsigned_order = static_cast<unsigned>(order);
+            if constexpr (std::is_same_v<ArgType, Complex>) {
+                return complex_spherical_bessel_j(unsigned_order, arg);
+            } else {
+                try {
+                    return boost::math::sph_bessel(unsigned_order, arg);
+                } catch (const std::exception& e) {
+                    return std::numeric_limits<Real>::quiet_NaN();
+                }
+            }
+        }));
+}
+
+MathFunction spherical_bessel_y_function(
+    std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y) {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real, Complex>>>(
+        "spherical_bessel_y",
+        [complex_spherical_bessel_y = std::move(complex_spherical_bessel_y)](
+            Integer order, auto arg) {
+            using ArgType = std::decay_t<decltype(arg)>;
+            if (order < 0) {
+                return static_cast<ArgType>(
+                    std::numeric_limits<Real>::quiet_NaN());
+            }
+            const unsigned unsigned_order = static_cast<unsigned>(order);
+            if constexpr (std::is_same_v<ArgType, Complex>) {
+                return complex_spherical_bessel_y(unsigned_order, arg);
+            } else {
+                try {
+                    return boost::math::sph_neumann(unsigned_order, arg);
+                } catch (const std::exception& e) {
+                    return std::numeric_limits<Real>::quiet_NaN();
+                }
+            }
+        }));
+}
+
 }  // namespace func_sketch::math

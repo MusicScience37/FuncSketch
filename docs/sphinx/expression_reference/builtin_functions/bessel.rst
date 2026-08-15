@@ -87,6 +87,11 @@ Bessel Functions
     :returns: The value of :math:`H_{\nu}^{(1)}(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
+    For the plot of Hankel functions, see the plots of Bessel functions
+    :funcsketch:func:`bessel_j` and :funcsketch:func:`bessel_y`,
+    because Hankel functions have the same shape as Bessel functions
+    in real and imaginary parts.
+
 .. funcsketch:function:: hankel2(v, x)
 
     (Cylindrical) Hankel function of the second kind.
@@ -100,3 +105,42 @@ Bessel Functions
         or :math:`\mathbb{C}` for complex :math:`x`
     :returns: The value of :math:`H_{\nu}^{(2)}(x)`.
     :rtype: Real or Complex according to the type of ``x``.
+
+    For the plot of Hankel functions, see the plots of Bessel functions
+    :funcsketch:func:`bessel_j` and :funcsketch:func:`bessel_y`,
+    because Hankel functions have the same shape as Bessel functions
+    in real and imaginary parts.
+
+.. funcsketch:function:: spherical_bessel_j(n, x)
+
+    Spherical Bessel function of the first kind.
+
+    :param n: The order of the spherical Bessel function.
+    :type n: Integer
+    :param x: The argument of the spherical Bessel function.
+    :type x: Real or Complex
+    :definition: :math:`\displaystyle j_n(x) = \sqrt{\frac{\pi}{2x}} J_{n + 1/2}(x)`.
+    :domain: :math:`[0, \infty)` for real :math:`x`
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :returns: The value of :math:`j_n(x)`.
+    :rtype: Real or Complex according to the type of ``x``.
+
+    .. image:: plots/spherical_bessel_j0.png
+    .. image:: plots/spherical_bessel_j1.png
+
+.. funcsketch:function:: spherical_bessel_y(n, x)
+
+    Spherical Bessel function of the second kind.
+
+    :param n: The order of the spherical Bessel function.
+    :type n: Integer
+    :param x: The argument of the spherical Bessel function.
+    :type x: Real or Complex
+    :definition: :math:`\displaystyle y_n(x) = \sqrt{\frac{\pi}{2x}} Y_{n + 1/2}(x)`.
+    :domain: :math:`(0, \infty)` for real :math:`x`
+        or :math:`\mathbb{C}` for complex :math:`x`
+    :returns: The value of :math:`y_n(x)`.
+    :rtype: Real or Complex according to the type of ``x``.
+
+    .. image:: plots/spherical_bessel_y0.png
+    .. image:: plots/spherical_bessel_y1.png
