@@ -144,3 +144,35 @@ class TestBessel:
             "imag(spherical_hankel2(0, x))", (0.1, 10.0), (-1.0, 1.2)
         )
         compare_vectors(y_values, -scipy.special.spherical_yn(0, x_values))
+
+    def test_sample_kelvin_ber(self) -> None:
+        """Test of sampling kelvin_ber(order, x)."""
+        x_values, y_values = sample_function(
+            "kelvin_ber(0, x)", (0.1, 10.0), (-10.0, 10.0)
+        )
+        # scipy.special.ber is order 0.
+        compare_vectors(y_values, scipy.special.ber(x_values))
+
+    def test_sample_kelvin_bei(self) -> None:
+        """Test of sampling kelvin_bei(order, x)."""
+        x_values, y_values = sample_function(
+            "kelvin_bei(0, x)", (0.1, 10.0), (-10.0, 10.0)
+        )
+        # scipy.special.bei is order 0.
+        compare_vectors(y_values, scipy.special.bei(x_values))
+
+    def test_sample_kelvin_ker(self) -> None:
+        """Test of sampling kelvin_ker(order, x)."""
+        x_values, y_values = sample_function(
+            "kelvin_ker(0, x)", (0.1, 10.0), (-10.0, 10.0)
+        )
+        # scipy.special.ker is order 0.
+        compare_vectors(y_values, scipy.special.ker(x_values))
+
+    def test_sample_kelvin_kei(self) -> None:
+        """Test of sampling kelvin_kei(order, x)."""
+        x_values, y_values = sample_function(
+            "kelvin_kei(0, x)", (0.1, 10.0), (-10.0, 10.0)
+        )
+        # scipy.special.kei is order 0.
+        compare_vectors(y_values, scipy.special.kei(x_values))

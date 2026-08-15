@@ -159,3 +159,23 @@ class TestBessel:
             (-3.0, 3.0),
         )
         image_approver.verify(image)
+
+    def test_plot_kelvin_ber(self, image_approver) -> None:
+        """Test of plotting kelvin_ber(n, x)."""
+        image = plot_function(["kelvin_ber(0, x)"], (0.0, 10.0), (-10.0, 10.0))
+        image_approver.verify(image)
+
+    def test_plot_kelvin_bei(self, image_approver) -> None:
+        """Test of plotting kelvin_bei(n, x)."""
+        image = plot_function(["kelvin_bei(0, x)"], (0.0, 10.0), (-40.0, 20.0))
+        image_approver.verify(image)
+
+    def test_plot_kelvin_ker(self, image_approver) -> None:
+        """Test of plotting kelvin_ker(n, x)."""
+        image = plot_function(["kelvin_ker(0, x)"], (0.0, 10.0), (-1.0, 5.0))
+        image_approver.verify(image)
+
+    def test_plot_kelvin_kei(self, image_approver) -> None:
+        """Test of plotting kelvin_kei(n, x)."""
+        image = plot_function(["kelvin_kei(0, x)"], (0.0, 10.0), (-1.0, 0.2))
+        image_approver.verify(image)

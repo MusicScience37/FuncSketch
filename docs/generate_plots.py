@@ -137,6 +137,30 @@ PLOT_LIST = [
         x_range=(-1.0, 10.0),
         y_range=(-3.0, 1.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_ber.png",
+        expression_str="kelvin_ber(0, x)",
+        x_range=(0.0, 10.0),
+        y_range=(-10.0, 10.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_bei.png",
+        expression_str="kelvin_bei(0, x)",
+        x_range=(0.0, 10.0),
+        y_range=(-40.0, 20.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_ker.png",
+        expression_str="kelvin_ker(0, x)",
+        x_range=(0.0, 10.0),
+        y_range=(-1.0, 5.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_kei.png",
+        expression_str="kelvin_kei(0, x)",
+        x_range=(0.0, 10.0),
+        y_range=(-1.0, 0.2),
+    ),
     # For error.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/erf.png",

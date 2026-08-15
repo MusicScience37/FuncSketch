@@ -17,14 +17,6 @@ Candidate of implementation of special functions are as follows:
 | Beta                 | Incomplete beta function $B{(x; a, b)}$                          | (TODO)             | `boost::math::ibeta`              | `scipy.special.betainc`          |
 | Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$               | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |
 | Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$              | (TODO)             | `boost::math::airy_bi`            | `scipy.special.airy`             |
-| Bessel               | Spherical Bessel function $j_n{(x)}$                             | (TODO)             | `std::sph_bessel`                 | `scipy.special.spherical_jn`     |
-| Bessel               | Spherical Neumann function $y_n{(x)}$                            | (TODO)             | `std::sph_neumann`                | `scipy.special.spherical_yn`     |
-| Bessel               | Spherical Hankel function of the first kind $h_n^{(1)}{(x)}$     | (TODO)             | `boost::math::sph_hankel_1`       | (TODO)                           |
-| Bessel               | Spherical Hankel function of the second kind $h_n^{(2)}{(x)}$    | (TODO)             | `boost::math::sph_hankel_2`       | (TODO)                           |
-| Kelvin               | Kelvin function $\mathrm{ber}_{\nu}{(x)}$                        | (TODO)             | (TODO)                            | `scipy.special.ber`              |
-| Kelvin               | Kelvin function $\mathrm{bei}_{\nu}{(x)}$                        | (TODO)             | (TODO)                            | `scipy.special.bei`              |
-| Kelvin               | Kelvin function $\mathrm{ker}_{\nu}{(x)}$                        | (TODO)             | (TODO)                            | `scipy.special.ker`              |
-| Kelvin               | Kelvin function $\mathrm{kei}_{\nu}{(x)}$                        | (TODO)             | (TODO)                            | `scipy.special.kei`              |
 | Gamma                | Digamma function $\psi{(x)}$                                     | (TODO)             | `boost::math::digamma`            | `scipy.special.digamma`          |
 | Gamma                | Polygamma function $\psi^{(n)}{(x)}$                             | (TODO)             | `boost::math::polygamma`          | `scipy.special.polygamma`        |
 | Gamma                | Upper incomplete gamma function $\Gamma{(a, x)}$                 | (TODO)             | `boost::math::tgamma`             | `scipy.special.gammaincc`        |

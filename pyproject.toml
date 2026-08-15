@@ -57,7 +57,7 @@ test = [
 ]
 
 [tool.pylint.main]
-disable = "too-many-instance-attributes,line-too-long,fixme,too-few-public-methods,redefined-outer-name,redefined-builtin,too-many-arguments,no-member,use-implicit-booleaness-not-comparison"
+disable = "too-many-instance-attributes,line-too-long,fixme,too-few-public-methods,redefined-outer-name,redefined-builtin,too-many-arguments,no-member,use-implicit-booleaness-not-comparison,too-many-public-methods"
 load-plugins = "pylint.extensions.docparams"
 extension-pkg-whitelist = [
     "kivy.graphics",

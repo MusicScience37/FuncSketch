@@ -121,4 +121,40 @@ namespace func_sketch::math {
     std::function<Complex(unsigned, Complex)> complex_spherical_bessel_j,
     std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y);
 
+/*!
+ * \brief Create `kelvin_ber` function.
+ *
+ * \param[in] complex_bessel_j Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction kelvin_ber_function(
+    std::function<Complex(Real, Complex)> complex_bessel_j);
+
+/*!
+ * \brief Create `kelvin_bei` function.
+ *
+ * \param[in] complex_bessel_j Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction kelvin_bei_function(
+    std::function<Complex(Real, Complex)> complex_bessel_j);
+
+/*!
+ * \brief Create `kelvin_ker` function.
+ *
+ * \param[in] complex_bessel_k Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction kelvin_ker_function(
+    std::function<Complex(Real, Complex)> complex_bessel_k);
+
+/*!
+ * \brief Create `kelvin_kei` function.
+ *
+ * \param[in] complex_bessel_k Function for complex arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction kelvin_kei_function(
+    std::function<Complex(Real, Complex)> complex_bessel_k);
+
 }  // namespace func_sketch::math

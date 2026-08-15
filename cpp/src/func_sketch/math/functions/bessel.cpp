@@ -20,6 +20,8 @@
  */
 #include "func_sketch/math/functions/bessel.h"
 
+#include <cmath>
+#include <numbers>
 #include <utility>
 
 #include <boost/math/special_functions/bessel.hpp>
@@ -256,6 +258,56 @@ MathFunction spherical_hankel2_function(
                     return std::numeric_limits<Real>::quiet_NaN();
                 }
             }
+        }));
+}
+
+MathFunction kelvin_ber_function(
+    std::function<Complex(Real, Complex)> complex_bessel_j) {
+    const Complex arg_coeff = std::exp(Complex(0.0, std::numbers::pi * 0.75));
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>("kelvin_ber",
+        [complex_bessel_j = std::move(complex_bessel_j), arg_coeff](
+            Real order, Real arg) -> Real {
+            return complex_bessel_j(order, arg * arg_coeff).real();
+        }));
+}
+
+MathFunction kelvin_bei_function(
+    std::function<Complex(Real, Complex)> complex_bessel_j) {
+    const Complex arg_coeff = std::exp(Complex(0.0, std::numbers::pi * 0.75));
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>("kelvin_bei",
+        [complex_bessel_j = std::move(complex_bessel_j), arg_coeff](
+            Real order, Real arg) -> Real {
+            return complex_bessel_j(order, arg * arg_coeff).imag();
+        }));
+}
+
+MathFunction kelvin_ker_function(
+    std::function<Complex(Real, Complex)> complex_bessel_k) {
+    const Complex arg_coeff = std::exp(Complex(0.0, std::numbers::pi * 0.25));
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>("kelvin_ker",
+        [complex_bessel_k = std::move(complex_bessel_k), arg_coeff](
+            Real order, Real arg) -> Real {
+            const Complex result_coeff =
+                std::exp(Complex(0.0, -order * (std::numbers::pi * 0.5)));
+            return (result_coeff * complex_bessel_k(order, arg * arg_coeff))
+                .real();
+        }));
+}
+
+MathFunction kelvin_kei_function(
+    std::function<Complex(Real, Complex)> complex_bessel_k) {
+    const Complex arg_coeff = std::exp(Complex(0.0, std::numbers::pi * 0.25));
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>("kelvin_kei",
+        [complex_bessel_k = std::move(complex_bessel_k), arg_coeff](
+            Real order, Real arg) -> Real {
+            const Complex result_coeff =
+                std::exp(Complex(0.0, -order * (std::numbers::pi * 0.5)));
+            return (result_coeff * complex_bessel_k(order, arg * arg_coeff))
+                .imag();
         }));
 }
 
