@@ -99,6 +99,10 @@ MathFunctionList generate_math_function_list(
     list.emplace(
         spherical_hankel2_function(python_functions.complex_spherical_bessel_j,
             python_functions.complex_spherical_bessel_y));
+    list.emplace(kelvin_ber_function(python_functions.complex_bessel_j));
+    list.emplace(kelvin_bei_function(python_functions.complex_bessel_j));
+    list.emplace(kelvin_ker_function(python_functions.complex_bessel_k));
+    list.emplace(kelvin_kei_function(python_functions.complex_bessel_k));
 
     // In erf.h
     list.emplace(erf_function());

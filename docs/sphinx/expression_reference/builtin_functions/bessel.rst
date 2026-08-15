@@ -182,3 +182,63 @@ Bessel Functions
     :funcsketch:func:`spherical_bessel_j` and :funcsketch:func:`spherical_bessel_y`,
     because spherical Hankel functions have the same shape as spherical Bessel functions
     in real and imaginary parts.
+
+.. funcsketch:function:: kelvin_ber(v, x)
+
+    Kelvin function ``ber``.
+
+    :param v: The order of the Kelvin function.
+    :type v: Real
+    :param x: The argument of the Kelvin function.
+    :type x: Real
+    :definition: :math:`\displaystyle \text{ber}_{\nu}(x) = \operatorname{Re}\left[J_{\nu}\left(x e^{3 \pi i / 4}\right)\right]`.
+    :domain: :math:`(-\infty, \infty)`
+    :returns: The value of :math:`\text{ber}_{\nu}(x)`.
+    :rtype: Real
+
+    .. image:: plots/kelvin_ber.png
+
+.. funcsketch:function:: kelvin_bei(v, x)
+
+    Kelvin function ``bei``.
+
+    :param v: The order of the Kelvin function.
+    :type v: Real
+    :param x: The argument of the Kelvin function.
+    :type x: Real
+    :definition: :math:`\displaystyle \text{bei}_{\nu}(x) = \operatorname{Im}\left[J_{\nu}\left(x e^{3 \pi i / 4}\right)\right]`.
+    :domain: :math:`(-\infty, \infty)`
+    :returns: The value of :math:`\text{bei}_{\nu}(x)`.
+    :rtype: Real
+
+    .. image:: plots/kelvin_bei.png
+
+.. funcsketch:function:: kelvin_ker(v, x)
+
+    Kelvin function ``ker``.
+
+    :param v: The order of the Kelvin function.
+    :type v: Real
+    :param x: The argument of the Kelvin function.
+    :type x: Real
+    :definition: :math:`\displaystyle \text{ker}_{\nu}(x) = \operatorname{Re}\left[e^{-\nu \pi i / 2} K_{\nu}\left(x e^{\pi i / 4}\right)\right]`.
+    :domain: :math:`(0, \infty)`
+    :returns: The value of :math:`\text{ker}_{\nu}(x)`.
+    :rtype: Real
+
+    .. image:: plots/kelvin_ker.png
+
+.. funcsketch:function:: kelvin_kei(v, x)
+
+    Kelvin function ``kei``.
+
+    :param v: The order of the Kelvin function.
+    :type v: Real
+    :param x: The argument of the Kelvin function.
+    :type x: Real
+    :definition: :math:`\displaystyle \text{kei}_{\nu}(x) = \operatorname{Im}\left[e^{-\nu \pi i / 2} K_{\nu}\left(x e^{\pi i / 4}\right)\right]`.
+    :domain: :math:`(0, \infty)`
+    :returns: The value of :math:`\text{kei}_{\nu}(x)`.
+    :rtype: Real
+
+    .. image:: plots/kelvin_kei.png

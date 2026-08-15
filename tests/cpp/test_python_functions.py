@@ -167,3 +167,39 @@ class TestPythonFunctions:
         expression = parser("imag(spherical_hankel2(1, 0.45 + 0.67i))")
         result = evaluator(expression, 0.0)
         assert result == pytest.approx(0.1673492032013481, abs=1e-10)
+
+    def test_kelvin_ber(self) -> None:
+        """Test of Kelvin function ber."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("kelvin_ber(1.23, 0.45)")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(-0.13907260455217346, abs=1e-10)
+
+    def test_kelvin_bei(self) -> None:
+        """Test of Kelvin function bei."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("kelvin_bei(1.23, 0.45)")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(0.031212118075843828, abs=1e-10)
+
+    def test_kelvin_ker(self) -> None:
+        """Test of Kelvin function ker."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("kelvin_ker(1.23, 0.45)")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(-2.7406919539931502, abs=1e-10)
+
+    def test_kelvin_kei(self) -> None:
+        """Test of Kelvin function kei."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("kelvin_kei(1.23, 0.45)")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(-0.3575494005555532, abs=1e-10)
