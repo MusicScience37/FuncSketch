@@ -117,7 +117,6 @@ def check_tests_for_condition(
         "..",
         "-G",
         "Ninja",
-        "-DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake",
     ]
     build_type = BUILD_TYPE_DICT[test_type]
     command = command + [f"-DCMAKE_BUILD_TYPE={build_type}"]
