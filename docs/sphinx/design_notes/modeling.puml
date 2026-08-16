@@ -1,0 +1,94 @@
+@startuml modeling
+
+note as note
+    This diagram is a modeling of this application.
+    Actual class structures differ from this model.
+endnote
+
+class Plot
+
+class Axis
+Plot o-- Axis
+
+class AxisLabel
+Axis o-- AxisLabel
+
+class AxisTick
+Axis o-- AxisTick
+
+class AxisRange {
+    + min: float
+    + max: float
+}
+Axis o-- AxisRange
+
+enum AxisType {
+    linear
+    logarithmic
+}
+Axis o-- AxisType
+
+class PlotTitle
+Plot o-- PlotTitle
+
+class Grid
+Plot o-- Grid
+
+class GridColor
+Grid o-- GridColor
+
+class GridLineStyle
+Grid o-- GridLineStyle
+
+class Legend
+Plot o-- Legend
+
+class Curve
+Plot o-- Curve
+
+class LegendTitle
+Legend o-- LegendTitle
+
+class CurveColor
+Curve o-- CurveColor
+Legend o-- CurveColor
+
+class CurveLineStyle
+Curve o-- CurveLineStyle
+Legend o-- CurveLineStyle
+
+class CurveName
+Curve o-- CurveName
+Legend o-- CurveName
+
+enum CurveType {
+    explicit
+    parametric
+}
+Curve o-- CurveType
+
+enum CoordinateSystem {
+    cartesian
+    polar
+}
+Curve o-- CoordinateSystem
+
+class Function
+Curve o-- Function
+
+class Text
+AxisLabel o-- Text
+PlotTitle o-- Text
+LegendTitle o-- Text
+CurveName o-- Text
+
+class TextFont
+Text o-- TextFont
+
+class TextColor
+Text o-- TextColor
+
+class TextSize
+Text o-- TextSize
+
+@enduml

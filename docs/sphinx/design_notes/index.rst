@@ -6,6 +6,7 @@ Design Notes
 
     goal
     modules
+    modeling
     classes
     grammar
     math_functions
