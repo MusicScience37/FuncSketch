@@ -22,6 +22,7 @@
 #include <cstddef>
 
 #include "func_sketch/plotter/axes_config.h"
+#include "func_sketch/plotter/grid_config.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/rgb_color.h"
 
@@ -29,21 +30,12 @@ namespace func_sketch::plotter {
 
 // TODO Tune these values
 
-//! Default line width of grid lines in pixels.
-constexpr int default_grid_line_width = 1;
-
-//! Default line width of the grid line at zero in pixels.
-constexpr int default_zero_line_width = 2;
-
 //! Default line width of curves in pixels.
 constexpr int default_curve_line_width = 1;
 
 //! Default color of background.
 constexpr auto default_background_color =
     RGBColor{.r = 255, .g = 255, .b = 255};
-
-//! Default color of grid lines.
-constexpr auto default_grid_color = RGBColor{.r = 0xC8, .g = 0xC8, .b = 0xC8};
 
 //! Default number of points to sample initially in adaptive sampling.
 constexpr std::size_t default_initial_num_sample_points = 110;
@@ -105,20 +97,18 @@ public:
     [[nodiscard]] const AxesConfig& axes() const noexcept;
 
     /*!
-     * \brief Set the line width of grid lines in pixels.
+     * \brief Access the configuration of the grid.
      *
-     * \param[in] value Line width of grid lines in pixels.
-     * \return Reference to this object.
+     * \return Reference to the configuration of the grid.
      */
-    PlotConfig& grid_line_width(int value);
+    [[nodiscard]] GridConfig& grid() noexcept;
 
     /*!
-     * \brief Set the line width of the grid line at zero in pixels.
+     * \brief Get the configuration of the grid.
      *
-     * \param[in] value Line width of the grid line at zero in pixels.
-     * \return Reference to this object.
+     * \return Reference to the configuration of the grid.
      */
-    PlotConfig& zero_line_width(int value);
+    [[nodiscard]] const GridConfig& grid() const noexcept;
 
     /*!
      * \brief Set the line width of curves in pixels.
@@ -135,14 +125,6 @@ public:
      * \return Reference to this object.
      */
     PlotConfig& background_color(const RGBColor& value);
-
-    /*!
-     * \brief Set the color of grid lines.
-     *
-     * \param[in] value Color of grid lines.
-     * \return Reference to this object.
-     */
-    PlotConfig& grid_color(const RGBColor& value);
 
     /*!
      * \brief Set the number of points to sample initially in adaptive
@@ -202,20 +184,6 @@ public:
     PlotConfig& min_param_change_rate(double value);
 
     /*!
-     * \brief Get the line width of grid lines in pixels.
-     *
-     * \return Line width of grid lines in pixels.
-     */
-    [[nodiscard]] int grid_line_width() const noexcept;
-
-    /*!
-     * \brief Get the line width of the grid line at zero in pixels.
-     *
-     * \return Line width of the grid line at zero in pixels.
-     */
-    [[nodiscard]] int zero_line_width() const noexcept;
-
-    /*!
      * \brief Get the line width of curves in pixels.
      *
      * \return Line width of curves in pixels.
@@ -228,13 +196,6 @@ public:
      * \return Color of background.
      */
     [[nodiscard]] const RGBColor& background_color() const noexcept;
-
-    /*!
-     * \brief Get the color of grid lines.
-     *
-     * \return Color of grid lines.
-     */
-    [[nodiscard]] const RGBColor& grid_color() const noexcept;
 
     /*!
      * \brief Get the number of points to sample initially in adaptive
@@ -284,20 +245,14 @@ private:
     //! Configuration of axes.
     AxesConfig axes_;
 
-    //! Line width of grid lines in pixels.
-    int grid_line_width_{default_grid_line_width};
-
-    //! Line width of the grid line at zero in pixels.
-    int zero_line_width_{default_zero_line_width};
+    //! Configuration of the grid.
+    GridConfig grid_;
 
     //! Line width of curves in pixels.
     int curve_line_width_{default_curve_line_width};
 
     //! Color of background.
     RGBColor background_color_{default_background_color};
-
-    //! Color of grid lines.
-    RGBColor grid_color_{default_grid_color};
 
     //! Number of points to sample initially in adaptive sampling.
     std::size_t initial_num_sample_points_{default_initial_num_sample_points};

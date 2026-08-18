@@ -26,6 +26,7 @@ set(SOURCE_FILES
     plotter/axes_config.cpp
     plotter/axis_ticks.cpp
     plotter/function_sampler.cpp
+    plotter/grid_config.cpp
     plotter/margin.cpp
     plotter/plot_config.cpp
     plotter/plot_range.cpp

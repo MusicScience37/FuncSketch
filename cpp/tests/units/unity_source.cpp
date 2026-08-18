@@ -33,6 +33,7 @@
 #include "plotter/axes_config_test.cpp"
 #include "plotter/axis_ticks_test.cpp"
 #include "plotter/function_sampler_test.cpp"
+#include "plotter/grid_config_test.cpp"
 #include "plotter/margin_test.cpp"
 #include "plotter/plot_config_test.cpp"
 #include "plotter/plot_range_test.cpp"

@@ -25,6 +25,7 @@
 #include "plotter/axes_config.cpp"
 #include "plotter/axis_ticks.cpp"
 #include "plotter/function_sampler.cpp"
+#include "plotter/grid_config.cpp"
 #include "plotter/margin.cpp"
 #include "plotter/plot_config.cpp"
 #include "plotter/plot_range.cpp"

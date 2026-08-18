@@ -17,6 +17,7 @@
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/function_sampler.h"
+#include "func_sketch/plotter/grid_config.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
@@ -255,6 +256,28 @@ Objects of this class can be called with a string to parse it into an Expression
             },
             "Number of pixels per tick in the y-axis.");
 
+    using func_sketch::plotter::GridConfig;
+    nanobind::class_<GridConfig>(
+        m, "GridConfig", "Class of configurations of a grid.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def_prop_rw(
+            "line_width",
+            [](const GridConfig& self) -> int { return self.line_width(); },
+            [](GridConfig& self, int value) { self.line_width(value); },
+            "Line width of grid lines in pixels.")
+        .def_prop_rw(
+            "zero_line_width",
+            [](const GridConfig& self) -> int {
+                return self.zero_line_width();
+            },
+            [](GridConfig& self, int value) { self.zero_line_width(value); },
+            "Line width of the grid line at zero in pixels.")
+        .def_prop_rw(
+            "color",
+            [](const GridConfig& self) -> RGBColor { return self.color(); },
+            [](GridConfig& self, const RGBColor& value) { self.color(value); },
+            "Color of grid lines.");
+
     using func_sketch::plotter::PlotConfig;
     nanobind::class_<PlotConfig>(
         m, "PlotConfig", "Class of configurations of plots.")
@@ -272,19 +295,11 @@ Objects of this class can be called with a string to parse it into an Expression
             },
             "Configuration of axes of plots.")
         .def_prop_rw(
-            "grid_line_width",
-            [](const PlotConfig& self) -> int {
-                return self.grid_line_width();
+            "grid", [](PlotConfig& self) -> GridConfig& { return self.grid(); },
+            [](PlotConfig& self, const GridConfig& value) {
+                self.grid() = value;
             },
-            [](PlotConfig& self, int value) { self.grid_line_width(value); },
-            "Line width of grid lines in pixels.")
-        .def_prop_rw(
-            "zero_line_width",
-            [](const PlotConfig& self) -> int {
-                return self.zero_line_width();
-            },
-            [](PlotConfig& self, int value) { self.zero_line_width(value); },
-            "Line width of the grid line at zero in pixels.")
+            "Configuration of the grid of plots.")
         .def_prop_rw(
             "curve_line_width",
             [](const PlotConfig& self) -> int {
@@ -301,15 +316,6 @@ Objects of this class can be called with a string to parse it into an Expression
                 self.background_color(value);
             },
             "Color of background.")
-        .def_prop_rw(
-            "grid_color",
-            [](const PlotConfig& self) -> RGBColor {
-                return self.grid_color();
-            },
-            [](PlotConfig& self, const RGBColor& value) {
-                self.grid_color(value);
-            },
-            "Color of grid lines.")
         .def_prop_rw(
             "initial_num_sample_points",
             [](const PlotConfig& self) -> std::size_t {

@@ -55,17 +55,21 @@ class TestPlotConfig:
         assert config.axes.num_pixels_per_tick_in_x_axis == 150
         assert config.axes.num_pixels_per_tick_in_y_axis == 100
 
-    def test_grid_line_width(self) -> None:
-        """Test of grid_line_width property."""
+    def test_grid(self) -> None:
+        """Test of grid property."""
         config = PlotConfig()
-        config.grid_line_width = 3
-        assert config.grid_line_width == 3
+        color = RGBColor(0x11, 0x22, 0x33)
 
-    def test_zero_line_width(self) -> None:
-        """Test of zero_line_width property."""
-        config = PlotConfig()
-        config.zero_line_width = 3
-        assert config.zero_line_width == 3
+        # Configuration of the grid can be changed in place.
+        config.grid.line_width = 3
+        config.grid.zero_line_width = 5
+        config.grid.color = color
+
+        assert config.grid.line_width == 3
+        assert config.grid.zero_line_width == 5
+        assert config.grid.color.r == color.r
+        assert config.grid.color.g == color.g
+        assert config.grid.color.b == color.b
 
     def test_curve_line_width(self) -> None:
         """Test of curve_line_width property."""
@@ -81,15 +85,6 @@ class TestPlotConfig:
         assert config.background_color.r == color.r
         assert config.background_color.g == color.g
         assert config.background_color.b == color.b
-
-    def test_grid_color(self) -> None:
-        """Test of grid_color property."""
-        config = PlotConfig()
-        color = RGBColor(0x11, 0x22, 0x33)
-        config.grid_color = color
-        assert config.grid_color.r == color.r
-        assert config.grid_color.g == color.g
-        assert config.grid_color.b == color.b
 
     def test_initial_num_sample_points(self) -> None:
         """Test of initial_num_sample_points property."""

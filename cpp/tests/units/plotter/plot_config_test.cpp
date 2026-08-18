@@ -88,42 +88,29 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(const_config.axes().num_pixels_per_tick_in_y_axis() == 100);
     }
 
-    SECTION("set and get grid line width") {
+    SECTION("access the configuration of the grid") {
+        using func_sketch::plotter::RGBColor;
+
         PlotConfig config;
 
-        CHECK(config.grid_line_width() ==
+        CHECK(config.grid().line_width() ==
             func_sketch::plotter::default_grid_line_width);
-
-        CHECK_NOTHROW(config.grid_line_width(2));
-        CHECK(config.grid_line_width() == 2);
-
-        CHECK_THROWS(config.grid_line_width(-1));
-        CHECK(config.grid_line_width() == 2);
-
-        CHECK_NOTHROW(config.grid_line_width(0));
-        CHECK(config.grid_line_width() == 0);
-
-        CHECK_NOTHROW(config.grid_line_width(1));
-        CHECK(config.grid_line_width() == 1);
-    }
-
-    SECTION("set and get zero line width") {
-        PlotConfig config;
-
-        CHECK(config.zero_line_width() ==
+        CHECK(config.grid().zero_line_width() ==
             func_sketch::plotter::default_zero_line_width);
+        CHECK(
+            config.grid().color() == func_sketch::plotter::default_grid_color);
 
-        CHECK_NOTHROW(config.zero_line_width(3));
-        CHECK(config.zero_line_width() == 3);
+        const RGBColor new_color{.r = 100, .g = 150, .b = 200};
+        config.grid().line_width(2).zero_line_width(3).color(new_color);
 
-        CHECK_THROWS(config.zero_line_width(-1));
-        CHECK(config.zero_line_width() == 3);
+        CHECK(config.grid().line_width() == 2);
+        CHECK(config.grid().zero_line_width() == 3);
+        CHECK(config.grid().color() == new_color);
 
-        CHECK_NOTHROW(config.zero_line_width(0));
-        CHECK(config.zero_line_width() == 0);
-
-        CHECK_NOTHROW(config.zero_line_width(1));
-        CHECK(config.zero_line_width() == 1);
+        const PlotConfig& const_config = config;
+        CHECK(const_config.grid().line_width() == 2);
+        CHECK(const_config.grid().zero_line_width() == 3);
+        CHECK(const_config.grid().color() == new_color);
     }
 
     SECTION("set and get curve line width") {
@@ -160,22 +147,6 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         const RGBColor black{.r = 0, .g = 0, .b = 0};
         CHECK_NOTHROW(config.background_color(black));
         CHECK(config.background_color() == black);
-    }
-
-    SECTION("set and get grid color") {
-        using func_sketch::plotter::RGBColor;
-
-        PlotConfig config;
-
-        CHECK(config.grid_color() == func_sketch::plotter::default_grid_color);
-
-        const RGBColor new_color{.r = 100, .g = 150, .b = 200};
-        CHECK_NOTHROW(config.grid_color(new_color));
-        CHECK(config.grid_color() == new_color);
-
-        const RGBColor light_gray{.r = 220, .g = 220, .b = 220};
-        CHECK_NOTHROW(config.grid_color(light_gray));
-        CHECK(config.grid_color() == light_gray);
     }
 
     SECTION("set and get initial number of sample points") {

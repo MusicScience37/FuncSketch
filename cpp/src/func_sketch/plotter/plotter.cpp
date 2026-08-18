@@ -197,19 +197,21 @@ void Plotter::write_grid_lines(Image& image) {
 
     // vertical lines.
     for (const Real x_value : x_axis_ticks_.values) {
-        const int line_width = (x_value == 0.0) ? config_.zero_line_width()
-                                                : config_.grid_line_width();
+        const int line_width = (x_value == 0.0)
+            ? config_.grid().zero_line_width()
+            : config_.grid().line_width();
         write_line(image, Point{.x = x_value, .y = range_.y_range().first},
             Point{.x = x_value, .y = range_.y_range().second},
-            convert_color(config_.grid_color()), line_width, range_, margin_);
+            convert_color(config_.grid().color()), line_width, range_, margin_);
     }
     // horizontal lines.
     for (const Real y_value : y_axis_ticks_.values) {
-        const int line_width = (y_value == 0.0) ? config_.zero_line_width()
-                                                : config_.grid_line_width();
+        const int line_width = (y_value == 0.0)
+            ? config_.grid().zero_line_width()
+            : config_.grid().line_width();
         write_line(image, Point{.x = range_.x_range().first, .y = y_value},
             Point{.x = range_.x_range().second, .y = y_value},
-            convert_color(config_.grid_color()), line_width, range_, margin_);
+            convert_color(config_.grid().color()), line_width, range_, margin_);
     }
 }
 

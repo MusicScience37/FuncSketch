@@ -33,21 +33,9 @@ AxesConfig& PlotConfig::axes() noexcept { return axes_; }
 
 const AxesConfig& PlotConfig::axes() const noexcept { return axes_; }
 
-PlotConfig& PlotConfig::grid_line_width(int value) {
-    if (value < 0) {
-        throw InvalidArgumentException("Grid line width must be non-negative");
-    }
-    grid_line_width_ = value;
-    return *this;
-}
+GridConfig& PlotConfig::grid() noexcept { return grid_; }
 
-PlotConfig& PlotConfig::zero_line_width(int value) {
-    if (value < 0) {
-        throw InvalidArgumentException("Zero line width must be non-negative");
-    }
-    zero_line_width_ = value;
-    return *this;
-}
+const GridConfig& PlotConfig::grid() const noexcept { return grid_; }
 
 PlotConfig& PlotConfig::curve_line_width(int value) {
     if (value < 0) {
@@ -59,11 +47,6 @@ PlotConfig& PlotConfig::curve_line_width(int value) {
 
 PlotConfig& PlotConfig::background_color(const RGBColor& value) {
     background_color_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::grid_color(const RGBColor& value) {
-    grid_color_ = value;
     return *this;
 }
 
@@ -118,17 +101,11 @@ PlotConfig& PlotConfig::min_param_change_rate(double value) {
     return *this;
 }
 
-int PlotConfig::grid_line_width() const noexcept { return grid_line_width_; }
-
-int PlotConfig::zero_line_width() const noexcept { return zero_line_width_; }
-
 int PlotConfig::curve_line_width() const noexcept { return curve_line_width_; }
 
 const RGBColor& PlotConfig::background_color() const noexcept {
     return background_color_;
 }
-
-const RGBColor& PlotConfig::grid_color() const noexcept { return grid_color_; }
 
 std::size_t PlotConfig::initial_num_sample_points() const noexcept {
     return initial_num_sample_points_;
