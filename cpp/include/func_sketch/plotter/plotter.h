@@ -21,6 +21,7 @@
 
 #include "func_sketch/plotter/axis_ticks.h"
 #include "func_sketch/plotter/image.h"
+#include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
@@ -112,10 +113,10 @@ private:
     PlotConfig config_;
 
     /*!
-     * \brief Left margin of plots in pixels. (This value is used over the value
+     * \brief Margins of plots. (This configuration is used over the value
      * in config because tuning of the left margin is needed.)
      */
-    int left_margin_{};
+    Margin margin_;
 
     //! Ticks of the x-axis.
     AxisTicks x_axis_ticks_;
