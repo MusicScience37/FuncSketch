@@ -17,6 +17,7 @@
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/function_sampler.h"
 #include "func_sketch/plotter/image.h"
+#include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/plotter.h"
@@ -191,30 +192,36 @@ Objects of this class can be called with a string to parse it into an Expression
         .def_prop_ro("x_range", &PlotRange::x_range, "Range of x-axis.")
         .def_prop_ro("y_range", &PlotRange::y_range, "Range of y-axis.");
 
+    using func_sketch::plotter::Margin;
+    nanobind::class_<Margin>(m, "Margin", "Class to save margins of plots.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def_prop_rw(
+            "left", [](const Margin& self) -> int { return self.left(); },
+            [](Margin& self, int value) { self.left(value); },
+            "Left margin of plots in pixels.")
+        .def_prop_rw(
+            "right", [](const Margin& self) -> int { return self.right(); },
+            [](Margin& self, int value) { self.right(value); },
+            "Right margin of plots in pixels.")
+        .def_prop_rw(
+            "top", [](const Margin& self) -> int { return self.top(); },
+            [](Margin& self, int value) { self.top(value); },
+            "Top margin of plots in pixels.")
+        .def_prop_rw(
+            "bottom", [](const Margin& self) -> int { return self.bottom(); },
+            [](Margin& self, int value) { self.bottom(value); },
+            "Bottom margin of plots in pixels.");
+
     using func_sketch::plotter::PlotConfig;
     nanobind::class_<PlotConfig>(
         m, "PlotConfig", "Class of configurations of plots.")
         .def(nanobind::init<>(), "Constructor.")
         .def_prop_rw(
-            "left_margin",
-            [](const PlotConfig& self) -> int { return self.left_margin(); },
-            [](PlotConfig& self, int value) { self.left_margin(value); },
-            "Left margin of plots in pixels.")
-        .def_prop_rw(
-            "right_margin",
-            [](const PlotConfig& self) -> int { return self.right_margin(); },
-            [](PlotConfig& self, int value) { self.right_margin(value); },
-            "Right margin of plots in pixels.")
-        .def_prop_rw(
-            "top_margin",
-            [](const PlotConfig& self) -> int { return self.top_margin(); },
-            [](PlotConfig& self, int value) { self.top_margin(value); },
-            "Top margin of plots in pixels.")
-        .def_prop_rw(
-            "bottom_margin",
-            [](const PlotConfig& self) -> int { return self.bottom_margin(); },
-            [](PlotConfig& self, int value) { self.bottom_margin(value); },
-            "Bottom margin of plots in pixels.")
+            "margin", [](PlotConfig& self) -> Margin& { return self.margin(); },
+            [](PlotConfig& self, const Margin& value) {
+                self.margin() = value;
+            },
+            "Configuration of margins of plots.")
         .def_prop_rw(
             "tick_label_font_size",
             [](const PlotConfig& self) -> int {

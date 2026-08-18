@@ -33,6 +33,7 @@ set(SOURCE_FILES
     parser/parser_test_strings.cpp
     plotter/axis_ticks_test.cpp
     plotter/function_sampler_test.cpp
+    plotter/margin_test.cpp
     plotter/plot_config_test.cpp
     plotter/plot_range_test.cpp
     plotter/plotter_test.cpp

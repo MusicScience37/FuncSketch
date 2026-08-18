@@ -24,79 +24,30 @@
 TEST_CASE("func_sketch::plotter::PlotConfig") {
     using func_sketch::plotter::PlotConfig;
 
-    SECTION("set and get left margin") {
+    SECTION("access the configuration of margins") {
         PlotConfig config;
 
-        CHECK(
-            config.left_margin() == func_sketch::plotter::default_left_margin);
-
-        CHECK_NOTHROW(config.left_margin(7));
-        CHECK(config.left_margin() == 7);
-
-        CHECK_THROWS(config.left_margin(-1));
-        CHECK(config.left_margin() == 7);
-
-        CHECK_NOTHROW(config.left_margin(0));
-        CHECK(config.left_margin() == 0);
-
-        CHECK_NOTHROW(config.left_margin(1));
-        CHECK(config.left_margin() == 1);
-    }
-
-    SECTION("set and get right margin") {
-        PlotConfig config;
-
-        CHECK(config.right_margin() ==
+        CHECK(config.margin().left() ==
+            func_sketch::plotter::default_left_margin);
+        CHECK(config.margin().right() ==
             func_sketch::plotter::default_right_margin);
-
-        CHECK_NOTHROW(config.right_margin(10));
-        CHECK(config.right_margin() == 10);
-
-        CHECK_THROWS(config.right_margin(-1));
-        CHECK(config.right_margin() == 10);
-
-        CHECK_NOTHROW(config.right_margin(0));
-        CHECK(config.right_margin() == 0);
-
-        CHECK_NOTHROW(config.right_margin(1));
-        CHECK(config.right_margin() == 1);
-    }
-
-    SECTION("set and get top margin") {
-        PlotConfig config;
-
-        CHECK(config.top_margin() == func_sketch::plotter::default_top_margin);
-
-        CHECK_NOTHROW(config.top_margin(20));
-        CHECK(config.top_margin() == 20);
-
-        CHECK_THROWS(config.top_margin(-1));
-        CHECK(config.top_margin() == 20);
-
-        CHECK_NOTHROW(config.top_margin(0));
-        CHECK(config.top_margin() == 0);
-
-        CHECK_NOTHROW(config.top_margin(1));
-        CHECK(config.top_margin() == 1);
-    }
-
-    SECTION("set and get bottom margin") {
-        PlotConfig config;
-
-        CHECK(config.bottom_margin() ==
+        CHECK(
+            config.margin().top() == func_sketch::plotter::default_top_margin);
+        CHECK(config.margin().bottom() ==
             func_sketch::plotter::default_bottom_margin);
 
-        CHECK_NOTHROW(config.bottom_margin(25));
-        CHECK(config.bottom_margin() == 25);
+        config.margin().left(7).right(10).top(20).bottom(25);
 
-        CHECK_THROWS(config.bottom_margin(-1));
-        CHECK(config.bottom_margin() == 25);
+        CHECK(config.margin().left() == 7);
+        CHECK(config.margin().right() == 10);
+        CHECK(config.margin().top() == 20);
+        CHECK(config.margin().bottom() == 25);
 
-        CHECK_NOTHROW(config.bottom_margin(0));
-        CHECK(config.bottom_margin() == 0);
-
-        CHECK_NOTHROW(config.bottom_margin(1));
-        CHECK(config.bottom_margin() == 1);
+        const PlotConfig& const_config = config;
+        CHECK(const_config.margin().left() == 7);
+        CHECK(const_config.margin().right() == 10);
+        CHECK(const_config.margin().top() == 20);
+        CHECK(const_config.margin().bottom() == 25);
     }
 
     SECTION("set and get tick label font size") {

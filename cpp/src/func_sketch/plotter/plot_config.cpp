@@ -25,37 +25,9 @@
 
 namespace func_sketch::plotter {
 
-PlotConfig& PlotConfig::left_margin(int value) {
-    if (value < 0) {
-        throw InvalidArgumentException("Left margin must be non-negative");
-    }
-    left_margin_ = value;
-    return *this;
-}
+Margin& PlotConfig::margin() noexcept { return margin_; }
 
-PlotConfig& PlotConfig::right_margin(int value) {
-    if (value < 0) {
-        throw InvalidArgumentException("Right margin must be non-negative");
-    }
-    right_margin_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::top_margin(int value) {
-    if (value < 0) {
-        throw InvalidArgumentException("Top margin must be non-negative");
-    }
-    top_margin_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::bottom_margin(int value) {
-    if (value < 0) {
-        throw InvalidArgumentException("Bottom margin must be non-negative");
-    }
-    bottom_margin_ = value;
-    return *this;
-}
+const Margin& PlotConfig::margin() const noexcept { return margin_; }
 
 PlotConfig& PlotConfig::tick_label_font_size(int value) {
     if (value < 0) {
@@ -181,14 +153,6 @@ PlotConfig& PlotConfig::num_pixels_per_tick_in_y_axis(std::size_t value) {
     num_pixels_per_tick_in_y_axis_ = value;
     return *this;
 }
-
-int PlotConfig::left_margin() const noexcept { return left_margin_; }
-
-int PlotConfig::right_margin() const noexcept { return right_margin_; }
-
-int PlotConfig::top_margin() const noexcept { return top_margin_; }
-
-int PlotConfig::bottom_margin() const noexcept { return bottom_margin_; }
 
 int PlotConfig::tick_label_font_size() const noexcept {
     return tick_label_font_size_;

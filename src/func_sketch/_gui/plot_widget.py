@@ -87,13 +87,13 @@ class PlotWidget(kivy.uix.image.Image):
         """Get size of the plot image."""
         if self.shared_state is not None:
             min_height = int(
-                self.shared_state.plot_config.top_margin
-                + self.shared_state.plot_config.bottom_margin
+                self.shared_state.plot_config.margin.top
+                + self.shared_state.plot_config.margin.bottom
                 + 200
             )
             min_width = int(
-                self.shared_state.plot_config.left_margin
-                + self.shared_state.plot_config.right_margin
+                self.shared_state.plot_config.margin.left
+                + self.shared_state.plot_config.margin.right
                 + 200
             )
         else:

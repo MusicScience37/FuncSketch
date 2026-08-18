@@ -127,7 +127,7 @@ Plotter& Plotter::config(const PlotConfig& value) {
 void Plotter::write_background(Image& image) {
     const auto size = image.size;
     update_axis_ticks(range_, size, config_, x_axis_ticks_, y_axis_ticks_);
-    left_margin_ = config_.left_margin();
+    left_margin_ = config_.margin().left();
     const int required_width_for_y_axis_tick_labels =
         compute_required_width_for_y_axis_tick_labels(y_axis_ticks_, config_);
     const int margin_for_y_axis_tick_labels = config_.tick_label_font_size();

@@ -20,29 +20,20 @@ from func_sketch._cpp import PlotConfig, RGBColor
 class TestPlotConfig:
     """Test of PlotConfig."""
 
-    def test_left_margin(self) -> None:
-        """Test of left_margin property."""
+    def test_margin(self) -> None:
+        """Test of margin property."""
         config = PlotConfig()
-        config.left_margin = 12
-        assert config.left_margin == 12
 
-    def test_right_margin(self) -> None:
-        """Test of right_margin property."""
-        config = PlotConfig()
-        config.right_margin = 12
-        assert config.right_margin == 12
+        # Configuration of margins can be changed in place.
+        config.margin.left = 12
+        config.margin.right = 34
+        config.margin.top = 56
+        config.margin.bottom = 78
 
-    def test_top_margin(self) -> None:
-        """Test of top_margin property."""
-        config = PlotConfig()
-        config.top_margin = 12
-        assert config.top_margin == 12
-
-    def test_bottom_margin(self) -> None:
-        """Test of bottom_margin property."""
-        config = PlotConfig()
-        config.bottom_margin = 12
-        assert config.bottom_margin == 12
+        assert config.margin.left == 12
+        assert config.margin.right == 34
+        assert config.margin.top == 56
+        assert config.margin.bottom == 78
 
     def test_tick_label_font_size(self) -> None:
         """Test of tick_label_font_size property."""

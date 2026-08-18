@@ -36,9 +36,9 @@ cv::Scalar convert_color(const RGBColor& color) {
 
 cv::Point convert_position(const Point& position, const PlotRange& range,
     const PlotConfig& config, int left_margin, const cv::MatSize& size) {
-    const int plot_width = size[1] - left_margin - config.right_margin();
+    const int plot_width = size[1] - left_margin - config.margin().right();
     const int plot_height =
-        size[0] - config.top_margin() - config.bottom_margin();
+        size[0] - config.margin().top() - config.margin().bottom();
     if (plot_width <= 0 || plot_height <= 0) {
         throw InvalidArgumentException("Too small image size.");
     }
@@ -51,7 +51,7 @@ cv::Point convert_position(const Point& position, const PlotRange& range,
     // This version does not use shift.
     const int x_in_pixel = static_cast<int>(plot_width * x_ratio) + left_margin;
     const int y_in_pixel =
-        static_cast<int>(plot_height * (1.0 - y_ratio)) + config.top_margin();
+        static_cast<int>(plot_height * (1.0 - y_ratio)) + config.margin().top();
 
     return cv::Point(x_in_pixel, y_in_pixel);
 }
@@ -72,9 +72,9 @@ cv::Point convert_position(const Point& position, const PlotRange& range,
 [[nodiscard]] cv::Point convert_position_with_shift(const Point& position,
     const PlotRange& range, const PlotConfig& config, int left_margin,
     const cv::MatSize& size, int shift) {
-    const int plot_width = size[1] - left_margin - config.right_margin();
+    const int plot_width = size[1] - left_margin - config.margin().right();
     const int plot_height =
-        size[0] - config.top_margin() - config.bottom_margin();
+        size[0] - config.margin().top() - config.margin().bottom();
     if (plot_width <= 0 || plot_height <= 0) {
         throw InvalidArgumentException("Too small image size.");
     }
@@ -89,7 +89,7 @@ cv::Point convert_position(const Point& position, const PlotRange& range,
         static_cast<double>(left_margin);
     const double y_in_pixel_precise =
         static_cast<double>(plot_height) * (1.0 - y_ratio) +
-        static_cast<double>(config.top_margin());
+        static_cast<double>(config.margin().top());
 
     const double coeff = std::ldexp(1.0, shift);
     const int x_in_pixel_shifted = static_cast<int>(x_in_pixel_precise * coeff);

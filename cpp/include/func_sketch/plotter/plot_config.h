@@ -21,23 +21,12 @@
 
 #include <cstddef>
 
+#include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/rgb_color.h"
 
 namespace func_sketch::plotter {
 
 // TODO Tune these values
-
-//! Default left margin in pixels.
-constexpr int default_left_margin = 60;
-
-//! Default right margin in pixels.
-constexpr int default_right_margin = 60;
-
-//! Default top margin in pixels.
-constexpr int default_top_margin = 50;
-
-//! Default bottom margin in pixels.
-constexpr int default_bottom_margin = 50;
 
 //! Default font size of tick labels in pixels.
 constexpr int default_tick_label_font_size = 11;
@@ -102,36 +91,18 @@ public:
     PlotConfig() = default;
 
     /*!
-     * \brief Set the left margin of plots in pixels.
+     * \brief Access the configuration of margins.
      *
-     * \param[in] value Left margin of plots in pixels.
-     * \return Reference to this object.
+     * \return Reference to the configuration of margins.
      */
-    PlotConfig& left_margin(int value);
+    [[nodiscard]] Margin& margin() noexcept;
 
     /*!
-     * \brief Set the right margin of plots in pixels.
+     * \brief Get the configuration of margins.
      *
-     * \param[in] value Right margin of plots in pixels.
-     * \return Reference to this object.
+     * \return Reference to the configuration of margins.
      */
-    PlotConfig& right_margin(int value);
-
-    /*!
-     * \brief Set the top margin of plots in pixels.
-     *
-     * \param[in] value Top margin of plots in pixels.
-     * \return Reference to this object.
-     */
-    PlotConfig& top_margin(int value);
-
-    /*!
-     * \brief Set the bottom margin of plots in pixels.
-     *
-     * \param[in] value Bottom margin of plots in pixels.
-     * \return Reference to this object.
-     */
-    PlotConfig& bottom_margin(int value);
+    [[nodiscard]] const Margin& margin() const noexcept;
 
     /*!
      * \brief Set the font size of tick labels in pixels.
@@ -271,34 +242,6 @@ public:
     PlotConfig& num_pixels_per_tick_in_y_axis(std::size_t value);
 
     /*!
-     * \brief Get the left margin of plots in pixels.
-     *
-     * \return Left margin of plots in pixels.
-     */
-    [[nodiscard]] int left_margin() const noexcept;
-
-    /*!
-     * \brief Get the right margin of plots in pixels.
-     *
-     * \return Right margin of plots in pixels.
-     */
-    [[nodiscard]] int right_margin() const noexcept;
-
-    /*!
-     * \brief Get the top margin of plots in pixels.
-     *
-     * \return Top margin of plots in pixels.
-     */
-    [[nodiscard]] int top_margin() const noexcept;
-
-    /*!
-     * \brief Get the bottom margin of plots in pixels.
-     *
-     * \return Bottom margin of plots in pixels.
-     */
-    [[nodiscard]] int bottom_margin() const noexcept;
-
-    /*!
      * \brief Get the font size of tick labels in pixels.
      *
      * \return Font size of tick labels in pixels.
@@ -410,17 +353,8 @@ public:
     [[nodiscard]] std::size_t num_pixels_per_tick_in_y_axis() const noexcept;
 
 private:
-    //! Left margin of plots in pixels.
-    int left_margin_{default_left_margin};
-
-    //! Right margin of plots in pixels.
-    int right_margin_{default_right_margin};
-
-    //! Top margin of plots in pixels.
-    int top_margin_{default_top_margin};
-
-    //! Bottom margin of plots in pixels.
-    int bottom_margin_{default_bottom_margin};
+    //! Configuration of margins.
+    Margin margin_;
 
     //! Font size of tick labels in pixels.
     int tick_label_font_size_{default_tick_label_font_size};
