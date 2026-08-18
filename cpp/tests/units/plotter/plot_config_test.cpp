@@ -50,42 +50,42 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(const_config.margin().bottom() == 25);
     }
 
-    SECTION("set and get tick label font size") {
+    SECTION("access the configuration of axes") {
+        using func_sketch::plotter::RGBColor;
+
         PlotConfig config;
 
-        CHECK(config.tick_label_font_size() ==
+        CHECK(config.axes().tick_label_font_size() ==
             func_sketch::plotter::default_tick_label_font_size);
-
-        CHECK_NOTHROW(config.tick_label_font_size(14));
-        CHECK(config.tick_label_font_size() == 14);
-
-        CHECK_THROWS(config.tick_label_font_size(-1));
-        CHECK(config.tick_label_font_size() == 14);
-
-        CHECK_NOTHROW(config.tick_label_font_size(0));
-        CHECK(config.tick_label_font_size() == 0);
-
-        CHECK_NOTHROW(config.tick_label_font_size(1));
-        CHECK(config.tick_label_font_size() == 1);
-    }
-
-    SECTION("set and get axes line width") {
-        PlotConfig config;
-
-        CHECK(config.axes_line_width() ==
+        CHECK(config.axes().line_width() ==
             func_sketch::plotter::default_axes_line_width);
+        CHECK(
+            config.axes().color() == func_sketch::plotter::default_axes_color);
+        CHECK(config.axes().num_pixels_per_tick_in_x_axis() ==
+            func_sketch::plotter::default_num_pixels_per_tick_in_x_axis);
+        CHECK(config.axes().num_pixels_per_tick_in_y_axis() ==
+            func_sketch::plotter::default_num_pixels_per_tick_in_y_axis);
 
-        CHECK_NOTHROW(config.axes_line_width(5));
-        CHECK(config.axes_line_width() == 5);
+        const RGBColor new_color{.r = 50, .g = 100, .b = 150};
+        config.axes()
+            .tick_label_font_size(14)
+            .line_width(5)
+            .color(new_color)
+            .num_pixels_per_tick_in_x_axis(150)
+            .num_pixels_per_tick_in_y_axis(100);
 
-        CHECK_THROWS(config.axes_line_width(-1));
-        CHECK(config.axes_line_width() == 5);
+        CHECK(config.axes().tick_label_font_size() == 14);
+        CHECK(config.axes().line_width() == 5);
+        CHECK(config.axes().color() == new_color);
+        CHECK(config.axes().num_pixels_per_tick_in_x_axis() == 150);
+        CHECK(config.axes().num_pixels_per_tick_in_y_axis() == 100);
 
-        CHECK_NOTHROW(config.axes_line_width(0));
-        CHECK(config.axes_line_width() == 0);
-
-        CHECK_NOTHROW(config.axes_line_width(1));
-        CHECK(config.axes_line_width() == 1);
+        const PlotConfig& const_config = config;
+        CHECK(const_config.axes().tick_label_font_size() == 14);
+        CHECK(const_config.axes().line_width() == 5);
+        CHECK(const_config.axes().color() == new_color);
+        CHECK(const_config.axes().num_pixels_per_tick_in_x_axis() == 150);
+        CHECK(const_config.axes().num_pixels_per_tick_in_y_axis() == 100);
     }
 
     SECTION("set and get grid line width") {
@@ -160,22 +160,6 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         const RGBColor black{.r = 0, .g = 0, .b = 0};
         CHECK_NOTHROW(config.background_color(black));
         CHECK(config.background_color() == black);
-    }
-
-    SECTION("set and get axes color") {
-        using func_sketch::plotter::RGBColor;
-
-        PlotConfig config;
-
-        CHECK(config.axes_color() == func_sketch::plotter::default_axes_color);
-
-        const RGBColor new_color{.r = 50, .g = 100, .b = 150};
-        CHECK_NOTHROW(config.axes_color(new_color));
-        CHECK(config.axes_color() == new_color);
-
-        const RGBColor white{.r = 255, .g = 255, .b = 255};
-        CHECK_NOTHROW(config.axes_color(white));
-        CHECK(config.axes_color() == white);
     }
 
     SECTION("set and get grid color") {
@@ -295,37 +279,5 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
             func_sketch::plotter::min_min_param_change_rate / 2.0));
         CHECK(config.min_param_change_rate() ==
             func_sketch::plotter::min_min_param_change_rate);
-    }
-
-    SECTION("set and get number of pixels per tick in the x-axis") {
-        PlotConfig config;
-
-        CHECK(config.num_pixels_per_tick_in_x_axis() ==
-            func_sketch::plotter::default_num_pixels_per_tick_in_x_axis);
-
-        CHECK_NOTHROW(config.num_pixels_per_tick_in_x_axis(150));
-        CHECK(config.num_pixels_per_tick_in_x_axis() == 150);
-
-        CHECK_THROWS(config.num_pixels_per_tick_in_x_axis(0));
-        CHECK(config.num_pixels_per_tick_in_x_axis() == 150);
-
-        CHECK_NOTHROW(config.num_pixels_per_tick_in_x_axis(1));
-        CHECK(config.num_pixels_per_tick_in_x_axis() == 1);
-    }
-
-    SECTION("set and get number of pixels per tick in the y-axis") {
-        PlotConfig config;
-
-        CHECK(config.num_pixels_per_tick_in_y_axis() ==
-            func_sketch::plotter::default_num_pixels_per_tick_in_y_axis);
-
-        CHECK_NOTHROW(config.num_pixels_per_tick_in_y_axis(150));
-        CHECK(config.num_pixels_per_tick_in_y_axis() == 150);
-
-        CHECK_THROWS(config.num_pixels_per_tick_in_y_axis(0));
-        CHECK(config.num_pixels_per_tick_in_y_axis() == 150);
-
-        CHECK_NOTHROW(config.num_pixels_per_tick_in_y_axis(1));
-        CHECK(config.num_pixels_per_tick_in_y_axis() == 1);
     }
 }

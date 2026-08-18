@@ -29,22 +29,9 @@ Margin& PlotConfig::margin() noexcept { return margin_; }
 
 const Margin& PlotConfig::margin() const noexcept { return margin_; }
 
-PlotConfig& PlotConfig::tick_label_font_size(int value) {
-    if (value < 0) {
-        throw InvalidArgumentException(
-            "Tick label font size must be non-negative");
-    }
-    tick_label_font_size_ = value;
-    return *this;
-}
+AxesConfig& PlotConfig::axes() noexcept { return axes_; }
 
-PlotConfig& PlotConfig::axes_line_width(int value) {
-    if (value < 0) {
-        throw InvalidArgumentException("Axes line width must be non-negative");
-    }
-    axes_line_width_ = value;
-    return *this;
-}
+const AxesConfig& PlotConfig::axes() const noexcept { return axes_; }
 
 PlotConfig& PlotConfig::grid_line_width(int value) {
     if (value < 0) {
@@ -72,11 +59,6 @@ PlotConfig& PlotConfig::curve_line_width(int value) {
 
 PlotConfig& PlotConfig::background_color(const RGBColor& value) {
     background_color_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::axes_color(const RGBColor& value) {
-    axes_color_ = value;
     return *this;
 }
 
@@ -136,30 +118,6 @@ PlotConfig& PlotConfig::min_param_change_rate(double value) {
     return *this;
 }
 
-PlotConfig& PlotConfig::num_pixels_per_tick_in_x_axis(std::size_t value) {
-    if (value == 0) {
-        throw InvalidArgumentException(
-            "Number of pixels per tick in the x-axis must be positive.");
-    }
-    num_pixels_per_tick_in_x_axis_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::num_pixels_per_tick_in_y_axis(std::size_t value) {
-    if (value == 0) {
-        throw InvalidArgumentException(
-            "Number of pixels per tick in the y-axis must be positive.");
-    }
-    num_pixels_per_tick_in_y_axis_ = value;
-    return *this;
-}
-
-int PlotConfig::tick_label_font_size() const noexcept {
-    return tick_label_font_size_;
-}
-
-int PlotConfig::axes_line_width() const noexcept { return axes_line_width_; }
-
 int PlotConfig::grid_line_width() const noexcept { return grid_line_width_; }
 
 int PlotConfig::zero_line_width() const noexcept { return zero_line_width_; }
@@ -169,8 +127,6 @@ int PlotConfig::curve_line_width() const noexcept { return curve_line_width_; }
 const RGBColor& PlotConfig::background_color() const noexcept {
     return background_color_;
 }
-
-const RGBColor& PlotConfig::axes_color() const noexcept { return axes_color_; }
 
 const RGBColor& PlotConfig::grid_color() const noexcept { return grid_color_; }
 
@@ -192,14 +148,6 @@ double PlotConfig::slope_change_threshold() const noexcept {
 
 double PlotConfig::min_param_change_rate() const noexcept {
     return min_param_change_rate_;
-}
-
-std::size_t PlotConfig::num_pixels_per_tick_in_x_axis() const noexcept {
-    return num_pixels_per_tick_in_x_axis_;
-}
-
-std::size_t PlotConfig::num_pixels_per_tick_in_y_axis() const noexcept {
-    return num_pixels_per_tick_in_y_axis_;
 }
 
 }  // namespace func_sketch::plotter

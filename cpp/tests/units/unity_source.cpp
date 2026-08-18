@@ -30,6 +30,7 @@
 #include "parser/expression_grammar_test.cpp"
 #include "parser/expression_parser_test.cpp"
 #include "parser/parser_test_strings.cpp"
+#include "plotter/axes_config_test.cpp"
 #include "plotter/axis_ticks_test.cpp"
 #include "plotter/function_sampler_test.cpp"
 #include "plotter/margin_test.cpp"

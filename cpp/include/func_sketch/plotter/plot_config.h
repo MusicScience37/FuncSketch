@@ -21,18 +21,13 @@
 
 #include <cstddef>
 
+#include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/rgb_color.h"
 
 namespace func_sketch::plotter {
 
 // TODO Tune these values
-
-//! Default font size of tick labels in pixels.
-constexpr int default_tick_label_font_size = 11;
-
-//! Default line width of axes in pixels.
-constexpr int default_axes_line_width = 1;
 
 //! Default line width of grid lines in pixels.
 constexpr int default_grid_line_width = 1;
@@ -46,9 +41,6 @@ constexpr int default_curve_line_width = 1;
 //! Default color of background.
 constexpr auto default_background_color =
     RGBColor{.r = 255, .g = 255, .b = 255};
-
-//! Default color of axes.
-constexpr auto default_axes_color = RGBColor{.r = 0x24, .g = 0x24, .b = 0x24};
 
 //! Default color of grid lines.
 constexpr auto default_grid_color = RGBColor{.r = 0xC8, .g = 0xC8, .b = 0xC8};
@@ -73,12 +65,6 @@ constexpr double default_min_param_change_rate = 0.001;
 
 //! Minimum value of the minimum rate of parameter change in adaptive sampling for safety limit of memory usage.
 constexpr double min_min_param_change_rate = 1e-4;
-
-//! Default number of pixels per tick in the x-axis.
-constexpr std::size_t default_num_pixels_per_tick_in_x_axis = 120;
-
-//! Default number of pixels per tick in the y-axis.
-constexpr std::size_t default_num_pixels_per_tick_in_y_axis = 100;
 
 /*!
  * \brief Class of configurations of a plot.
@@ -105,20 +91,18 @@ public:
     [[nodiscard]] const Margin& margin() const noexcept;
 
     /*!
-     * \brief Set the font size of tick labels in pixels.
+     * \brief Access the configuration of axes.
      *
-     * \param[in] value Font size of tick labels in pixels.
-     * \return Reference to this object.
+     * \return Reference to the configuration of axes.
      */
-    PlotConfig& tick_label_font_size(int value);
+    [[nodiscard]] AxesConfig& axes() noexcept;
 
     /*!
-     * \brief Set the line width of axes in pixels.
+     * \brief Get the configuration of axes.
      *
-     * \param[in] value Line width of axes in pixels.
-     * \return Reference to this object.
+     * \return Reference to the configuration of axes.
      */
-    PlotConfig& axes_line_width(int value);
+    [[nodiscard]] const AxesConfig& axes() const noexcept;
 
     /*!
      * \brief Set the line width of grid lines in pixels.
@@ -151,14 +135,6 @@ public:
      * \return Reference to this object.
      */
     PlotConfig& background_color(const RGBColor& value);
-
-    /*!
-     * \brief Set the color of axes.
-     *
-     * \param[in] value Color of axes.
-     * \return Reference to this object.
-     */
-    PlotConfig& axes_color(const RGBColor& value);
 
     /*!
      * \brief Set the color of grid lines.
@@ -226,36 +202,6 @@ public:
     PlotConfig& min_param_change_rate(double value);
 
     /*!
-     * \brief Set the number of pixels per tick in the x-axis.
-     *
-     * \param[in] value Number of pixels per tick in the x-axis.
-     * \return Reference to this object.
-     */
-    PlotConfig& num_pixels_per_tick_in_x_axis(std::size_t value);
-
-    /*!
-     * \brief Set the number of pixels per tick in the y-axis.
-     *
-     * \param[in] value Number of pixels per tick in the y-axis.
-     * \return Reference to this object.
-     */
-    PlotConfig& num_pixels_per_tick_in_y_axis(std::size_t value);
-
-    /*!
-     * \brief Get the font size of tick labels in pixels.
-     *
-     * \return Font size of tick labels in pixels.
-     */
-    [[nodiscard]] int tick_label_font_size() const noexcept;
-
-    /*!
-     * \brief Get the line width of axes in pixels.
-     *
-     * \return Line width of axes in pixels.
-     */
-    [[nodiscard]] int axes_line_width() const noexcept;
-
-    /*!
      * \brief Get the line width of grid lines in pixels.
      *
      * \return Line width of grid lines in pixels.
@@ -282,13 +228,6 @@ public:
      * \return Color of background.
      */
     [[nodiscard]] const RGBColor& background_color() const noexcept;
-
-    /*!
-     * \brief Get the color of axes.
-     *
-     * \return Color of axes.
-     */
-    [[nodiscard]] const RGBColor& axes_color() const noexcept;
 
     /*!
      * \brief Get the color of grid lines.
@@ -338,29 +277,12 @@ public:
      */
     [[nodiscard]] double min_param_change_rate() const noexcept;
 
-    /*!
-     * \brief Get the number of pixels per tick in the x-axis.
-     *
-     * \return Number of pixels per tick in the x-axis.
-     */
-    [[nodiscard]] std::size_t num_pixels_per_tick_in_x_axis() const noexcept;
-
-    /*!
-     * \brief Get the number of pixels per tick in the y-axis.
-     *
-     * \return Number of pixels per tick in the y-axis.
-     */
-    [[nodiscard]] std::size_t num_pixels_per_tick_in_y_axis() const noexcept;
-
 private:
     //! Configuration of margins.
     Margin margin_;
 
-    //! Font size of tick labels in pixels.
-    int tick_label_font_size_{default_tick_label_font_size};
-
-    //! Line width of axes in pixels.
-    int axes_line_width_{default_axes_line_width};
+    //! Configuration of axes.
+    AxesConfig axes_;
 
     //! Line width of grid lines in pixels.
     int grid_line_width_{default_grid_line_width};
@@ -373,9 +295,6 @@ private:
 
     //! Color of background.
     RGBColor background_color_{default_background_color};
-
-    //! Color of axes.
-    RGBColor axes_color_{default_axes_color};
 
     //! Color of grid lines.
     RGBColor grid_color_{default_grid_color};
@@ -396,14 +315,6 @@ private:
 
     //! Minimum rate of parameter change in adaptive sampling.
     double min_param_change_rate_{default_min_param_change_rate};
-
-    //! Number of pixels per tick in the x-axis.
-    std::size_t num_pixels_per_tick_in_x_axis_{
-        default_num_pixels_per_tick_in_x_axis};
-
-    //! Number of pixels per tick in the y-axis.
-    std::size_t num_pixels_per_tick_in_y_axis_{
-        default_num_pixels_per_tick_in_y_axis};
 };
 
 }  // namespace func_sketch::plotter

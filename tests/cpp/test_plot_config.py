@@ -35,17 +35,25 @@ class TestPlotConfig:
         assert config.margin.top == 56
         assert config.margin.bottom == 78
 
-    def test_tick_label_font_size(self) -> None:
-        """Test of tick_label_font_size property."""
+    def test_axes(self) -> None:
+        """Test of axes property."""
         config = PlotConfig()
-        config.tick_label_font_size = 12
-        assert config.tick_label_font_size == 12
+        color = RGBColor(0x11, 0x22, 0x33)
 
-    def test_axes_line_width(self) -> None:
-        """Test of axes_line_width property."""
-        config = PlotConfig()
-        config.axes_line_width = 3
-        assert config.axes_line_width == 3
+        # Configuration of axes can be changed in place.
+        config.axes.tick_label_font_size = 12
+        config.axes.line_width = 3
+        config.axes.color = color
+        config.axes.num_pixels_per_tick_in_x_axis = 150
+        config.axes.num_pixels_per_tick_in_y_axis = 100
+
+        assert config.axes.tick_label_font_size == 12
+        assert config.axes.line_width == 3
+        assert config.axes.color.r == color.r
+        assert config.axes.color.g == color.g
+        assert config.axes.color.b == color.b
+        assert config.axes.num_pixels_per_tick_in_x_axis == 150
+        assert config.axes.num_pixels_per_tick_in_y_axis == 100
 
     def test_grid_line_width(self) -> None:
         """Test of grid_line_width property."""
@@ -73,15 +81,6 @@ class TestPlotConfig:
         assert config.background_color.r == color.r
         assert config.background_color.g == color.g
         assert config.background_color.b == color.b
-
-    def test_axes_color(self) -> None:
-        """Test of axes_color property."""
-        config = PlotConfig()
-        color = RGBColor(0x11, 0x22, 0x33)
-        config.axes_color = color
-        assert config.axes_color.r == color.r
-        assert config.axes_color.g == color.g
-        assert config.axes_color.b == color.b
 
     def test_grid_color(self) -> None:
         """Test of grid_color property."""
@@ -121,15 +120,3 @@ class TestPlotConfig:
         config = PlotConfig()
         config.min_param_change_rate = 0.01
         assert config.min_param_change_rate == 0.01
-
-    def test_num_pixels_per_tick_in_x_axis(self) -> None:
-        """Test of num_pixels_per_tick_in_x_axis property."""
-        config = PlotConfig()
-        config.num_pixels_per_tick_in_x_axis = 150
-        assert config.num_pixels_per_tick_in_x_axis == 150
-
-    def test_num_pixels_per_tick_in_y_axis(self) -> None:
-        """Test of num_pixels_per_tick_in_y_axis property."""
-        config = PlotConfig()
-        config.num_pixels_per_tick_in_y_axis = 150
-        assert config.num_pixels_per_tick_in_y_axis == 150

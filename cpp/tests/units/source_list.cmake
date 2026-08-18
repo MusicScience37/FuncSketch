@@ -31,6 +31,7 @@ set(SOURCE_FILES
     parser/expression_grammar_test.cpp
     parser/expression_parser_test.cpp
     parser/parser_test_strings.cpp
+    plotter/axes_config_test.cpp
     plotter/axis_ticks_test.cpp
     plotter/function_sampler_test.cpp
     plotter/margin_test.cpp

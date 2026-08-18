@@ -15,6 +15,7 @@
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
 #include "func_sketch/parser/expression_parser.h"
+#include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/function_sampler.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/margin.h"
@@ -212,6 +213,48 @@ Objects of this class can be called with a string to parse it into an Expression
             [](Margin& self, int value) { self.bottom(value); },
             "Bottom margin of plots in pixels.");
 
+    using func_sketch::plotter::AxesConfig;
+    nanobind::class_<AxesConfig>(
+        m, "AxesConfig", "Class of configurations of axes.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def_prop_rw(
+            "tick_label_font_size",
+            [](const AxesConfig& self) -> int {
+                return self.tick_label_font_size();
+            },
+            [](AxesConfig& self, int value) {
+                self.tick_label_font_size(value);
+            },
+            "Font size of tick labels in pixels.")
+        .def_prop_rw(
+            "line_width",
+            [](const AxesConfig& self) -> int { return self.line_width(); },
+            [](AxesConfig& self, int value) { self.line_width(value); },
+            "Line width of axes in pixels.")
+        .def_prop_rw(
+            "color",
+            [](const AxesConfig& self) -> RGBColor { return self.color(); },
+            [](AxesConfig& self, const RGBColor& value) { self.color(value); },
+            "Color of axes.")
+        .def_prop_rw(
+            "num_pixels_per_tick_in_x_axis",
+            [](const AxesConfig& self) -> std::size_t {
+                return self.num_pixels_per_tick_in_x_axis();
+            },
+            [](AxesConfig& self, std::size_t value) {
+                self.num_pixels_per_tick_in_x_axis(value);
+            },
+            "Number of pixels per tick in the x-axis.")
+        .def_prop_rw(
+            "num_pixels_per_tick_in_y_axis",
+            [](const AxesConfig& self) -> std::size_t {
+                return self.num_pixels_per_tick_in_y_axis();
+            },
+            [](AxesConfig& self, std::size_t value) {
+                self.num_pixels_per_tick_in_y_axis(value);
+            },
+            "Number of pixels per tick in the y-axis.");
+
     using func_sketch::plotter::PlotConfig;
     nanobind::class_<PlotConfig>(
         m, "PlotConfig", "Class of configurations of plots.")
@@ -223,21 +266,11 @@ Objects of this class can be called with a string to parse it into an Expression
             },
             "Configuration of margins of plots.")
         .def_prop_rw(
-            "tick_label_font_size",
-            [](const PlotConfig& self) -> int {
-                return self.tick_label_font_size();
+            "axes", [](PlotConfig& self) -> AxesConfig& { return self.axes(); },
+            [](PlotConfig& self, const AxesConfig& value) {
+                self.axes() = value;
             },
-            [](PlotConfig& self, int value) {
-                self.tick_label_font_size(value);
-            },
-            "Font size of tick labels in pixels.")
-        .def_prop_rw(
-            "axes_line_width",
-            [](const PlotConfig& self) -> int {
-                return self.axes_line_width();
-            },
-            [](PlotConfig& self, int value) { self.axes_line_width(value); },
-            "Line width of axes in pixels.")
+            "Configuration of axes of plots.")
         .def_prop_rw(
             "grid_line_width",
             [](const PlotConfig& self) -> int {
@@ -268,15 +301,6 @@ Objects of this class can be called with a string to parse it into an Expression
                 self.background_color(value);
             },
             "Color of background.")
-        .def_prop_rw(
-            "axes_color",
-            [](const PlotConfig& self) -> RGBColor {
-                return self.axes_color();
-            },
-            [](PlotConfig& self, const RGBColor& value) {
-                self.axes_color(value);
-            },
-            "Color of axes.")
         .def_prop_rw(
             "grid_color",
             [](const PlotConfig& self) -> RGBColor {
@@ -342,25 +366,7 @@ Objects of this class can be called with a string to parse it into an Expression
             "Minimum rate of parameter change in adaptive sampling.\n\n"
             "Note:\n"
             "    This value is limited for safety limit of memory "
-            "usage.")
-        .def_prop_rw(
-            "num_pixels_per_tick_in_x_axis",
-            [](const PlotConfig& self) -> std::size_t {
-                return self.num_pixels_per_tick_in_x_axis();
-            },
-            [](PlotConfig& self, std::size_t value) {
-                self.num_pixels_per_tick_in_x_axis(value);
-            },
-            "Number of pixels per tick in the x-axis.")
-        .def_prop_rw(
-            "num_pixels_per_tick_in_y_axis",
-            [](const PlotConfig& self) -> std::size_t {
-                return self.num_pixels_per_tick_in_y_axis();
-            },
-            [](PlotConfig& self, std::size_t value) {
-                self.num_pixels_per_tick_in_y_axis(value);
-            },
-            "Number of pixels per tick in the y-axis.");
+            "usage.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(
