@@ -16,7 +16,7 @@
 
 import numpy
 
-from func_sketch._cpp import PlotConfig, PlotRange, RGBColor
+from func_sketch._cpp import PlotRange, RGBColor, SamplingConfig
 from func_sketch._impl.curve_config import CurveConfig
 from func_sketch._impl.curve_sampler import CurveSampler
 
@@ -36,7 +36,7 @@ def sample_function(
     """
     line_color = RGBColor(0, 0, 0)  # Not used in this test.
 
-    config = PlotConfig()
+    config = SamplingConfig()
     range = PlotRange(x_range, y_range)
     sampler = CurveSampler(range, config)
 

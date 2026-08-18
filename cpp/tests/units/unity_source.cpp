@@ -40,5 +40,6 @@
 #include "plotter/plotter_test.cpp"
 #include "plotter/point_test.cpp"
 #include "plotter/rgb_color_test.cpp"
+#include "plotter/sampling_config_test.cpp"
 #include "test_main.cpp"
 #include "utilities/any_test.cpp"

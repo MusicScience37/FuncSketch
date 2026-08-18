@@ -70,7 +70,7 @@ private:
     //! Sampler.
     func_sketch::plotter::FunctionSampler sampler_{
         func_sketch::plotter::PlotRange({-1.0, 1.0}, {-1.0, 1.0}),
-        func_sketch::plotter::PlotConfig()};
+        func_sketch::plotter::SamplingConfig()};
 
     //! Plotter.
     func_sketch::plotter::Plotter plotter_{

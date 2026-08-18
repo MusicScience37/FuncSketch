@@ -36,7 +36,7 @@ def _plot_function(
     parser = ExpressionParser()
     config = PlotConfig()
     range = PlotRange(x_range, y_range)
-    sampler = FunctionSampler(range, config)
+    sampler = FunctionSampler(range, config.sampling)
     plotter = Plotter(range, config)
 
     expression = parser(expression_str)

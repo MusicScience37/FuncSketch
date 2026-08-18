@@ -19,8 +19,6 @@
  */
 #include "func_sketch/plotter/plot_config.h"
 
-#include <fmt/format.h>
-
 #include "func_sketch/exceptions.h"
 
 namespace func_sketch::plotter {
@@ -37,6 +35,12 @@ GridConfig& PlotConfig::grid() noexcept { return grid_; }
 
 const GridConfig& PlotConfig::grid() const noexcept { return grid_; }
 
+SamplingConfig& PlotConfig::sampling() noexcept { return sampling_; }
+
+const SamplingConfig& PlotConfig::sampling() const noexcept {
+    return sampling_;
+}
+
 PlotConfig& PlotConfig::curve_line_width(int value) {
     if (value < 0) {
         throw InvalidArgumentException("Curve line width must be non-negative");
@@ -50,81 +54,10 @@ PlotConfig& PlotConfig::background_color(const RGBColor& value) {
     return *this;
 }
 
-PlotConfig& PlotConfig::initial_num_sample_points(std::size_t value) {
-    if (value < 2) {
-        throw InvalidArgumentException(
-            "Number of sample points must be at least 2");
-    }
-    initial_num_sample_points_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::max_num_sample_points(std::size_t value) {
-    if (value < 2) {
-        throw InvalidArgumentException(
-            "Number of sample points must be at least 2.");
-    }
-    if (value > max_max_num_sample_points) {
-        throw InvalidArgumentException(
-            fmt::format("Number of sample points must be at most {}",
-                max_max_num_sample_points));
-    }
-    max_num_sample_points_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::max_coordinate_change_rate(double value) {
-    if (value <= 0.0) {
-        throw InvalidArgumentException(
-            "Maximum coordinate change rate must be positive.");
-    }
-    max_coordinate_change_rate_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::slope_change_threshold(double value) {
-    if (value <= 0.0) {
-        throw InvalidArgumentException(
-            "Slope change threshold must be positive.");
-    }
-    slope_change_threshold_ = value;
-    return *this;
-}
-
-PlotConfig& PlotConfig::min_param_change_rate(double value) {
-    if (value < min_min_param_change_rate) {
-        throw InvalidArgumentException(
-            fmt::format("Minimum parameter change rate must be at least {}",
-                min_min_param_change_rate));
-    }
-    min_param_change_rate_ = value;
-    return *this;
-}
-
 int PlotConfig::curve_line_width() const noexcept { return curve_line_width_; }
 
 const RGBColor& PlotConfig::background_color() const noexcept {
     return background_color_;
-}
-
-std::size_t PlotConfig::initial_num_sample_points() const noexcept {
-    return initial_num_sample_points_;
-}
-
-std::size_t PlotConfig::max_num_sample_points() const noexcept {
-    return max_num_sample_points_;
-}
-
-double PlotConfig::max_coordinate_change_rate() const noexcept {
-    return max_coordinate_change_rate_;
-}
-
-double PlotConfig::slope_change_threshold() const noexcept {
-    return slope_change_threshold_;
-}
-
-double PlotConfig::min_param_change_rate() const noexcept {
-    return min_param_change_rate_;
 }
 
 }  // namespace func_sketch::plotter
