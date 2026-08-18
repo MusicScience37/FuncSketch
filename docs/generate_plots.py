@@ -199,7 +199,7 @@ def generate_plots() -> None:
     config.background_color = RGBColor(0xFF, 0xFF, 0xFF)
     range = DEFAULT_PLOT_RANGE
 
-    sampler = CurveSampler(range, config)
+    sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)
 
     image = numpy.ndarray((height, width, 3), dtype=numpy.uint8)
