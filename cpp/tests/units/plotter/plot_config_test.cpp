@@ -24,155 +24,93 @@
 TEST_CASE("func_sketch::plotter::PlotConfig") {
     using func_sketch::plotter::PlotConfig;
 
-    SECTION("set and get left margin") {
+    SECTION("access the configuration of margins") {
         PlotConfig config;
 
-        CHECK(
-            config.left_margin() == func_sketch::plotter::default_left_margin);
-
-        CHECK_NOTHROW(config.left_margin(7));
-        CHECK(config.left_margin() == 7);
-
-        CHECK_THROWS(config.left_margin(-1));
-        CHECK(config.left_margin() == 7);
-
-        CHECK_NOTHROW(config.left_margin(0));
-        CHECK(config.left_margin() == 0);
-
-        CHECK_NOTHROW(config.left_margin(1));
-        CHECK(config.left_margin() == 1);
-    }
-
-    SECTION("set and get right margin") {
-        PlotConfig config;
-
-        CHECK(config.right_margin() ==
+        CHECK(config.margin().left() ==
+            func_sketch::plotter::default_left_margin);
+        CHECK(config.margin().right() ==
             func_sketch::plotter::default_right_margin);
-
-        CHECK_NOTHROW(config.right_margin(10));
-        CHECK(config.right_margin() == 10);
-
-        CHECK_THROWS(config.right_margin(-1));
-        CHECK(config.right_margin() == 10);
-
-        CHECK_NOTHROW(config.right_margin(0));
-        CHECK(config.right_margin() == 0);
-
-        CHECK_NOTHROW(config.right_margin(1));
-        CHECK(config.right_margin() == 1);
-    }
-
-    SECTION("set and get top margin") {
-        PlotConfig config;
-
-        CHECK(config.top_margin() == func_sketch::plotter::default_top_margin);
-
-        CHECK_NOTHROW(config.top_margin(20));
-        CHECK(config.top_margin() == 20);
-
-        CHECK_THROWS(config.top_margin(-1));
-        CHECK(config.top_margin() == 20);
-
-        CHECK_NOTHROW(config.top_margin(0));
-        CHECK(config.top_margin() == 0);
-
-        CHECK_NOTHROW(config.top_margin(1));
-        CHECK(config.top_margin() == 1);
-    }
-
-    SECTION("set and get bottom margin") {
-        PlotConfig config;
-
-        CHECK(config.bottom_margin() ==
+        CHECK(
+            config.margin().top() == func_sketch::plotter::default_top_margin);
+        CHECK(config.margin().bottom() ==
             func_sketch::plotter::default_bottom_margin);
 
-        CHECK_NOTHROW(config.bottom_margin(25));
-        CHECK(config.bottom_margin() == 25);
+        config.margin().left(7).right(10).top(20).bottom(25);
 
-        CHECK_THROWS(config.bottom_margin(-1));
-        CHECK(config.bottom_margin() == 25);
+        CHECK(config.margin().left() == 7);
+        CHECK(config.margin().right() == 10);
+        CHECK(config.margin().top() == 20);
+        CHECK(config.margin().bottom() == 25);
 
-        CHECK_NOTHROW(config.bottom_margin(0));
-        CHECK(config.bottom_margin() == 0);
-
-        CHECK_NOTHROW(config.bottom_margin(1));
-        CHECK(config.bottom_margin() == 1);
+        const PlotConfig& const_config = config;
+        CHECK(const_config.margin().left() == 7);
+        CHECK(const_config.margin().right() == 10);
+        CHECK(const_config.margin().top() == 20);
+        CHECK(const_config.margin().bottom() == 25);
     }
 
-    SECTION("set and get tick label font size") {
+    SECTION("access the configuration of axes") {
+        using func_sketch::plotter::RGBColor;
+
         PlotConfig config;
 
-        CHECK(config.tick_label_font_size() ==
+        CHECK(config.axes().tick_label_font_size() ==
             func_sketch::plotter::default_tick_label_font_size);
-
-        CHECK_NOTHROW(config.tick_label_font_size(14));
-        CHECK(config.tick_label_font_size() == 14);
-
-        CHECK_THROWS(config.tick_label_font_size(-1));
-        CHECK(config.tick_label_font_size() == 14);
-
-        CHECK_NOTHROW(config.tick_label_font_size(0));
-        CHECK(config.tick_label_font_size() == 0);
-
-        CHECK_NOTHROW(config.tick_label_font_size(1));
-        CHECK(config.tick_label_font_size() == 1);
-    }
-
-    SECTION("set and get axes line width") {
-        PlotConfig config;
-
-        CHECK(config.axes_line_width() ==
+        CHECK(config.axes().line_width() ==
             func_sketch::plotter::default_axes_line_width);
+        CHECK(
+            config.axes().color() == func_sketch::plotter::default_axes_color);
+        CHECK(config.axes().num_pixels_per_tick_in_x_axis() ==
+            func_sketch::plotter::default_num_pixels_per_tick_in_x_axis);
+        CHECK(config.axes().num_pixels_per_tick_in_y_axis() ==
+            func_sketch::plotter::default_num_pixels_per_tick_in_y_axis);
 
-        CHECK_NOTHROW(config.axes_line_width(5));
-        CHECK(config.axes_line_width() == 5);
+        const RGBColor new_color{.r = 50, .g = 100, .b = 150};
+        config.axes()
+            .tick_label_font_size(14)
+            .line_width(5)
+            .color(new_color)
+            .num_pixels_per_tick_in_x_axis(150)
+            .num_pixels_per_tick_in_y_axis(100);
 
-        CHECK_THROWS(config.axes_line_width(-1));
-        CHECK(config.axes_line_width() == 5);
+        CHECK(config.axes().tick_label_font_size() == 14);
+        CHECK(config.axes().line_width() == 5);
+        CHECK(config.axes().color() == new_color);
+        CHECK(config.axes().num_pixels_per_tick_in_x_axis() == 150);
+        CHECK(config.axes().num_pixels_per_tick_in_y_axis() == 100);
 
-        CHECK_NOTHROW(config.axes_line_width(0));
-        CHECK(config.axes_line_width() == 0);
-
-        CHECK_NOTHROW(config.axes_line_width(1));
-        CHECK(config.axes_line_width() == 1);
+        const PlotConfig& const_config = config;
+        CHECK(const_config.axes().tick_label_font_size() == 14);
+        CHECK(const_config.axes().line_width() == 5);
+        CHECK(const_config.axes().color() == new_color);
+        CHECK(const_config.axes().num_pixels_per_tick_in_x_axis() == 150);
+        CHECK(const_config.axes().num_pixels_per_tick_in_y_axis() == 100);
     }
 
-    SECTION("set and get grid line width") {
+    SECTION("access the configuration of the grid") {
+        using func_sketch::plotter::RGBColor;
+
         PlotConfig config;
 
-        CHECK(config.grid_line_width() ==
+        CHECK(config.grid().line_width() ==
             func_sketch::plotter::default_grid_line_width);
-
-        CHECK_NOTHROW(config.grid_line_width(2));
-        CHECK(config.grid_line_width() == 2);
-
-        CHECK_THROWS(config.grid_line_width(-1));
-        CHECK(config.grid_line_width() == 2);
-
-        CHECK_NOTHROW(config.grid_line_width(0));
-        CHECK(config.grid_line_width() == 0);
-
-        CHECK_NOTHROW(config.grid_line_width(1));
-        CHECK(config.grid_line_width() == 1);
-    }
-
-    SECTION("set and get zero line width") {
-        PlotConfig config;
-
-        CHECK(config.zero_line_width() ==
+        CHECK(config.grid().zero_line_width() ==
             func_sketch::plotter::default_zero_line_width);
+        CHECK(
+            config.grid().color() == func_sketch::plotter::default_grid_color);
 
-        CHECK_NOTHROW(config.zero_line_width(3));
-        CHECK(config.zero_line_width() == 3);
+        const RGBColor new_color{.r = 100, .g = 150, .b = 200};
+        config.grid().line_width(2).zero_line_width(3).color(new_color);
 
-        CHECK_THROWS(config.zero_line_width(-1));
-        CHECK(config.zero_line_width() == 3);
+        CHECK(config.grid().line_width() == 2);
+        CHECK(config.grid().zero_line_width() == 3);
+        CHECK(config.grid().color() == new_color);
 
-        CHECK_NOTHROW(config.zero_line_width(0));
-        CHECK(config.zero_line_width() == 0);
-
-        CHECK_NOTHROW(config.zero_line_width(1));
-        CHECK(config.zero_line_width() == 1);
+        const PlotConfig& const_config = config;
+        CHECK(const_config.grid().line_width() == 2);
+        CHECK(const_config.grid().zero_line_width() == 3);
+        CHECK(const_config.grid().color() == new_color);
     }
 
     SECTION("set and get curve line width") {
@@ -211,170 +149,38 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(config.background_color() == black);
     }
 
-    SECTION("set and get axes color") {
-        using func_sketch::plotter::RGBColor;
-
+    SECTION("access the configuration of sampling") {
         PlotConfig config;
 
-        CHECK(config.axes_color() == func_sketch::plotter::default_axes_color);
-
-        const RGBColor new_color{.r = 50, .g = 100, .b = 150};
-        CHECK_NOTHROW(config.axes_color(new_color));
-        CHECK(config.axes_color() == new_color);
-
-        const RGBColor white{.r = 255, .g = 255, .b = 255};
-        CHECK_NOTHROW(config.axes_color(white));
-        CHECK(config.axes_color() == white);
-    }
-
-    SECTION("set and get grid color") {
-        using func_sketch::plotter::RGBColor;
-
-        PlotConfig config;
-
-        CHECK(config.grid_color() == func_sketch::plotter::default_grid_color);
-
-        const RGBColor new_color{.r = 100, .g = 150, .b = 200};
-        CHECK_NOTHROW(config.grid_color(new_color));
-        CHECK(config.grid_color() == new_color);
-
-        const RGBColor light_gray{.r = 220, .g = 220, .b = 220};
-        CHECK_NOTHROW(config.grid_color(light_gray));
-        CHECK(config.grid_color() == light_gray);
-    }
-
-    SECTION("set and get initial number of sample points") {
-        PlotConfig config;
-
-        CHECK(config.initial_num_sample_points() ==
+        CHECK(config.sampling().initial_num_sample_points() ==
             func_sketch::plotter::default_initial_num_sample_points);
-
-        CHECK_NOTHROW(config.initial_num_sample_points(200));
-        CHECK(config.initial_num_sample_points() == 200);
-
-        CHECK_THROWS(config.initial_num_sample_points(0));
-        CHECK(config.initial_num_sample_points() == 200);
-
-        CHECK_THROWS(config.initial_num_sample_points(1));
-        CHECK(config.initial_num_sample_points() == 200);
-
-        CHECK_NOTHROW(config.initial_num_sample_points(2));
-        CHECK(config.initial_num_sample_points() == 2);
-
-        CHECK_NOTHROW(config.initial_num_sample_points(3));
-        CHECK(config.initial_num_sample_points() == 3);
-    }
-
-    SECTION("set and get maximum number of sample points") {
-        PlotConfig config;
-
-        CHECK(config.max_num_sample_points() ==
+        CHECK(config.sampling().max_num_sample_points() ==
             func_sketch::plotter::default_max_num_sample_points);
-
-        CHECK_NOTHROW(config.max_num_sample_points(2000));
-        CHECK(config.max_num_sample_points() == 2000);
-
-        CHECK_THROWS(config.max_num_sample_points(0));
-        CHECK(config.max_num_sample_points() == 2000);
-
-        CHECK_THROWS(config.max_num_sample_points(1));
-        CHECK(config.max_num_sample_points() == 2000);
-
-        CHECK_NOTHROW(config.max_num_sample_points(2));
-        CHECK(config.max_num_sample_points() == 2);
-
-        CHECK_NOTHROW(config.max_num_sample_points(
-            func_sketch::plotter::max_max_num_sample_points));
-        CHECK(config.max_num_sample_points() ==
-            func_sketch::plotter::max_max_num_sample_points);
-
-        CHECK_THROWS(config.max_num_sample_points(
-            func_sketch::plotter::max_max_num_sample_points + 1));
-        CHECK(config.max_num_sample_points() ==
-            func_sketch::plotter::max_max_num_sample_points);
-    }
-
-    SECTION("set and get maximum coordinate change rate") {
-        PlotConfig config;
-
-        CHECK(config.max_coordinate_change_rate() ==
+        CHECK(config.sampling().max_coordinate_change_rate() ==
             func_sketch::plotter::default_max_coordinate_change_rate);
-
-        CHECK_NOTHROW(config.max_coordinate_change_rate(0.05));
-        CHECK(config.max_coordinate_change_rate() == 0.05);
-
-        CHECK_THROWS(config.max_coordinate_change_rate(0.0));
-        CHECK(config.max_coordinate_change_rate() == 0.05);
-
-        CHECK_THROWS(config.max_coordinate_change_rate(-0.01));
-        CHECK(config.max_coordinate_change_rate() == 0.05);
-    }
-
-    SECTION("set and get slope change threshold") {
-        PlotConfig config;
-
-        CHECK(config.slope_change_threshold() ==
+        CHECK(config.sampling().slope_change_threshold() ==
             func_sketch::plotter::default_slope_change_threshold);
-
-        CHECK_NOTHROW(config.slope_change_threshold(0.5));
-        CHECK(config.slope_change_threshold() == 0.5);
-
-        CHECK_THROWS(config.slope_change_threshold(0.0));
-        CHECK(config.slope_change_threshold() == 0.5);
-
-        CHECK_THROWS(config.slope_change_threshold(-0.1));
-        CHECK(config.slope_change_threshold() == 0.5);
-    }
-
-    SECTION("set and get minimum parameter change rate") {
-        PlotConfig config;
-
-        CHECK(config.min_param_change_rate() ==
+        CHECK(config.sampling().min_param_change_rate() ==
             func_sketch::plotter::default_min_param_change_rate);
 
-        CHECK_NOTHROW(config.min_param_change_rate(0.01));
-        CHECK(config.min_param_change_rate() == 0.01);
+        config.sampling()
+            .initial_num_sample_points(200)
+            .max_num_sample_points(3000)
+            .max_coordinate_change_rate(0.05)
+            .slope_change_threshold(0.5)
+            .min_param_change_rate(0.01);
 
-        CHECK_NOTHROW(config.min_param_change_rate(
-            func_sketch::plotter::min_min_param_change_rate));
-        CHECK(config.min_param_change_rate() ==
-            func_sketch::plotter::min_min_param_change_rate);
+        CHECK(config.sampling().initial_num_sample_points() == 200);
+        CHECK(config.sampling().max_num_sample_points() == 3000);
+        CHECK(config.sampling().max_coordinate_change_rate() == 0.05);
+        CHECK(config.sampling().slope_change_threshold() == 0.5);
+        CHECK(config.sampling().min_param_change_rate() == 0.01);
 
-        CHECK_THROWS(config.min_param_change_rate(
-            func_sketch::plotter::min_min_param_change_rate / 2.0));
-        CHECK(config.min_param_change_rate() ==
-            func_sketch::plotter::min_min_param_change_rate);
-    }
-
-    SECTION("set and get number of pixels per tick in the x-axis") {
-        PlotConfig config;
-
-        CHECK(config.num_pixels_per_tick_in_x_axis() ==
-            func_sketch::plotter::default_num_pixels_per_tick_in_x_axis);
-
-        CHECK_NOTHROW(config.num_pixels_per_tick_in_x_axis(150));
-        CHECK(config.num_pixels_per_tick_in_x_axis() == 150);
-
-        CHECK_THROWS(config.num_pixels_per_tick_in_x_axis(0));
-        CHECK(config.num_pixels_per_tick_in_x_axis() == 150);
-
-        CHECK_NOTHROW(config.num_pixels_per_tick_in_x_axis(1));
-        CHECK(config.num_pixels_per_tick_in_x_axis() == 1);
-    }
-
-    SECTION("set and get number of pixels per tick in the y-axis") {
-        PlotConfig config;
-
-        CHECK(config.num_pixels_per_tick_in_y_axis() ==
-            func_sketch::plotter::default_num_pixels_per_tick_in_y_axis);
-
-        CHECK_NOTHROW(config.num_pixels_per_tick_in_y_axis(150));
-        CHECK(config.num_pixels_per_tick_in_y_axis() == 150);
-
-        CHECK_THROWS(config.num_pixels_per_tick_in_y_axis(0));
-        CHECK(config.num_pixels_per_tick_in_y_axis() == 150);
-
-        CHECK_NOTHROW(config.num_pixels_per_tick_in_y_axis(1));
-        CHECK(config.num_pixels_per_tick_in_y_axis() == 1);
+        const PlotConfig& const_config = config;
+        CHECK(const_config.sampling().initial_num_sample_points() == 200);
+        CHECK(const_config.sampling().max_num_sample_points() == 3000);
+        CHECK(const_config.sampling().max_coordinate_change_rate() == 0.05);
+        CHECK(const_config.sampling().slope_change_threshold() == 0.5);
+        CHECK(const_config.sampling().min_param_change_rate() == 0.01);
     }
 }

@@ -45,7 +45,9 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
     def __init__(self, **kwargs) -> None:
         """Constructor."""
         self._curve_config_widgets: list[CurveConfigWidget] = []
-        self._curve_sampler = CurveSampler(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG)
+        self._curve_sampler = CurveSampler(
+            DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG.sampling
+        )
         super().__init__(**kwargs)
 
     def on_curve_config_list_layout(self, _instance: object, _value: object) -> None:
@@ -111,5 +113,5 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
 
     def _on_shared_plot_config(self, _instance: object, _value: object) -> None:
         """Callback when the plot_config property is set in shared_state."""
-        self._curve_sampler.config = self.shared_state.plot_config
+        self._curve_sampler.config = self.shared_state.plot_config.sampling
         self._resample_all_curves()

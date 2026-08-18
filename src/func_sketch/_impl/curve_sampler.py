@@ -20,9 +20,9 @@ import time
 from func_sketch._cpp import (
     ExpressionParser,
     FunctionSampler,
-    PlotConfig,
     PlotRange,
     PointList,
+    SamplingConfig,
 )
 from func_sketch._impl.curve_config import CurveConfig
 from func_sketch._impl.sampled_curve import SampledCurve
@@ -33,12 +33,12 @@ LOGGER = logging.getLogger(__name__)
 class CurveSampler:
     """Class to sample points of curves."""
 
-    def __init__(self, plot_range: PlotRange, config: PlotConfig) -> None:
+    def __init__(self, plot_range: PlotRange, config: SamplingConfig) -> None:
         """Constructor.
 
         Args:
             plot_range: Range of the plot.
-            config: Configuration of the plot.
+            config: Configuration of sampling.
         """
         self._parser = ExpressionParser()
         self._sampler = FunctionSampler(plot_range, config)
@@ -62,20 +62,20 @@ class CurveSampler:
         self._sampler.range = value
 
     @property
-    def config(self) -> PlotConfig:
-        """Get configuration of the plot.
+    def config(self) -> SamplingConfig:
+        """Get configuration of sampling.
 
         Returns:
-            Configuration of the plot.
+            Configuration of sampling.
         """
         raise NotImplementedError()
 
     @config.setter
-    def config(self, value: PlotConfig) -> None:
-        """Set configuration of the plot.
+    def config(self, value: SamplingConfig) -> None:
+        """Set configuration of sampling.
 
         Args:
-            value: Configuration of the plot.
+            value: Configuration of sampling.
         """
         self._sampler.config = value
 

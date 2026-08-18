@@ -45,7 +45,7 @@ def plot_function(
 
     config = DEFAULT_PLOT_CONFIG
     range = PlotRange(x_range, y_range)
-    sampler = CurveSampler(range, config)
+    sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)
 
     sampled_curves = []

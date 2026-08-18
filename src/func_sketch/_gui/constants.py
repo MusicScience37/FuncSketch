@@ -134,8 +134,8 @@ def _default_plot_config() -> PlotConfig:
     """
     config = PlotConfig()
     config.background_color = rgba_to_rgb_color(PLOT_BACKGROUND_COLOR)
-    config.grid_color = rgba_to_rgb_color(_GRAY90)
-    config.axes_color = rgba_to_rgb_color(NORMAL_TEXT_COLOR)
+    config.grid.color = rgba_to_rgb_color(_GRAY90)
+    config.axes.color = rgba_to_rgb_color(NORMAL_TEXT_COLOR)
     return config
 
 

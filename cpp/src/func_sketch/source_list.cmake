@@ -23,12 +23,16 @@ set(SOURCE_FILES
     parser/expression_grammar.cpp
     parser/expression_parser.cpp
     parser/parsed_expression.cpp
+    plotter/axes_config.cpp
     plotter/axis_ticks.cpp
     plotter/function_sampler.cpp
+    plotter/grid_config.cpp
+    plotter/margin.cpp
     plotter/plot_config.cpp
     plotter/plot_range.cpp
     plotter/plotter.cpp
     plotter/plotting_util.cpp
     plotter/point.cpp
     plotter/rgb_color.cpp
+    plotter/sampling_config.cpp
 )

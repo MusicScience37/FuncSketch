@@ -23,9 +23,9 @@
 
 #include "func_sketch/expressions/expression.h"
 #include "func_sketch/expressions/expression_evaluator.h"
-#include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
+#include "func_sketch/plotter/sampling_config.h"
 
 namespace func_sketch::plotter {
 
@@ -38,9 +38,9 @@ public:
      * \brief Constructor.
      *
      * \param[in] range Range of plots.
-     * \param[in] config Configuration of plots.
+     * \param[in] config Configuration of sampling.
      */
-    FunctionSampler(const PlotRange& range, const PlotConfig& config);
+    FunctionSampler(const PlotRange& range, const SamplingConfig& config);
 
     /*!
      * \brief Set the range of plots.
@@ -51,12 +51,12 @@ public:
     FunctionSampler& range(const PlotRange& value);
 
     /*!
-     * \brief Set the configuration of plots.
+     * \brief Set the configuration of sampling.
      *
-     * \param[in] value Configuration of plots.
+     * \param[in] value Configuration of sampling.
      * \return Reference to this object.
      */
-    FunctionSampler& config(const PlotConfig& value);
+    FunctionSampler& config(const SamplingConfig& value);
 
     /*!
      * \brief Sample a function for plotting.
@@ -169,8 +169,8 @@ private:
     //! Range of plots.
     PlotRange range_;
 
-    //! Configuration of plots.
-    PlotConfig config_;
+    //! Configuration of sampling.
+    SamplingConfig config_;
 
     //! Evaluator of expressions.
     expressions::ExpressionEvaluator evaluator_;

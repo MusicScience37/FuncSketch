@@ -47,7 +47,7 @@ def test_plot_function(benchmark: typing.Callable, expression_str: str) -> None:
     range = PlotRange((-3.0, 3.0), (-3.0, 3.0))
     config = DEFAULT_PLOT_CONFIG
 
-    sampler = CurveSampler(range, config)
+    sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)
 
     curve_config = CurveConfig(expression_str, CURVE_COLORS[0])
@@ -67,7 +67,7 @@ def test_sample_function(benchmark: typing.Callable, expression_str: str) -> Non
     range = PlotRange((-3.0, 3.0), (-3.0, 3.0))
     config = DEFAULT_PLOT_CONFIG
 
-    sampler = CurveSampler(range, config)
+    sampler = CurveSampler(range, config.sampling)
 
     curve_config = CurveConfig(expression_str, CURVE_COLORS[0])
 

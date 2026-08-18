@@ -72,10 +72,10 @@ void update_axis_ticks(const PlotRange& range, const cv::MatSize& image_size,
     AxisTicks& y_axis_ticks) {
     const std::size_t approx_num_ticks_x = std::max(static_cast<std::size_t>(1),
         static_cast<std::size_t>(image_size[1]) /
-            config.num_pixels_per_tick_in_x_axis());
+            config.axes().num_pixels_per_tick_in_x_axis());
     const std::size_t approx_num_ticks_y = std::max(static_cast<std::size_t>(1),
         static_cast<std::size_t>(image_size[0]) /
-            config.num_pixels_per_tick_in_y_axis());
+            config.axes().num_pixels_per_tick_in_y_axis());
 
     generate_axis_ticks(range.x_range(), approx_num_ticks_x, x_axis_ticks);
     generate_axis_ticks(range.y_range(), approx_num_ticks_y, y_axis_ticks);
@@ -96,7 +96,7 @@ constexpr int plot_text_thickness = 1;
  */
 [[nodiscard]] int compute_required_width_for_y_axis_tick_labels(
     const AxisTicks& y_axis_ticks, const PlotConfig& config) {
-    const int font_size = config.tick_label_font_size();
+    const int font_size = config.axes().tick_label_font_size();
     const double font_scale =
         cv::getFontScaleFromHeight(plot_text_font_face, font_size);
     int required_width = 0;
@@ -127,12 +127,13 @@ Plotter& Plotter::config(const PlotConfig& value) {
 void Plotter::write_background(Image& image) {
     const auto size = image.size;
     update_axis_ticks(range_, size, config_, x_axis_ticks_, y_axis_ticks_);
-    left_margin_ = config_.left_margin();
+    margin_ = config_.margin();
     const int required_width_for_y_axis_tick_labels =
         compute_required_width_for_y_axis_tick_labels(y_axis_ticks_, config_);
-    const int margin_for_y_axis_tick_labels = config_.tick_label_font_size();
-    left_margin_ = std::max(left_margin_,
-        required_width_for_y_axis_tick_labels + margin_for_y_axis_tick_labels);
+    const int margin_for_y_axis_tick_labels =
+        config_.axes().tick_label_font_size();
+    margin_.left(std::max(margin_.left(),
+        required_width_for_y_axis_tick_labels + margin_for_y_axis_tick_labels));
 
     // Background.
     const auto color = convert_color(config_.background_color());
@@ -186,8 +187,8 @@ void Plotter::write_curve(
             end_xy = compute_intersection_with_range(start_xy, end_xy, range_);
         }
 
-        write_line(image, start_xy, end_xy, cv_color, line_width, range_,
-            config_, left_margin_);
+        write_line(
+            image, start_xy, end_xy, cv_color, line_width, range_, margin_);
     }
 }
 
@@ -196,37 +197,37 @@ void Plotter::write_grid_lines(Image& image) {
 
     // vertical lines.
     for (const Real x_value : x_axis_ticks_.values) {
-        const int line_width = (x_value == 0.0) ? config_.zero_line_width()
-                                                : config_.grid_line_width();
+        const int line_width = (x_value == 0.0)
+            ? config_.grid().zero_line_width()
+            : config_.grid().line_width();
         write_line(image, Point{.x = x_value, .y = range_.y_range().first},
             Point{.x = x_value, .y = range_.y_range().second},
-            convert_color(config_.grid_color()), line_width, range_, config_,
-            left_margin_);
+            convert_color(config_.grid().color()), line_width, range_, margin_);
     }
     // horizontal lines.
     for (const Real y_value : y_axis_ticks_.values) {
-        const int line_width = (y_value == 0.0) ? config_.zero_line_width()
-                                                : config_.grid_line_width();
+        const int line_width = (y_value == 0.0)
+            ? config_.grid().zero_line_width()
+            : config_.grid().line_width();
         write_line(image, Point{.x = range_.x_range().first, .y = y_value},
             Point{.x = range_.x_range().second, .y = y_value},
-            convert_color(config_.grid_color()), line_width, range_, config_,
-            left_margin_);
+            convert_color(config_.grid().color()), line_width, range_, margin_);
     }
 }
 
 void Plotter::write_x_axis(Image& image) {
     const auto size = image.size;
 
-    const auto color = convert_color(config_.axes_color());
+    const auto color = convert_color(config_.axes().color());
 
     // Draw the x-axis at the bottom in the plot.
     const Real y_value = range_.y_range().first;
 
     write_line(image, Point{.x = range_.x_range().first, .y = y_value},
         Point{.x = range_.x_range().second, .y = y_value}, color,
-        config_.axes_line_width(), range_, config_, left_margin_);
+        config_.axes().line_width(), range_, margin_);
 
-    const int font_size = config_.tick_label_font_size();
+    const int font_size = config_.axes().tick_label_font_size();
     const double font_scale =
         cv::getFontScaleFromHeight(plot_text_font_face, font_size);
 
@@ -238,9 +239,8 @@ void Plotter::write_x_axis(Image& image) {
         const cv::Size text_size = cv::getTextSize(text, plot_text_font_face,
             font_scale, plot_text_thickness, nullptr);
 
-        const auto base_position =
-            convert_position(Point{.x = x_value, .y = y_value}, range_, config_,
-                left_margin_, size);
+        const auto base_position = convert_position(
+            Point{.x = x_value, .y = y_value}, range_, margin_, size);
         const int tick_margin = font_size / 2;
         auto top_left_position =
             cv::Point(base_position.x - text_size.width / 2,
@@ -256,16 +256,16 @@ void Plotter::write_x_axis(Image& image) {
 void Plotter::write_y_axis(Image& image) {
     const auto size = image.size;
 
-    const auto color = convert_color(config_.axes_color());
+    const auto color = convert_color(config_.axes().color());
 
     // Draw the y-axis at the left in the plot.
     const Real x_value = range_.x_range().first;
 
     write_line(image, Point{.x = x_value, .y = range_.y_range().first},
         Point{.x = x_value, .y = range_.y_range().second}, color,
-        config_.axes_line_width(), range_, config_, left_margin_);
+        config_.axes().line_width(), range_, margin_);
 
-    const int font_size = config_.tick_label_font_size();
+    const int font_size = config_.axes().tick_label_font_size();
     const double font_scale =
         cv::getFontScaleFromHeight(plot_text_font_face, font_size);
 
@@ -277,9 +277,8 @@ void Plotter::write_y_axis(Image& image) {
         const cv::Size text_size = cv::getTextSize(text, plot_text_font_face,
             font_scale, plot_text_thickness, nullptr);
 
-        const auto base_position =
-            convert_position(Point{.x = x_value, .y = y_value}, range_, config_,
-                left_margin_, size);
+        const auto base_position = convert_position(
+            Point{.x = x_value, .y = y_value}, range_, margin_, size);
         const int tick_margin = font_size / 2;
         cv::Point top_left_position;
         top_left_position =

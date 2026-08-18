@@ -15,13 +15,17 @@
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
 #include "func_sketch/parser/expression_parser.h"
+#include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/function_sampler.h"
+#include "func_sketch/plotter/grid_config.h"
 #include "func_sketch/plotter/image.h"
+#include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/plotter.h"
 #include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/rgb_color.h"
+#include "func_sketch/plotter/sampling_config.h"
 
 namespace {
 
@@ -191,60 +195,181 @@ Objects of this class can be called with a string to parse it into an Expression
         .def_prop_ro("x_range", &PlotRange::x_range, "Range of x-axis.")
         .def_prop_ro("y_range", &PlotRange::y_range, "Range of y-axis.");
 
+    using func_sketch::plotter::Margin;
+    nanobind::class_<Margin>(m, "Margin", "Class to save margins of plots.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def_prop_rw(
+            "left", [](const Margin& self) -> int { return self.left(); },
+            [](Margin& self, int value) { self.left(value); },
+            "Left margin of plots in pixels.")
+        .def_prop_rw(
+            "right", [](const Margin& self) -> int { return self.right(); },
+            [](Margin& self, int value) { self.right(value); },
+            "Right margin of plots in pixels.")
+        .def_prop_rw(
+            "top", [](const Margin& self) -> int { return self.top(); },
+            [](Margin& self, int value) { self.top(value); },
+            "Top margin of plots in pixels.")
+        .def_prop_rw(
+            "bottom", [](const Margin& self) -> int { return self.bottom(); },
+            [](Margin& self, int value) { self.bottom(value); },
+            "Bottom margin of plots in pixels.");
+
+    using func_sketch::plotter::AxesConfig;
+    nanobind::class_<AxesConfig>(
+        m, "AxesConfig", "Class of configurations of axes.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def_prop_rw(
+            "tick_label_font_size",
+            [](const AxesConfig& self) -> int {
+                return self.tick_label_font_size();
+            },
+            [](AxesConfig& self, int value) {
+                self.tick_label_font_size(value);
+            },
+            "Font size of tick labels in pixels.")
+        .def_prop_rw(
+            "line_width",
+            [](const AxesConfig& self) -> int { return self.line_width(); },
+            [](AxesConfig& self, int value) { self.line_width(value); },
+            "Line width of axes in pixels.")
+        .def_prop_rw(
+            "color",
+            [](const AxesConfig& self) -> RGBColor { return self.color(); },
+            [](AxesConfig& self, const RGBColor& value) { self.color(value); },
+            "Color of axes.")
+        .def_prop_rw(
+            "num_pixels_per_tick_in_x_axis",
+            [](const AxesConfig& self) -> std::size_t {
+                return self.num_pixels_per_tick_in_x_axis();
+            },
+            [](AxesConfig& self, std::size_t value) {
+                self.num_pixels_per_tick_in_x_axis(value);
+            },
+            "Number of pixels per tick in the x-axis.")
+        .def_prop_rw(
+            "num_pixels_per_tick_in_y_axis",
+            [](const AxesConfig& self) -> std::size_t {
+                return self.num_pixels_per_tick_in_y_axis();
+            },
+            [](AxesConfig& self, std::size_t value) {
+                self.num_pixels_per_tick_in_y_axis(value);
+            },
+            "Number of pixels per tick in the y-axis.");
+
+    using func_sketch::plotter::GridConfig;
+    nanobind::class_<GridConfig>(
+        m, "GridConfig", "Class of configurations of a grid.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def_prop_rw(
+            "line_width",
+            [](const GridConfig& self) -> int { return self.line_width(); },
+            [](GridConfig& self, int value) { self.line_width(value); },
+            "Line width of grid lines in pixels.")
+        .def_prop_rw(
+            "zero_line_width",
+            [](const GridConfig& self) -> int {
+                return self.zero_line_width();
+            },
+            [](GridConfig& self, int value) { self.zero_line_width(value); },
+            "Line width of the grid line at zero in pixels.")
+        .def_prop_rw(
+            "color",
+            [](const GridConfig& self) -> RGBColor { return self.color(); },
+            [](GridConfig& self, const RGBColor& value) { self.color(value); },
+            "Color of grid lines.");
+
+    using func_sketch::plotter::SamplingConfig;
+    nanobind::class_<SamplingConfig>(
+        m, "SamplingConfig", "Class to configure sampling of functions.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def_prop_rw(
+            "initial_num_sample_points",
+            [](const SamplingConfig& self) -> std::size_t {
+                return self.initial_num_sample_points();
+            },
+            [](SamplingConfig& self, std::size_t value) {
+                self.initial_num_sample_points(value);
+            },
+            "Number of points to sample initially in adaptive sampling.")
+        .def_prop_rw(
+            "max_num_sample_points",
+            [](const SamplingConfig& self) -> std::size_t {
+                return self.max_num_sample_points();
+            },
+            [](SamplingConfig& self, std::size_t value) {
+                self.max_num_sample_points(value);
+            },
+            "Maximum number of points to sample in adaptive sampling.\n\n"
+            "Note:\n"
+            "    This value should be larger than "
+            "initial_num_sample_points. Otherwise, this configuration has "
+            "no effect.\n\n"
+            "Note:\n"
+            "    This value is limited for safety limit of memory "
+            "usage.")
+        .def_prop_rw(
+            "max_coordinate_change_rate",
+            [](const SamplingConfig& self) -> double {
+                return self.max_coordinate_change_rate();
+            },
+            [](SamplingConfig& self, double value) {
+                self.max_coordinate_change_rate(value);
+            },
+            "Threshold of the change in coordinates of sample points "
+            "relative to the plot range in adaptive sampling.")
+        .def_prop_rw(
+            "slope_change_threshold",
+            [](const SamplingConfig& self) -> double {
+                return self.slope_change_threshold();
+            },
+            [](SamplingConfig& self, double value) {
+                self.slope_change_threshold(value);
+            },
+            "Threshold of the change in slope normalized by the plot range "
+            "in adaptive sampling.")
+        .def_prop_rw(
+            "min_param_change_rate",
+            [](const SamplingConfig& self) -> double {
+                return self.min_param_change_rate();
+            },
+            [](SamplingConfig& self, double value) {
+                self.min_param_change_rate(value);
+            },
+            "Minimum rate of parameter change in adaptive sampling.\n\n"
+            "Note:\n"
+            "    This value is limited for safety limit of memory "
+            "usage.");
+
     using func_sketch::plotter::PlotConfig;
     nanobind::class_<PlotConfig>(
         m, "PlotConfig", "Class of configurations of plots.")
         .def(nanobind::init<>(), "Constructor.")
         .def_prop_rw(
-            "left_margin",
-            [](const PlotConfig& self) -> int { return self.left_margin(); },
-            [](PlotConfig& self, int value) { self.left_margin(value); },
-            "Left margin of plots in pixels.")
-        .def_prop_rw(
-            "right_margin",
-            [](const PlotConfig& self) -> int { return self.right_margin(); },
-            [](PlotConfig& self, int value) { self.right_margin(value); },
-            "Right margin of plots in pixels.")
-        .def_prop_rw(
-            "top_margin",
-            [](const PlotConfig& self) -> int { return self.top_margin(); },
-            [](PlotConfig& self, int value) { self.top_margin(value); },
-            "Top margin of plots in pixels.")
-        .def_prop_rw(
-            "bottom_margin",
-            [](const PlotConfig& self) -> int { return self.bottom_margin(); },
-            [](PlotConfig& self, int value) { self.bottom_margin(value); },
-            "Bottom margin of plots in pixels.")
-        .def_prop_rw(
-            "tick_label_font_size",
-            [](const PlotConfig& self) -> int {
-                return self.tick_label_font_size();
+            "margin", [](PlotConfig& self) -> Margin& { return self.margin(); },
+            [](PlotConfig& self, const Margin& value) {
+                self.margin() = value;
             },
-            [](PlotConfig& self, int value) {
-                self.tick_label_font_size(value);
-            },
-            "Font size of tick labels in pixels.")
+            "Configuration of margins of plots.")
         .def_prop_rw(
-            "axes_line_width",
-            [](const PlotConfig& self) -> int {
-                return self.axes_line_width();
+            "axes", [](PlotConfig& self) -> AxesConfig& { return self.axes(); },
+            [](PlotConfig& self, const AxesConfig& value) {
+                self.axes() = value;
             },
-            [](PlotConfig& self, int value) { self.axes_line_width(value); },
-            "Line width of axes in pixels.")
+            "Configuration of axes of plots.")
         .def_prop_rw(
-            "grid_line_width",
-            [](const PlotConfig& self) -> int {
-                return self.grid_line_width();
+            "grid", [](PlotConfig& self) -> GridConfig& { return self.grid(); },
+            [](PlotConfig& self, const GridConfig& value) {
+                self.grid() = value;
             },
-            [](PlotConfig& self, int value) { self.grid_line_width(value); },
-            "Line width of grid lines in pixels.")
+            "Configuration of the grid of plots.")
         .def_prop_rw(
-            "zero_line_width",
-            [](const PlotConfig& self) -> int {
-                return self.zero_line_width();
+            "sampling",
+            [](PlotConfig& self) -> SamplingConfig& { return self.sampling(); },
+            [](PlotConfig& self, const SamplingConfig& value) {
+                self.sampling() = value;
             },
-            [](PlotConfig& self, int value) { self.zero_line_width(value); },
-            "Line width of the grid line at zero in pixels.")
+            "Configuration of sampling of functions.")
         .def_prop_rw(
             "curve_line_width",
             [](const PlotConfig& self) -> int {
@@ -260,105 +385,12 @@ Objects of this class can be called with a string to parse it into an Expression
             [](PlotConfig& self, const RGBColor& value) {
                 self.background_color(value);
             },
-            "Color of background.")
-        .def_prop_rw(
-            "axes_color",
-            [](const PlotConfig& self) -> RGBColor {
-                return self.axes_color();
-            },
-            [](PlotConfig& self, const RGBColor& value) {
-                self.axes_color(value);
-            },
-            "Color of axes.")
-        .def_prop_rw(
-            "grid_color",
-            [](const PlotConfig& self) -> RGBColor {
-                return self.grid_color();
-            },
-            [](PlotConfig& self, const RGBColor& value) {
-                self.grid_color(value);
-            },
-            "Color of grid lines.")
-        .def_prop_rw(
-            "initial_num_sample_points",
-            [](const PlotConfig& self) -> std::size_t {
-                return self.initial_num_sample_points();
-            },
-            [](PlotConfig& self, std::size_t value) {
-                self.initial_num_sample_points(value);
-            },
-            "Number of points to sample initially in adaptive sampling.")
-        .def_prop_rw(
-            "max_num_sample_points",
-            [](const PlotConfig& self) -> std::size_t {
-                return self.max_num_sample_points();
-            },
-            [](PlotConfig& self, std::size_t value) {
-                self.max_num_sample_points(value);
-            },
-            "Maximum number of points to sample in adaptive sampling.\n\n"
-            "Note:\n"
-            "    This value should be larger than "
-            "initial_num_sample_points. Otherwise, this configuration has "
-            "no effect.\n\n"
-            "Note:\n"
-            "    This value is limited for safety limit of memory "
-            "usage.")
-        .def_prop_rw(
-            "max_coordinate_change_rate",
-            [](const PlotConfig& self) -> double {
-                return self.max_coordinate_change_rate();
-            },
-            [](PlotConfig& self, double value) {
-                self.max_coordinate_change_rate(value);
-            },
-            "Threshold of the change in coordinates of sample points "
-            "relative to the plot range in adaptive sampling.")
-        .def_prop_rw(
-            "slope_change_threshold",
-            [](const PlotConfig& self) -> double {
-                return self.slope_change_threshold();
-            },
-            [](PlotConfig& self, double value) {
-                self.slope_change_threshold(value);
-            },
-            "Threshold of the change in slope normalized by the plot range "
-            "in adaptive sampling.")
-        .def_prop_rw(
-            "min_param_change_rate",
-            [](const PlotConfig& self) -> double {
-                return self.min_param_change_rate();
-            },
-            [](PlotConfig& self, double value) {
-                self.min_param_change_rate(value);
-            },
-            "Minimum rate of parameter change in adaptive sampling.\n\n"
-            "Note:\n"
-            "    This value is limited for safety limit of memory "
-            "usage.")
-        .def_prop_rw(
-            "num_pixels_per_tick_in_x_axis",
-            [](const PlotConfig& self) -> std::size_t {
-                return self.num_pixels_per_tick_in_x_axis();
-            },
-            [](PlotConfig& self, std::size_t value) {
-                self.num_pixels_per_tick_in_x_axis(value);
-            },
-            "Number of pixels per tick in the x-axis.")
-        .def_prop_rw(
-            "num_pixels_per_tick_in_y_axis",
-            [](const PlotConfig& self) -> std::size_t {
-                return self.num_pixels_per_tick_in_y_axis();
-            },
-            [](PlotConfig& self, std::size_t value) {
-                self.num_pixels_per_tick_in_y_axis(value);
-            },
-            "Number of pixels per tick in the y-axis.");
+            "Color of background.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(
         m, "FunctionSampler", "Class to sample functions for plotting.")
-        .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
+        .def(nanobind::init<PlotRange, SamplingConfig>(), "range"_a, "config"_a,
             "Constructor.")
         .def_prop_rw(
             "range",
@@ -373,13 +405,13 @@ Objects of this class can be called with a string to parse it into an Expression
             "Range of plots. (write-only)")
         .def_prop_rw(
             "config",
-            [](FunctionSampler& self) -> PlotConfig {
+            [](FunctionSampler& self) -> SamplingConfig {
                 throw std::runtime_error("Property 'config' is write-only.");
             },
-            [](FunctionSampler& self, const PlotConfig& value) {
+            [](FunctionSampler& self, const SamplingConfig& value) {
                 self.config(value);
             },
-            "Configuration of plots. (write-only)")
+            "Configuration of sampling. (write-only)")
         .def(
             "__call__",
             [](const FunctionSampler& self, const ExpressionPtr& function) {

@@ -27,7 +27,7 @@ namespace func_sketch::plotter {
 
 FunctionSampler::FunctionSampler(
     // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
-    const PlotRange& range, const PlotConfig& config)
+    const PlotRange& range, const SamplingConfig& config)
     : range_(range), config_(config) {}
 
 FunctionSampler& FunctionSampler::range(const PlotRange& value) {
@@ -35,7 +35,7 @@ FunctionSampler& FunctionSampler::range(const PlotRange& value) {
     return *this;
 }
 
-FunctionSampler& FunctionSampler::config(const PlotConfig& value) {
+FunctionSampler& FunctionSampler::config(const SamplingConfig& value) {
     config_ = value;
     return *this;
 }

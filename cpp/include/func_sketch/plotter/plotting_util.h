@@ -22,7 +22,7 @@
 #include <opencv2/core.hpp>
 
 #include "func_sketch/plotter/image.h"
-#include "func_sketch/plotter/plot_config.h"
+#include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/rgb_color.h"
@@ -45,15 +45,12 @@ namespace func_sketch::plotter {
  *
  * \param[in] position Position in plot coordinates.
  * \param[in] range Range of plots.
- * \param[in] config Configuration of plots.
- * \param[in] left_margin Left margin of plots in pixels. (This value is used
- * over the value in config because tuning of the left margin is needed.)
+ * \param[in] margin Margins of plots.
  * \param[in] size Size of the image.
  * \return Converted position in image coordinates.
  */
 [[nodiscard]] cv::Point convert_position(const Point& position,
-    const PlotRange& range, const PlotConfig& config, int left_margin,
-    const cv::MatSize& size);
+    const PlotRange& range, const Margin& margin, const cv::MatSize& size);
 
 /*!
  * \brief Write a line on an image.
@@ -64,13 +61,11 @@ namespace func_sketch::plotter {
  * \param[in] color Color of the line.
  * \param[in] line_width Width of the line.
  * \param[in] range Range of plots.
- * \param[in] config Configuration of plots.
- * \param[in] left_margin Left margin of plots in pixels. (This value is used
- * over the value in config because tuning of the left margin is needed.)
+ * \param[in] margin Margins of plots.
  */
 void write_line(Image& image, const Point& start_point, const Point& end_point,
     const cv::Scalar& color, int line_width, const PlotRange& range,
-    const PlotConfig& config, int left_margin);
+    const Margin& margin);
 
 /*!
  * \brief Try to clamp a point with infinity to the range.
