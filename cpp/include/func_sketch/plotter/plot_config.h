@@ -27,8 +27,6 @@
 
 namespace func_sketch::plotter {
 
-// TODO Tune these values
-
 //! Default line width of curves in pixels.
 constexpr int default_curve_line_width = 1;
 
