@@ -28,7 +28,7 @@
 
 static std::vector<double> create_input(std::size_t size) {
     std::vector<double> input(size);
-    std::mt19937 generator;  // NOLINT(cert-*): for reproducibility
+    std::mt19937 generator;  // NOLINT: for reproducibility
     std::uniform_real_distribution<double> distribution(0.0, 1.0);
     std::ranges::generate(input,
         [&generator, &distribution]() { return distribution(generator); });
