@@ -441,6 +441,15 @@ Note:
             },
             "Font size of the title of the plot.")
         .def_prop_rw(
+            "plot_title_color",
+            [](const PlotConfig& self) -> RGBColor {
+                return self.plot_title_color();
+            },
+            [](PlotConfig& self, const RGBColor& value) {
+                self.plot_title_color(value);
+            },
+            "Color of the title of the plot.")
+        .def_prop_rw(
             "plot_title_margin",
             [](const PlotConfig& self) -> int {
                 return self.plot_title_margin();
@@ -462,7 +471,10 @@ Note:
             [](PlotConfig& self, const RGBColor& value) {
                 self.background_color(value);
             },
-            "Color of background.");
+            "Color of background.")
+        .def(
+            "copy", [](const PlotConfig& self) { return self; },
+            "Create an independent copy of this configuration.");
 
     using func_sketch::plotter::FunctionSampler;
     nanobind::class_<FunctionSampler>(

@@ -1,0 +1,41 @@
+# Copyright 2026 MusicScience37 (Kenta Kabashima)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""Test of plotting with configurations."""
+
+from func_sketch._gui.constants import DEFAULT_PLOT_CONFIG
+
+from .plotting_util import plot_function
+
+
+def test_plot_with_titles(image_approver) -> None:
+    """Test of plotting with axis titles and the plot title."""
+    config = DEFAULT_PLOT_CONFIG.copy()
+    config.axes.x_axis_title = "Time"
+    config.axes.y_axis_title = "Amplitude"
+    config.plot_title = "Sine Wave"
+
+    image = plot_function(["sin(x)"], (-3.0, 3.0), (-1.5, 1.5), config=config)
+    image_approver.verify(image)
+
+
+def test_plot_without_titles(image_approver) -> None:
+    """Test of plotting without axis titles and the plot title."""
+    config = DEFAULT_PLOT_CONFIG.copy()
+    config.axes.x_axis_title = ""
+    config.axes.y_axis_title = ""
+    config.plot_title = ""
+
+    image = plot_function(["sin(x)"], (-3.0, 3.0), (-1.5, 1.5), config=config)
+    image_approver.verify(image)

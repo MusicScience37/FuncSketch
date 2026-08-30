@@ -107,6 +107,15 @@ class TestPlotConfig:
         config.plot_title_font_size = 24
         assert config.plot_title_font_size == 24
 
+    def test_plot_title_color(self) -> None:
+        """Test of plot_title_color property."""
+        config = PlotConfig()
+        color = RGBColor(0x11, 0x22, 0x33)
+        config.plot_title_color = color
+        assert config.plot_title_color.r == color.r
+        assert config.plot_title_color.g == color.g
+        assert config.plot_title_color.b == color.b
+
     def test_plot_title_margin(self) -> None:
         """Test of plot_title_margin property."""
         config = PlotConfig()

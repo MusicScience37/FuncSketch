@@ -116,6 +116,13 @@ private:
     void write_grid_lines(Image& image);
 
     /*!
+     * \brief Write the title of the plot.
+     *
+     * \param[in] image Image to write.
+     */
+    void write_plot_title(Image& image);
+
+    /*!
      * \brief Write x axis.
      *
      * \param[in] image Image to write.
@@ -142,6 +149,15 @@ private:
      * \retval false Current actual image size is insufficient.
      */
     [[nodiscard]] bool try_update_internal_parameters();
+
+    /*!
+     * \brief Calculate the height of the title of the plot.
+     *
+     * \return Height of the title of the plot.
+     *
+     * \note This function assumes that the title of the plot is present.
+     */
+    [[nodiscard]] int plot_title_height();
 
     /*!
      * \brief Update axis ticks.

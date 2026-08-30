@@ -61,6 +61,11 @@ PlotConfig& PlotConfig::plot_title_font_size(int value) {
     return *this;
 }
 
+PlotConfig& PlotConfig::plot_title_color(const RGBColor& value) {
+    plot_title_color_ = value;
+    return *this;
+}
+
 PlotConfig& PlotConfig::plot_title_margin(int value) {
     if (value < 0) {
         throw InvalidArgumentException(
@@ -89,6 +94,10 @@ const std::string& PlotConfig::plot_title() const noexcept {
 
 int PlotConfig::plot_title_font_size() const noexcept {
     return plot_title_font_size_;
+}
+
+const RGBColor& PlotConfig::plot_title_color() const noexcept {
+    return plot_title_color_;
 }
 
 int PlotConfig::plot_title_margin() const noexcept {

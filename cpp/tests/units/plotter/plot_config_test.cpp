@@ -177,6 +177,23 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(config.plot_title_font_size() == 1);
     }
 
+    SECTION("set and get color of the title of the plot") {
+        using func_sketch::plotter::RGBColor;
+
+        PlotConfig config;
+
+        CHECK(config.plot_title_color() ==
+            func_sketch::plotter::default_plot_title_color);
+
+        const RGBColor new_color{.r = 100, .g = 150, .b = 200};
+        CHECK_NOTHROW(config.plot_title_color(new_color));
+        CHECK(config.plot_title_color() == new_color);
+
+        const RGBColor black{.r = 0, .g = 0, .b = 0};
+        CHECK_NOTHROW(config.plot_title_color(black));
+        CHECK(config.plot_title_color() == black);
+    }
+
     SECTION("set and get margin for the title of the plot") {
         PlotConfig config;
 

@@ -103,6 +103,7 @@ void Plotter::write_background(Image& image) {
     image = color;
 
     write_grid_lines(image);
+    write_plot_title(image);
     write_x_axis(image);
     write_y_axis(image);
 }
@@ -182,6 +183,26 @@ void Plotter::write_grid_lines(Image& image) {
             convert_color(config_.grid().color()), line_width, range_,
             plot_region_margin_);
     }
+}
+
+void Plotter::write_plot_title(Image& image) {
+    if (config_.plot_title().empty()) {
+        return;
+    }
+    const auto size = image.size;
+    const auto color = convert_color(config_.plot_title_color());
+
+    const auto& text = config_.plot_title();
+    const int font_size = config_.plot_title_font_size();
+    text_renderer_.font_size(font_size);
+    const auto [text_height, text_width] = text_renderer_.text_size(text);
+
+    cv::Point top_left_position(config_.base_margin().left(),
+        plot_region_margin_.top() - config_.plot_title_margin());
+    top_left_position = adjust_text_position(top_left_position,
+        cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
+
+    text_renderer_.render_text(image, text, top_left_position, color);
 }
 
 void Plotter::write_x_axis(Image& image) {
@@ -340,6 +361,13 @@ bool Plotter::try_update_internal_parameters() {
     // Margin of the overall graphics.
     plot_region_margin_ = config_.base_margin();
 
+    // Handle the plot title.
+    if (!config_.plot_title().empty()) {
+        const int additional_margin =
+            plot_title_height() + config_.plot_title_margin();
+        plot_region_margin_.top(plot_region_margin_.top() + additional_margin);
+    }
+
     // Handle axis titles.
     if (!config_.axes().x_axis_title().empty()) {
         const int additional_margin =
@@ -378,6 +406,14 @@ bool Plotter::try_update_internal_parameters() {
         static_cast<int>(config_.axes().num_pixels_per_tick_in_x_axis());
     return available_height > min_available_height &&
         available_width > min_available_width;
+}
+
+int Plotter::plot_title_height() {
+    const int font_size = config_.plot_title_font_size();
+    text_renderer_.font_size(font_size);
+    const auto [text_height, text_width] =
+        text_renderer_.text_size(config_.plot_title());
+    return text_height;
 }
 
 void Plotter::update_axis_ticks() {

@@ -36,8 +36,11 @@ constexpr std::string_view default_plot_title;
 //! Default font size of the title of the plot.
 constexpr int default_plot_title_font_size = 20;
 
+//! Default color of the title of the plot.
+constexpr auto default_plot_title_color = default_axes_color;
+
 //! Default margin for the title of the plot.
-constexpr int default_plot_title_margin = 10;
+constexpr int default_plot_title_margin = 20;
 
 //! Default minimum left margin of the plot region in pixels.
 constexpr int default_min_plot_left_margin = 60;
@@ -164,6 +167,14 @@ public:
     PlotConfig& plot_title_font_size(int value);
 
     /*!
+     * \brief Set the color of the title of the plot.
+     *
+     * \param[in] value Color of the title of the plot.
+     * \return Reference to this object.
+     */
+    PlotConfig& plot_title_color(const RGBColor& value);
+
+    /*!
      * \brief Set the margin for the title of the plot.
      *
      * \param[in] value Margin for the title of the plot.
@@ -202,6 +213,13 @@ public:
      * \return Font size of the title of the plot.
      */
     [[nodiscard]] int plot_title_font_size() const noexcept;
+
+    /*!
+     * \brief Get the color of the title of the plot.
+     *
+     * \return Color of the title of the plot.
+     */
+    [[nodiscard]] const RGBColor& plot_title_color() const noexcept;
 
     /*!
      * \brief Get the margin for the title of the plot.
@@ -248,6 +266,9 @@ private:
 
     //! Font size of the title of the plot.
     int plot_title_font_size_{default_plot_title_font_size};
+
+    //! Color of the title of the plot.
+    RGBColor plot_title_color_{default_plot_title_color};
 
     //! Margin for the title of the plot.
     int plot_title_margin_{default_plot_title_margin};
