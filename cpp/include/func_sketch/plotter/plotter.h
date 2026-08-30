@@ -149,18 +149,32 @@ private:
     void update_axis_ticks();
 
     /*!
-     * \brief Calculate the height of x-axis labels.
-     *
-     * \return Height of x-axis labels.
+     * \brief Update the height of x-axis ticks.
      */
-    [[nodiscard]] int x_axis_label_height();
+    void update_x_axis_tick_height();
 
     /*!
-     * \brief Calculate the width of y-axis labels.
-     *
-     * \return Width of y-axis labels.
+     * \brief Update the width of y-axis ticks.
      */
-    [[nodiscard]] int y_axis_label_width();
+    void update_y_axis_tick_width();
+
+    /*!
+     * \brief Calculate the height of x-axis title.
+     *
+     * \return Height of the x-axis title.
+     *
+     * \note This function assumes that the x-axis title is present.
+     */
+    [[nodiscard]] int x_axis_title_height();
+
+    /*!
+     * \brief Calculate the width of y-axis title.
+     *
+     * \return Width of the y-axis title.
+     *
+     * \note This function assumes that the y-axis title is present.
+     */
+    [[nodiscard]] int y_axis_title_width();
 
     //! Range of plots.
     PlotRange range_;
@@ -188,6 +202,12 @@ private:
 
     //! Ticks of the y-axis.
     AxisTicks y_axis_ticks_;
+
+    //! Height of x-axis ticks.
+    int x_axis_tick_height_{};
+
+    //! Width of y-axis ticks.
+    int y_axis_tick_width_{};
 
     //! Text renderer.
     TextRenderer text_renderer_;

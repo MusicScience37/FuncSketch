@@ -40,7 +40,7 @@ constexpr int default_axes_title_font_size = 11;
 constexpr int default_tick_label_font_size = 11;
 
 //! Default margin of tick labels in pixels.
-constexpr int default_tick_label_margin = default_tick_label_font_size / 2;
+constexpr int default_tick_label_margin = 8;
 
 //! Default line width of axes in pixels.
 constexpr int default_axes_line_width = 1;
