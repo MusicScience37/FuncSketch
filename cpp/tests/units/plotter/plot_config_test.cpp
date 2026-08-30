@@ -24,30 +24,58 @@
 TEST_CASE("func_sketch::plotter::PlotConfig") {
     using func_sketch::plotter::PlotConfig;
 
-    SECTION("access the configuration of margins") {
+    SECTION(
+        "access the configuration of the minimum margins of the plot "
+        "region") {
         PlotConfig config;
 
-        CHECK(config.margin().left() ==
-            func_sketch::plotter::default_left_margin);
-        CHECK(config.margin().right() ==
-            func_sketch::plotter::default_right_margin);
-        CHECK(
-            config.margin().top() == func_sketch::plotter::default_top_margin);
-        CHECK(config.margin().bottom() ==
-            func_sketch::plotter::default_bottom_margin);
+        CHECK(config.min_plot_margin().left() ==
+            func_sketch::plotter::default_min_plot_left_margin);
+        CHECK(config.min_plot_margin().right() ==
+            func_sketch::plotter::default_min_plot_right_margin);
+        CHECK(config.min_plot_margin().top() ==
+            func_sketch::plotter::default_min_plot_top_margin);
+        CHECK(config.min_plot_margin().bottom() ==
+            func_sketch::plotter::default_min_plot_bottom_margin);
 
-        config.margin().left(7).right(10).top(20).bottom(25);
+        config.min_plot_margin().left(7).right(10).top(20).bottom(25);
 
-        CHECK(config.margin().left() == 7);
-        CHECK(config.margin().right() == 10);
-        CHECK(config.margin().top() == 20);
-        CHECK(config.margin().bottom() == 25);
+        CHECK(config.min_plot_margin().left() == 7);
+        CHECK(config.min_plot_margin().right() == 10);
+        CHECK(config.min_plot_margin().top() == 20);
+        CHECK(config.min_plot_margin().bottom() == 25);
 
         const PlotConfig& const_config = config;
-        CHECK(const_config.margin().left() == 7);
-        CHECK(const_config.margin().right() == 10);
-        CHECK(const_config.margin().top() == 20);
-        CHECK(const_config.margin().bottom() == 25);
+        CHECK(const_config.min_plot_margin().left() == 7);
+        CHECK(const_config.min_plot_margin().right() == 10);
+        CHECK(const_config.min_plot_margin().top() == 20);
+        CHECK(const_config.min_plot_margin().bottom() == 25);
+    }
+
+    SECTION("access the configuration of the base margin") {
+        PlotConfig config;
+
+        CHECK(config.base_margin().left() ==
+            func_sketch::plotter::default_base_margin);
+        CHECK(config.base_margin().right() ==
+            func_sketch::plotter::default_base_margin);
+        CHECK(config.base_margin().top() ==
+            func_sketch::plotter::default_base_margin);
+        CHECK(config.base_margin().bottom() ==
+            func_sketch::plotter::default_base_margin);
+
+        config.base_margin().left(7).right(10).top(20).bottom(25);
+
+        CHECK(config.base_margin().left() == 7);
+        CHECK(config.base_margin().right() == 10);
+        CHECK(config.base_margin().top() == 20);
+        CHECK(config.base_margin().bottom() == 25);
+
+        const PlotConfig& const_config = config;
+        CHECK(const_config.base_margin().left() == 7);
+        CHECK(const_config.base_margin().right() == 10);
+        CHECK(const_config.base_margin().top() == 20);
+        CHECK(const_config.base_margin().bottom() == 25);
     }
 
     SECTION("access the configuration of axes") {

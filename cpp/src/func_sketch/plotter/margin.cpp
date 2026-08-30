@@ -23,6 +23,13 @@
 
 namespace func_sketch::plotter {
 
+Margin::Margin(int left, int right, int top, int bottom) {
+    this->left(left);
+    this->right(right);
+    this->top(top);
+    this->bottom(bottom);
+}
+
 Margin& Margin::left(int value) {
     if (value < 0) {
         throw InvalidArgumentException("Left margin must be non-negative");

@@ -198,6 +198,8 @@ Objects of this class can be called with a string to parse it into an Expression
     using func_sketch::plotter::Margin;
     nanobind::class_<Margin>(m, "Margin", "Class to save margins of plots.")
         .def(nanobind::init<>(), "Constructor.")
+        .def(nanobind::init<int, int, int, int>(), "left"_a, "right"_a, "top"_a,
+            "bottom"_a, "Constructor.")
         .def_prop_rw(
             "left", [](const Margin& self) -> int { return self.left(); },
             [](Margin& self, int value) { self.left(value); },
@@ -353,11 +355,19 @@ Objects of this class can be called with a string to parse it into an Expression
         m, "PlotConfig", "Class of configurations of plots.")
         .def(nanobind::init<>(), "Constructor.")
         .def_prop_rw(
-            "margin", [](PlotConfig& self) -> Margin& { return self.margin(); },
+            "min_plot_margin",
+            [](PlotConfig& self) -> Margin& { return self.min_plot_margin(); },
             [](PlotConfig& self, const Margin& value) {
-                self.margin() = value;
+                self.min_plot_margin() = value;
             },
-            "Configuration of margins of plots.")
+            "Configuration of the minimum margins of the plot region.")
+        .def_prop_rw(
+            "base_margin",
+            [](PlotConfig& self) -> Margin& { return self.base_margin(); },
+            [](PlotConfig& self, const Margin& value) {
+                self.base_margin() = value;
+            },
+            "Configuration of the base margin of plots.")
         .def_prop_rw(
             "axes", [](PlotConfig& self) -> AxesConfig& { return self.axes(); },
             [](PlotConfig& self, const AxesConfig& value) {

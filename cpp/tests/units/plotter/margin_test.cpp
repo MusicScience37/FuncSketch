@@ -24,10 +24,23 @@
 TEST_CASE("func_sketch::plotter::Margin") {
     using func_sketch::plotter::Margin;
 
+    SECTION("construct with values") {
+        const Margin margin{7, 10, 20, 25};
+
+        CHECK(margin.left() == 7);
+        CHECK(margin.right() == 10);
+        CHECK(margin.top() == 20);
+        CHECK(margin.bottom() == 25);
+    }
+
+    SECTION("construct with an invalid value") {
+        CHECK_THROWS(Margin(-1, 10, 20, 25));
+    }
+
     SECTION("set and get left margin") {
         Margin margin;
 
-        CHECK(margin.left() == func_sketch::plotter::default_left_margin);
+        CHECK(margin.left() == func_sketch::plotter::default_margin);
 
         CHECK_NOTHROW(margin.left(7));
         CHECK(margin.left() == 7);
@@ -45,7 +58,7 @@ TEST_CASE("func_sketch::plotter::Margin") {
     SECTION("set and get right margin") {
         Margin margin;
 
-        CHECK(margin.right() == func_sketch::plotter::default_right_margin);
+        CHECK(margin.right() == func_sketch::plotter::default_margin);
 
         CHECK_NOTHROW(margin.right(10));
         CHECK(margin.right() == 10);
@@ -63,7 +76,7 @@ TEST_CASE("func_sketch::plotter::Margin") {
     SECTION("set and get top margin") {
         Margin margin;
 
-        CHECK(margin.top() == func_sketch::plotter::default_top_margin);
+        CHECK(margin.top() == func_sketch::plotter::default_margin);
 
         CHECK_NOTHROW(margin.top(20));
         CHECK(margin.top() == 20);
@@ -81,7 +94,7 @@ TEST_CASE("func_sketch::plotter::Margin") {
     SECTION("set and get bottom margin") {
         Margin margin;
 
-        CHECK(margin.bottom() == func_sketch::plotter::default_bottom_margin);
+        CHECK(margin.bottom() == func_sketch::plotter::default_margin);
 
         CHECK_NOTHROW(margin.bottom(25));
         CHECK(margin.bottom() == 25);

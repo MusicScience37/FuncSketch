@@ -195,7 +195,7 @@ def generate_plots() -> None:
     height = 480
     width = 640
     config = DEFAULT_PLOT_CONFIG
-    config.margin.top = 70
+    config.min_plot_margin.top = 70
     config.background_color = RGBColor(0xFF, 0xFF, 0xFF)
     range = DEFAULT_PLOT_RANGE
 

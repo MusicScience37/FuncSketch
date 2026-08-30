@@ -140,7 +140,7 @@ void Plotter::write_background(Image& image) {
     }
 
     update_axis_ticks();  // TODO Remove this later.
-    plot_region_margin_ = config_.margin();
+    plot_region_margin_ = config_.min_plot_margin();
     const int required_width_for_y_axis_tick_labels =
         compute_required_width_for_y_axis_tick_labels(y_axis_ticks_, config_);
     const int margin_for_y_axis_tick_labels =
@@ -354,8 +354,7 @@ void Plotter::update_internal_parameters() {
 
 bool Plotter::try_update_internal_parameters() {
     // Margin of the overall graphics.
-    // TODO Make this configurable.
-    plot_region_margin_ = Margin().left(5).right(5).top(5).bottom(5);
+    plot_region_margin_ = config_.base_margin();
 
     // Handle ticks.
     update_axis_ticks();
@@ -364,9 +363,7 @@ bool Plotter::try_update_internal_parameters() {
     plot_region_margin_.left(plot_region_margin_.left() + y_axis_label_width());
 
     // Handle minimum margins.
-    const auto& min_plot_margin =
-        config_
-            .margin();  // TODO change the name `margin` to `min_plot_margin`.
+    const auto& min_plot_margin = config_.min_plot_margin();
     plot_region_margin_.left(
         std::max(plot_region_margin_.left(), min_plot_margin.left()));
     plot_region_margin_.right(

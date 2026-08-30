@@ -21,17 +21,8 @@
 
 namespace func_sketch::plotter {
 
-//! Default left margin in pixels.
-constexpr int default_left_margin = 60;
-
-//! Default right margin in pixels.
-constexpr int default_right_margin = 60;
-
-//! Default top margin in pixels.
-constexpr int default_top_margin = 50;
-
-//! Default bottom margin in pixels.
-constexpr int default_bottom_margin = 50;
+//! Default margin in pixels.
+constexpr int default_margin = 0;
 
 /*!
  * \brief Class to save margins of plots.
@@ -42,6 +33,16 @@ public:
      * \brief Constructor.
      */
     Margin() = default;
+
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] left Left margin of plots in pixels.
+     * \param[in] right Right margin of plots in pixels.
+     * \param[in] top Top margin of plots in pixels.
+     * \param[in] bottom Bottom margin of plots in pixels.
+     */
+    Margin(int left, int right, int top, int bottom);
 
     /*!
      * \brief Set the left margin of plots in pixels.
@@ -105,16 +106,16 @@ public:
 
 private:
     //! Left margin of plots in pixels.
-    int left_{default_left_margin};
+    int left_{default_margin};
 
     //! Right margin of plots in pixels.
-    int right_{default_right_margin};
+    int right_{default_margin};
 
     //! Top margin of plots in pixels.
-    int top_{default_top_margin};
+    int top_{default_margin};
 
     //! Bottom margin of plots in pixels.
-    int bottom_{default_bottom_margin};
+    int bottom_{default_margin};
 };
 
 }  // namespace func_sketch::plotter

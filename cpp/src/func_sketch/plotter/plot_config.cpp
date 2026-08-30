@@ -23,9 +23,15 @@
 
 namespace func_sketch::plotter {
 
-Margin& PlotConfig::margin() noexcept { return margin_; }
+Margin& PlotConfig::min_plot_margin() noexcept { return min_plot_margin_; }
 
-const Margin& PlotConfig::margin() const noexcept { return margin_; }
+const Margin& PlotConfig::min_plot_margin() const noexcept {
+    return min_plot_margin_;
+}
+
+Margin& PlotConfig::base_margin() noexcept { return base_margin_; }
+
+const Margin& PlotConfig::base_margin() const noexcept { return base_margin_; }
 
 AxesConfig& PlotConfig::axes() noexcept { return axes_; }
 
