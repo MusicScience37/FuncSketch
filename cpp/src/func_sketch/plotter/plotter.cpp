@@ -60,33 +60,6 @@ namespace {
     return adjusted_position;
 }
 
-//! Font face used for texts in plots.
-constexpr int plot_text_font_face = cv::FONT_HERSHEY_SIMPLEX;
-
-//! Thickness of texts in plots.
-constexpr int plot_text_thickness = 1;
-
-/*!
- * \brief Compute the required width for y-axis tick labels in pixels.
- *
- * \param[in] y_axis_ticks Ticks of the y-axis.
- * \param[in] config Configuration of the plot.
- * \return Required width for y-axis tick labels in pixels.
- */
-[[nodiscard]] int compute_required_width_for_y_axis_tick_labels(
-    const AxisTicks& y_axis_ticks, const PlotConfig& config) {
-    const int font_size = config.axes().tick_label_font_size();
-    const double font_scale =
-        cv::getFontScaleFromHeight(plot_text_font_face, font_size);
-    int required_width = 0;
-    for (const auto& text : y_axis_ticks.strings) {
-        const cv::Size text_size = cv::getTextSize(text, plot_text_font_face,
-            font_scale, plot_text_thickness, nullptr);
-        required_width = std::max(required_width, text_size.width);
-    }
-    return required_width;
-}
-
 }  // namespace
 
 // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
@@ -224,29 +197,25 @@ void Plotter::write_x_axis(Image& image) {
         config_.axes().line_width(), range_, plot_region_margin_);
 
     const int font_size = config_.axes().tick_label_font_size();
-    const double font_scale =
-        cv::getFontScaleFromHeight(plot_text_font_face, font_size);
+    text_renderer_.font_size(font_size);
 
     assert(x_axis_ticks_.values.size() == x_axis_ticks_.strings.size());
     for (std::size_t i = 0; i < x_axis_ticks_.values.size(); ++i) {
         const Real x_value = x_axis_ticks_.values[i];
 
         const auto text = x_axis_ticks_.strings[i];
-        const cv::Size text_size = cv::getTextSize(text, plot_text_font_face,
-            font_scale, plot_text_thickness, nullptr);
+        const auto [text_height, text_width] = text_renderer_.text_size(text);
 
         const auto base_position =
             convert_position(Point{.x = x_value, .y = y_value}, range_,
                 plot_region_margin_, size);
         const int tick_margin = config_.axes().tick_label_margin();
-        auto top_left_position =
-            cv::Point(base_position.x - text_size.width / 2,
-                base_position.y + tick_margin + text_size.height);
-        top_left_position = adjust_text_position(
-            top_left_position, text_size, cv::Size(size[1], size[0]));
+        auto top_left_position = cv::Point(base_position.x - text_width / 2,
+            base_position.y + tick_margin + text_height);
+        top_left_position = adjust_text_position(top_left_position,
+            cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
 
-        cv::putText(image, text, top_left_position, plot_text_font_face,
-            font_scale, color, plot_text_thickness, cv::LINE_AA);
+        text_renderer_.render_text(image, text, top_left_position, color);
     }
 }
 
@@ -263,16 +232,14 @@ void Plotter::write_y_axis(Image& image) {
         config_.axes().line_width(), range_, plot_region_margin_);
 
     const int font_size = config_.axes().tick_label_font_size();
-    const double font_scale =
-        cv::getFontScaleFromHeight(plot_text_font_face, font_size);
+    text_renderer_.font_size(font_size);
 
     assert(y_axis_ticks_.values.size() == y_axis_ticks_.strings.size());
     for (std::size_t i = 0; i < y_axis_ticks_.values.size(); ++i) {
         const Real y_value = y_axis_ticks_.values[i];
 
         const auto text = y_axis_ticks_.strings[i];
-        const cv::Size text_size = cv::getTextSize(text, plot_text_font_face,
-            font_scale, plot_text_thickness, nullptr);
+        const auto [text_height, text_width] = text_renderer_.text_size(text);
 
         const auto base_position =
             convert_position(Point{.x = x_value, .y = y_value}, range_,
@@ -280,13 +247,12 @@ void Plotter::write_y_axis(Image& image) {
         const int tick_margin = config_.axes().tick_label_margin();
         cv::Point top_left_position;
         top_left_position =
-            cv::Point(base_position.x - tick_margin - text_size.width,
-                base_position.y + text_size.height / 2);
-        top_left_position = adjust_text_position(
-            top_left_position, text_size, cv::Size(size[1], size[0]));
+            cv::Point(base_position.x - tick_margin - text_width,
+                base_position.y + text_height / 2);
+        top_left_position = adjust_text_position(top_left_position,
+            cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
 
-        cv::putText(image, text, top_left_position, plot_text_font_face,
-            font_scale, color, plot_text_thickness, cv::LINE_AA);
+        text_renderer_.render_text(image, text, top_left_position, color);
     }
 }
 
