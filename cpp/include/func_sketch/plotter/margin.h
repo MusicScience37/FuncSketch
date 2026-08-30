@@ -104,6 +104,15 @@ public:
      */
     [[nodiscard]] int bottom() const noexcept;
 
+    /*!
+     * \brief Expand this margin so that each side is at least as large as
+     * the corresponding side of another margin.
+     *
+     * \param[in] min_margin Margin to use as the lower bound of each side.
+     * \return Reference to this object.
+     */
+    Margin& expand_to_at_least(const Margin& min_margin);
+
 private:
     //! Left margin of plots in pixels.
     int left_{default_margin};

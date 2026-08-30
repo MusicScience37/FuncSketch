@@ -19,6 +19,8 @@
  */
 #include "func_sketch/plotter/margin.h"
 
+#include <algorithm>
+
 #include "func_sketch/exceptions.h"
 
 namespace func_sketch::plotter {
@@ -69,5 +71,13 @@ int Margin::right() const noexcept { return right_; }
 int Margin::top() const noexcept { return top_; }
 
 int Margin::bottom() const noexcept { return bottom_; }
+
+Margin& Margin::expand_to_at_least(const Margin& min_margin) {
+    left(std::max(left_, min_margin.left_));
+    right(std::max(right_, min_margin.right_));
+    top(std::max(top_, min_margin.top_));
+    bottom(std::max(bottom_, min_margin.bottom_));
+    return *this;
+}
 
 }  // namespace func_sketch::plotter

@@ -340,15 +340,7 @@ bool Plotter::try_update_internal_parameters() {
     plot_region_margin_.left(plot_region_margin_.left() + y_axis_label_width());
 
     // Handle minimum margins.
-    const auto& min_plot_margin = config_.min_plot_margin();
-    plot_region_margin_.left(
-        std::max(plot_region_margin_.left(), min_plot_margin.left()));
-    plot_region_margin_.right(
-        std::max(plot_region_margin_.right(), min_plot_margin.right()));
-    plot_region_margin_.top(
-        std::max(plot_region_margin_.top(), min_plot_margin.top()));
-    plot_region_margin_.bottom(
-        std::max(plot_region_margin_.bottom(), min_plot_margin.bottom()));
+    plot_region_margin_.expand_to_at_least(config_.min_plot_margin());
 
     // Finally, check the available area for the plot region.
     const int available_height = actual_height_ - plot_region_margin_.top() -
@@ -368,11 +360,7 @@ void Plotter::update_axis_ticks() {
     auto margin = plot_region_margin_;
     // TODO Use approximate sizes of ticks here.
 
-    const auto& min_plot_margin = config_.min_plot_margin();
-    margin.left(std::max(margin.left(), min_plot_margin.left()));
-    margin.right(std::max(margin.right(), min_plot_margin.right()));
-    margin.top(std::max(margin.top(), min_plot_margin.top()));
-    margin.bottom(std::max(margin.bottom(), min_plot_margin.bottom()));
+    margin.expand_to_at_least(config_.min_plot_margin());
 
     const int available_width = actual_width_ - margin.left() - margin.right();
     const int available_height =
