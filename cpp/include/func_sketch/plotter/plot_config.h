@@ -40,7 +40,7 @@ constexpr int default_plot_title_font_size = 20;
 constexpr auto default_plot_title_color = default_axes_color;
 
 //! Default margin for the title of the plot.
-constexpr int default_plot_title_margin = 20;
+constexpr int default_plot_title_margin = 15;
 
 //! Default minimum left margin of the plot region in pixels.
 constexpr int default_min_plot_left_margin = 60;

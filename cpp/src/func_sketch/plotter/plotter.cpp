@@ -197,7 +197,7 @@ void Plotter::write_plot_title(Image& image) {
     text_renderer_.font_size(font_size);
     const auto [text_height, text_width] = text_renderer_.text_size(text);
 
-    cv::Point top_left_position(config_.base_margin().left(),
+    cv::Point top_left_position(plot_region_margin_.left(),
         plot_region_margin_.top() - config_.plot_title_margin());
     top_left_position = adjust_text_position(top_left_position,
         cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
