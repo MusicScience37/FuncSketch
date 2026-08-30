@@ -91,40 +91,26 @@ constexpr int plot_text_thickness = 1;
 
 // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
 Plotter::Plotter(const PlotRange& range, const PlotConfig& config)
-    : range_(range), config_(config) {}
+    : range_(range), config_(config) {
+    update_internal_parameters();
+}
 
 Plotter& Plotter::range(const PlotRange& value) {
     range_ = value;
+    update_internal_parameters();
     return *this;
 }
 
 Plotter& Plotter::config(const PlotConfig& value) {
     config_ = value;
+    update_internal_parameters();
     return *this;
 }
 
 Plotter& Plotter::desired_size(int height, int width) {
     desired_height_ = height;
     desired_width_ = width;
-
-    actual_height_ = desired_height_;
-    actual_width_ = desired_width_;
-    // TODO Tune actual sizes later.
-    constexpr int min_height = 300;
-    if (actual_height_ < min_height) {
-        double scale = static_cast<double>(min_height) /
-            static_cast<double>(actual_height_);
-        actual_height_ = min_height;
-        actual_width_ = static_cast<int>(actual_width_ * scale);
-    }
-    constexpr int min_width = 300;
-    if (actual_width_ < min_width) {
-        double scale =
-            static_cast<double>(min_width) / static_cast<double>(actual_width_);
-        actual_width_ = min_width;
-        actual_height_ = static_cast<int>(actual_height_ * scale);
-    }
-
+    update_internal_parameters();
     return *this;
 }
 
@@ -138,15 +124,6 @@ void Plotter::write_background(Image& image) {
         size[1] != actual_width_) {
         throw InvalidArgumentException("Invalid image size.");
     }
-
-    update_axis_ticks();  // TODO Remove this later.
-    plot_region_margin_ = config_.min_plot_margin();
-    const int required_width_for_y_axis_tick_labels =
-        compute_required_width_for_y_axis_tick_labels(y_axis_ticks_, config_);
-    const int margin_for_y_axis_tick_labels =
-        config_.axes().tick_label_font_size();
-    plot_region_margin_.left(std::max(plot_region_margin_.left(),
-        required_width_for_y_axis_tick_labels + margin_for_y_axis_tick_labels));
 
     // Background.
     const auto color = convert_color(config_.background_color());
@@ -388,11 +365,18 @@ bool Plotter::try_update_internal_parameters() {
 }
 
 void Plotter::update_axis_ticks() {
+    auto margin = plot_region_margin_;
     // TODO Use approximate sizes of ticks here.
-    const int available_width = actual_width_ - plot_region_margin_.left() -
-        plot_region_margin_.right();
-    const int available_height = actual_height_ - plot_region_margin_.top() -
-        plot_region_margin_.bottom();
+
+    const auto& min_plot_margin = config_.min_plot_margin();
+    margin.left(std::max(margin.left(), min_plot_margin.left()));
+    margin.right(std::max(margin.right(), min_plot_margin.right()));
+    margin.top(std::max(margin.top(), min_plot_margin.top()));
+    margin.bottom(std::max(margin.bottom(), min_plot_margin.bottom()));
+
+    const int available_width = actual_width_ - margin.left() - margin.right();
+    const int available_height =
+        actual_height_ - margin.top() - margin.bottom();
     const auto approx_num_ticks_x = static_cast<std::size_t>(std::round(
         static_cast<double>(available_width) /
         static_cast<double>(config_.axes().num_pixels_per_tick_in_x_axis())));
