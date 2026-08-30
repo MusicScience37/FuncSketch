@@ -39,6 +39,9 @@ class PlotWidget(kivy.uix.image.Image):
 
         self._plotter = Plotter(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG)
 
+        # Initialize with a small image to prevent errors in _prepare_texture.
+        # This will be altered with the actual plot size later.
+        self._image_buffer = numpy.zeros((1, 1, 3), dtype=numpy.uint8)
         self._prepare_texture()
 
     def on_shared_state(self, _instance: object, _value: object) -> None:
@@ -77,6 +80,11 @@ class PlotWidget(kivy.uix.image.Image):
         width, height = self.size
         self._plotter.desired_size(int(height), int(width))
         height, width = self._plotter.actual_size
+        if (
+            height == self._image_buffer.shape[0]
+            and width == self._image_buffer.shape[1]
+        ):
+            return
 
         self._image_buffer = numpy.zeros((height, width, 3), dtype=numpy.uint8)
         self._texture = kivy.graphics.texture.Texture.create(
