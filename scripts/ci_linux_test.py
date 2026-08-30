@@ -160,6 +160,32 @@ def check_tests_for_condition(
                 cwd=str(ROOT_DIR),
                 env=env,
             )
+        if test_type in ["release"]:
+            execute_command(
+                [
+                    "xvfb-run",
+                    "poetry",
+                    "run",
+                    "pytest",
+                    "bench",
+                    "-v",
+                    "--benchmark-json=benchmark.json",
+                ],
+                cwd=str(ROOT_DIR),
+                env=env,
+            )
+            execute_command(
+                [
+                    "poetry",
+                    "run",
+                    "python",
+                    "scripts/generate_benchmark_metrics.py",
+                    "benchmark.json",
+                    "bench_metrics.txt",
+                ],
+                cwd=str(ROOT_DIR),
+                env=env,
+            )
 
     # Pre-commit
     if test_type == "pre-commit":
