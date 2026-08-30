@@ -20,20 +20,36 @@ from func_sketch._cpp import PlotConfig, RGBColor
 class TestPlotConfig:
     """Test of PlotConfig."""
 
-    def test_margin(self) -> None:
-        """Test of margin property."""
+    def test_min_plot_margin(self) -> None:
+        """Test of min_plot_margin property."""
         config = PlotConfig()
 
-        # Configuration of margins can be changed in place.
-        config.margin.left = 12
-        config.margin.right = 34
-        config.margin.top = 56
-        config.margin.bottom = 78
+        # Configuration of the minimum margins of the plot region can be
+        # changed in place.
+        config.min_plot_margin.left = 12
+        config.min_plot_margin.right = 34
+        config.min_plot_margin.top = 56
+        config.min_plot_margin.bottom = 78
 
-        assert config.margin.left == 12
-        assert config.margin.right == 34
-        assert config.margin.top == 56
-        assert config.margin.bottom == 78
+        assert config.min_plot_margin.left == 12
+        assert config.min_plot_margin.right == 34
+        assert config.min_plot_margin.top == 56
+        assert config.min_plot_margin.bottom == 78
+
+    def test_base_margin(self) -> None:
+        """Test of base_margin property."""
+        config = PlotConfig()
+
+        # Configuration of the base margin can be changed in place.
+        config.base_margin.left = 12
+        config.base_margin.right = 34
+        config.base_margin.top = 56
+        config.base_margin.bottom = 78
+
+        assert config.base_margin.left == 12
+        assert config.base_margin.right == 34
+        assert config.base_margin.top == 56
+        assert config.base_margin.bottom == 78
 
     def test_axes(self) -> None:
         """Test of axes property."""
@@ -42,12 +58,14 @@ class TestPlotConfig:
 
         # Configuration of axes can be changed in place.
         config.axes.tick_label_font_size = 12
+        config.axes.tick_label_margin = 6
         config.axes.line_width = 3
         config.axes.color = color
         config.axes.num_pixels_per_tick_in_x_axis = 150
         config.axes.num_pixels_per_tick_in_y_axis = 100
 
         assert config.axes.tick_label_font_size == 12
+        assert config.axes.tick_label_margin == 6
         assert config.axes.line_width == 3
         assert config.axes.color.r == color.r
         assert config.axes.color.g == color.g

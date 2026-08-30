@@ -25,8 +25,15 @@
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
+#include "func_sketch/plotter/text_renderer.h"
 
 namespace func_sketch::plotter {
+
+//! Initial height of the image.
+constexpr int initial_height = 600;
+
+//! Initial width of the image.
+constexpr int initial_width = 800;
 
 /*!
  * \brief Class for plotting.
@@ -59,6 +66,22 @@ public:
      * \return Reference to this object.
      */
     Plotter& config(const PlotConfig& value);
+
+    /*!
+     * \brief Set the desired size of images.
+     *
+     * \param[in] height Desired height of the plots.
+     * \param[in] width Desired width of the plots.
+     * \return Reference to this object.
+     */
+    Plotter& desired_size(int height, int width);
+
+    /*!
+     * \brief Get the actual size of images.
+     *
+     * \return Pair of actual height and actual width of the plots.
+     */
+    [[nodiscard]] std::pair<int, int> actual_size() const noexcept;
 
     /*!
      * \brief Write background of plots.
@@ -106,23 +129,68 @@ private:
      */
     void write_y_axis(Image& image);
 
+    /*!
+     * \brief Update internal parameters.
+     */
+    void update_internal_parameters();
+
+    /*!
+     * \brief Try to update internal parameters with the current actual image
+     * size.
+     *
+     * \retval true Successfully updated internal parameters.
+     * \retval false Current actual image size is insufficient.
+     */
+    [[nodiscard]] bool try_update_internal_parameters();
+
+    /*!
+     * \brief Update axis ticks.
+     */
+    void update_axis_ticks();
+
+    /*!
+     * \brief Calculate the height of x-axis labels.
+     *
+     * \return Height of x-axis labels.
+     */
+    [[nodiscard]] int x_axis_label_height();
+
+    /*!
+     * \brief Calculate the width of y-axis labels.
+     *
+     * \return Width of y-axis labels.
+     */
+    [[nodiscard]] int y_axis_label_width();
+
     //! Range of plots.
     PlotRange range_;
 
     //! Configuration of plots.
     PlotConfig config_;
 
-    /*!
-     * \brief Margins of plots. (This configuration is used over the value
-     * in config because tuning of the left margin is needed.)
-     */
-    Margin margin_;
+    //! Desired height of the plots.
+    int desired_height_{initial_height};
+
+    //! Desired width of the plots.
+    int desired_width_{initial_width};
+
+    //! Actual height of the plots.
+    int actual_height_{initial_height};
+
+    //! Actual width of the plots.
+    int actual_width_{initial_width};
+
+    //! Margin of the plot region.
+    Margin plot_region_margin_;
 
     //! Ticks of the x-axis.
     AxisTicks x_axis_ticks_;
 
     //! Ticks of the y-axis.
     AxisTicks y_axis_ticks_;
+
+    //! Text renderer.
+    TextRenderer text_renderer_;
 };
 
 }  // namespace func_sketch::plotter

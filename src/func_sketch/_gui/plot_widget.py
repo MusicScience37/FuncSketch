@@ -39,6 +39,9 @@ class PlotWidget(kivy.uix.image.Image):
 
         self._plotter = Plotter(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG)
 
+        # Initialize with a small image to prevent errors in _prepare_texture.
+        # This will be altered with the actual plot size later.
+        self._image_buffer = numpy.zeros((1, 1, 3), dtype=numpy.uint8)
         self._prepare_texture()
 
     def on_shared_state(self, _instance: object, _value: object) -> None:
@@ -48,6 +51,7 @@ class PlotWidget(kivy.uix.image.Image):
             plot_config=self._on_shared_plot_config,
             sampled_curves=self._on_shared_sampled_curves,
         )
+        self._prepare_texture()
         self._update_plot()
 
     def on_size(self, _instance: object, _value: object) -> None:
@@ -58,11 +62,13 @@ class PlotWidget(kivy.uix.image.Image):
     def _on_shared_plot_range(self, _instance: object, _value: object) -> None:
         """Callback when the plot_range property is set in shared_state."""
         self._plotter.plot_range = self.shared_state.plot_range
+        self._prepare_texture()
         self._update_plot()
 
     def _on_shared_plot_config(self, _instance: object, _value: object) -> None:
         """Callback when the plot_config property is set in shared_state."""
         self._plotter.config = self.shared_state.plot_config
+        self._prepare_texture()
         self._update_plot()
 
     def _on_shared_sampled_curves(self, _instance: object, _value: object) -> None:
@@ -71,7 +77,14 @@ class PlotWidget(kivy.uix.image.Image):
 
     def _prepare_texture(self) -> None:
         """Prepare texture for the plot."""
-        width, height = self._get_plot_image_size()
+        width, height = self.size
+        self._plotter.desired_size(int(height), int(width))
+        height, width = self._plotter.actual_size
+        if (
+            height == self._image_buffer.shape[0]
+            and width == self._image_buffer.shape[1]
+        ):
+            return
 
         self._image_buffer = numpy.zeros((height, width, 3), dtype=numpy.uint8)
         self._texture = kivy.graphics.texture.Texture.create(
@@ -82,36 +95,6 @@ class PlotWidget(kivy.uix.image.Image):
         )
         self._texture.flip_vertical()
         self.texture = self._texture
-
-    def _get_plot_image_size(self) -> tuple[int, int]:
-        """Get size of the plot image."""
-        if self.shared_state is not None:
-            min_height = int(
-                self.shared_state.plot_config.margin.top
-                + self.shared_state.plot_config.margin.bottom
-                + 200
-            )
-            min_width = int(
-                self.shared_state.plot_config.margin.left
-                + self.shared_state.plot_config.margin.right
-                + 200
-            )
-        else:
-            min_height = 300
-            min_width = 300
-
-        width, height = self.size
-
-        if height < min_height:
-            scale = float(min_height) / float(height)
-            height = min_height
-            width = width * scale
-        if width < min_width:
-            scale = float(min_width) / float(width)
-            width = min_width
-            height = height * scale
-
-        return (int(width), int(height))
 
     def _update_plot(self) -> None:
         """Update the plot."""

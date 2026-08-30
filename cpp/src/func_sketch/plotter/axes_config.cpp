@@ -32,6 +32,15 @@ AxesConfig& AxesConfig::tick_label_font_size(int value) {
     return *this;
 }
 
+AxesConfig& AxesConfig::tick_label_margin(int value) {
+    if (value < 0) {
+        throw InvalidArgumentException(
+            "Tick label margin must be non-negative");
+    }
+    tick_label_margin_ = value;
+    return *this;
+}
+
 AxesConfig& AxesConfig::line_width(int value) {
     if (value < 0) {
         throw InvalidArgumentException("Axes line width must be non-negative");
@@ -65,6 +74,10 @@ AxesConfig& AxesConfig::num_pixels_per_tick_in_y_axis(std::size_t value) {
 
 int AxesConfig::tick_label_font_size() const noexcept {
     return tick_label_font_size_;
+}
+
+int AxesConfig::tick_label_margin() const noexcept {
+    return tick_label_margin_;
 }
 
 int AxesConfig::line_width() const noexcept { return line_width_; }

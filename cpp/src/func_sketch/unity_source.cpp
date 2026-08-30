@@ -34,3 +34,4 @@
 #include "plotter/point.cpp"
 #include "plotter/rgb_color.cpp"
 #include "plotter/sampling_config.cpp"
+#include "plotter/text_renderer.cpp"

@@ -195,14 +195,13 @@ def generate_plots() -> None:
     height = 480
     width = 640
     config = DEFAULT_PLOT_CONFIG
-    config.margin.top = 70
+    config.min_plot_margin.top = 70
     config.background_color = RGBColor(0xFF, 0xFF, 0xFF)
     range = DEFAULT_PLOT_RANGE
 
     sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)
-
-    image = numpy.ndarray((height, width, 3), dtype=numpy.uint8)
+    plotter.desired_size(height, width)
 
     for plot_info in PLOT_LIST:
         curve_config = CurveConfig(
@@ -211,6 +210,8 @@ def generate_plots() -> None:
         range = PlotRange(plot_info.x_range, plot_info.y_range)
         sampler.plot_range = range
         plotter.plot_range = range
+        actual_height, actual_width = plotter.actual_size
+        image = numpy.ndarray((actual_height, actual_width, 3), dtype=numpy.uint8)
         sampled_curve = sampler(curve_config)
         plotter([sampled_curve], image)
 

@@ -27,6 +27,21 @@
 
 namespace func_sketch::plotter {
 
+//! Default minimum left margin of the plot region in pixels.
+constexpr int default_min_plot_left_margin = 60;
+
+//! Default minimum right margin of the plot region in pixels.
+constexpr int default_min_plot_right_margin = 60;
+
+//! Default minimum top margin of the plot region in pixels.
+constexpr int default_min_plot_top_margin = 50;
+
+//! Default minimum bottom margin of the plot region in pixels.
+constexpr int default_min_plot_bottom_margin = 50;
+
+//! Default base margin of plots in pixels.
+constexpr int default_base_margin = 5;
+
 //! Default line width of curves in pixels.
 constexpr int default_curve_line_width = 1;
 
@@ -45,18 +60,36 @@ public:
     PlotConfig() = default;
 
     /*!
-     * \brief Access the configuration of margins.
+     * \brief Access the configuration of the minimum margins of the plot
+     * region.
      *
-     * \return Reference to the configuration of margins.
+     * \return Reference to the configuration of the minimum margins of the
+     * plot region.
      */
-    [[nodiscard]] Margin& margin() noexcept;
+    [[nodiscard]] Margin& min_plot_margin() noexcept;
 
     /*!
-     * \brief Get the configuration of margins.
+     * \brief Get the configuration of the minimum margins of the plot
+     * region.
      *
-     * \return Reference to the configuration of margins.
+     * \return Reference to the configuration of the minimum margins of the
+     * plot region.
      */
-    [[nodiscard]] const Margin& margin() const noexcept;
+    [[nodiscard]] const Margin& min_plot_margin() const noexcept;
+
+    /*!
+     * \brief Access the configuration of the base margin.
+     *
+     * \return Reference to the configuration of the base margin.
+     */
+    [[nodiscard]] Margin& base_margin() noexcept;
+
+    /*!
+     * \brief Get the configuration of the base margin.
+     *
+     * \return Reference to the configuration of the base margin.
+     */
+    [[nodiscard]] const Margin& base_margin() const noexcept;
 
     /*!
      * \brief Access the configuration of axes.
@@ -131,8 +164,14 @@ public:
     [[nodiscard]] const RGBColor& background_color() const noexcept;
 
 private:
-    //! Configuration of margins.
-    Margin margin_;
+    //! Configuration of the minimum margins of the plot region.
+    Margin min_plot_margin_{default_min_plot_left_margin,
+        default_min_plot_right_margin, default_min_plot_top_margin,
+        default_min_plot_bottom_margin};
+
+    //! Configuration of the base margin.
+    Margin base_margin_{default_base_margin, default_base_margin,
+        default_base_margin, default_base_margin};
 
     //! Configuration of axes.
     AxesConfig axes_;

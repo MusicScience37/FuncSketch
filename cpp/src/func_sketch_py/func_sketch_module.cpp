@@ -198,6 +198,8 @@ Objects of this class can be called with a string to parse it into an Expression
     using func_sketch::plotter::Margin;
     nanobind::class_<Margin>(m, "Margin", "Class to save margins of plots.")
         .def(nanobind::init<>(), "Constructor.")
+        .def(nanobind::init<int, int, int, int>(), "left"_a, "right"_a, "top"_a,
+            "bottom"_a, "Constructor.")
         .def_prop_rw(
             "left", [](const Margin& self) -> int { return self.left(); },
             [](Margin& self, int value) { self.left(value); },
@@ -228,6 +230,13 @@ Objects of this class can be called with a string to parse it into an Expression
                 self.tick_label_font_size(value);
             },
             "Font size of tick labels in pixels.")
+        .def_prop_rw(
+            "tick_label_margin",
+            [](const AxesConfig& self) -> int {
+                return self.tick_label_margin();
+            },
+            [](AxesConfig& self, int value) { self.tick_label_margin(value); },
+            "Margin of tick labels in pixels.")
         .def_prop_rw(
             "line_width",
             [](const AxesConfig& self) -> int { return self.line_width(); },
@@ -346,11 +355,19 @@ Objects of this class can be called with a string to parse it into an Expression
         m, "PlotConfig", "Class of configurations of plots.")
         .def(nanobind::init<>(), "Constructor.")
         .def_prop_rw(
-            "margin", [](PlotConfig& self) -> Margin& { return self.margin(); },
+            "min_plot_margin",
+            [](PlotConfig& self) -> Margin& { return self.min_plot_margin(); },
             [](PlotConfig& self, const Margin& value) {
-                self.margin() = value;
+                self.min_plot_margin() = value;
             },
-            "Configuration of margins of plots.")
+            "Configuration of the minimum margins of the plot region.")
+        .def_prop_rw(
+            "base_margin",
+            [](PlotConfig& self) -> Margin& { return self.base_margin(); },
+            [](PlotConfig& self, const Margin& value) {
+                self.base_margin() = value;
+            },
+            "Configuration of the base margin of plots.")
         .def_prop_rw(
             "axes", [](PlotConfig& self) -> AxesConfig& { return self.axes(); },
             [](PlotConfig& self, const AxesConfig& value) {
@@ -437,6 +454,14 @@ Objects of this class can be called with a string to parse it into an Expression
             },
             [](Plotter& self, const PlotConfig& value) { self.config(value); },
             "Configuration of plots. (write-only)")
+        .def(
+            "desired_size",
+            [](Plotter& self, int height, int width) {
+                self.desired_size(height, width);
+            },
+            "height"_a, "width"_a, "Set the desired size of images.")
+        .def_prop_ro("actual_size", &Plotter::actual_size,
+            "Get the actual size of images. (read-only)")
         .def(
             "write_background",
             [](Plotter& self, const RawImage& raw_image) {
