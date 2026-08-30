@@ -229,6 +229,13 @@ Objects of this class can be called with a string to parse it into an Expression
             },
             "Font size of tick labels in pixels.")
         .def_prop_rw(
+            "tick_label_margin",
+            [](const AxesConfig& self) -> int {
+                return self.tick_label_margin();
+            },
+            [](AxesConfig& self, int value) { self.tick_label_margin(value); },
+            "Margin of tick labels in pixels.")
+        .def_prop_rw(
             "line_width",
             [](const AxesConfig& self) -> int { return self.line_width(); },
             [](AxesConfig& self, int value) { self.line_width(value); },

@@ -43,6 +43,25 @@ TEST_CASE("func_sketch::plotter::AxesConfig") {
         CHECK(config.tick_label_font_size() == 1);
     }
 
+    SECTION("set and get tick label margin") {
+        AxesConfig config;
+
+        CHECK(config.tick_label_margin() ==
+            func_sketch::plotter::default_tick_label_margin);
+
+        CHECK_NOTHROW(config.tick_label_margin(14));
+        CHECK(config.tick_label_margin() == 14);
+
+        CHECK_THROWS(config.tick_label_margin(-1));
+        CHECK(config.tick_label_margin() == 14);
+
+        CHECK_NOTHROW(config.tick_label_margin(0));
+        CHECK(config.tick_label_margin() == 0);
+
+        CHECK_NOTHROW(config.tick_label_margin(1));
+        CHECK(config.tick_label_margin() == 1);
+    }
+
     SECTION("set and get axes line width") {
         AxesConfig config;
 

@@ -42,12 +42,14 @@ class TestPlotConfig:
 
         # Configuration of axes can be changed in place.
         config.axes.tick_label_font_size = 12
+        config.axes.tick_label_margin = 6
         config.axes.line_width = 3
         config.axes.color = color
         config.axes.num_pixels_per_tick_in_x_axis = 150
         config.axes.num_pixels_per_tick_in_y_axis = 100
 
         assert config.axes.tick_label_font_size == 12
+        assert config.axes.tick_label_margin == 6
         assert config.axes.line_width == 3
         assert config.axes.color.r == color.r
         assert config.axes.color.g == color.g

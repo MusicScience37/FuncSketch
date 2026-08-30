@@ -35,4 +35,5 @@ set(SOURCE_FILES
     plotter/point.cpp
     plotter/rgb_color.cpp
     plotter/sampling_config.cpp
+    plotter/text_renderer.cpp
 )

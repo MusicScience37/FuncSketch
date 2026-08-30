@@ -28,6 +28,9 @@ namespace func_sketch::plotter {
 //! Default font size of tick labels in pixels.
 constexpr int default_tick_label_font_size = 11;
 
+//! Default margin of tick labels in pixels.
+constexpr int default_tick_label_margin = default_tick_label_font_size / 2;
+
 //! Default line width of axes in pixels.
 constexpr int default_axes_line_width = 1;
 
@@ -38,7 +41,7 @@ constexpr auto default_axes_color = RGBColor{.r = 0x24, .g = 0x24, .b = 0x24};
 constexpr std::size_t default_num_pixels_per_tick_in_x_axis = 120;
 
 //! Default number of pixels per tick in the y-axis.
-constexpr std::size_t default_num_pixels_per_tick_in_y_axis = 100;
+constexpr std::size_t default_num_pixels_per_tick_in_y_axis = 90;
 
 /*!
  * \brief Class of configurations of axes.
@@ -57,6 +60,14 @@ public:
      * \return Reference to this object.
      */
     AxesConfig& tick_label_font_size(int value);
+
+    /*!
+     * \brief Set the margin of tick labels in pixels.
+     *
+     * \param[in] value Margin of tick labels in pixels.
+     * \return Reference to this object.
+     */
+    AxesConfig& tick_label_margin(int value);
 
     /*!
      * \brief Set the line width of axes in pixels.
@@ -98,6 +109,13 @@ public:
     [[nodiscard]] int tick_label_font_size() const noexcept;
 
     /*!
+     * \brief Get the margin of tick labels in pixels.
+     *
+     * \return Margin of tick labels in pixels.
+     */
+    [[nodiscard]] int tick_label_margin() const noexcept;
+
+    /*!
      * \brief Get the line width of axes in pixels.
      *
      * \return Line width of axes in pixels.
@@ -128,6 +146,9 @@ public:
 private:
     //! Font size of tick labels in pixels.
     int tick_label_font_size_{default_tick_label_font_size};
+
+    //! Margin of tick labels in pixels.
+    int tick_label_margin_{default_tick_label_margin};
 
     //! Line width of axes in pixels.
     int line_width_{default_axes_line_width};

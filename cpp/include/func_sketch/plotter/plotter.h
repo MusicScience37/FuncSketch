@@ -25,6 +25,7 @@
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
+#include "func_sketch/plotter/text_renderer.h"
 
 namespace func_sketch::plotter {
 
@@ -128,6 +129,39 @@ private:
      */
     void write_y_axis(Image& image);
 
+    /*!
+     * \brief Update internal parameters.
+     */
+    void update_internal_parameters();
+
+    /*!
+     * \brief Try to update internal parameters with the current actual image
+     * size.
+     *
+     * \retval true Successfully updated internal parameters.
+     * \retval false Current actual image size is insufficient.
+     */
+    [[nodiscard]] bool try_update_internal_parameters();
+
+    /*!
+     * \brief Update axis ticks.
+     */
+    void update_axis_ticks();
+
+    /*!
+     * \brief Calculate the height of x-axis labels.
+     *
+     * \return Height of x-axis labels.
+     */
+    [[nodiscard]] int x_axis_label_height();
+
+    /*!
+     * \brief Calculate the width of y-axis labels.
+     *
+     * \return Width of y-axis labels.
+     */
+    [[nodiscard]] int y_axis_label_width();
+
     //! Range of plots.
     PlotRange range_;
 
@@ -146,17 +180,17 @@ private:
     //! Actual width of the plots.
     int actual_width_{initial_width};
 
-    /*!
-     * \brief Margins of plots. (This configuration is used over the value
-     * in config because tuning of the left margin is needed.)
-     */
-    Margin margin_;
+    //! Margin of the plot region.
+    Margin plot_region_margin_;
 
     //! Ticks of the x-axis.
     AxisTicks x_axis_ticks_;
 
     //! Ticks of the y-axis.
     AxisTicks y_axis_ticks_;
+
+    //! Text renderer.
+    TextRenderer text_renderer_;
 };
 
 }  // namespace func_sketch::plotter
