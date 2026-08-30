@@ -48,6 +48,7 @@ class PlotWidget(kivy.uix.image.Image):
             plot_config=self._on_shared_plot_config,
             sampled_curves=self._on_shared_sampled_curves,
         )
+        self._prepare_texture()
         self._update_plot()
 
     def on_size(self, _instance: object, _value: object) -> None:
@@ -58,11 +59,13 @@ class PlotWidget(kivy.uix.image.Image):
     def _on_shared_plot_range(self, _instance: object, _value: object) -> None:
         """Callback when the plot_range property is set in shared_state."""
         self._plotter.plot_range = self.shared_state.plot_range
+        self._prepare_texture()
         self._update_plot()
 
     def _on_shared_plot_config(self, _instance: object, _value: object) -> None:
         """Callback when the plot_config property is set in shared_state."""
         self._plotter.config = self.shared_state.plot_config
+        self._prepare_texture()
         self._update_plot()
 
     def _on_shared_sampled_curves(self, _instance: object, _value: object) -> None:
