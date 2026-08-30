@@ -105,9 +105,12 @@ spell check:
       - $BUILD_DIR/junit
       - $BUILD_DIR/temp_test
       - benchmark.json
+      - bench_metrics.txt
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml
+      metrics:
+        - bench_metrics.txt
     when: always
   interruptible: true
 
