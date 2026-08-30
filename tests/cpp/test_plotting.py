@@ -29,8 +29,6 @@ from func_sketch._cpp import (
 def _plot_function(
     expression_str: str, x_range: tuple[float, float], y_range: tuple[float, float]
 ) -> numpy.ndarray:
-    height = 600
-    width = 800
     line_color = RGBColor(0xCA, 0x76, 0x39)
 
     parser = ExpressionParser()
@@ -38,6 +36,8 @@ def _plot_function(
     range = PlotRange(x_range, y_range)
     sampler = FunctionSampler(range, config.sampling)
     plotter = Plotter(range, config)
+    plotter.desired_size(600, 800)
+    height, width = plotter.actual_size
 
     expression = parser(expression_str)
     samples = sampler(expression)

@@ -438,6 +438,14 @@ Objects of this class can be called with a string to parse it into an Expression
             [](Plotter& self, const PlotConfig& value) { self.config(value); },
             "Configuration of plots. (write-only)")
         .def(
+            "desired_size",
+            [](Plotter& self, int height, int width) {
+                self.desired_size(height, width);
+            },
+            "height"_a, "width"_a, "Set the desired size of images.")
+        .def_prop_ro("actual_size", &Plotter::actual_size,
+            "Get the actual size of images. (read-only)")
+        .def(
             "write_background",
             [](Plotter& self, const RawImage& raw_image) {
                 auto image = to_image(raw_image);

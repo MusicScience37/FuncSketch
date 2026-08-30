@@ -28,6 +28,12 @@
 
 namespace func_sketch::plotter {
 
+//! Initial height of the image.
+constexpr int initial_height = 600;
+
+//! Initial width of the image.
+constexpr int initial_width = 800;
+
 /*!
  * \brief Class for plotting.
  *
@@ -59,6 +65,22 @@ public:
      * \return Reference to this object.
      */
     Plotter& config(const PlotConfig& value);
+
+    /*!
+     * \brief Set the desired size of images.
+     *
+     * \param[in] height Desired height of the plots.
+     * \param[in] width Desired width of the plots.
+     * \return Reference to this object.
+     */
+    Plotter& desired_size(int height, int width);
+
+    /*!
+     * \brief Get the actual size of images.
+     *
+     * \return Pair of actual height and actual width of the plots.
+     */
+    [[nodiscard]] std::pair<int, int> actual_size() const noexcept;
 
     /*!
      * \brief Write background of plots.
@@ -111,6 +133,18 @@ private:
 
     //! Configuration of plots.
     PlotConfig config_;
+
+    //! Desired height of the plots.
+    int desired_height_{initial_height};
+
+    //! Desired width of the plots.
+    int desired_width_{initial_width};
+
+    //! Actual height of the plots.
+    int actual_height_{initial_height};
+
+    //! Actual width of the plots.
+    int actual_width_{initial_width};
 
     /*!
      * \brief Margins of plots. (This configuration is used over the value

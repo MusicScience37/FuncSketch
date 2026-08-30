@@ -73,6 +73,24 @@ class Plotter:
         """
         self._plotter.config = value
 
+    def desired_size(self, height: int, width: int) -> None:
+        """Set the desired size of images.
+
+        Args:
+            height: Desired height of the plots.
+            width: Desired width of the plots.
+        """
+        self._plotter.desired_size(height, width)
+
+    @property
+    def actual_size(self) -> tuple[int, int]:
+        """Get the actual size of images.
+
+        Returns:
+            Pair of actual height and actual width of the plots.
+        """
+        return self._plotter.actual_size
+
     def __call__(
         self,
         sampled_curves: list[SampledCurve],

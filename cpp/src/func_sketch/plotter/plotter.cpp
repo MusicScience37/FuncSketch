@@ -27,6 +27,7 @@
 #include <opencv2/imgproc.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/exceptions.h"
 #include "func_sketch/plotter/axis_ticks.h"
 #include "func_sketch/plotter/plotting_util.h"
 #include "func_sketch/plotter/point.h"
@@ -124,8 +125,42 @@ Plotter& Plotter::config(const PlotConfig& value) {
     return *this;
 }
 
+Plotter& Plotter::desired_size(int height, int width) {
+    desired_height_ = height;
+    desired_width_ = width;
+
+    actual_height_ = desired_height_;
+    actual_width_ = desired_width_;
+    // TODO Tune actual sizes later.
+    constexpr int min_height = 300;
+    if (actual_height_ < min_height) {
+        double scale = static_cast<double>(min_height) /
+            static_cast<double>(actual_height_);
+        actual_height_ = min_height;
+        actual_width_ = static_cast<int>(actual_width_ * scale);
+    }
+    constexpr int min_width = 300;
+    if (actual_width_ < min_width) {
+        double scale =
+            static_cast<double>(min_width) / static_cast<double>(actual_width_);
+        actual_width_ = min_width;
+        actual_height_ = static_cast<int>(actual_height_ * scale);
+    }
+
+    return *this;
+}
+
+[[nodiscard]] std::pair<int, int> Plotter::actual_size() const noexcept {
+    return {actual_height_, actual_width_};
+}
+
 void Plotter::write_background(Image& image) {
     const auto size = image.size;
+    if (size.dims() != 2 || size[0] != actual_height_ ||
+        size[1] != actual_width_) {
+        throw InvalidArgumentException("Invalid image size.");
+    }
+
     update_axis_ticks(range_, size, config_, x_axis_ticks_, y_axis_ticks_);
     margin_ = config_.margin();
     const int required_width_for_y_axis_tick_labels =
@@ -147,6 +182,10 @@ void Plotter::write_background(Image& image) {
 void Plotter::write_curve(
     const std::vector<Point>& samples, const RGBColor& color, Image& image) {
     const auto size = image.size;
+    if (size.dims() != 2 || size[0] != actual_height_ ||
+        size[1] != actual_width_) {
+        throw InvalidArgumentException("Invalid image size.");
+    }
 
     const auto cv_color = convert_color(color);
     const int line_width = config_.curve_line_width();
