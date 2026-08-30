@@ -31,7 +31,6 @@ Checks: >
     -bugprone-easily-swappable-parameters,
     -bugprone-optional-value-conversion,
     -bugprone-misplaced-widening-cast,
-    -bugprone-suspicious-include,
     -bugprone-unchecked-optional-access,
   concurrency-*,
   boost-*,
@@ -48,7 +47,6 @@ Checks: >
 # - readability-math-missing-parentheses generates too many warnings in existing codes.
 # - hicpp-use-auto, modernize-use-auto should not be fixed in source codes using Eigen library.
 # - bugprone-misplaced-widening-cast generates false positives.
-# - bugprone-suspicious-include generates warnings in unity builds.
 # - readability-qualified-auto make source codes less changeable.
 # - modernize-use-trailing-return-type reduces readability.
 # - readability-magic-numbers generates too many warnings in test codes.

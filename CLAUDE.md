@@ -37,7 +37,6 @@ Directory structure:
 - Use C++ 23 standard.
 - Use CMake.
   - Build directory is `build/Debug` for debug build and `build/Release` for release build. Use `build/Debug` by default.
-  - Unity build targets are defined only for clang-tidy. Do not build the unity build targets for normal builds.
 - Use `clang-format` and `clang-tidy`.
 - Use `Catch2` and `ApprovalTests` for unit tests.
 - Use `nanobind` for Python bindings.
