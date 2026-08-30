@@ -19,6 +19,9 @@
  */
 #pragma once
 
+#include <string>
+#include <string_view>
+
 #include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/grid_config.h"
 #include "func_sketch/plotter/margin.h"
@@ -26,6 +29,15 @@
 #include "func_sketch/plotter/sampling_config.h"
 
 namespace func_sketch::plotter {
+
+//! Default title of the plot. (No title.)
+constexpr std::string_view default_plot_title;
+
+//! Default font size of the title of the plot.
+constexpr int default_plot_title_font_size = 20;
+
+//! Default margin for the title of the plot.
+constexpr int default_plot_title_margin = 10;
 
 //! Default minimum left margin of the plot region in pixels.
 constexpr int default_min_plot_left_margin = 60;
@@ -134,6 +146,32 @@ public:
     [[nodiscard]] const SamplingConfig& sampling() const noexcept;
 
     /*!
+     * \brief Set the title of the plot.
+     *
+     * \param[in] value Title of the plot.
+     * \return Reference to this object.
+     *
+     * \note Empty string means no title.
+     */
+    PlotConfig& plot_title(std::string value);
+
+    /*!
+     * \brief Set the font size of the title of the plot.
+     *
+     * \param[in] value Font size of the title of the plot.
+     * \return Reference to this object.
+     */
+    PlotConfig& plot_title_font_size(int value);
+
+    /*!
+     * \brief Set the margin for the title of the plot.
+     *
+     * \param[in] value Margin for the title of the plot.
+     * \return Reference to this object.
+     */
+    PlotConfig& plot_title_margin(int value);
+
+    /*!
      * \brief Set the line width of curves in pixels.
      *
      * \param[in] value Line width of curves in pixels.
@@ -148,6 +186,29 @@ public:
      * \return Reference to this object.
      */
     PlotConfig& background_color(const RGBColor& value);
+
+    /*!
+     * \brief Get the title of the plot.
+     *
+     * \return Title of the plot.
+     *
+     * \note Empty string means no title.
+     */
+    [[nodiscard]] const std::string& plot_title() const noexcept;
+
+    /*!
+     * \brief Get the font size of the title of the plot.
+     *
+     * \return Font size of the title of the plot.
+     */
+    [[nodiscard]] int plot_title_font_size() const noexcept;
+
+    /*!
+     * \brief Get the margin for the title of the plot.
+     *
+     * \return Margin for the title of the plot.
+     */
+    [[nodiscard]] int plot_title_margin() const noexcept;
 
     /*!
      * \brief Get the line width of curves in pixels.
@@ -181,6 +242,15 @@ private:
 
     //! Configuration of sampling.
     SamplingConfig sampling_;
+
+    //! Title of the plot.
+    std::string plot_title_{default_plot_title};
+
+    //! Font size of the title of the plot.
+    int plot_title_font_size_{default_plot_title_font_size};
+
+    //! Margin for the title of the plot.
+    int plot_title_margin_{default_plot_title_margin};
 
     //! Line width of curves in pixels.
     int curve_line_width_{default_curve_line_width};

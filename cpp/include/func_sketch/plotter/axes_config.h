@@ -20,10 +20,21 @@
 #pragma once
 
 #include <cstddef>
+#include <string>
+#include <string_view>
 
 #include "func_sketch/plotter/rgb_color.h"
 
 namespace func_sketch::plotter {
+
+//! Default title of x-axis.
+constexpr std::string_view default_x_axis_title = "x";
+
+//! Default title of y-axis.
+constexpr std::string_view default_y_axis_title = "y";
+
+//! Default font size of titles of axes in pixels.
+constexpr int default_axes_title_font_size = 11;
 
 //! Default font size of tick labels in pixels.
 constexpr int default_tick_label_font_size = 11;
@@ -52,6 +63,34 @@ public:
      * \brief Constructor.
      */
     AxesConfig() = default;
+
+    /*!
+     * \brief Set the title of x-axis.
+     *
+     * \param[in] value Title of x-axis.
+     * \return Reference to this object.
+     *
+     * \note Empty string means no title.
+     */
+    AxesConfig& x_axis_title(std::string value);
+
+    /*!
+     * \brief Set the title of y-axis.
+     *
+     * \param[in] value Title of y-axis.
+     * \return Reference to this object.
+     *
+     * \note Empty string means no title.
+     */
+    AxesConfig& y_axis_title(std::string value);
+
+    /*!
+     * \brief Set the font size of titles of axes in pixels.
+     *
+     * \param[in] value Font size of titles of axes in pixels.
+     * \return Reference to this object.
+     */
+    AxesConfig& axes_title_font_size(int value);
 
     /*!
      * \brief Set the font size of tick labels in pixels.
@@ -102,6 +141,31 @@ public:
     AxesConfig& num_pixels_per_tick_in_y_axis(std::size_t value);
 
     /*!
+     * \brief Get the title of x-axis.
+     *
+     * \return Title of x-axis.
+     *
+     * \note Empty string means no title.
+     */
+    [[nodiscard]] const std::string& x_axis_title() const noexcept;
+
+    /*!
+     * \brief Get the title of y-axis.
+     *
+     * \return Title of y-axis.
+     *
+     * \note Empty string means no title.
+     */
+    [[nodiscard]] const std::string& y_axis_title() const noexcept;
+
+    /*!
+     * \brief Get the font size of titles of axes in pixels.
+     *
+     * \return Font size of titles of axes in pixels.
+     */
+    [[nodiscard]] int axes_title_font_size() const noexcept;
+
+    /*!
      * \brief Get the font size of tick labels in pixels.
      *
      * \return Font size of tick labels in pixels.
@@ -144,6 +208,15 @@ public:
     [[nodiscard]] std::size_t num_pixels_per_tick_in_y_axis() const noexcept;
 
 private:
+    //! Title of x-axis.
+    std::string x_axis_title_{default_x_axis_title};
+
+    //! Title of y-axis.
+    std::string y_axis_title_{default_y_axis_title};
+
+    //! Font size of titles of axes in pixels.
+    int axes_title_font_size_{default_axes_title_font_size};
+
     //! Font size of tick labels in pixels.
     int tick_label_font_size_{default_tick_label_font_size};
 

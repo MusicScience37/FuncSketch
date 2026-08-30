@@ -146,6 +146,56 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(const_config.grid().color() == new_color);
     }
 
+    SECTION("set and get plot title") {
+        PlotConfig config;
+
+        CHECK(config.plot_title() == func_sketch::plotter::default_plot_title);
+
+        CHECK_NOTHROW(config.plot_title("My Plot"));
+        CHECK(config.plot_title() == "My Plot");
+
+        CHECK_NOTHROW(config.plot_title(""));
+        CHECK(config.plot_title().empty());
+    }
+
+    SECTION("set and get font size of the title of the plot") {
+        PlotConfig config;
+
+        CHECK(config.plot_title_font_size() ==
+            func_sketch::plotter::default_plot_title_font_size);
+
+        CHECK_NOTHROW(config.plot_title_font_size(14));
+        CHECK(config.plot_title_font_size() == 14);
+
+        CHECK_THROWS(config.plot_title_font_size(-1));
+        CHECK(config.plot_title_font_size() == 14);
+
+        CHECK_NOTHROW(config.plot_title_font_size(0));
+        CHECK(config.plot_title_font_size() == 0);
+
+        CHECK_NOTHROW(config.plot_title_font_size(1));
+        CHECK(config.plot_title_font_size() == 1);
+    }
+
+    SECTION("set and get margin for the title of the plot") {
+        PlotConfig config;
+
+        CHECK(config.plot_title_margin() ==
+            func_sketch::plotter::default_plot_title_margin);
+
+        CHECK_NOTHROW(config.plot_title_margin(14));
+        CHECK(config.plot_title_margin() == 14);
+
+        CHECK_THROWS(config.plot_title_margin(-1));
+        CHECK(config.plot_title_margin() == 14);
+
+        CHECK_NOTHROW(config.plot_title_margin(0));
+        CHECK(config.plot_title_margin() == 0);
+
+        CHECK_NOTHROW(config.plot_title_margin(1));
+        CHECK(config.plot_title_margin() == 1);
+    }
+
     SECTION("set and get curve line width") {
         PlotConfig config;
 

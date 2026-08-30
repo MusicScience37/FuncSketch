@@ -222,6 +222,39 @@ Objects of this class can be called with a string to parse it into an Expression
         m, "AxesConfig", "Class of configurations of axes.")
         .def(nanobind::init<>(), "Constructor.")
         .def_prop_rw(
+            "x_axis_title",
+            [](const AxesConfig& self) -> std::string {
+                return self.x_axis_title();
+            },
+            [](AxesConfig& self, std::string value) {
+                self.x_axis_title(std::move(value));
+            },
+            R"(Title of x-axis.
+
+Note:
+    Empty string means no title.)")
+        .def_prop_rw(
+            "y_axis_title",
+            [](const AxesConfig& self) -> std::string {
+                return self.y_axis_title();
+            },
+            [](AxesConfig& self, std::string value) {
+                self.y_axis_title(std::move(value));
+            },
+            R"(Title of y-axis.
+
+Note:
+    Empty string means no title.)")
+        .def_prop_rw(
+            "axes_title_font_size",
+            [](const AxesConfig& self) -> int {
+                return self.axes_title_font_size();
+            },
+            [](AxesConfig& self, int value) {
+                self.axes_title_font_size(value);
+            },
+            "Font size of titles of axes in pixels.")
+        .def_prop_rw(
             "tick_label_font_size",
             [](const AxesConfig& self) -> int {
                 return self.tick_label_font_size();
@@ -309,14 +342,13 @@ Objects of this class can be called with a string to parse it into an Expression
             [](SamplingConfig& self, std::size_t value) {
                 self.max_num_sample_points(value);
             },
-            "Maximum number of points to sample in adaptive sampling.\n\n"
-            "Note:\n"
-            "    This value should be larger than "
-            "initial_num_sample_points. Otherwise, this configuration has "
-            "no effect.\n\n"
-            "Note:\n"
-            "    This value is limited for safety limit of memory "
-            "usage.")
+            R"(Maximum number of points to sample in adaptive sampling.
+
+Note:
+    This value should be larger than initial_num_sample_points. Otherwise, this configuration has no effect.
+
+Note:
+    This value is limited for safety limit of memory usage.)")
         .def_prop_rw(
             "max_coordinate_change_rate",
             [](const SamplingConfig& self) -> double {
@@ -345,10 +377,10 @@ Objects of this class can be called with a string to parse it into an Expression
             [](SamplingConfig& self, double value) {
                 self.min_param_change_rate(value);
             },
-            "Minimum rate of parameter change in adaptive sampling.\n\n"
-            "Note:\n"
-            "    This value is limited for safety limit of memory "
-            "usage.");
+            R"(Minimum rate of parameter change in adaptive sampling.
+
+Note:
+    This value is limited for safety limit of memory usage.)");
 
     using func_sketch::plotter::PlotConfig;
     nanobind::class_<PlotConfig>(
@@ -387,6 +419,34 @@ Objects of this class can be called with a string to parse it into an Expression
                 self.sampling() = value;
             },
             "Configuration of sampling of functions.")
+        .def_prop_rw(
+            "plot_title",
+            [](const PlotConfig& self) -> std::string {
+                return self.plot_title();
+            },
+            [](PlotConfig& self, std::string value) {
+                self.plot_title(std::move(value));
+            },
+            R"(Title of the plot.
+
+Note:
+    Empty string means no title.)")
+        .def_prop_rw(
+            "plot_title_font_size",
+            [](const PlotConfig& self) -> int {
+                return self.plot_title_font_size();
+            },
+            [](PlotConfig& self, int value) {
+                self.plot_title_font_size(value);
+            },
+            "Font size of the title of the plot.")
+        .def_prop_rw(
+            "plot_title_margin",
+            [](const PlotConfig& self) -> int {
+                return self.plot_title_margin();
+            },
+            [](PlotConfig& self, int value) { self.plot_title_margin(value); },
+            "Margin for the title of the plot.")
         .def_prop_rw(
             "curve_line_width",
             [](const PlotConfig& self) -> int {
@@ -469,8 +529,9 @@ Objects of this class can be called with a string to parse it into an Expression
                 self.write_background(image);
             },
             "image"_a,
-            "Write background of a plot.\n\n"
-            "The pixels of image are modified in place.")
+            R"(Write background of a plot.
+
+The pixels of image are modified in place.)")
         .def(
             "write_curve",
             [](Plotter& self, const PointList& point_list,
@@ -479,6 +540,7 @@ Objects of this class can be called with a string to parse it into an Expression
                 self.write_curve(point_list.points, color, image);
             },
             "point_list"_a, "color"_a, "image"_a,
-            "Write a curve on a plot.\n\n"
-            "The pixels of image are modified in place.");
+            R"(Write a curve on a plot.
+
+The pixels of image are modified in place.)");
 }
