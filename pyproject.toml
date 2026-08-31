@@ -59,8 +59,29 @@ test = [
 ]
 
 [tool.ruff.lint]
-select = ["D", "DOC", "E", "F", "W"]
-ignore = ["docstring-missing-exception", "E501"]
+select = [
+    "B",
+    "C4",
+    # "CPY" # TODO Enable after fix.
+    "EXE",
+    "LOG",
+    "G",
+    "PIE",
+    "PT",
+    "SIM",
+    "PTH",
+    "N",
+    "PERF",
+    "E",
+    "W",
+    "DOC",
+    "D",
+    "F",
+    "PLC",
+    "PLE",
+    "UP",
+]
+ignore = ["E501", "PTH123", "DOC501", "PLC2701"]
 preview = true
 
 [tool.ruff.lint.pydocstyle]
