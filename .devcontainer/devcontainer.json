@@ -37,9 +37,7 @@
         "ms-python.python",
         "ms-python.black-formatter",
         "ms-python.isort",
-        "ms-python.flake8",
         "ms-python.mypy-type-checker",
-        "ms-python.pylint",
         "njpwerner.autodocstring",
         "lextudio.restructuredtext",
         "trond-snekvik.simple-rst",
@@ -49,7 +47,8 @@
         "executablebookproject.myst-highlight",
         "ms-toolsai.jupyter",
         "mechatroner.rainbow-csv",
-        "janisdd.vscode-edit-csv"
+        "janisdd.vscode-edit-csv",
+        "charliermarsh.ruff"
       ],
       "settings": {
         "cmakeFormat.exePath": "/workspaces/func-sketch/.venv/bin/cmake-format"

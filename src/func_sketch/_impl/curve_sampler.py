@@ -45,11 +45,7 @@ class CurveSampler:
 
     @property
     def plot_range(self) -> PlotRange:
-        """Get range of the plot.
-
-        Returns:
-            Range of the plot.
-        """
+        """Range of the plot."""
         raise NotImplementedError()
 
     @plot_range.setter
@@ -63,11 +59,7 @@ class CurveSampler:
 
     @property
     def config(self) -> SamplingConfig:
-        """Get configuration of sampling.
-
-        Returns:
-            Configuration of sampling.
-        """
+        """Configuration of sampling."""
         raise NotImplementedError()
 
     @config.setter

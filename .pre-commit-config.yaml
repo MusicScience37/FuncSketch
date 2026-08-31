@@ -35,33 +35,24 @@ repos:
         entry: poetry run black
         language: system
         require_serial: true
-        types_or: [python, pyi]
+        files: \.(py|ipynb)$
       - id: isort
         name: isort
         entry: poetry run isort
         language: system
         require_serial: true
-        types_or: [python, pyi]
-      - id: pylint
-        name: pylint
-        entry: poetry run pylint
+        files: \.(py|ipynb)$
+      - id: ruff
+        name: ruff
+        entry: poetry run ruff check
         language: system
         require_serial: true
-        types_or: [python]
-        exclude: \.cmake-format\.py
-      - id: flake8
-        name: flake8
-        entry: poetry run flake8
-        language: system
-        require_serial: true
-        types_or: [python]
-        exclude: \.cmake-format\.py
+        files: \.(py|ipynb)$
       - id: mypy
         name: mypy
         entry: poetry run mypy
         language: system
         require_serial: true
-        types_or: [python]
-        exclude: \.cmake-format\.py|conftest\.py
+        files: \.(py)$
 # Automatically generated files, binary data and image files should be excluded.
 exclude: "\\.approved\\."

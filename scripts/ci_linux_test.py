@@ -4,7 +4,7 @@
 import os
 import pathlib
 import subprocess
-import typing
+import time
 
 import click
 
@@ -76,7 +76,7 @@ TEST_TYPE_VARIABLES = {
 }
 
 
-def execute_command(command: typing.List[str], cwd: str, env=None) -> None:
+def execute_command(command: list[str], cwd: str, env=None) -> None:
     """Execute a command in a subprocess.
 
     Args:
@@ -109,7 +109,7 @@ def check_tests_for_condition(
         build_dir (str): Path to the build directory.
     """
     _ignore(compiler_type)
-    os.makedirs(build_dir, exist_ok=True)
+    pathlib.Path(build_dir).mkdir(exist_ok=True, parents=True)
 
     # Configure
     command = [
@@ -161,6 +161,7 @@ def check_tests_for_condition(
                 env=env,
             )
         if test_type in ["release"]:
+            time.sleep(5)  # Wait for a few seconds for xvfb.
             execute_command(
                 [
                     "xvfb-run",
@@ -213,4 +214,4 @@ def check_tests_for_condition(
 
 
 if __name__ == "__main__":
-    check_tests_for_condition()  # pylint: disable=no-value-for-parameter
+    check_tests_for_condition()

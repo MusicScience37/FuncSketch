@@ -16,9 +16,7 @@
     "ms-python.python",
     "ms-python.black-formatter",
     "ms-python.isort",
-    "ms-python.flake8",
     "ms-python.mypy-type-checker",
-    "ms-python.pylint",
     "njpwerner.autodocstring",
     "lextudio.restructuredtext",
     "trond-snekvik.simple-rst",
@@ -28,7 +26,8 @@
     "executablebookproject.myst-highlight",
     "ms-toolsai.jupyter",
     "mechatroner.rainbow-csv",
-    "janisdd.vscode-edit-csv"
+    "janisdd.vscode-edit-csv",
+    "charliermarsh.ruff"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []

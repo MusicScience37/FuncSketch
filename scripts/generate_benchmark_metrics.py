@@ -8,11 +8,11 @@ from collections import defaultdict
 import click
 
 
-def _benchmark_group_name(benchmark: typing.Dict[str, typing.Any]) -> str:
+def _benchmark_group_name(benchmark: dict[str, typing.Any]) -> str:
     """Get the name of a benchmark without its parameters.
 
     Args:
-        benchmark (typing.Dict[str, typing.Any]): A single benchmark entry
+        benchmark (dict[str, typing.Any]): A single benchmark entry
             in the JSON output of pytest-benchmark.
 
     Returns:
@@ -38,7 +38,7 @@ def _write_metric(
     *,
     name: str,
     help_text: str,
-    values: typing.Dict[str, float],
+    values: dict[str, float],
 ) -> None:
     """Write a gauge metric in OpenMetrics text format.
 
@@ -46,7 +46,7 @@ def _write_metric(
         output (typing.TextIO): Output stream to write the metric to.
         name (str): Name of the metric.
         help_text (str): Description of the metric.
-        values (typing.Dict[str, float]): Values of the metric for each
+        values (dict[str, float]): Values of the metric for each
             benchmark, keyed by the name of the benchmark.
     """
     output.write(f"# TYPE {name} gauge\n")
@@ -71,8 +71,8 @@ def generate_benchmark_metrics(input: typing.TextIO, output: typing.TextIO) -> N
     """
     data = json.load(input)
 
-    max_times: typing.Dict[str, float] = defaultdict(float)
-    mean_times: typing.Dict[str, float] = defaultdict(float)
+    max_times: dict[str, float] = defaultdict(float)
+    mean_times: dict[str, float] = defaultdict(float)
     for benchmark in data["benchmarks"]:
         group_name = _benchmark_group_name(benchmark)
         stats = benchmark["stats"]
@@ -101,4 +101,4 @@ def generate_benchmark_metrics(input: typing.TextIO, output: typing.TextIO) -> N
 
 
 if __name__ == "__main__":
-    generate_benchmark_metrics()  # pylint: disable=no-value-for-parameter
+    generate_benchmark_metrics()

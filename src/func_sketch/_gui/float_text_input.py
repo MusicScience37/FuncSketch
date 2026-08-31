@@ -39,7 +39,6 @@ class FloatTextInput(PlainTextInput):
         Args:
             **kwargs: Keyword arguments passed to the base class.
         """
-
         self._syncing = False
         super().__init__(**kwargs)
         self.text = str(self.value)
@@ -64,7 +63,6 @@ class FloatTextInput(PlainTextInput):
             _instance (object): Instance of the event.
             text (str): New text.
         """
-
         if self._syncing:
             return
         try:
@@ -89,7 +87,6 @@ class FloatTextInput(PlainTextInput):
             _instance (object): Instance of the event.
             value (float): New value.
         """
-
         if self._syncing:
             return
         if not math.isfinite(value):

@@ -46,11 +46,7 @@ class ImageApprover:
 
     @property
     def threshold(self) -> float:
-        """Get threshold for comparison.
-
-        Returns:
-            Threshold for comparison.
-        """
+        """Threshold for comparison."""
         return self._threshold
 
     @threshold.setter
