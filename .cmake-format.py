@@ -1,3 +1,5 @@
+# type: ignore
+# ruff: noqa: F821
 """Configuration for cmake-format."""
 
 # ----------------------------------
