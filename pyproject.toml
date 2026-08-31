@@ -49,6 +49,7 @@ dev = [
     "types-docutils (>=0.22.3.20260724,<0.23.0.0)",
     "clang-tidy-checker (>=0.7.0,<0.8.0)",
     "scipy-stubs (>=1.18.1.0,<2.0.0.0)",
+    "ruff (>=0.16.5,<0.17.0)",
 ]
 bind = ["nanobind (>=2.15.0,<3.0.0)"]
 test = [
@@ -58,6 +59,14 @@ test = [
     "pytest-cov (>=7.1.0,<8.0.0)",
     "pytest-benchmark (>=5.3.0,<6.0.0)",
 ]
+
+[tool.ruff.lint]
+select = ["D", "DOC"]
+ignore = ["docstring-missing-exception"]
+preview = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.pylint.main]
 disable = "too-many-instance-attributes,line-too-long,fixme,too-few-public-methods,redefined-outer-name,redefined-builtin,too-many-arguments,no-member,use-implicit-booleaness-not-comparison,too-many-public-methods,too-many-locals"

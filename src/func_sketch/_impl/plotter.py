@@ -39,11 +39,7 @@ class Plotter:
 
     @property
     def plot_range(self) -> PlotRange:
-        """Get range of the plot.
-
-        Returns:
-            Range of the plot.
-        """
+        """Range of the plot."""
         raise NotImplementedError()
 
     @plot_range.setter
@@ -57,11 +53,7 @@ class Plotter:
 
     @property
     def config(self) -> PlotConfig:
-        """Get configuration of the plot.
-
-        Returns:
-            Configuration of the plot.
-        """
+        """Configuration of the plot."""
         raise NotImplementedError()
 
     @config.setter
@@ -84,11 +76,7 @@ class Plotter:
 
     @property
     def actual_size(self) -> tuple[int, int]:
-        """Get the actual size of images.
-
-        Returns:
-            Pair of actual height and actual width of the plots.
-        """
+        """Actual size of images, as a pair of height and width of the plots."""
         return self._plotter.actual_size
 
     def __call__(

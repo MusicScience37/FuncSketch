@@ -1,3 +1,5 @@
+"""Configuration for cmake-format."""
+
 # ----------------------------------
 # Options affecting listfile parsing
 # ----------------------------------

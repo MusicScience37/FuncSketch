@@ -24,7 +24,11 @@ class FuncSketchApp(kivy.app.App):
     """Class of FuncSketch GUI application."""
 
     def build(self):
-        """Build the GUI application."""
+        """Build the GUI application.
+
+        Returns:
+            FuncSketchWidget: Root widget of the GUI application.
+        """
         kivy.lang.Builder.load_file("func_sketch_widget.kv")
         return FuncSketchWidget()
 

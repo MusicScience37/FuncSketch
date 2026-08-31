@@ -131,6 +131,7 @@
     "polygamma",
     "profdata",
     "profraw",
+    "pydocstyle",
     "pyenv",
     "pylint",
     "pytest",

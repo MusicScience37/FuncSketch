@@ -178,6 +178,9 @@ class FuncSketchFunctionDescription(sphinx.directives.ObjectDescription):
         The signature may include arguments, e.g. ``sin(x)``, but only the
         function name (``sin``) is used as the name for cross-references, so
         that roles can refer to it without arguments.
+
+        Returns:
+            str: Name of the function.
         """
         match = re.match(r"^\s*(\w+)\s*\((.*)\)\s*$", sig)
         if match is None:
@@ -203,7 +206,11 @@ class FuncSketchFunctionDescription(sphinx.directives.ObjectDescription):
         return name
 
     def get_signature_prefix(self, _sig: str) -> str:
-        """Get signature prefix of function description."""
+        """Get signature prefix of function description.
+
+        Returns:
+            str: Signature prefix, always ``"function"``.
+        """
         return "function"
 
     def _object_hierarchy_parts(
@@ -214,6 +221,10 @@ class FuncSketchFunctionDescription(sphinx.directives.ObjectDescription):
         Functions in FuncSketch have no hierarchy (no submodules, classes,
         etc.), so this is simply a single-element tuple with the function
         name.
+
+        Returns:
+            tuple[str, ...]: Hierarchy of names, empty if the signature node
+            has no name.
         """
         name = sig_node.get("funcsketch_name")
         if name is None:
@@ -234,6 +245,10 @@ class FuncSketchFunctionDescription(sphinx.directives.ObjectDescription):
         Sphinx's officially stable extension API (unlike ``handle_signature``
         etc.). Their behavior should be re-checked when upgrading to a new
         major version of Sphinx.
+
+        Returns:
+            str: Table-of-contents entry text, empty if the signature node
+            has no hierarchy parts.
         """
         if not sig_node.get("_toc_parts"):
             return ""
@@ -265,7 +280,7 @@ class FuncSketchDomain(sphinx.domains.Domain):
 
     @property
     def functions(self) -> dict[str, tuple[str, str]]:
-        """Get the dictionary of function names to (docname, node ID)."""
+        """Dictionary of function names to (docname, node ID)."""
         return self.data.setdefault("functions", {})
 
     def note_function(self, name: str, node_id: str) -> None:
@@ -281,7 +296,12 @@ class FuncSketchDomain(sphinx.domains.Domain):
     def get_objects(
         self,
     ) -> collections.abc.Iterable[tuple[str, str, str, str, str, int]]:
-        """Get descriptions of all functions in this domain."""
+        """Get descriptions of all functions in this domain.
+
+        Yields:
+            tuple[str, str, str, str, str, int]: Name, display name, object
+            type, docname, node ID, and priority of each function.
+        """
         for name, (docname, node_id) in self.functions.items():
             yield name, name, "function", docname, node_id, 1
 
@@ -295,7 +315,12 @@ class FuncSketchDomain(sphinx.domains.Domain):
         node: sphinx.addnodes.pending_xref,
         contnode: sphinx.addnodes.Element,
     ) -> docutils.nodes.reference | None:
-        """Resolve cross-reference."""
+        """Resolve cross-reference.
+
+        Returns:
+            docutils.nodes.reference | None: Reference node, or ``None`` if
+            the target function is not found.
+        """
         entry = self.functions.get(target)
         if entry is None:
             return None
@@ -306,6 +331,10 @@ class FuncSketchDomain(sphinx.domains.Domain):
 
 
 def setup(app: sphinx.application.Sphinx) -> dict[str, bool]:
-    """Set up this Sphinx extension."""
+    """Set up this Sphinx extension.
+
+    Returns:
+        dict[str, bool]: Metadata for this Sphinx extension.
+    """
     app.add_domain(FuncSketchDomain)
     return {"parallel_read_safe": False, "parallel_write_safe": True}

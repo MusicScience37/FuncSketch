@@ -61,9 +61,6 @@ def compare_vectors(
         vector2 (numpy.ndarray): Second vector.
         rtol (float): Relative tolerance.
         atol (float): Absolute tolerance.
-
-    Raises:
-        AssertionError: If the vectors are not approximately equal.
     """
     assert numpy.allclose(
         vector1, vector2, rtol=rtol, atol=atol

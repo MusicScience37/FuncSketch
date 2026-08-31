@@ -22,7 +22,6 @@ def list_source_files(base_dir: Path) -> list[Path]:
     Returns:
         list[Path]: Paths of source files.
     """
-
     files: list[Path] = []
     for child in base_dir.iterdir():
         if child.is_dir():
@@ -41,7 +40,6 @@ def list_source_file_paths(base_path: Path) -> list[str]:
     Returns:
         list[str]: Paths of source files.
     """
-
     source_files = list_source_files(base_path)
     return sorted(
         str(source_file.relative_to(base_path)).replace("\\", "/")
@@ -56,7 +54,6 @@ def write_cmake_var_file(base_path: Path, file_paths: list[str]):
         base_path (Path): Base directory path.
         file_paths (list[str]): Paths of source files.
     """
-
     source_list_cmake_path = base_path / SOURCE_LIST_CMAKE_SUFFIX
     with open(
         str(source_list_cmake_path), mode="w", encoding="ascii", newline="\n"
@@ -71,8 +68,7 @@ def write_cmake_var_file(base_path: Path, file_paths: list[str]):
 
 
 def main():
-    """Main function"""
-
+    """Main function."""
     for base_path in SOURCE_PATHS:
         file_paths = list_source_file_paths(base_path)
         write_cmake_var_file(base_path, file_paths)
