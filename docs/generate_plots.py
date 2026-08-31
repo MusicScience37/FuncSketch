@@ -21,7 +21,7 @@ import os
 # This must be set before importing Kivy.
 os.environ["KIVY_NO_ARGS"] = "1"
 
-# flake8: noqa: E402
+# ruff: noqa: E402
 
 import dataclasses
 import pathlib

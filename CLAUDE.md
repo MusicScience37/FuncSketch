@@ -50,8 +50,9 @@ Directory structure:
 ## Notes on Python Source Codes
 
 - Use Python 3.13.
-- Use tools `black`, `isort`, `flake8`, and `mypy`.
+- Use `black` and `isort` for formatting.
 - Use `Ruff` for linting, not for formatting.
+- Use `mypy` for type checking.
 - Use `pytest` for unit tests.
   - See `scripts/run_pytest.sh` for the appropriate way to run pytest.
   - When testing plotting of functions with finite domain, specify the range with a larger domain than the function's domain to check that the function is not plotted outside its domain.

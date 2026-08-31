@@ -39,7 +39,6 @@ dev = [
     "pre-commit (>=4.6.2,<5.0.0)",
     "black[jupyter] (>=26.5.1,<27.0.0)",
     "isort (>=8.0.1,<9.0.0)",
-    "flake8 (>=7.3.0,<8.0.0)",
     "mypy (>=2.3.1,<3.0.0)",
     "cmakelang (>=0.6.13,<0.7.0)",
     "doc8 (>=2.0.0,<3.0.0)",
@@ -60,8 +59,8 @@ test = [
 ]
 
 [tool.ruff.lint]
-select = ["D", "DOC"]
-ignore = ["docstring-missing-exception"]
+select = ["D", "DOC", "E", "F", "W"]
+ignore = ["docstring-missing-exception", "E501"]
 preview = true
 
 [tool.ruff.lint.pydocstyle]
