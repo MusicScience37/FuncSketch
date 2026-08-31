@@ -18,7 +18,6 @@
     "ms-python.isort",
     "ms-python.flake8",
     "ms-python.mypy-type-checker",
-    "ms-python.pylint",
     "njpwerner.autodocstring",
     "lextudio.restructuredtext",
     "trond-snekvik.simple-rst",

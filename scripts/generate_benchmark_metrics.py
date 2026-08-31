@@ -101,4 +101,4 @@ def generate_benchmark_metrics(input: typing.TextIO, output: typing.TextIO) -> N
 
 
 if __name__ == "__main__":
-    generate_benchmark_metrics()  # pylint: disable=no-value-for-parameter
+    generate_benchmark_metrics()

@@ -1,8 +1,5 @@
 """Sphinx configuration."""
 
-# pylint: disable=invalid-name
-# pylint: disable=redefined-builtin
-
 import collections.abc
 import pathlib
 import re
@@ -107,7 +104,6 @@ html_theme_options = {
 # cspell: ignore signode, fromdocname, contnode, docname, todocname, refnode
 # cspell: ignore paramlist, parameterlist, docfields, returnvalue, returntype
 # cspell: ignore typenames
-# pylint: disable=abstract-method, too-many-arguments, too-many-positional-arguments
 
 
 class FuncSketchFunctionDescription(sphinx.directives.ObjectDescription):

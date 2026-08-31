@@ -23,9 +23,6 @@ from func_sketch._gui.shared_state import SharedState
 kivy.lang.Builder.load_file("curve_config_list_widget.kv")
 
 
-# pylint: disable=protected-access
-
-
 class TestCurveConfigListWidget:
     """Test of CurveConfigListWidget."""
 

@@ -213,4 +213,4 @@ def check_tests_for_condition(
 
 
 if __name__ == "__main__":
-    check_tests_for_condition()  # pylint: disable=no-value-for-parameter
+    check_tests_for_condition()

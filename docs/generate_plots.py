@@ -22,7 +22,6 @@ import os
 os.environ["KIVY_NO_ARGS"] = "1"
 
 # flake8: noqa: E402
-# pylint: disable=wrong-import-position
 
 import dataclasses
 import pathlib

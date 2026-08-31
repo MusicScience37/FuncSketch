@@ -133,7 +133,6 @@
     "profraw",
     "pydocstyle",
     "pyenv",
-    "pylint",
     "pytest",
     "rgba",
     "rtol",
