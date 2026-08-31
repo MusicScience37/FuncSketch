@@ -4,6 +4,7 @@
 import os
 import pathlib
 import subprocess
+import time
 import typing
 
 import click
@@ -161,6 +162,7 @@ def check_tests_for_condition(
                 env=env,
             )
         if test_type in ["release"]:
+            time.sleep(5)  # Wait for a few seconds for xvfb.
             execute_command(
                 [
                     "xvfb-run",
