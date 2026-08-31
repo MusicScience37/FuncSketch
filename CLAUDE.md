@@ -45,6 +45,7 @@ Directory structure:
 - Use `fmt` for formatting strings.
 - Use `OpenCV` for writing plots.
 - This project will support several platforms in the future, so platform-dependent functions should not be called directly. Instead, use existing cross-platform library functions.
+- Tests of plotting is done in Python, so run tests in Python after changing plotting-related C++ codes.
 
 ## Notes on Python Source Codes
 

@@ -194,8 +194,7 @@ def generate_plots() -> None:
     """Generate plots."""
     height = 480
     width = 640
-    config = DEFAULT_PLOT_CONFIG
-    config.min_plot_margin.top = 70
+    config = DEFAULT_PLOT_CONFIG.copy()
     config.background_color = RGBColor(0xFF, 0xFF, 0xFF)
     range = DEFAULT_PLOT_RANGE
 
@@ -210,29 +209,14 @@ def generate_plots() -> None:
         range = PlotRange(plot_info.x_range, plot_info.y_range)
         sampler.plot_range = range
         plotter.plot_range = range
+        config.plot_title = f"Plot of {plot_info.expression_str}"
+        plotter.config = config
         actual_height, actual_width = plotter.actual_size
         image = numpy.ndarray((actual_height, actual_width, 3), dtype=numpy.uint8)
         sampled_curve = sampler(curve_config)
         plotter([sampled_curve], image)
 
         cv2.cvtColor(image, cv2.COLOR_RGB2BGR, dst=image)
-
-        text_font_face = cv2.FONT_HERSHEY_SIMPLEX
-        text_thickness = 1
-        text_font_size = 22
-        text_font_scale = cv2.getFontScaleFromHeight(
-            text_font_face, text_font_size, text_thickness
-        )
-        cv2.putText(
-            image,
-            f"Plot of {plot_info.expression_str}",
-            (60, 45),
-            text_font_face,
-            text_font_scale,
-            (0x2A, 0x2D, 0x31),
-            text_thickness,
-            cv2.LINE_AA,
-        )
 
         cv2.imwrite(str(THIS_DIR / plot_info.file_path), image)
 

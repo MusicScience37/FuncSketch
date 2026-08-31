@@ -24,6 +24,51 @@
 TEST_CASE("func_sketch::plotter::AxesConfig") {
     using func_sketch::plotter::AxesConfig;
 
+    SECTION("set and get x-axis title") {
+        AxesConfig config;
+
+        CHECK(config.x_axis_title() ==
+            func_sketch::plotter::default_x_axis_title);
+
+        CHECK_NOTHROW(config.x_axis_title("Time"));
+        CHECK(config.x_axis_title() == "Time");
+
+        CHECK_NOTHROW(config.x_axis_title(""));
+        CHECK(config.x_axis_title().empty());
+    }
+
+    SECTION("set and get y-axis title") {
+        AxesConfig config;
+
+        CHECK(config.y_axis_title() ==
+            func_sketch::plotter::default_y_axis_title);
+
+        CHECK_NOTHROW(config.y_axis_title("Value"));
+        CHECK(config.y_axis_title() == "Value");
+
+        CHECK_NOTHROW(config.y_axis_title(""));
+        CHECK(config.y_axis_title().empty());
+    }
+
+    SECTION("set and get font size of titles of axes") {
+        AxesConfig config;
+
+        CHECK(config.axes_title_font_size() ==
+            func_sketch::plotter::default_axes_title_font_size);
+
+        CHECK_NOTHROW(config.axes_title_font_size(14));
+        CHECK(config.axes_title_font_size() == 14);
+
+        CHECK_THROWS(config.axes_title_font_size(-1));
+        CHECK(config.axes_title_font_size() == 14);
+
+        CHECK_NOTHROW(config.axes_title_font_size(0));
+        CHECK(config.axes_title_font_size() == 0);
+
+        CHECK_NOTHROW(config.axes_title_font_size(1));
+        CHECK(config.axes_title_font_size() == 1);
+    }
+
     SECTION("set and get tick label font size") {
         AxesConfig config;
 

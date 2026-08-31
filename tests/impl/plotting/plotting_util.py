@@ -16,9 +16,7 @@
 
 import numpy
 
-from func_sketch._cpp import (
-    PlotRange,
-)
+from func_sketch._cpp import PlotConfig, PlotRange
 from func_sketch._gui.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
 from func_sketch._impl.curve_config import CurveConfig
 from func_sketch._impl.curve_sampler import CurveSampler
@@ -29,6 +27,8 @@ def plot_function(
     expression_str_list: list[str],
     x_range: tuple[float, float],
     y_range: tuple[float, float],
+    *,
+    config: PlotConfig | None = None,
 ) -> numpy.ndarray:
     """Plot functions.
 
@@ -36,6 +36,7 @@ def plot_function(
         expression_str_list (list[str]): List of expressions of functions to plot.
         x_range (tuple[float, float]): Range of x-axis.
         y_range (tuple[float, float]): Range of y-axis.
+        config (PlotConfig | None): Plot configuration object. If None, the default configuration is used.
 
     Returns:
         numpy.ndarray: Image of the plotted functions.
@@ -43,7 +44,8 @@ def plot_function(
     height = 600
     width = 800
 
-    config = DEFAULT_PLOT_CONFIG
+    if config is None:
+        config = DEFAULT_PLOT_CONFIG
     range = PlotRange(x_range, y_range)
     sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)

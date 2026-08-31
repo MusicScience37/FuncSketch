@@ -47,6 +47,34 @@ const SamplingConfig& PlotConfig::sampling() const noexcept {
     return sampling_;
 }
 
+PlotConfig& PlotConfig::plot_title(std::string value) {
+    plot_title_ = std::move(value);
+    return *this;
+}
+
+PlotConfig& PlotConfig::plot_title_font_size(int value) {
+    if (value < 0) {
+        throw InvalidArgumentException(
+            "Plot title font size must be non-negative");
+    }
+    plot_title_font_size_ = value;
+    return *this;
+}
+
+PlotConfig& PlotConfig::plot_title_color(const RGBColor& value) {
+    plot_title_color_ = value;
+    return *this;
+}
+
+PlotConfig& PlotConfig::plot_title_margin(int value) {
+    if (value < 0) {
+        throw InvalidArgumentException(
+            "Plot title margin must be non-negative");
+    }
+    plot_title_margin_ = value;
+    return *this;
+}
+
 PlotConfig& PlotConfig::curve_line_width(int value) {
     if (value < 0) {
         throw InvalidArgumentException("Curve line width must be non-negative");
@@ -58,6 +86,22 @@ PlotConfig& PlotConfig::curve_line_width(int value) {
 PlotConfig& PlotConfig::background_color(const RGBColor& value) {
     background_color_ = value;
     return *this;
+}
+
+const std::string& PlotConfig::plot_title() const noexcept {
+    return plot_title_;
+}
+
+int PlotConfig::plot_title_font_size() const noexcept {
+    return plot_title_font_size_;
+}
+
+const RGBColor& PlotConfig::plot_title_color() const noexcept {
+    return plot_title_color_;
+}
+
+int PlotConfig::plot_title_margin() const noexcept {
+    return plot_title_margin_;
 }
 
 int PlotConfig::curve_line_width() const noexcept { return curve_line_width_; }

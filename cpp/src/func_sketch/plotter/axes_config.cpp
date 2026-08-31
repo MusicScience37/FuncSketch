@@ -23,6 +23,25 @@
 
 namespace func_sketch::plotter {
 
+AxesConfig& AxesConfig::x_axis_title(std::string value) {
+    x_axis_title_ = std::move(value);
+    return *this;
+}
+
+AxesConfig& AxesConfig::y_axis_title(std::string value) {
+    y_axis_title_ = std::move(value);
+    return *this;
+}
+
+AxesConfig& AxesConfig::axes_title_font_size(int value) {
+    if (value < 0) {
+        throw InvalidArgumentException(
+            "Axes title font size must be non-negative");
+    }
+    axes_title_font_size_ = value;
+    return *this;
+}
+
 AxesConfig& AxesConfig::tick_label_font_size(int value) {
     if (value < 0) {
         throw InvalidArgumentException(
@@ -70,6 +89,18 @@ AxesConfig& AxesConfig::num_pixels_per_tick_in_y_axis(std::size_t value) {
     }
     num_pixels_per_tick_in_y_axis_ = value;
     return *this;
+}
+
+const std::string& AxesConfig::x_axis_title() const noexcept {
+    return x_axis_title_;
+}
+
+const std::string& AxesConfig::y_axis_title() const noexcept {
+    return y_axis_title_;
+}
+
+int AxesConfig::axes_title_font_size() const noexcept {
+    return axes_title_font_size_;
 }
 
 int AxesConfig::tick_label_font_size() const noexcept {

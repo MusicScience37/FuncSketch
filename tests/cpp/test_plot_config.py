@@ -57,6 +57,9 @@ class TestPlotConfig:
         color = RGBColor(0x11, 0x22, 0x33)
 
         # Configuration of axes can be changed in place.
+        config.axes.x_axis_title = "Time"
+        config.axes.y_axis_title = "Value"
+        config.axes.axes_title_font_size = 15
         config.axes.tick_label_font_size = 12
         config.axes.tick_label_margin = 6
         config.axes.line_width = 3
@@ -64,6 +67,9 @@ class TestPlotConfig:
         config.axes.num_pixels_per_tick_in_x_axis = 150
         config.axes.num_pixels_per_tick_in_y_axis = 100
 
+        assert config.axes.x_axis_title == "Time"
+        assert config.axes.y_axis_title == "Value"
+        assert config.axes.axes_title_font_size == 15
         assert config.axes.tick_label_font_size == 12
         assert config.axes.tick_label_margin == 6
         assert config.axes.line_width == 3
@@ -88,6 +94,33 @@ class TestPlotConfig:
         assert config.grid.color.r == color.r
         assert config.grid.color.g == color.g
         assert config.grid.color.b == color.b
+
+    def test_plot_title(self) -> None:
+        """Test of plot_title property."""
+        config = PlotConfig()
+        config.plot_title = "My Plot"
+        assert config.plot_title == "My Plot"
+
+    def test_plot_title_font_size(self) -> None:
+        """Test of plot_title_font_size property."""
+        config = PlotConfig()
+        config.plot_title_font_size = 24
+        assert config.plot_title_font_size == 24
+
+    def test_plot_title_color(self) -> None:
+        """Test of plot_title_color property."""
+        config = PlotConfig()
+        color = RGBColor(0x11, 0x22, 0x33)
+        config.plot_title_color = color
+        assert config.plot_title_color.r == color.r
+        assert config.plot_title_color.g == color.g
+        assert config.plot_title_color.b == color.b
+
+    def test_plot_title_margin(self) -> None:
+        """Test of plot_title_margin property."""
+        config = PlotConfig()
+        config.plot_title_margin = 15
+        assert config.plot_title_margin == 15
 
     def test_curve_line_width(self) -> None:
         """Test of curve_line_width property."""
