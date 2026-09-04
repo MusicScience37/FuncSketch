@@ -358,10 +358,48 @@ pages main:
       - public
   pages: true
 
+pages release:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v/
+  needs:
+    - "docs: [clang22, musicscience37/sphinx-doxygen, docs]"
+  dependencies:
+    - "docs: [clang22, musicscience37/sphinx-doxygen, docs]"
+  image: alpine
+  script:
+    - mv docs/build/html public
+  artifacts:
+    paths:
+      - public
+  pages:
+    path_prefix: $CI_COMMIT_TAG
+    expire_in: never
+
+deploy package:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v/
+  needs:
+    - "test sdist ubuntu: [3.13]"
+    - "test wheel manylinux: [cp313-cp313]"
+  dependencies:
+    - "test sdist ubuntu: [3.13]"
+    - "test wheel manylinux: [cp313-cp313]"
+  image: "musicscience37/gcc-ci:gcc14"
+  script:
+    - pipx install twine
+    - TWINE_USERNAME=__token__
+      TWINE_PASSWORD=$PYPI_TOKEN
+      twine upload --skip-existing ./dist/*.tar.gz ./dist_manylinux/*
+
 release:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   stage: release
-  needs: []
+  needs:
+    - "pages release"
+    - "deploy package"
+  dependencies: []
   rules:
     - if: $CI_COMMIT_TAG =~ /^v/
   script:
