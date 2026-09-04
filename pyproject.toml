@@ -1,7 +1,8 @@
 [project]
 name = "func-sketch"
 version = "0.1.0"
-description = ""
+description = "A graphing calculator currently in development."
+readme = "README.md"
 authors = [
     { name = "Kenta Kabashima", email = "kenta_program37@hotmail.co.jp" },
 ]
@@ -17,8 +18,13 @@ dependencies = [
 func_sketch = "func_sketch._main:main"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["scikit-build-core (>=1.0,<2.0)", "nanobind (>=2.15.0,<3.0.0)"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+minimum-version = "1.0"
+build-dir = "build/{wheel_tag}"
+wheel.py-api = "cp312"
 
 [dependency-groups]
 doc = [

@@ -667,3 +667,6 @@ FodyWeavers.xsd
 
 # Output of pytest-benchmark
 /.benchmarks/
+
+# Temporary directory.
+/temp/
