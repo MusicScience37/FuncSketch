@@ -237,6 +237,7 @@ test sdist ubuntu:
     VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
     POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
   before_script:
+    - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
     - apt-get update
     - apt-get install -y libmtdev1 xvfb
   script:
@@ -259,6 +260,7 @@ test wheel ubuntu:
     VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
     POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
   before_script:
+    - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
     - apt-get update
     - apt-get install -y libmtdev1 xvfb
   script:
@@ -275,8 +277,16 @@ test wheel manylinux:
     matrix:
       - PYTHON_VERSION:
           - "cp313-cp313"
-  script:
+  variables:
+    CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
+    CCACHE_COMPILERCHECK: content
+    CCACHE_MAXSIZE: 1G
+    VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
+    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+  before_script:
+    - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
     - yum install -y curl zip unzip tar
+  script:
     - bash ./scripts/create_wheel_on_many_linux.sh ${PYTHON_VERSION}
   artifacts:
     paths:
