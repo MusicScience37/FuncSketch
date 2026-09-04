@@ -244,12 +244,12 @@ test sdist ubuntu:
     - bash ./scripts/create_sdist.sh ${PYTHON_VERSION}
   cache:
     - key:
-        prefix: vcpkg-${COMPILER_TYPE}-${TEST_TYPE}
+        prefix: vcpkg-sdist-ubuntu
         files:
           - vcpkg-configuration.json
       paths:
         - .vcpkg-cache
-    - key: ccache-${COMPILER_TYPE}-${TEST_TYPE}
+    - key: ccache-sdist-ubuntu
       paths:
         - .ccache
   artifacts:
@@ -277,12 +277,12 @@ test wheel ubuntu:
     - bash ./scripts/create_wheel.sh ${PYTHON_VERSION}
   cache:
     - key:
-        prefix: vcpkg-${COMPILER_TYPE}-${TEST_TYPE}
+        prefix: vcpkg-wheel-ubuntu
         files:
           - vcpkg-configuration.json
       paths:
         - .vcpkg-cache
-    - key: ccache-${COMPILER_TYPE}-${TEST_TYPE}
+    - key: ccache-wheel-ubuntu
       paths:
         - .ccache
   artifacts:
@@ -310,12 +310,12 @@ test wheel manylinux:
     - bash ./scripts/create_wheel_on_many_linux.sh ${PYTHON_VERSION}
   cache:
     - key:
-        prefix: vcpkg-${COMPILER_TYPE}-${TEST_TYPE}
+        prefix: vcpkg-wheel-manylinux
         files:
           - vcpkg-configuration.json
       paths:
         - .vcpkg-cache
-    - key: ccache-${COMPILER_TYPE}-${TEST_TYPE}
+    - key: ccache-wheel-manylinux
       paths:
         - .ccache
   artifacts:
