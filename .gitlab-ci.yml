@@ -267,6 +267,21 @@ test wheel ubuntu:
     paths:
       - dist
 
+test wheel manylinux:
+  stage: test
+  needs: []
+  image: "quay.io/pypa/manylinux_2_28_x86_64"
+  parallel:
+    matrix:
+      - PYTHON_VERSION:
+          - "cp313-cp313"
+  script:
+    - yum install -y curl zip unzip tar xvfb-run
+    - bash ./scripts/create_wheel_on_many_linux.sh ${PYTHON_VERSION}
+  artifacts:
+    paths:
+      - dist_manylinux
+
 docs:
   extends: .test linux base
   parallel:
