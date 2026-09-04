@@ -242,6 +242,16 @@ test sdist ubuntu:
     - apt-get install -y libmtdev1 xvfb
   script:
     - bash ./scripts/create_sdist.sh ${PYTHON_VERSION}
+  cache:
+    - key:
+        prefix: vcpkg-${COMPILER_TYPE}-${TEST_TYPE}
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+    - key: ccache-${COMPILER_TYPE}-${TEST_TYPE}
+      paths:
+        - .ccache
   artifacts:
     paths:
       - dist
@@ -265,6 +275,16 @@ test wheel ubuntu:
     - apt-get install -y libmtdev1 xvfb
   script:
     - bash ./scripts/create_wheel.sh ${PYTHON_VERSION}
+  cache:
+    - key:
+        prefix: vcpkg-${COMPILER_TYPE}-${TEST_TYPE}
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+    - key: ccache-${COMPILER_TYPE}-${TEST_TYPE}
+      paths:
+        - .ccache
   artifacts:
     paths:
       - dist
@@ -288,6 +308,16 @@ test wheel manylinux:
     - yum install -y curl zip unzip tar
   script:
     - bash ./scripts/create_wheel_on_many_linux.sh ${PYTHON_VERSION}
+  cache:
+    - key:
+        prefix: vcpkg-${COMPILER_TYPE}-${TEST_TYPE}
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+    - key: ccache-${COMPILER_TYPE}-${TEST_TYPE}
+      paths:
+        - .ccache
   artifacts:
     paths:
       - dist_manylinux
