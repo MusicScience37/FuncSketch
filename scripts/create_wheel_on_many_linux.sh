@@ -33,6 +33,6 @@ auditwheel repair ./dist/*.whl -w ./dist_manylinux/
 
 echo "> Test the wheel."
 pip3 install ./dist_manylinux/*.whl
-xvfb-run func_sketch --help
+func_sketch --help
 
 echo "> Completed!"

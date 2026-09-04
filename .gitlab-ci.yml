@@ -276,7 +276,7 @@ test wheel manylinux:
       - PYTHON_VERSION:
           - "cp313-cp313"
   script:
-    - yum install -y curl zip unzip tar xvfb-run
+    - yum install -y curl zip unzip tar
     - bash ./scripts/create_wheel_on_many_linux.sh ${PYTHON_VERSION}
   artifacts:
     paths:
