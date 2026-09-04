@@ -223,6 +223,28 @@ pre-commit:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
 
+test sdist ubuntu:
+  stage: test
+  needs: []
+  image: "musicscience37/gcc-ci:gcc14"
+  parallel:
+    matrix:
+      - PYTHON_VERSION: ["3.13"]
+  variables:
+    CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
+    CCACHE_COMPILERCHECK: content
+    CCACHE_MAXSIZE: 1G
+    VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
+    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+  before_script:
+    - apt-get update
+    - apt-get install -y libmtdev1 xvfb
+  script:
+    - bash ./scripts/create_sdist.sh ${PYTHON_VERSION}
+  artifacts:
+    paths:
+      - dist
+
 test wheel ubuntu:
   stage: test
   needs: []

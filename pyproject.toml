@@ -26,6 +26,25 @@ minimum-version = "1.0"
 build-dir = "build/{wheel_tag}"
 wheel.py-api = "cp312"
 
+[tool.scikit-build.sdist]
+inclusion-mode = "explicit"
+exclude = [
+    "__pycache__",
+]
+include = [
+    "pyproject.toml",
+    "README.md",
+    "LICENSE.txt",
+    "CMakeLists.txt",
+    "vcpkg.json",
+    "vcpkg-configuration.json",
+    "cpp/CMakeLists.txt",
+    "cpp/cmake",
+    "cpp/include",
+    "cpp/src",
+    "src",
+]
+
 [dependency-groups]
 doc = [
     "sphinx (>=9.1.0,<10.0.0)",

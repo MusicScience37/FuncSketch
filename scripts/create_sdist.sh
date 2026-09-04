@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Usage: create_wheel.sh <python-version>
+# Usage: create_sdist.sh <python_version>
 
 set -e
 
@@ -21,13 +21,13 @@ cd ..
 echo "> Created a virtual environment with:"
 python --version
 
-echo "> Create a wheel."
+echo "> Create a source distribution."
 pip3 install -U pip
 pip3 install build
-python3 -m build -w
+python3 -m build -s
 
-echo "> Test the wheel."
-pip3 install ./dist/*.whl
+echo "> Test the source distribution."
+pip3 install ./dist/*.tar.gz
 xvfb-run func_sketch --help
 
 echo "> Completed!"
