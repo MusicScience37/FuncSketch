@@ -37,7 +37,16 @@ static std::vector<double> create_input(std::size_t size) {
 }
 
 #define BENCH_WITH_ARGS(NAME) \
-    BENCHMARK(NAME)->Arg(100)->Arg(150)->Arg(200)->Arg(300)->Arg(500)->Arg(1000)
+    BENCHMARK(NAME)           \
+        ->Arg(100)            \
+        ->Arg(150)            \
+        ->Arg(200)            \
+        ->Arg(300)            \
+        ->Arg(500)            \
+        ->Arg(1000)           \
+        ->Arg(2000)           \
+        ->Arg(5000)           \
+        ->Arg(10000)
 
 // Actual function is defined in virtual functions, so prevent inlining.
 #ifdef __GNUC__

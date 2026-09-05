@@ -36,6 +36,9 @@ EXPRESSION_STR_LIST = [
     "acosh(x)",
     "gamma(x)",
     "gamma(x+0.5i)",
+    "sin(1/x)",
+    "sin(10/x)",
+    "sin(100/x)",
 ]
 
 
