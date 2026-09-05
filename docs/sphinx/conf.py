@@ -1,6 +1,7 @@
 """Sphinx configuration."""
 
 import collections.abc
+import os
 import pathlib
 import re
 import typing
@@ -23,6 +24,7 @@ THIS_DIR = pathlib.Path(__file__).absolute().parent
 project = "FuncSketch"
 copyright = "2026, Kenta Kabashima"
 author = "Kenta Kabashima"
+release = os.getenv("PROJECT_VERSION", "dev")
 
 # -- General configuration ---------------------------------------------------
 
@@ -96,6 +98,11 @@ html_theme_options = {
     "pygments_dark_style": "native",
     "repository_url": "https://gitlab.com/MusicScience37Projects/experiments/func-sketch",
     "use_repository_button": True,
+    "switcher": {
+        "json_url": "https://funcsketch.musicscience37.com/version_switcher_config.json",
+        "version_match": release,
+    },
+    "primary_sidebar_end": ["version-switcher"],
 }
 
 
