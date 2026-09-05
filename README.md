@@ -32,6 +32,7 @@ pip install func_sketch
 Documentation is available for:
 
 - [Development version](https://funcsketch.musicscience37.com/)
+- [v0.2.0](https://funcsketch.musicscience37.com/v0.2.0/)
 
 ## Repositories
 
