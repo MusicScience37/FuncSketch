@@ -1,6 +1,6 @@
 [project]
 name = "func-sketch"
-version = "0.2.0"
+version = "0.2.1"
 description = "A graphing calculator currently in development."
 readme = "README.md"
 authors = [
