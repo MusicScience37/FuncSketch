@@ -668,5 +668,8 @@ FodyWeavers.xsd
 # Output of pytest-benchmark
 /.benchmarks/
 
+# Output of profiling
+/cpp/tests/profiling/results/
+
 # Temporary directory.
 /temp/

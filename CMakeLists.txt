@@ -109,6 +109,19 @@ if(FUNC_SKETCH_BUILD_TESTS)
                                INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
 
     find_package(benchmark CONFIG REQUIRED)
+
+    # Find libprofiler
+    find_library(
+        LIBPROFILER_LIBRARY
+        NAMES libprofiler.so
+        HINTS /usr/lib /usr/local/lib REQUIRED)
+    message(STATUS "libprofiler found at ${LIBPROFILER_LIBRARY}")
+    add_library(gperftools::libprofiler SHARED IMPORTED)
+    set_target_properties(gperftools::libprofiler
+                          PROPERTIES IMPORTED_LOCATION ${LIBPROFILER_LIBRARY})
+    # -fno-omit-frame-pointer is required for better profiling results.
+    target_compile_options(gperftools::libprofiler
+                           INTERFACE -fno-omit-frame-pointer)
 endif()
 
 # ##############################################################################

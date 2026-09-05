@@ -35,3 +35,4 @@ endmacro()
 
 add_subdirectory(units)
 add_subdirectory(bench)
+add_subdirectory(profiling)
