@@ -1,6 +1,6 @@
 # FuncSketch
 
-![icon](docs/icon/icon.svg)
+![icon](https://funcsketch.musicscience37.com/icon.svg)
 
 [![Latest Release](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/badges/release.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/releases)
 [![pipeline status](https://gitlab.com/MusicScience37Projects/tools/func-sketch/badges/main/pipeline.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/commits/main)
@@ -18,8 +18,11 @@ This project aims to provide:
 
 ## Installation
 
-Currently, the project is under development and available only via building from source.
-See [Build FuncSketch in Repository](docs/sphinx/build_in_repository.md) for instructions.
+Packages are available via PyPI:
+
+```bash
+pip install func_sketch
+```
 
 ## Documentation
 
@@ -34,7 +37,7 @@ Documentation is available for:
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE.txt).
+This project is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 ## Links for Developers
 
