@@ -376,7 +376,7 @@ pages release:
     path_prefix: $CI_COMMIT_TAG
     expire_in: never
 
-deploy package:
+publish package:
   stage: deploy
   rules:
     - if: $CI_COMMIT_TAG =~ /^v/
@@ -386,19 +386,22 @@ deploy package:
   dependencies:
     - "test sdist ubuntu: [3.13]"
     - "test wheel manylinux: [cp313-cp313]"
-  image: "musicscience37/gcc-ci:gcc14"
+  image: python:3-bookworm
+  # Publish the package to PyPI via trusted publisher functionality.
+  # https://docs.pypi.org/trusted-publishers/using-a-publisher/#gitlab-cicd
+  id_tokens:
+    PYPI_ID_TOKEN:
+      aud: pypi
   script:
-    - pipx install twine
-    - TWINE_USERNAME=__token__
-      TWINE_PASSWORD=$PYPI_TOKEN
-      twine upload --skip-existing ./dist/*.tar.gz ./dist_manylinux/*
+    - python -m pip install -U twine
+    - twine upload --skip-existing ./dist/*.tar.gz ./dist_manylinux/*
 
 release:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   stage: release
   needs:
     - "pages release"
-    - "deploy package"
+    - "publish package"
   dependencies: []
   rules:
     - if: $CI_COMMIT_TAG =~ /^v/
