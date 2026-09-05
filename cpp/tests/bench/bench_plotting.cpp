@@ -34,14 +34,39 @@ constexpr int image_height = 600;
 constexpr auto curve_color =
     func_sketch::plotter::RGBColor{.r = 0xCA, .g = 0x76, .b = 0x39};
 
-constexpr auto expressions = std::to_array<std::string_view>(
-    {"x", "x * x", "x ** 3", "exp(x)", "gamma(x)"});
+constexpr auto expressions = std::to_array<std::string_view>({
+    "x",
+    "x * x",
+    "x ** 3",
+    "exp(x)",
+    "gamma(x)",
+    "sin(1/x)",
+    "sin(10/x)",
+    "sin(100/x)",
+});
 
 /*!
  * \brief Class of the fixture for benchmark of plotting.
  */
 class PlottingFixture : public benchmark::Fixture {
 public:
+    /*!
+     * \brief Perform benchmark of sampling.
+     *
+     * \param[in] state State of the benchmark.
+     * \param[in] expression_str Expression string.
+     */
+    void benchmark_sampling(
+        benchmark::State& state, const std::string& expression_str) {
+        for (auto _ : state) {
+            auto expression = parser_(expression_str);
+            auto samples = sampler_(*expression);
+            benchmark::DoNotOptimize(expression);
+            benchmark::DoNotOptimize(samples);
+            benchmark::ClobberMemory();
+        }
+    }
+
     /*!
      * \brief Perform benchmark of plotting.
      *
@@ -50,13 +75,11 @@ public:
      */
     void benchmark_plotting(
         benchmark::State& state, const std::string& expression_str) {
+        const auto expression = parser_(expression_str);
+        const auto samples = sampler_(*expression);
         for (auto _ : state) {
-            auto expression = parser_(expression_str);
-            auto samples = sampler_(*expression);
             plotter_.write_background(image_);
             plotter_.write_curve(samples, curve_color, image_);
-            benchmark::DoNotOptimize(expression);
-            benchmark::DoNotOptimize(samples);
             benchmark::DoNotOptimize(image_);
             benchmark::ClobberMemory();
         }
@@ -81,17 +104,28 @@ private:
     cv::Mat image_ = cv::Mat(image_height, image_width, CV_8UC3);
 };
 
+BENCHMARK_DEFINE_F(PlottingFixture, Sample)(benchmark::State& state) {
+    const auto expression_index = static_cast<std::size_t>(state.range(0));
+    const auto expression_str =
+        static_cast<std::string>(expressions[expression_index]);
+    benchmark_sampling(state, expression_str);
+}
+
 BENCHMARK_DEFINE_F(PlottingFixture, Plot)(benchmark::State& state) {
     const auto expression_index = static_cast<std::size_t>(state.range(0));
     const auto expression_str =
         static_cast<std::string>(expressions[expression_index]);
     benchmark_plotting(state, expression_str);
 }
+
 static void custom_arguments(benchmark::Benchmark* bench) {
     for (std::size_t i = 0; i < expressions.size(); ++i) {
         bench->Arg(static_cast<int>(i));
     }
 }
+BENCHMARK_REGISTER_F(PlottingFixture, Sample)
+    ->Unit(benchmark::kMillisecond)
+    ->Apply(custom_arguments);
 BENCHMARK_REGISTER_F(PlottingFixture, Plot)
     ->Unit(benchmark::kMillisecond)
     ->Apply(custom_arguments);
