@@ -2,8 +2,7 @@
 
 ![icon](https://funcsketch.musicscience37.com/icon.svg)
 
-<!-- ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/func_sketch) -->
-
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/func_sketch)
 [![PyPI - Version](https://img.shields.io/pypi/v/func_sketch)](https://pypi.org/project/func_sketch/)
 ![PyPI - License](https://img.shields.io/pypi/l/func_sketch)
 [![pipeline status](https://gitlab.com/MusicScience37Projects/tools/func-sketch/badges/main/pipeline.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/commits/main)
@@ -18,6 +17,13 @@ This project aims to provide:
 - real-time graphing of functions
 - support for a wide range of mathematical functions,
   from basic ones like trigonometric functions to special functions such as Bessel functions.
+
+## Supported Platforms
+
+- Currently, only Linux with `x86_64` architecture is supported officially.
+  - Other platforms may work because the software is written in a cross-platform manner, but no tests are conducted for them.
+- Supported Python version is only 3.13.
+  - Python 3.14 will be supported after a dependent Python package `Kivy` supports it.
 
 ## Installation
 
