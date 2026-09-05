@@ -2,7 +2,10 @@
 
 ![icon](https://funcsketch.musicscience37.com/icon.svg)
 
-[![Latest Release](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/badges/release.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/releases)
+<!-- ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/func_sketch) -->
+
+[![PyPI - Version](https://img.shields.io/pypi/v/func_sketch)](https://pypi.org/project/func_sketch/)
+![PyPI - License](https://img.shields.io/pypi/l/func_sketch)
 [![pipeline status](https://gitlab.com/MusicScience37Projects/tools/func-sketch/badges/main/pipeline.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/commits/main)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![coverage report](https://gitlab.com/MusicScience37Projects/tools/func-sketch/badges/main/coverage.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/commits/main)
