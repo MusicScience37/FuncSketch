@@ -92,7 +92,7 @@ if(POETRY_EXECUTABLE)
 endif()
 find_package(
     Python
-    COMPONENTS Interpreter Development.Module
+    COMPONENTS Interpreter Development.Module Development.SABIModule
     REQUIRED)
 execute_process(
     COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir

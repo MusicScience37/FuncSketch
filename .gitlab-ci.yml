@@ -223,6 +223,105 @@ pre-commit:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
 
+test sdist ubuntu:
+  stage: test
+  needs: []
+  image: "musicscience37/gcc-ci:gcc14"
+  parallel:
+    matrix:
+      - PYTHON_VERSION: ["3.13"]
+  variables:
+    CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
+    CCACHE_COMPILERCHECK: content
+    CCACHE_MAXSIZE: 1G
+    VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
+    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+  before_script:
+    - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
+    - apt-get update
+    - apt-get install -y libmtdev1 xvfb
+  script:
+    - bash ./scripts/create_sdist.sh ${PYTHON_VERSION}
+  cache:
+    - key:
+        prefix: vcpkg-sdist-ubuntu
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+    - key: ccache-sdist-ubuntu
+      paths:
+        - .ccache
+  artifacts:
+    paths:
+      - dist
+
+test wheel ubuntu:
+  stage: test
+  needs: []
+  image: "musicscience37/gcc-ci:gcc14"
+  parallel:
+    matrix:
+      - PYTHON_VERSION: ["3.13"]
+  variables:
+    CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
+    CCACHE_COMPILERCHECK: content
+    CCACHE_MAXSIZE: 1G
+    VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
+    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+  before_script:
+    - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
+    - apt-get update
+    - apt-get install -y libmtdev1 xvfb
+  script:
+    - bash ./scripts/create_wheel.sh ${PYTHON_VERSION}
+  cache:
+    - key:
+        prefix: vcpkg-wheel-ubuntu
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+    - key: ccache-wheel-ubuntu
+      paths:
+        - .ccache
+  artifacts:
+    paths:
+      - dist
+
+test wheel manylinux:
+  stage: test
+  needs: []
+  image: "quay.io/pypa/manylinux_2_28_x86_64"
+  parallel:
+    matrix:
+      - PYTHON_VERSION:
+          - "cp313-cp313"
+  variables:
+    CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
+    CCACHE_COMPILERCHECK: content
+    CCACHE_MAXSIZE: 1G
+    VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
+    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+  before_script:
+    - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
+    - yum install -y curl zip unzip tar
+  script:
+    - bash ./scripts/create_wheel_on_many_linux.sh ${PYTHON_VERSION}
+  cache:
+    - key:
+        prefix: vcpkg-wheel-manylinux
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+    - key: ccache-wheel-manylinux
+      paths:
+        - .ccache
+  artifacts:
+    paths:
+      - dist_manylinux
+
 docs:
   extends: .test linux base
   parallel:
@@ -259,10 +358,51 @@ pages main:
       - public
   pages: true
 
+pages release:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v/
+  needs:
+    - "docs: [clang22, musicscience37/sphinx-doxygen, docs]"
+  dependencies:
+    - "docs: [clang22, musicscience37/sphinx-doxygen, docs]"
+  image: alpine
+  script:
+    - mv docs/build/html public
+  artifacts:
+    paths:
+      - public
+  pages:
+    path_prefix: $CI_COMMIT_TAG
+    expire_in: never
+
+publish package:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v/
+  needs:
+    - "test sdist ubuntu: [3.13]"
+    - "test wheel manylinux: [cp313-cp313]"
+  dependencies:
+    - "test sdist ubuntu: [3.13]"
+    - "test wheel manylinux: [cp313-cp313]"
+  image: python:3-bookworm
+  # Publish the package to PyPI via trusted publisher functionality.
+  # https://docs.pypi.org/trusted-publishers/using-a-publisher/#gitlab-cicd
+  id_tokens:
+    PYPI_ID_TOKEN:
+      aud: pypi
+  script:
+    - python -m pip install -U twine
+    - twine upload --skip-existing ./dist/*.tar.gz ./dist_manylinux/*
+
 release:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   stage: release
-  needs: []
+  needs:
+    - "pages release"
+    - "publish package"
+  dependencies: []
   rules:
     - if: $CI_COMMIT_TAG =~ /^v/
   script:
