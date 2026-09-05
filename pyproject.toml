@@ -1,18 +1,36 @@
 [project]
 name = "func-sketch"
-version = "0.2.0"
+version = "0.2.1"
 description = "A graphing calculator currently in development."
 readme = "README.md"
 authors = [
     { name = "Kenta Kabashima", email = "kenta_program37@hotmail.co.jp" },
 ]
 license = "Apache-2.0"
-requires-python = ">=3.13,<3.15"
+keywords = ["graphing calculator", "mathematics"]
+# Classifiers: https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Typing :: Typed",
+]
+requires-python = ">=3.13,<3.14"
 dependencies = [
     "numpy (>=2.5.2,<3.0.0)",
     "kivy[base] (>=2.3.1,<3.0.0)",
     "scipy (>=1.18.1,<2.0.0)",
 ]
+
+[project.urls]
+homepage = "https://funcsketch.musicscience37.com/"
+source = "https://gitlab.com/MusicScience37Projects/tools/func-sketch"
+documentation = "https://funcsketch.musicscience37.com/"
+issues = "https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/work_items"
 
 [project.scripts]
 func_sketch = "func_sketch._main:main"
@@ -24,7 +42,7 @@ build-backend = "scikit_build_core.build"
 [tool.scikit-build]
 minimum-version = "1.0"
 build-dir = "build/{wheel_tag}"
-wheel.py-api = "cp312"
+wheel.py-api = "cp313"
 
 [tool.scikit-build.sdist]
 inclusion-mode = "explicit"

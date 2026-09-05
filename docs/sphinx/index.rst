@@ -1,12 +1,10 @@
 FuncSketch
 ==============
 
-|pypi-version| |pypi-license| |pipeline-status| |pre-commit|
-|coverage-report| |scc-count|
+|pypi-python-version| |pypi-version| |pypi-license|
+|pipeline-status| |pre-commit| |coverage-report| |scc-count|
 
-.. Disabled because it is not working correctly yet.
-
-   |pypi-python-version| image:: https://img.shields.io/pypi/pyversions/func_sketch
+.. |pypi-python-version| image:: https://img.shields.io/pypi/pyversions/func_sketch
       :alt: PyPI - Python Version
 
 .. |pypi-version| image:: https://img.shields.io/pypi/v/func_sketch
