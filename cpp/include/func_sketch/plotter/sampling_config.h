@@ -27,10 +27,10 @@ namespace func_sketch::plotter {
 constexpr std::size_t default_initial_num_sample_points = 110;
 
 //! Default maximum number of points to sample in adaptive sampling.
-constexpr std::size_t default_max_num_sample_points = 2000;
+constexpr std::size_t default_max_num_sample_points = 20000;
 
 //! Maximum value of the maximum number of points to sample in adaptive sampling for safety limit of memory usage.
-constexpr std::size_t max_max_num_sample_points = 10000;
+constexpr std::size_t max_max_num_sample_points = 100000;
 
 //! Default threshold of the change in coordinates of sample points relative to the plot range in adaptive sampling.
 constexpr double default_max_coordinate_change_rate = 0.01;
@@ -39,10 +39,10 @@ constexpr double default_max_coordinate_change_rate = 0.01;
 constexpr double default_slope_change_threshold = 0.1;
 
 //! Default minimum rate of parameter change in adaptive sampling.
-constexpr double default_min_param_change_rate = 0.001;
+constexpr double default_min_param_change_rate = 1e-4;
 
 //! Minimum value of the minimum rate of parameter change in adaptive sampling for safety limit of memory usage.
-constexpr double min_min_param_change_rate = 1e-4;
+constexpr double min_min_param_change_rate = 1e-5;
 
 /*!
  * \brief Class to configure sampling of functions.
