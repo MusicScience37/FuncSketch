@@ -200,6 +200,7 @@ test msvc release:
     - pip install poetry -U
     - poetry config virtualenvs.in-project true
     - poetry install
+    - pip install cibuildwheel -U
     - mkdir $BUILD_DIR
   script:
     - cd $BUILD_DIR
@@ -227,6 +228,7 @@ test msvc release:
       - benchmark.json
       - bench_metrics.txt
       - test # For outputs of ApprovalTest.
+      - dist_win
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml

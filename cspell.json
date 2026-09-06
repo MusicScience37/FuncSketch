@@ -36,6 +36,7 @@
     "chebyshev",
     "chebyt",
     "chebyu",
+    "cibuildwheel",
     "cmakelang",
     "cmath",
     "cmax",
