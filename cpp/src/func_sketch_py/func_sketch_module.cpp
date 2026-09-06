@@ -79,7 +79,8 @@ template <typename ResultType, typename... ArgsType>
         try {
             return nanobind::cast<ResultType>(python_function(args...));
         } catch (const std::exception& e) {
-            return std::numeric_limits<ResultType>::quiet_NaN();
+            return static_cast<ResultType>(
+                std::numeric_limits<double>::quiet_NaN());
         }
     };
 }

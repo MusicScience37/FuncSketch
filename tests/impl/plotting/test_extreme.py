@@ -44,3 +44,13 @@ class TestExtreme:
         """Test of plotting with exp(x) in a large range."""
         image = plot_function(["exp(x)"], (-1e6, 1e6), (-1e6, 1e6))
         image_approver.verify(image)
+
+    def test_plot_sin_10_over_x(self, image_approver) -> None:
+        """Test of plotting with sin(10/x)."""
+        image = plot_function(["sin(10/x)"], (-3.0, 3.0), (-3.0, 3.0))
+        image_approver.verify(image)
+
+    def test_plot_sin_100_times_x(self, image_approver) -> None:
+        """Test of plotting with sin(100*x)."""
+        image = plot_function(["sin(100*x)"], (-3.0, 3.0), (-3.0, 3.0))
+        image_approver.verify(image)

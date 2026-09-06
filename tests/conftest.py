@@ -91,6 +91,13 @@ class ImageApprover:
                 "Please check and approve it."
             )
 
+        # Skip check of similarity if the received image is exactly the same as the approved image.
+        if (received == approved).all():
+            # Successful verification, remove the received and diff images.
+            received_path.unlink(missing_ok=True)
+            diff_path.unlink(missing_ok=True)
+            return
+
         score, diff = skimage.metrics.structural_similarity(
             received, approved, channel_axis=2, full=True
         )
