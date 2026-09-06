@@ -203,7 +203,7 @@ test msvc release:
     - mkdir $BUILD_DIR
   script:
     - cd $BUILD_DIR
-    - cmd.exe /C ..\scripts\ci_win.cmd
+    - cmd.exe /C ..\scripts\ci_win_test.cmd
   cache:
     - key:
         prefix: poetry-msvc-test
