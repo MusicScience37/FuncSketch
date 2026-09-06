@@ -442,9 +442,11 @@ publish package:
   needs:
     - "test sdist ubuntu: [3.13]"
     - "test wheel manylinux: [cp313-cp313]"
+    - "test msvc release"
   dependencies:
     - "test sdist ubuntu: [3.13]"
     - "test wheel manylinux: [cp313-cp313]"
+    - "test msvc release"
   image: python:3-bookworm
   # Publish the package to PyPI via trusted publisher functionality.
   # https://docs.pypi.org/trusted-publishers/using-a-publisher/#gitlab-cicd
@@ -453,7 +455,7 @@ publish package:
       aud: pypi
   script:
     - python -m pip install -U twine
-    - twine upload --skip-existing ./dist/*.tar.gz ./dist_manylinux/*
+    - twine upload --skip-existing ./dist/*.tar.gz ./dist_manylinux/* ./dist_win/*
 
 release:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
