@@ -13,6 +13,7 @@ buildType:
         FUNC_SKETCH_ENABLE_CCACHE: ON
         FUNC_SKETCH_ENABLE_AUSAN: ON
         FUNC_SKETCH_WRITE_JUNIT: OFF
+        FUNC_SKETCH_ENABLE_PROFILING: OFF
     debug:
       short: Debug
       long: Debug build
@@ -22,6 +23,17 @@ buildType:
         FUNC_SKETCH_ENABLE_CCACHE: ON
         FUNC_SKETCH_ENABLE_AUSAN: OFF
         FUNC_SKETCH_WRITE_JUNIT: OFF
+        FUNC_SKETCH_ENABLE_PROFILING: OFF
+    debug-profiling:
+      short: Debug Profiling
+      long: Debug build with profiling enabled
+      buildType: Debug
+      settings:
+        FUNC_SKETCH_BUILD_TESTS: ON
+        FUNC_SKETCH_ENABLE_CCACHE: ON
+        FUNC_SKETCH_ENABLE_AUSAN: OFF
+        FUNC_SKETCH_WRITE_JUNIT: OFF
+        FUNC_SKETCH_ENABLE_PROFILING: ON
     release:
       short: Release
       long: Release build
@@ -31,3 +43,4 @@ buildType:
         FUNC_SKETCH_ENABLE_CCACHE: ON
         FUNC_SKETCH_ENABLE_AUSAN: OFF
         FUNC_SKETCH_WRITE_JUNIT: OFF
+        FUNC_SKETCH_ENABLE_PROFILING: OFF
