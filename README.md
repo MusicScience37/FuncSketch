@@ -20,8 +20,8 @@ This project aims to provide:
 
 ## Supported Platforms
 
-- Currently, only Linux with `x86_64` architecture is supported officially.
-  - Other platforms may work because the software is written in a cross-platform manner, but no tests are conducted for them.
+- Currently, only Linux and Windows with `x86_64` architecture is supported officially.
+  - Other platforms / architectures may work because the software is written in a cross-platform manner, but no tests are conducted for them.
 - Supported Python version is only 3.13.
   - Python 3.14 will be supported after a dependent Python package `Kivy` supports it.
 

@@ -1,12 +1,17 @@
 nanobind_add_module(_cpp STABLE_ABI func_sketch_module.cpp)
 target_link_libraries(_cpp PUBLIC func_sketch_lib)
 # Workaround for warnings of nanobind.
-target_compile_options(_cpp PRIVATE -Wno-macro-redefined)
+if(MSVC)
+    # Currently, no additional configuration is needed.
+else()
+    target_compile_options(_cpp PRIVATE -Wno-macro-redefined)
+endif()
 
 if(SKBUILD)
     set_target_properties(
-        _cpp PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+        _cpp
+        PROPERTIES LIBRARY_OUTPUT_DIRECTORY $<1:${CMAKE_CURRENT_BINARY_DIR}>
+                   RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_CURRENT_BINARY_DIR}>)
 
     install(TARGETS _cpp LIBRARY DESTINATION func_sketch)
 
@@ -26,9 +31,9 @@ else()
     set_target_properties(
         _cpp
         PROPERTIES LIBRARY_OUTPUT_DIRECTORY
-                   ${FUNC_SKETCH_ROOT_DIR}/src/func_sketch
+                   $<1:${FUNC_SKETCH_ROOT_DIR}/src/func_sketch>
                    RUNTIME_OUTPUT_DIRECTORY
-                   ${FUNC_SKETCH_ROOT_DIR}/src/func_sketch)
+                   $<1:${FUNC_SKETCH_ROOT_DIR}/src/func_sketch>)
 
     nanobind_add_stub(
         func_sketch_py_stub

@@ -14,6 +14,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: Implementation :: CPython",
     "Topic :: Scientific/Engineering :: Mathematics",
@@ -60,6 +61,10 @@ include = [
     "cpp/src",
     "src",
 ]
+
+[[tool.scikit-build.overrides]]
+if.platform-system = "win32"
+cmake.define.VCPKG_TARGET_TRIPLET = "x64-windows-static-md"
 
 [dependency-groups]
 doc = [
