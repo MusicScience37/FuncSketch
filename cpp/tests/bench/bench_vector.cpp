@@ -49,8 +49,10 @@ static std::vector<double> create_input(std::size_t size) {
         ->Arg(10000)
 
 // Actual function is defined in virtual functions, so prevent inlining.
-#ifdef __GNUC__
+#if defined(__GNUC__)
 __attribute__((noinline))
+#elif defined(_MSC_VER)
+__declspec(noinline)
 #endif
 double target_function(double arg) {
     return std::exp(arg) * arg;
