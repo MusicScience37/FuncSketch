@@ -192,6 +192,7 @@ test msvc release:
     CCACHE_COMPILERCHECK: content
     CCACHE_MAXSIZE: 1G
     VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
+    VCPKG_DEFAULT_TRIPLET: "x64-windows-static-md"
     # workaround in https://github.com/python-poetry/poetry/issues/1917#issuecomment-1235998997
     PYTHON_KEYRING_BACKEND: keyring.backends.null.Keyring
     POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
