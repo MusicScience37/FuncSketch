@@ -10,14 +10,14 @@ cmake .. ^
     -DFUNC_SKETCH_ENABLE_AUSAN:BOOL=OFF ^
     -DFUNC_SKETCH_WRITE_JUNIT:BOOL=ON
 
-@REM cmake --build . --config Release --parallel
+cmake --build . --config Release --parallel
 
-@REM ctest -V --build-config Release
+ctest -V --build-config Release
 
-@REM cd ..
+cd ..
 
-@REM poetry run pytest tests -v
-@REM poetry run pytest bench -v --benchmark-json=benchmark.json
-@REM poetry run python scripts/generate_benchmark_metrics.py benchmark.json bench_metrics.txt
+poetry run pytest tests -v
+poetry run pytest bench -v --benchmark-json=benchmark.json
+poetry run python scripts/generate_benchmark_metrics.py benchmark.json bench_metrics.txt
 
-@REM python -m cibuildwheel --output-dir dist_win --platform windows --archs native
+python -m cibuildwheel --output-dir dist_win --platform windows --archs native
