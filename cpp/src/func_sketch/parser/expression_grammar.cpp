@@ -19,7 +19,7 @@
  */
 #include "func_sketch/parser/expression_grammar.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 #include <boost/phoenix/bind.hpp>
 #include <boost/phoenix/fusion/at.hpp>
