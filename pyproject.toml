@@ -61,6 +61,10 @@ include = [
     "src",
 ]
 
+[[tool.scikit-build.overrides]]
+if.platform-system = "win32"
+cmake.define.VCPKG_TARGET_TRIPLET = "x64-windows-static-md"
+
 [dependency-groups]
 doc = [
     "sphinx (>=9.1.0,<10.0.0)",

@@ -4,6 +4,7 @@ call "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary
 cmake .. ^
     -G Ninja ^
     -DCMAKE_BUILD_TYPE=Release ^
+    -DVCPKG_TARGET_TRIPLET:STRING=x64-windows-static-md ^
     -DFUNC_SKETCH_BUILD_TESTS:BOOL=ON ^
     -DFUNC_SKETCH_ENABLE_CCACHE:BOOL=ON ^
     -DFUNC_SKETCH_ENABLE_AUSAN:BOOL=OFF ^
