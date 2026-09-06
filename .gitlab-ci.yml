@@ -106,6 +106,7 @@ spell check:
       - $BUILD_DIR/temp_test
       - benchmark.json
       - bench_metrics.txt
+      - test # For outputs of ApprovalTest.
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml
@@ -177,6 +178,62 @@ python coverage:
       coverage_report:
         coverage_format: cobertura
         path: coverage_python.xml
+
+test msvc release:
+  stage: test
+  needs: []
+  tags:
+    - ms37win
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    BUILD_TYPE: Release
+    BUILD_DIR: build_msvc_release
+    CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
+    CCACHE_COMPILERCHECK: content
+    CCACHE_MAXSIZE: 1G
+    VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
+    # workaround in https://github.com/python-poetry/poetry/issues/1917#issuecomment-1235998997
+    PYTHON_KEYRING_BACKEND: keyring.backends.null.Keyring
+    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+  before_script:
+    - New-Item -ItemType Directory -Force -Path $VCPKG_DEFAULT_BINARY_CACHE
+    - pip install poetry -U
+    - poetry config virtualenvs.in-project true
+    - poetry install
+    - mkdir $BUILD_DIR
+  script:
+    - cd $BUILD_DIR
+    - cmd.exe /C ..\scripts\ci_win.cmd
+  cache:
+    - key:
+        prefix: poetry-msvc-test
+        files:
+          - poetry.lock
+      paths:
+        - .poetry-cache
+    - key:
+        prefix: vcpkg-msvc-test
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+    - key: ccache-msvc-test
+      paths:
+        - .ccache
+  artifacts:
+    paths:
+      - $BUILD_DIR/junit
+      - $BUILD_DIR/temp_test
+      - benchmark.json
+      - bench_metrics.txt
+      - test # For outputs of ApprovalTest.
+    reports:
+      junit:
+        - $BUILD_DIR/junit/*.xml
+      metrics:
+        - bench_metrics.txt
+    when: always
+  interruptible: true
 
 clang-tidy:
   extends: .test linux base
