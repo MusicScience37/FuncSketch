@@ -282,6 +282,58 @@ pre-commit:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
 
+sonarqube:
+  stage: test
+  needs: []
+  image: "musicscience37/clang-ci:clang22"
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    SONAR_USER_HOME: ${CI_PROJECT_DIR}/.sonar
+    # Required for SonarQube to compute correct SCM blame information.
+    GIT_DEPTH: 0
+    BUILD_DIR: build_sonarqube
+    CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
+    CCACHE_COMPILERCHECK: content
+    CCACHE_MAXSIZE: 1G
+    VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
+    POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+  before_script:
+    - poetry config virtualenvs.in-project true
+    - poetry env use 3.13
+    - poetry install
+    - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
+    - mkdir -p $BUILD_DIR
+    - apt-get update
+    - apt-get install -y curl unzip
+    - curl -sSLo sonar-scanner.zip
+      'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-8.1.0.6389-linux-x64.zip'
+    - unzip -q sonar-scanner.zip
+    - mv sonar-scanner-*-linux-x64 sonar-scanner
+  script:
+    - cd $BUILD_DIR
+    - cmake .. -G Ninja
+      -DCMAKE_BUILD_TYPE=Debug
+      -DFUNC_SKETCH_BUILD_TESTS=ON
+    - cd ..
+    - ./sonar-scanner/bin/sonar-scanner
+      -Dsonar.host.url=${SONAR_HOST_URL}
+      -Dsonar.token=${SONAR_TOKEN}
+      -Dsonar.cfamily.compile-commands=${BUILD_DIR}/compile_commands.json
+  cache:
+    - key:
+        prefix: poetry-sonarqube
+        files:
+          - poetry.lock
+      paths:
+        - .poetry-cache
+    - key:
+        prefix: vcpkg-sonarqube
+        files:
+          - vcpkg-configuration.json
+      paths:
+        - .vcpkg-cache
+  interruptible: true
+
 test sdist ubuntu:
   stage: test
   needs: []
