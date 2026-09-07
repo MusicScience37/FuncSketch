@@ -44,31 +44,6 @@ public:
         int image_height, int image_width);
 
     /*!
-     * \brief Set the margin of the plot region.
-     *
-     * \param[in] value Margin of the plot region.
-     * \return Reference to this object.
-     */
-    PointConverter& plot_region_margin(const Margin& value);
-
-    /*!
-     * \brief Set the range of plots.
-     *
-     * \param[in] value Range of plots.
-     * \return Reference to this object.
-     */
-    PointConverter& range(const PlotRange& value);
-
-    /*!
-     * \brief Set the size of the image.
-     *
-     * \param[in] height Height of the image.
-     * \param[in] width Width of the image.
-     * \return Reference to this object.
-     */
-    PointConverter& image_size(int height, int width);
-
-    /*!
      * \brief Convert a point from plot coordinates to image coordinates.
      *
      * \param[in] from Point in plot coordinates.

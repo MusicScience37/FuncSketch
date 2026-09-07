@@ -58,38 +58,6 @@ TEST_CASE("func_sketch::plotter::PointConverter") {
             PointConverter(large_margin, range, image_height, image_width));
     }
 
-    SECTION("set the margin of the plot region") {
-        PointConverter converter(margin, range, image_height, image_width);
-
-        const Margin new_margin{0, 0, 0, 0};
-        CHECK_NOTHROW(converter.plot_region_margin(new_margin));
-        CHECK(converter.convert_plot_to_image(Point{.x = -2.0, .y = -1.0}) ==
-            cv::Point(0, image_height));
-
-        const Margin too_large_margin{
-            image_width, image_width, image_height, image_height};
-        CHECK_THROWS(converter.plot_region_margin(too_large_margin));
-    }
-
-    SECTION("set the range of plots") {
-        PointConverter converter(margin, range, image_height, image_width);
-
-        const PlotRange new_range({0.0, 1.0}, {0.0, 1.0});
-        CHECK_NOTHROW(converter.range(new_range));
-        CHECK(converter.convert_plot_to_image(Point{.x = 0.0, .y = 0.0}) ==
-            cv::Point(margin.left(), image_height - margin.bottom()));
-    }
-
-    SECTION("set the size of the image") {
-        PointConverter converter(margin, range, image_height, image_width);
-
-        CHECK_NOTHROW(converter.image_size(image_height * 2, image_width * 2));
-        CHECK_THROWS(converter.image_size(0, image_width));
-        CHECK_THROWS(converter.image_size(image_height, 0));
-        CHECK_THROWS(
-            converter.image_size(margin.top() + margin.bottom(), image_width));
-    }
-
     SECTION("convert a point from plot coordinates to image coordinates") {
         PointConverter converter(margin, range, image_height, image_width);
 

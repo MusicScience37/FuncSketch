@@ -25,6 +25,7 @@
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
+#include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/text_renderer.h"
 
 namespace func_sketch::plotter {
@@ -227,6 +228,9 @@ private:
 
     //! Text renderer.
     TextRenderer text_renderer_;
+
+    //! Point converter.
+    PointConverter point_converter_;
 };
 
 }  // namespace func_sketch::plotter

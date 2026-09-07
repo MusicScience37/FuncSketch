@@ -39,27 +39,6 @@ PointConverter::PointConverter(const Margin& plot_region_margin,
     update_plot_region_size();
 }
 
-PointConverter& PointConverter::plot_region_margin(const Margin& value) {
-    plot_region_margin_ = value;
-    update_plot_region_size();
-    return *this;
-}
-
-PointConverter& PointConverter::range(const PlotRange& value) {
-    range_ = value;
-    return *this;
-}
-
-PointConverter& PointConverter::image_size(int height, int width) {
-    if (height <= 0 || width <= 0) {
-        throw InvalidArgumentException("Invalid image size.");
-    }
-    image_height_ = height;
-    image_width_ = width;
-    update_plot_region_size();
-    return *this;
-}
-
 cv::Point PointConverter::convert_plot_to_image(const Point& from) const {
     const double x_ratio = (from.x - range_.x_range().first) /
         (range_.x_range().second - range_.x_range().first);
