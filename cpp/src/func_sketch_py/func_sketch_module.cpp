@@ -195,7 +195,9 @@ Objects of this class can be called with a string to parse it into an Expression
                  std::pair<double, double>>(),
             "x_range"_a, "y_range"_a, "Constructor.")
         .def_prop_ro("x_range", &PlotRange::x_range, "Range of x-axis.")
-        .def_prop_ro("y_range", &PlotRange::y_range, "Range of y-axis.");
+        .def_prop_ro("y_range", &PlotRange::y_range, "Range of y-axis.")
+        .def("contains", &PlotRange::contains, "point"_a,
+            "Check if a point is in the range.");
 
     using func_sketch::plotter::Margin;
     nanobind::class_<Margin>(m, "Margin", "Class to save margins of plots.")

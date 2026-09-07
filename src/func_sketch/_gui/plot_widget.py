@@ -126,7 +126,9 @@ class PlotWidget(kivy.uix.image.Image):
             (image_x, image_y)
         )
 
-        # TODO Handle mouse position outside the plot range.
+        if not self._range.contains(plot_pos):
+            return
+
         # TODO Handle the transformed position later.
         LOGGER.debug(
             "Mouse in window: (%d, %d), in image: (%d, %d), in plot: (%f, %f)",
