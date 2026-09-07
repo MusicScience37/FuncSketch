@@ -39,6 +39,7 @@ set(SOURCE_FILES
     plotter/plot_config_test.cpp
     plotter/plot_range_test.cpp
     plotter/plotter_test.cpp
+    plotter/point_converter_test.cpp
     plotter/point_test.cpp
     plotter/rgb_color_test.cpp
     plotter/sampling_config_test.cpp
