@@ -314,6 +314,7 @@ sonarqube:
     - cmake .. -G Ninja
       -DCMAKE_BUILD_TYPE=Debug
       -DFUNC_SKETCH_BUILD_TESTS=ON
+    - cd ..
     - ./sonar-scanner/bin/sonar-scanner
       -Dsonar.host.url=${SONAR_HOST_URL}
       -Dsonar.token=${SONAR_TOKEN}
