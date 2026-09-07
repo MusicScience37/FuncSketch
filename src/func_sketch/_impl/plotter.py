@@ -22,6 +22,9 @@ from func_sketch._cpp import (
     PlotRange,
 )
 from func_sketch._cpp import Plotter as CppPlotter
+from func_sketch._cpp import (
+    PointConverter,
+)
 from func_sketch._impl.sampled_curve import SampledCurve
 
 
@@ -78,6 +81,11 @@ class Plotter:
     def actual_size(self) -> tuple[int, int]:
         """Actual size of images, as a pair of height and width of the plots."""
         return self._plotter.actual_size
+
+    @property
+    def point_converter(self) -> PointConverter:
+        """Point converter to convert points between coordinate systems."""
+        return self._plotter.point_converter
 
     def __call__(
         self,

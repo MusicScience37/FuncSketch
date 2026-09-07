@@ -24,6 +24,7 @@
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/plotter.h"
 #include "func_sketch/plotter/point.h"
+#include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/rgb_color.h"
 #include "func_sketch/plotter/sampling_config.h"
 
@@ -509,6 +510,26 @@ Note:
             },
             "function"_a, "Sample a function and return a list of points.");
 
+    using func_sketch::plotter::PointConverter;
+    nanobind::class_<PointConverter>(m, "PointConverter",
+        "Class to convert points between coordinate systems.")
+        .def(
+            "convert_plot_to_image",
+            [](const PointConverter& self, const Point& point) {
+                const auto image_point = self.convert_plot_to_image(point);
+                return std::make_pair(image_point.x, image_point.y);
+            },
+            "point"_a,
+            "Convert a point from plot coordinates to image coordinates.")
+        .def(
+            "convert_image_to_plot",
+            [](const PointConverter& self, std::pair<int, int> point) {
+                return self.convert_image_to_plot(
+                    cv::Point(point.first, point.second));
+            },
+            "point"_a,
+            "Convert a point from image coordinates to plot coordinates.");
+
     using func_sketch::plotter::Plotter;
     nanobind::class_<Plotter>(m, "Plotter", "Class for plotting.")
         .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
@@ -535,6 +556,8 @@ Note:
             "height"_a, "width"_a, "Set the desired size of images.")
         .def_prop_ro("actual_size", &Plotter::actual_size,
             "Get the actual size of images. (read-only)")
+        .def_prop_ro("point_converter", &Plotter::point_converter,
+            "Get the point converter. (read-only)")
         .def(
             "write_background",
             [](Plotter& self, const RawImage& raw_image) {

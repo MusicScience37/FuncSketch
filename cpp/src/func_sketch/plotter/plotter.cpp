@@ -97,6 +97,10 @@ Plotter& Plotter::desired_size(int height, int width) {
     return {actual_height_, actual_width_};
 }
 
+[[nodiscard]] const PointConverter& Plotter::point_converter() const noexcept {
+    return point_converter_;
+}
+
 void Plotter::write_background(Image& image) {
     const auto size = image.size;
     if (size.dims() != 2 || size[0] != actual_height_ ||

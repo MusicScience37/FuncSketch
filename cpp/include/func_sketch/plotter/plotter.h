@@ -85,6 +85,13 @@ public:
     [[nodiscard]] std::pair<int, int> actual_size() const noexcept;
 
     /*!
+     * \brief Get the point converter.
+     *
+     * \return Reference to the point converter.
+     */
+    [[nodiscard]] const PointConverter& point_converter() const noexcept;
+
+    /*!
      * \brief Write background of plots.
      *
      * \param[in] image Image to write.

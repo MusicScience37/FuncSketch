@@ -16,6 +16,7 @@
 
 import logging
 
+import kivy.core.window
 import kivy.graphics.texture
 import kivy.properties
 import kivy.uix.image
@@ -37,12 +38,15 @@ class PlotWidget(kivy.uix.image.Image):
         """Constructor."""
         super().__init__(**kwargs)
 
-        self._plotter = Plotter(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG)
+        self._range = DEFAULT_PLOT_RANGE
+        self._plotter = Plotter(self._range, DEFAULT_PLOT_CONFIG)
 
         # Initialize with a small image to prevent errors in _prepare_texture.
         # This will be altered with the actual plot size later.
         self._image_buffer = numpy.zeros((1, 1, 3), dtype=numpy.uint8)
         self._prepare_texture()
+
+        kivy.core.window.Window.bind(mouse_pos=self._on_mouse_pos)
 
     def on_shared_state(self, _instance: object, _value: object) -> None:
         """Callback when the shared_state property is set."""
@@ -61,7 +65,8 @@ class PlotWidget(kivy.uix.image.Image):
 
     def _on_shared_plot_range(self, _instance: object, _value: object) -> None:
         """Callback when the plot_range property is set in shared_state."""
-        self._plotter.plot_range = self.shared_state.plot_range
+        self._range = self.shared_state.plot_range
+        self._plotter.plot_range = self._range
         self._prepare_texture()
         self._update_plot()
 
@@ -101,4 +106,34 @@ class PlotWidget(kivy.uix.image.Image):
         self._plotter(self.shared_state.sampled_curves, self._image_buffer)
         self._texture.blit_buffer(
             self._image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
+        )
+
+    def _on_mouse_pos(self, _instance: object, value: tuple[int, int]) -> None:
+        """Callback when the mouse position is changed."""
+        if not self.collide_point(*self.to_widget(*value)):
+            return
+
+        relative_pos = self.to_widget(*value, relative=True)
+        widget_width, widget_height = self.size
+        image_height, image_width = self._plotter.actual_size
+        image_x = int(relative_pos[0] * image_width / widget_width)
+        # Kivy's coordinate system has the origin at the bottom-left corner,
+        # but OpenCV's coordinate system has the origin at the top-left corner.
+        image_y = int(
+            (image_height - 1 - relative_pos[1]) * image_height / widget_height
+        )
+        plot_pos = self._plotter.point_converter.convert_image_to_plot(
+            (image_x, image_y)
+        )
+
+        # TODO Handle mouse position outside the plot range.
+        # TODO Handle the transformed position later.
+        LOGGER.debug(
+            "Mouse in window: (%d, %d), in image: (%d, %d), in plot: (%f, %f)",
+            value[0],
+            value[1],
+            image_x,
+            image_y,
+            plot_pos.x,
+            plot_pos.y,
         )
