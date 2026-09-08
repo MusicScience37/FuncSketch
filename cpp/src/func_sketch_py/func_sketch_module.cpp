@@ -6,6 +6,7 @@
 #include <fmt/format.h>
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
+#include <nanobind/operators.h>
 #include <nanobind/stl/complex.h>
 #include <nanobind/stl/pair.h>
 #include <nanobind/stl/string.h>
@@ -183,7 +184,10 @@ Objects of this class can be called with a string to parse it into an Expression
     nanobind::class_<Point>(m, "Point", "Class of points.")
         .def(nanobind::init<double, double>(), "x"_a, "y"_a, "Constructor.")
         .def_rw("x", &Point::x, "X coordinate.")
-        .def_rw("y", &Point::y, "Y coordinate.");
+        .def_rw("y", &Point::y, "Y coordinate.")
+        .def(nanobind::self + nanobind::self, "Add two points.")
+        .def(nanobind::self - nanobind::self,
+            "Subtract a point from another point.");
 
     nanobind::class_<PointList>(m, "PointList", "Class of lists of points.")
         .def(nanobind::init<std::vector<Point>>(), "points"_a, "Constructor.")
@@ -204,7 +208,15 @@ Objects of this class can be called with a string to parse it into an Expression
 Args:
     center: Center point for zooming. This point won't move after zooming.
     factor: Factor for zooming. Values greater than 1 will zoom in, and
-        values between 0 and 1 will zoom out.)");
+        values between 0 and 1 will zoom out.)")
+        .def("pan", &PlotRange::pan, "diff"_a,
+            R"(Pan this plot range.
+
+Args:
+    diff: Difference to move the range.)")
+        .def(
+            "copy", [](const PlotRange& self) { return self; },
+            "Copy an independent copy of this plot range.");
 
     using func_sketch::plotter::Margin;
     nanobind::class_<Margin>(m, "Margin", "Class to save margins of plots.")
@@ -537,7 +549,11 @@ Note:
                     cv::Point(point.first, point.second));
             },
             "point"_a,
-            "Convert a point from image coordinates to plot coordinates.");
+            "Convert a point from image coordinates to plot coordinates.")
+        .def_prop_ro("image_to_plot_coefficient",
+            &PointConverter::image_to_plot_coefficient,
+            "Get the coefficients to convert from image coordinates to plot "
+            "coordinates. (read-only)");
 
     using func_sketch::plotter::Plotter;
     nanobind::class_<Plotter>(m, "Plotter", "Class for plotting.")

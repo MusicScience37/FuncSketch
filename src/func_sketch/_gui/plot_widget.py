@@ -48,6 +48,7 @@ class PlotWidget(kivy.uix.image.Image):
         self._image_buffer = numpy.zeros((1, 1, 3), dtype=numpy.uint8)
         self._prepare_texture()
 
+        self._last_mouse_pos_in_pixel: tuple[float, float] | None = None
         kivy.core.window.Window.bind(mouse_pos=self._on_mouse_pos)
 
     def on_shared_state(self, _instance: object, _value: object) -> None:
@@ -123,17 +124,69 @@ class PlotWidget(kivy.uix.image.Image):
         Returns:
             True if the event is handled, False otherwise.
         """
-        if touch.is_mouse_scrolling:
-            mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
-            if mouse_pos_in_plot is not None:
+        if self.collide_point(*touch.pos):
+            if touch.is_mouse_scrolling:
+                mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
+                if mouse_pos_in_plot is not None:
+                    LOGGER.debug("button: %s", touch.button)
+                    is_zoom_in = touch.button == "scrolldown"
+                    self._zoom(center=mouse_pos_in_plot, is_zoom_in=is_zoom_in)
+                    return True
+            elif touch.is_touch:
                 LOGGER.debug("button: %s", touch.button)
-                is_zoom_in = touch.button == "scrolldown"
-                self._zoom(center=mouse_pos_in_plot, is_zoom_in=is_zoom_in)
-                return True
+                if touch.button == "left":
+                    touch.grab(self)
+                    self._last_mouse_pos_in_pixel = touch.pos
+                    return True
 
         return super().on_touch_down(touch)
 
-    def _on_mouse_pos(self, _instance: object, value: tuple[int, int]) -> None:
+    def on_touch_move(self, touch: kivy.input.MotionEvent) -> bool:
+        """Callback when a touch move event occurs.
+
+        Args:
+            touch: The touch event.
+
+        Returns:
+            True if the event is handled, False otherwise.
+        """
+        if (
+            touch.grab_current is self
+            and touch.is_touch
+            and touch.button == "left"
+            and self._last_mouse_pos_in_pixel is not None
+        ):
+            dx_pixel = touch.pos[0] - self._last_mouse_pos_in_pixel[0]
+            dy_pixel = touch.pos[1] - self._last_mouse_pos_in_pixel[1]
+            x_coeff, y_coeff = self._plotter.point_converter.image_to_plot_coefficient
+            diff_plot = Point(x=-dx_pixel * x_coeff, y=-dy_pixel * y_coeff)
+
+            plot_range = self.shared_state.plot_range
+            plot_range.pan(diff_plot)
+            self.shared_state.update_plot_range(self, plot_range)
+
+            self._last_mouse_pos_in_pixel = touch.pos
+            return True
+
+        return super().on_touch_move(touch)
+
+    def on_touch_up(self, touch: kivy.input.MotionEvent) -> bool:
+        """Callback when a touch up event occurs.
+
+        Args:
+            touch: The touch event.
+
+        Returns:
+            True if the event is handled, False otherwise.
+        """
+        if touch.grab_current is self:
+            touch.ungrab(self)
+            self._mouse_pos_in_pixel_before_drag = None
+            return True
+
+        return super().on_touch_up(touch)
+
+    def _on_mouse_pos(self, _instance: object, value: tuple[float, float]) -> None:
         """Callback when the mouse position is changed."""
         if not self.collide_point(*self.to_widget(*value)):
             self.shared_state.update_mouse_pos_in_plot(self, None)

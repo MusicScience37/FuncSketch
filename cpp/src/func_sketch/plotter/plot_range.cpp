@@ -70,6 +70,18 @@ void PlotRange::zoom(const Point& center, double factor) {
     y_range_.second = center.y + (y_range_.second - center.y) / factor;
 }
 
+void PlotRange::pan(const Point& diff) {
+    if (!std::isfinite(diff.x) || !std::isfinite(diff.y)) {
+        throw InvalidArgumentException(
+            "Invalid difference for panning: must be a finite number");
+    }
+
+    x_range_.first += diff.x;
+    x_range_.second += diff.x;
+    y_range_.first += diff.y;
+    y_range_.second += diff.y;
+}
+
 }  // namespace func_sketch::plotter
 
 // NOLINTNEXTLINE(*-static): API of an external library.

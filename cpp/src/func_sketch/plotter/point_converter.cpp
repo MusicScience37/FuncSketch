@@ -92,6 +92,14 @@ Point PointConverter::convert_image_to_plot(const cv::Point& from) const {
     return Point{.x = x_value, .y = y_value};
 }
 
+std::pair<double, double> PointConverter::image_to_plot_coefficient() const {
+    const double x_coeff = (range_.x_range().second - range_.x_range().first) /
+        static_cast<double>(plot_region_width_);
+    const double y_coeff = (range_.y_range().second - range_.y_range().first) /
+        static_cast<double>(plot_region_height_);
+    return std::make_pair(x_coeff, y_coeff);
+}
+
 void PointConverter::update_plot_region_size() {
     plot_region_height_ = image_height_ - plot_region_margin_.top() -
         plot_region_margin_.bottom();

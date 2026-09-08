@@ -74,6 +74,13 @@ public:
      */
     void zoom(const Point& center, double factor);
 
+    /*!
+     * \brief Pan this plot range.
+     *
+     * \param[in] diff Difference to move the range.
+     */
+    void pan(const Point& diff);
+
 private:
     //! X range.
     std::pair<double, double> x_range_;

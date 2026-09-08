@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include <utility>
+
 #include <opencv2/core.hpp>
 
 #include "func_sketch/plotter/margin.h"
@@ -68,6 +70,15 @@ public:
      * \return Point in plot coordinates.
      */
     [[nodiscard]] Point convert_image_to_plot(const cv::Point& from) const;
+
+    /*!
+     * \brief Get the coefficients for converting differences in image
+     * coordinates to plot coordinates.
+     *
+     * \return Coefficients for converting differences in image coordinates to
+     * plot coordinates for x and y.
+     */
+    [[nodiscard]] std::pair<double, double> image_to_plot_coefficient() const;
 
 private:
     /*!
