@@ -164,7 +164,7 @@ class PlotWidget(kivy.uix.image.Image):
         """
         if touch.grab_current is self and touch.is_touch:
             if (
-                "shift" not in self._current_touch_modifiers
+                "ctrl" not in self._current_touch_modifiers
                 and self._last_mouse_pos_in_pixel is not None
             ):
                 # Pan the plot range.
@@ -204,7 +204,7 @@ class PlotWidget(kivy.uix.image.Image):
             touch.ungrab(self)
             if (
                 touch.button == "left"
-                and "shift" in self._current_touch_modifiers
+                and "ctrl" in self._current_touch_modifiers
                 and self._last_mouse_pos_in_pixel is not None
             ):
                 mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
