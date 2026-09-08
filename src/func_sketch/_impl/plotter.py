@@ -14,6 +14,9 @@
 
 """Class of plotting."""
 
+import logging
+import time
+
 import numpy
 import numpy.typing
 
@@ -26,6 +29,8 @@ from func_sketch._cpp import (
     PointConverter,
 )
 from func_sketch._impl.sampled_curve import SampledCurve
+
+LOGGER = logging.getLogger(__name__)
 
 
 class Plotter:
@@ -98,6 +103,9 @@ class Plotter:
             sampled_curves: List of sampled curves.
             image: Image to plot curves.
         """
+        start_time = time.perf_counter()
         self._plotter.write_background(image)
         for sampled_curve in sampled_curves:
             self._plotter.write_curve(sampled_curve.samples, sampled_curve.color, image)
+        end_time = time.perf_counter()
+        LOGGER.debug("Plotter: Plotted in %.2f ms.", (end_time - start_time) * 1000)
