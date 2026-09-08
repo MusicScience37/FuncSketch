@@ -19,7 +19,7 @@ import logging
 import kivy.event
 import kivy.properties
 
-from func_sketch._cpp import PlotConfig, PlotRange, PointList
+from func_sketch._cpp import PlotConfig, PlotRange, Point, PointList
 from func_sketch._gui.constants import (
     CURVE_COLORS,
     DEFAULT_PLOT_CONFIG,
@@ -65,12 +65,19 @@ class SharedState(kivy.event.EventDispatcher):
     )
     """Sampled curves."""
 
+    mouse_pos_in_plot = kivy.properties.ObjectProperty(None, allownone=True)
+    """Mouse position in the plot.
+    This is represented as func_sketch._cpp.Point object,
+    or None if the mouse is not in the plot region.
+    """
+
     def __init__(self, **kwargs) -> None:
         """Constructor."""
         self.register_event_type("on_plot_range_changed")
         self.register_event_type("on_plot_config_changed")
         self.register_event_type("on_curve_config_changed")
         self.register_event_type("on_sampled_curve_changed")
+        self.register_event_type("on_mouse_pos_in_plot_changed")
         super().__init__(**kwargs)
 
     def update_plot_range(self, source: object, value: PlotRange) -> None:
@@ -119,6 +126,17 @@ class SharedState(kivy.event.EventDispatcher):
         self.sampled_curves[index] = value
         self.dispatch("on_sampled_curve_changed", source, index, value)
 
+    def update_mouse_pos_in_plot(self, source: object, value: Point | None) -> None:
+        """Update mouse position in the plot.
+
+        Args:
+            source (object): Source of the update.
+            value (Point | None): New mouse position in the plot,
+                or None if the mouse is not in the plot region.
+        """
+        self.mouse_pos_in_plot = value
+        self.dispatch("on_mouse_pos_in_plot_changed", source, value)
+
     def on_plot_range_changed(self, source: object, value: PlotRange) -> None:
         """Event handler for plot range changes."""
 
@@ -134,3 +152,6 @@ class SharedState(kivy.event.EventDispatcher):
         self, source: object, index: int, value: SampledCurve
     ) -> None:
         """Event handler for sampled curve changes."""
+
+    def on_mouse_pos_in_plot_changed(self, source: object, value: Point | None) -> None:
+        """Event handler for changes of the mouse position in the plot."""

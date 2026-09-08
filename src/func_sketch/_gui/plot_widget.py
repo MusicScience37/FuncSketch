@@ -111,6 +111,7 @@ class PlotWidget(kivy.uix.image.Image):
     def _on_mouse_pos(self, _instance: object, value: tuple[int, int]) -> None:
         """Callback when the mouse position is changed."""
         if not self.collide_point(*self.to_widget(*value)):
+            self.shared_state.update_mouse_pos_in_plot(self, None)
             return
 
         relative_pos = self.to_widget(*value, relative=True)
@@ -127,15 +128,7 @@ class PlotWidget(kivy.uix.image.Image):
         )
 
         if not self._range.contains(plot_pos):
+            self.shared_state.update_mouse_pos_in_plot(self, None)
             return
 
-        # TODO Handle the transformed position later.
-        LOGGER.debug(
-            "Mouse in window: (%d, %d), in image: (%d, %d), in plot: (%f, %f)",
-            value[0],
-            value[1],
-            image_x,
-            image_y,
-            plot_pos.x,
-            plot_pos.y,
-        )
+        self.shared_state.update_mouse_pos_in_plot(self, plot_pos)

@@ -16,13 +16,16 @@
 #:import FONT_SIZE_HEADER1 func_sketch._gui.constants.FONT_SIZE_HEADER1
 #:import FONT_SIZE_HEADER2 func_sketch._gui.constants.FONT_SIZE_HEADER2
 #:import FONT_SIZE_TEXT func_sketch._gui.constants.FONT_SIZE_TEXT
+#:import FONT_SIZE_STATUS_BAR func_sketch._gui.constants.FONT_SIZE_STATUS_BAR
 #:import SPACING_DEFAULT func_sketch._gui.constants.SPACING_DEFAULT
 #:import SPACING_HEADER1 func_sketch._gui.constants.SPACING_HEADER1
 #:import SPACING_HEADER2 func_sketch._gui.constants.SPACING_HEADER2
 #:import PADDING_NAVIGATION func_sketch._gui.constants.PADDING_NAVIGATION
+#:import PADDING_STATUS_BAR func_sketch._gui.constants.PADDING_STATUS_BAR
 #:import NORMAL_TEXT_COLOR func_sketch._gui.constants.NORMAL_TEXT_COLOR
 #:import SPLITTER_COLOR func_sketch._gui.constants.SPLITTER_COLOR
 #:import NAVIGATION_BACKGROUND_COLOR func_sketch._gui.constants.NAVIGATION_BACKGROUND_COLOR
+#:import STATUS_BAR_BACKGROUND_COLOR func_sketch._gui.constants.STATUS_BAR_BACKGROUND_COLOR
 
 #:include common.kv
 #:include range_config_widget.kv
@@ -32,35 +35,52 @@
 #:import PlainSplitterStrip func_sketch._gui.plain_splitter_strip.PlainSplitterStrip
 #:import PlotWidget func_sketch._gui.plot_widget.PlotWidget
 #:import RangeConfigWidget func_sketch._gui.range_config_widget.RangeConfigWidget
+#:import StatusBarWidget func_sketch._gui.status_bar_widget.StatusBarWidget
 
 <Splitter>:
     strip_cls: PlainSplitterStrip
 
 <FuncSketchWidget>
-    orientation: "horizontal"
-    PlotWidget:
-        shared_state: root.shared_state
-    Splitter:
+    orientation: "vertical"
+    BoxLayout:
+        orientation: "horizontal"
+        PlotWidget:
+            shared_state: root.shared_state
+        Splitter:
+            canvas.before:
+                Color:
+                    rgba: NAVIGATION_BACKGROUND_COLOR
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            sizable_from: "left"
+            size_hint_x: None
+            width: 300
+            minimum_width: 200
+            max_width: 1000
+            strip_size: 10
+            ScrollView:
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: SPACING_HEADER1
+                    padding: PADDING_NAVIGATION
+                    RangeConfigWidget:
+                        shared_state: root.shared_state
+                    CurveConfigListWidget:
+                        shared_state: root.shared_state
+    StatusBarWidget:
         canvas.before:
             Color:
-                rgba: NAVIGATION_BACKGROUND_COLOR
+                rgba: STATUS_BAR_BACKGROUND_COLOR
             Rectangle:
                 pos: self.pos
                 size: self.size
-        sizable_from: "left"
-        size_hint_x: None
-        width: 300
-        minimum_width: 200
-        max_width: 1000
-        strip_size: 10
-        ScrollView:
-            BoxLayout:
-                orientation: "vertical"
-                size_hint_y: None
-                height: self.minimum_height
-                spacing: SPACING_HEADER1
-                padding: PADDING_NAVIGATION
-                RangeConfigWidget:
-                    shared_state: root.shared_state
-                CurveConfigListWidget:
-                    shared_state: root.shared_state
+        shared_state: root.shared_state
+        size_hint_y: None
+        height: FONT_SIZE_STATUS_BAR + 2 * PADDING_STATUS_BAR
+        text_size: self.width, None
+        font_size: FONT_SIZE_STATUS_BAR
+        padding_x: PADDING_STATUS_BAR
+        padding_y: PADDING_STATUS_BAR

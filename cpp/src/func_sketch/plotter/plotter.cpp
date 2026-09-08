@@ -84,11 +84,8 @@ Plotter& Plotter::config(const PlotConfig& value) {
 }
 
 Plotter& Plotter::desired_size(int height, int width) {
-    if (height <= 0 || width <= 0) {
-        throw InvalidArgumentException("Invalid desired size.");
-    }
-    desired_height_ = height;
-    desired_width_ = width;
+    desired_height_ = std::max(height, 1);
+    desired_width_ = std::max(width, 1);
     update_internal_parameters();
     return *this;
 }
