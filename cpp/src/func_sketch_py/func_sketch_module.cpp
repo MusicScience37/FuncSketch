@@ -197,7 +197,14 @@ Objects of this class can be called with a string to parse it into an Expression
         .def_prop_ro("x_range", &PlotRange::x_range, "Range of x-axis.")
         .def_prop_ro("y_range", &PlotRange::y_range, "Range of y-axis.")
         .def("contains", &PlotRange::contains, "point"_a,
-            "Check if a point is in the range.");
+            "Check if a point is in the range.")
+        .def("zoom", &PlotRange::zoom, "center"_a, "factor"_a,
+            R"(Zoom this plot range.
+
+Args:
+    center: Center point for zooming. This point won't move after zooming.
+    factor: Factor for zooming. Values greater than 1 will zoom in, and
+        values between 0 and 1 will zoom out.)");
 
     using func_sketch::plotter::Margin;
     nanobind::class_<Margin>(m, "Margin", "Class to save margins of plots.")

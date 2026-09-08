@@ -24,6 +24,7 @@
 
 TEST_CASE("func_sketch::plotter::PlotRange") {
     using func_sketch::plotter::PlotRange;
+    using func_sketch::plotter::Point;
 
     SECTION("check ranges in constructor") {
         CHECK_NOTHROW(PlotRange({0.0, 1.0}, {2.0, 3.0}));
@@ -39,6 +40,38 @@ TEST_CASE("func_sketch::plotter::PlotRange") {
         CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, NAN}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, 2.0}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {3.0, 2.0}));
+    }
+
+    SECTION("zoom in") {
+        PlotRange range{{0.0, 4.0}, {0.0, 8.0}};
+
+        range.zoom(Point{.x = 1.0, .y = 2.0}, 2.0);
+
+        CHECK(range.x_range().first == 0.5);
+        CHECK(range.x_range().second == 2.5);
+        CHECK(range.y_range().first == 1.0);
+        CHECK(range.y_range().second == 5.0);
+    }
+
+    SECTION("zoom out") {
+        PlotRange range{{0.0, 4.0}, {0.0, 8.0}};
+
+        range.zoom(Point{.x = 1.0, .y = 2.0}, 0.5);
+
+        CHECK(range.x_range().first == -1.0);
+        CHECK(range.x_range().second == 7.0);
+        CHECK(range.y_range().first == -2.0);
+        CHECK(range.y_range().second == 14.0);
+    }
+
+    SECTION("check factor in zoom") {
+        PlotRange range{{0.0, 1.0}, {2.0, 3.0}};
+        const Point center{.x = 0.5, .y = 2.5};
+
+        CHECK_NOTHROW(range.zoom(center, 2.0));
+        CHECK_THROWS(range.zoom(center, 0.0));
+        CHECK_THROWS(range.zoom(center, -1.0));
+        CHECK_THROWS(range.zoom(center, NAN));
     }
 
     SECTION("format") {

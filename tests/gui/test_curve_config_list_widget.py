@@ -42,7 +42,7 @@ class TestCurveConfigListWidget:
         widget = CurveConfigListWidget(shared_state=shared_state)
 
         widget._curve_config_widgets[0].expression_text = "x**2"
-        shared_state.plot_range = PlotRange((-2.0, 2.0), (-1.0, 1.0))
+        shared_state.update_plot_range(None, PlotRange((-2.0, 2.0), (-1.0, 1.0)))
 
         assert shared_state.curve_configs[0].function_expression_str == "x**2"
         assert len(shared_state.sampled_curves[0].samples.points) > 0
@@ -57,7 +57,7 @@ class TestCurveConfigListWidget:
         widget = CurveConfigListWidget(shared_state=shared_state)
 
         widget._curve_config_widgets[0].expression_text = "x**2"
-        shared_state.plot_config = PlotConfig()
+        shared_state.update_plot_config(None, PlotConfig())
 
         assert shared_state.curve_configs[0].function_expression_str == "x**2"
         assert len(shared_state.sampled_curves[0].samples.points) > 0

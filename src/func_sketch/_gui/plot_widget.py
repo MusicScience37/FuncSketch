@@ -18,10 +18,12 @@ import logging
 
 import kivy.core.window
 import kivy.graphics.texture
+import kivy.input
 import kivy.properties
 import kivy.uix.image
 import numpy
 
+from func_sketch._cpp import PlotConfig, PlotRange, Point
 from func_sketch._gui.constants import DEFAULT_PLOT_CONFIG, DEFAULT_PLOT_RANGE
 from func_sketch._impl.plotter import Plotter
 
@@ -51,9 +53,9 @@ class PlotWidget(kivy.uix.image.Image):
     def on_shared_state(self, _instance: object, _value: object) -> None:
         """Callback when the shared_state property is set."""
         self.shared_state.bind(
-            plot_range=self._on_shared_plot_range,
-            plot_config=self._on_shared_plot_config,
-            sampled_curves=self._on_shared_sampled_curves,
+            on_plot_range_changed=self._on_shared_plot_range,
+            on_plot_config_changed=self._on_shared_plot_config,
+            on_sampled_curve_changed_any=self._on_shared_sampled_curve,
         )
         self._prepare_texture()
         self._update_plot()
@@ -63,21 +65,25 @@ class PlotWidget(kivy.uix.image.Image):
         self._prepare_texture()
         self._update_plot()
 
-    def _on_shared_plot_range(self, _instance: object, _value: object) -> None:
-        """Callback when the plot_range property is set in shared_state."""
-        self._range = self.shared_state.plot_range
+    def _on_shared_plot_range(
+        self, _instance: object, _source: object, value: PlotRange
+    ) -> None:
+        """Callback when the on_plot_range_changed event is dispatched."""
+        self._range = value
         self._plotter.plot_range = self._range
         self._prepare_texture()
         self._update_plot()
 
-    def _on_shared_plot_config(self, _instance: object, _value: object) -> None:
-        """Callback when the plot_config property is set in shared_state."""
-        self._plotter.config = self.shared_state.plot_config
+    def _on_shared_plot_config(
+        self, _instance: object, _source: object, value: PlotConfig
+    ) -> None:
+        """Callback when the on_plot_config_changed event is dispatched."""
+        self._plotter.config = value
         self._prepare_texture()
         self._update_plot()
 
-    def _on_shared_sampled_curves(self, _instance: object, _value: object) -> None:
-        """Callback when the sampled_curves property is set in shared_state."""
+    def _on_shared_sampled_curve(self, _instance: object, _source: object) -> None:
+        """Callback when the on_sampled_curve_changed event is dispatched."""
         self._update_plot()
 
     def _prepare_texture(self) -> None:
@@ -108,6 +114,25 @@ class PlotWidget(kivy.uix.image.Image):
             self._image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
         )
 
+    def on_touch_down(self, touch: kivy.input.MotionEvent) -> bool:
+        """Callback when a touch down event occurs.
+
+        Args:
+            touch: The touch event.
+
+        Returns:
+            True if the event is handled, False otherwise.
+        """
+        if touch.is_mouse_scrolling:
+            mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
+            if mouse_pos_in_plot is not None:
+                LOGGER.debug("button: %s", touch.button)
+                is_zoom_in = touch.button == "scrolldown"
+                self._zoom(center=mouse_pos_in_plot, is_zoom_in=is_zoom_in)
+                return True
+
+        return super().on_touch_down(touch)
+
     def _on_mouse_pos(self, _instance: object, value: tuple[int, int]) -> None:
         """Callback when the mouse position is changed."""
         if not self.collide_point(*self.to_widget(*value)):
@@ -132,3 +157,15 @@ class PlotWidget(kivy.uix.image.Image):
             return
 
         self.shared_state.update_mouse_pos_in_plot(self, plot_pos)
+
+    def _zoom(self, center: Point, is_zoom_in: bool) -> None:
+        """Zoom the plot.
+
+        Args:
+            center: Center point for zooming in plot coordinates.
+            is_zoom_in: True to zoom in, False to zoom out.
+        """
+        factor = 2.0 if is_zoom_in else 0.5
+        plot_range = self.shared_state.plot_range
+        plot_range.zoom(center, factor)
+        self.shared_state.update_plot_range(self, plot_range)

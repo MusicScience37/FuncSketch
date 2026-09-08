@@ -17,6 +17,8 @@
 import kivy.properties
 import kivy.uix.label
 
+from func_sketch._cpp import Point
+
 
 class StatusBarWidget(kivy.uix.label.Label):
     """Widget to show status bar."""
@@ -34,11 +36,13 @@ class StatusBarWidget(kivy.uix.label.Label):
 
     def on_shared_state(self, _instance: object, _value: object) -> None:
         """Callback when the shared_state property is set."""
-        self.shared_state.bind(mouse_pos_in_plot=self._on_mouse_pos_in_plot)
+        self.shared_state.bind(on_mouse_pos_in_plot_changed=self._on_mouse_pos_in_plot)
         self._update_status()
 
-    def _on_mouse_pos_in_plot(self, _instance: object, value: object) -> None:
-        """Callback when the mouse position in the plot is changed."""
+    def _on_mouse_pos_in_plot(
+        self, _instance: object, _source: object, _value: Point | None
+    ) -> None:
+        """Callback when the on_mouse_pos_in_plot_changed event is dispatched."""
         self._update_status()
 
     def _update_status(self) -> None:

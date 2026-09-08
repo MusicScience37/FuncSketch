@@ -19,12 +19,10 @@
  */
 #pragma once
 
-#include <cmath>
 #include <utility>
 
 #include <fmt/base.h>
 
-#include "func_sketch/exceptions.h"
 #include "func_sketch/plotter/point.h"
 
 namespace func_sketch::plotter {
@@ -41,39 +39,21 @@ public:
      * \param[in] y_range Y range.
      */
     PlotRange(const std::pair<double, double>& x_range,
-        const std::pair<double, double>& y_range)
-        : x_range_(x_range), y_range_(y_range) {
-        if (!std::isfinite(x_range.first) || !std::isfinite(x_range.second)) {
-            throw InvalidArgumentException("Invalid X range: not finite");
-        }
-        if (!std::isfinite(y_range.first) || !std::isfinite(y_range.second)) {
-            throw InvalidArgumentException("Invalid Y range: not finite");
-        }
-        if (x_range.first >= x_range.second) {
-            throw InvalidArgumentException("Invalid X range: min >= max");
-        }
-        if (y_range.first >= y_range.second) {
-            throw InvalidArgumentException("Invalid Y range: min >= max");
-        }
-    }
+        const std::pair<double, double>& y_range);
 
     /*!
      * \brief Get X range.
      *
      * \return X range.
      */
-    [[nodiscard]] auto x_range() const noexcept -> std::pair<double, double> {
-        return x_range_;
-    }
+    [[nodiscard]] auto x_range() const noexcept -> std::pair<double, double>;
 
     /*!
      * \brief Get Y range.
      *
      * \return Y range.
      */
-    [[nodiscard]] auto y_range() const noexcept -> std::pair<double, double> {
-        return y_range_;
-    }
+    [[nodiscard]] auto y_range() const noexcept -> std::pair<double, double>;
 
     /*!
      * \brief Check if a point is in the range.
@@ -82,11 +62,17 @@ public:
      * \retval true The point is in the range.
      * \retval false The point is not in the range.
      */
-    [[nodiscard]] bool contains(const Point& point) const noexcept {
-        return std::isfinite(point.x) && std::isfinite(point.y) &&
-            x_range_.first <= point.x && point.x <= x_range_.second &&
-            y_range_.first <= point.y && point.y <= y_range_.second;
-    }
+    [[nodiscard]] bool contains(const Point& point) const noexcept;
+
+    /*!
+     * \brief Zoom this plot range.
+     *
+     * \param[in] center Center point for zooming. This point won't move after
+     * zooming.
+     * \param[in] factor Factor for zooming. Values greater than 1 will zoom in,
+     * and values between 0 and 1 will zoom out.
+     */
+    void zoom(const Point& center, double factor);
 
 private:
     //! X range.

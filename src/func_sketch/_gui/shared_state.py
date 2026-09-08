@@ -77,6 +77,7 @@ class SharedState(kivy.event.EventDispatcher):
         self.register_event_type("on_plot_config_changed")
         self.register_event_type("on_curve_config_changed")
         self.register_event_type("on_sampled_curve_changed")
+        self.register_event_type("on_sampled_curve_changed_any")
         self.register_event_type("on_mouse_pos_in_plot_changed")
         super().__init__(**kwargs)
 
@@ -125,6 +126,21 @@ class SharedState(kivy.event.EventDispatcher):
         """
         self.sampled_curves[index] = value
         self.dispatch("on_sampled_curve_changed", source, index, value)
+        self.dispatch("on_sampled_curve_changed_any", source)
+
+    def update_sampled_curve_all(
+        self, source: object, values: list[SampledCurve]
+    ) -> None:
+        """Update all sampled curves.
+
+        Args:
+            source (object): Source of the update.
+            values (list[SampledCurve]): New list of sampled curves.
+        """
+        self.sampled_curves = values
+        for index, value in enumerate(values):
+            self.dispatch("on_sampled_curve_changed", source, index, value)
+        self.dispatch("on_sampled_curve_changed_any", source)
 
     def update_mouse_pos_in_plot(self, source: object, value: Point | None) -> None:
         """Update mouse position in the plot.
@@ -152,6 +168,9 @@ class SharedState(kivy.event.EventDispatcher):
         self, source: object, index: int, value: SampledCurve
     ) -> None:
         """Event handler for sampled curve changes."""
+
+    def on_sampled_curve_changed_any(self, source: object) -> None:
+        """Event handler for any sampled curve changes."""
 
     def on_mouse_pos_in_plot_changed(self, source: object, value: Point | None) -> None:
         """Event handler for changes of the mouse position in the plot."""

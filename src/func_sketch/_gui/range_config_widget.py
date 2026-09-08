@@ -96,7 +96,7 @@ class RangeConfigWidget(kivy.uix.boxlayout.BoxLayout):
             is_valid=lambda _instance, _value: self._update_error_message(),
         )
         self.shared_state.bind(
-            plot_range=lambda _instance, _value: self._sync_range_from_shared_state_to_children()
+            on_plot_range_changed=lambda _instance, _source, _value: self._sync_range_from_shared_state_to_children()
         )
 
     def _sync_range_from_shared_state_to_children(self) -> None:

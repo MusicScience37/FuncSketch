@@ -19,7 +19,58 @@
  */
 #include "func_sketch/plotter/plot_range.h"
 
+#include <cmath>
+
 #include <fmt/format.h>
+
+#include "func_sketch/exceptions.h"
+
+namespace func_sketch::plotter {
+
+PlotRange::PlotRange(const std::pair<double, double>& x_range,
+    const std::pair<double, double>& y_range)
+    : x_range_(x_range), y_range_(y_range) {
+    if (!std::isfinite(x_range.first) || !std::isfinite(x_range.second)) {
+        throw InvalidArgumentException("Invalid X range: not finite");
+    }
+    if (!std::isfinite(y_range.first) || !std::isfinite(y_range.second)) {
+        throw InvalidArgumentException("Invalid Y range: not finite");
+    }
+    if (x_range.first >= x_range.second) {
+        throw InvalidArgumentException("Invalid X range: min >= max");
+    }
+    if (y_range.first >= y_range.second) {
+        throw InvalidArgumentException("Invalid Y range: min >= max");
+    }
+}
+
+auto PlotRange::x_range() const noexcept -> std::pair<double, double> {
+    return x_range_;
+}
+
+auto PlotRange::y_range() const noexcept -> std::pair<double, double> {
+    return y_range_;
+}
+
+bool PlotRange::contains(const Point& point) const noexcept {
+    return std::isfinite(point.x) && std::isfinite(point.y) &&
+        x_range_.first <= point.x && point.x <= x_range_.second &&
+        y_range_.first <= point.y && point.y <= y_range_.second;
+}
+
+void PlotRange::zoom(const Point& center, double factor) {
+    if (!std::isfinite(factor) || factor <= 0.0) {
+        throw InvalidArgumentException(
+            "Invalid factor for zooming: must be a finite positive number");
+    }
+
+    x_range_.first = center.x + (x_range_.first - center.x) / factor;
+    x_range_.second = center.x + (x_range_.second - center.x) / factor;
+    y_range_.first = center.y + (y_range_.first - center.y) / factor;
+    y_range_.second = center.y + (y_range_.second - center.y) / factor;
+}
+
+}  // namespace func_sketch::plotter
 
 // NOLINTNEXTLINE(*-static): API of an external library.
 auto fmt::formatter<func_sketch::plotter::PlotRange>::format(
