@@ -127,31 +127,45 @@ class PlotWidget(kivy.uix.image.Image):
         """
         if self.collide_point(*touch.pos):
             if touch.is_mouse_scrolling:
-                # Zoom the plot range.
-                mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
-                if mouse_pos_in_plot is not None:
-                    is_zoom_in = touch.button == "scrolldown"
-                    self._zoom(center=mouse_pos_in_plot, is_zoom_in=is_zoom_in)
+                self._handle_scrolling(touch)
                 return True
             elif touch.is_touch:
                 if touch.button == "left":
-                    mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
-                    if mouse_pos_in_plot is not None:
-                        # Pan the range or select the new range.
-                        touch.grab(self)
-                        touch.push()
-                        touch.apply_transform_2d(self._to_widget_pos)
-                        self._last_mouse_pos_in_pixel = touch.pos
-                        self._current_touch_modifiers = (
-                            kivy.core.window.Window.modifiers.copy()
-                        )
-                        touch.pop()
+                    self._handle_left_button_down(touch)
                     return True
                 elif touch.button == "right":
                     # TODO Right click will be handled in the future.
                     return True
 
         return super().on_touch_down(touch)
+
+    def _handle_scrolling(self, touch: kivy.input.MotionEvent) -> None:
+        """Handle events of scrolling.
+
+        Args:
+            touch: The touch event.
+        """
+        mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
+        if mouse_pos_in_plot is not None:
+            # Zoom the plot range.
+            is_zoom_in = touch.button == "scrolldown"
+            self._zoom(center=mouse_pos_in_plot, is_zoom_in=is_zoom_in)
+
+    def _handle_left_button_down(self, touch: kivy.input.MotionEvent) -> None:
+        """Handle events when the left mouse button is pressed.
+
+        Args:
+            touch: The touch event.
+        """
+        mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
+        if mouse_pos_in_plot is not None:
+            # Begin to pan the range or select the new range.
+            touch.grab(self)
+            touch.push()
+            touch.apply_transform_2d(self._to_widget_pos)
+            self._last_mouse_pos_in_pixel = touch.pos
+            self._current_touch_modifiers = kivy.core.window.Window.modifiers.copy()
+            touch.pop()
 
     def on_touch_move(self, touch: kivy.input.MotionEvent) -> bool:
         """Callback when a touch move event occurs.
@@ -162,34 +176,40 @@ class PlotWidget(kivy.uix.image.Image):
         Returns:
             True if the event is handled, False otherwise.
         """
-        if touch.grab_current is self and touch.is_touch:
-            if (
-                "ctrl" not in self._current_touch_modifiers
-                and self._last_mouse_pos_in_pixel is not None
-            ):
-                # Pan the plot range.
-                touch.push()
-                touch.apply_transform_2d(self._to_widget_pos)
-                dx_pixel = touch.pos[0] - self._last_mouse_pos_in_pixel[0]
-                dy_pixel = touch.pos[1] - self._last_mouse_pos_in_pixel[1]
-                x_coeff, y_coeff = (
-                    self._plotter.point_converter.image_to_plot_coefficient
-                )
-                widget_width, widget_height = self.size
-                image_height, image_width = self._plotter.actual_size
-                x_coeff = x_coeff * image_width / widget_width
-                y_coeff = y_coeff * image_height / widget_height
-                diff_plot = Point(x=-dx_pixel * x_coeff, y=-dy_pixel * y_coeff)
-
-                plot_range = self.shared_state.plot_range
-                plot_range.pan(diff_plot)
-                self.shared_state.update_plot_range(self, plot_range)
-
-                self._last_mouse_pos_in_pixel = touch.pos
-                touch.pop()
+        if touch.grab_current is self and touch.is_touch and touch.button == "left":
+            self._handle_left_button_dragging(touch)
             return True
 
         return super().on_touch_move(touch)
+
+    def _handle_left_button_dragging(self, touch: kivy.input.MotionEvent) -> None:
+        """Handle events when the left mouse button is pressed and the mouse is dragged.
+
+        Args:
+            touch: The touch event.
+        """
+        if (
+            "ctrl" not in self._current_touch_modifiers
+            and self._last_mouse_pos_in_pixel is not None
+        ):
+            # Pan the plot range.
+            touch.push()
+            touch.apply_transform_2d(self._to_widget_pos)
+            dx_pixel = touch.pos[0] - self._last_mouse_pos_in_pixel[0]
+            dy_pixel = touch.pos[1] - self._last_mouse_pos_in_pixel[1]
+            x_coeff, y_coeff = self._plotter.point_converter.image_to_plot_coefficient
+            widget_width, widget_height = self.size
+            image_height, image_width = self._plotter.actual_size
+            x_coeff = x_coeff * image_width / widget_width
+            y_coeff = y_coeff * image_height / widget_height
+            diff_plot = Point(x=-dx_pixel * x_coeff, y=-dy_pixel * y_coeff)
+
+            plot_range = self.shared_state.plot_range
+            plot_range.pan(diff_plot)
+            self.shared_state.update_plot_range(self, plot_range)
+
+            self._last_mouse_pos_in_pixel = touch.pos
+            touch.pop()
 
     def on_touch_up(self, touch: kivy.input.MotionEvent) -> bool:
         """Callback when a touch up event occurs.
@@ -202,34 +222,36 @@ class PlotWidget(kivy.uix.image.Image):
         """
         if touch.grab_current is self:
             touch.ungrab(self)
-            if (
-                touch.button == "left"
-                and "ctrl" in self._current_touch_modifiers
-                and self._last_mouse_pos_in_pixel is not None
-            ):
-                mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
-                if mouse_pos_in_plot is not None:
-                    # Select the new range.
-                    touch.push()
-                    touch.apply_transform_2d(self._to_widget_pos)
-                    first_pos_in_plot = self._widget_to_plot(
-                        self._last_mouse_pos_in_pixel
-                    )
-                    second_pos_in_plot = self._widget_to_plot(touch.pos)
-                    x_min = min(first_pos_in_plot.x, second_pos_in_plot.x)
-                    x_max = max(first_pos_in_plot.x, second_pos_in_plot.x)
-                    y_min = min(first_pos_in_plot.y, second_pos_in_plot.y)
-                    y_max = max(first_pos_in_plot.y, second_pos_in_plot.y)
-                    self.shared_state.update_plot_range(
-                        self,
-                        PlotRange(x_range=(x_min, x_max), y_range=(y_min, y_max)),
-                    )
-                    touch.pop()
-            self._last_mouse_pos_in_pixel = None
-            self._current_touch_modifiers = []
+            if touch.button == "left":
+                self._handle_left_button_up(touch)
             return True
 
         return super().on_touch_up(touch)
+
+    def _handle_left_button_up(self, touch: kivy.input.MotionEvent) -> None:
+        """Handle events when the left mouse button is released."""
+        if (
+            "ctrl" in self._current_touch_modifiers
+            and self._last_mouse_pos_in_pixel is not None
+        ):
+            mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
+            if mouse_pos_in_plot is not None:
+                # Finish to select the new range.
+                touch.push()
+                touch.apply_transform_2d(self._to_widget_pos)
+                first_pos_in_plot = self._widget_to_plot(self._last_mouse_pos_in_pixel)
+                second_pos_in_plot = self._widget_to_plot(touch.pos)
+                x_min = min(first_pos_in_plot.x, second_pos_in_plot.x)
+                x_max = max(first_pos_in_plot.x, second_pos_in_plot.x)
+                y_min = min(first_pos_in_plot.y, second_pos_in_plot.y)
+                y_max = max(first_pos_in_plot.y, second_pos_in_plot.y)
+                self.shared_state.update_plot_range(
+                    self,
+                    PlotRange(x_range=(x_min, x_max), y_range=(y_min, y_max)),
+                )
+                touch.pop()
+        self._last_mouse_pos_in_pixel = None
+        self._current_touch_modifiers = []
 
     def _on_mouse_pos(self, _instance: object, value: tuple[float, float]) -> None:
         """Callback when the mouse position is changed."""
