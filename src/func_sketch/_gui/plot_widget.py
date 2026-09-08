@@ -49,6 +49,7 @@ class PlotWidget(kivy.uix.image.Image):
         self._prepare_texture()
 
         self._last_mouse_pos_in_pixel: tuple[float, float] | None = None
+        self._current_touch_modifiers: list[str] = []
         kivy.core.window.Window.bind(mouse_pos=self._on_mouse_pos)
 
     def on_shared_state(self, _instance: object, _value: object) -> None:
@@ -126,17 +127,28 @@ class PlotWidget(kivy.uix.image.Image):
         """
         if self.collide_point(*touch.pos):
             if touch.is_mouse_scrolling:
+                # Zoom the plot range.
                 mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
                 if mouse_pos_in_plot is not None:
-                    LOGGER.debug("button: %s", touch.button)
                     is_zoom_in = touch.button == "scrolldown"
                     self._zoom(center=mouse_pos_in_plot, is_zoom_in=is_zoom_in)
-                    return True
+                return True
             elif touch.is_touch:
-                LOGGER.debug("button: %s", touch.button)
                 if touch.button == "left":
-                    touch.grab(self)
-                    self._last_mouse_pos_in_pixel = touch.pos
+                    mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
+                    if mouse_pos_in_plot is not None:
+                        # Pan the range or select the new range.
+                        touch.grab(self)
+                        touch.push()
+                        touch.apply_transform_2d(self._to_widget_pos)
+                        self._last_mouse_pos_in_pixel = touch.pos
+                        self._current_touch_modifiers = (
+                            kivy.core.window.Window.modifiers.copy()
+                        )
+                        touch.pop()
+                    return True
+                elif touch.button == "right":
+                    # TODO Right click will be handled in the future.
                     return True
 
         return super().on_touch_down(touch)
@@ -150,22 +162,31 @@ class PlotWidget(kivy.uix.image.Image):
         Returns:
             True if the event is handled, False otherwise.
         """
-        if (
-            touch.grab_current is self
-            and touch.is_touch
-            and touch.button == "left"
-            and self._last_mouse_pos_in_pixel is not None
-        ):
-            dx_pixel = touch.pos[0] - self._last_mouse_pos_in_pixel[0]
-            dy_pixel = touch.pos[1] - self._last_mouse_pos_in_pixel[1]
-            x_coeff, y_coeff = self._plotter.point_converter.image_to_plot_coefficient
-            diff_plot = Point(x=-dx_pixel * x_coeff, y=-dy_pixel * y_coeff)
+        if touch.grab_current is self and touch.is_touch:
+            if (
+                "shift" not in self._current_touch_modifiers
+                and self._last_mouse_pos_in_pixel is not None
+            ):
+                # Pan the plot range.
+                touch.push()
+                touch.apply_transform_2d(self._to_widget_pos)
+                dx_pixel = touch.pos[0] - self._last_mouse_pos_in_pixel[0]
+                dy_pixel = touch.pos[1] - self._last_mouse_pos_in_pixel[1]
+                x_coeff, y_coeff = (
+                    self._plotter.point_converter.image_to_plot_coefficient
+                )
+                widget_width, widget_height = self.size
+                image_height, image_width = self._plotter.actual_size
+                x_coeff = x_coeff * image_width / widget_width
+                y_coeff = y_coeff * image_height / widget_height
+                diff_plot = Point(x=-dx_pixel * x_coeff, y=-dy_pixel * y_coeff)
 
-            plot_range = self.shared_state.plot_range
-            plot_range.pan(diff_plot)
-            self.shared_state.update_plot_range(self, plot_range)
+                plot_range = self.shared_state.plot_range
+                plot_range.pan(diff_plot)
+                self.shared_state.update_plot_range(self, plot_range)
 
-            self._last_mouse_pos_in_pixel = touch.pos
+                self._last_mouse_pos_in_pixel = touch.pos
+                touch.pop()
             return True
 
         return super().on_touch_move(touch)
@@ -181,7 +202,31 @@ class PlotWidget(kivy.uix.image.Image):
         """
         if touch.grab_current is self:
             touch.ungrab(self)
-            self._mouse_pos_in_pixel_before_drag = None
+            if (
+                touch.button == "left"
+                and "shift" in self._current_touch_modifiers
+                and self._last_mouse_pos_in_pixel is not None
+            ):
+                mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
+                if mouse_pos_in_plot is not None:
+                    # Select the new range.
+                    touch.push()
+                    touch.apply_transform_2d(self._to_widget_pos)
+                    first_pos_in_plot = self._widget_to_plot(
+                        self._last_mouse_pos_in_pixel
+                    )
+                    second_pos_in_plot = self._widget_to_plot(touch.pos)
+                    x_min = min(first_pos_in_plot.x, second_pos_in_plot.x)
+                    x_max = max(first_pos_in_plot.x, second_pos_in_plot.x)
+                    y_min = min(first_pos_in_plot.y, second_pos_in_plot.y)
+                    y_max = max(first_pos_in_plot.y, second_pos_in_plot.y)
+                    self.shared_state.update_plot_range(
+                        self,
+                        PlotRange(x_range=(x_min, x_max), y_range=(y_min, y_max)),
+                    )
+                    touch.pop()
+            self._last_mouse_pos_in_pixel = None
+            self._current_touch_modifiers = []
             return True
 
         return super().on_touch_up(touch)
@@ -193,23 +238,48 @@ class PlotWidget(kivy.uix.image.Image):
             return
 
         relative_pos = self.to_widget(*value, relative=True)
-        widget_width, widget_height = self.size
-        image_height, image_width = self._plotter.actual_size
-        image_x = int(relative_pos[0] * image_width / widget_width)
-        # Kivy's coordinate system has the origin at the bottom-left corner,
-        # but OpenCV's coordinate system has the origin at the top-left corner.
-        image_y = int(
-            (image_height - 1 - relative_pos[1]) * image_height / widget_height
-        )
-        plot_pos = self._plotter.point_converter.convert_image_to_plot(
-            (image_x, image_y)
-        )
+        plot_pos = self._widget_to_plot(relative_pos)
 
         if not self._range.contains(plot_pos):
             self.shared_state.update_mouse_pos_in_plot(self, None)
             return
 
         self.shared_state.update_mouse_pos_in_plot(self, plot_pos)
+
+    def _to_widget_pos(self, x: float, y: float) -> tuple[float, float]:
+        """Convert a position in window coordinates to widget-relative coordinates.
+
+        This is intended for use with ``touch.apply_transform_2d``, since
+        ``Widget.to_local`` is an identity transform by default (it does not
+        account for ``self.pos``) unlike ``self.to_widget(..., relative=True)``.
+
+        Args:
+            x: X coordinate in window coordinates.
+            y: Y coordinate in window coordinates.
+
+        Returns:
+            Position in widget-relative coordinates.
+        """
+        return self.to_widget(x, y, relative=True)
+
+    def _widget_to_plot(self, pos_in_widget: tuple[float, float]) -> Point:
+        """Convert a position in widget coordinates to plot coordinates.
+
+        Args:
+            pos_in_widget: Position in widget coordinates.
+
+        Returns:
+            Position in plot coordinates.
+        """
+        widget_width, widget_height = self.size
+        image_height, image_width = self._plotter.actual_size
+        image_x = int(pos_in_widget[0] * image_width / widget_width)
+        # Kivy's coordinate system has the origin at the bottom-left corner,
+        # but OpenCV's coordinate system has the origin at the top-left corner.
+        image_y = int(
+            (image_height - 1 - pos_in_widget[1]) * image_height / widget_height
+        )
+        return self._plotter.point_converter.convert_image_to_plot((image_x, image_y))
 
     def _zoom(self, center: Point, is_zoom_in: bool) -> None:
         """Zoom the plot.
