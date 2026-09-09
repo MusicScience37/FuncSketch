@@ -50,6 +50,7 @@ if(FUNC_SKETCH_ENABLE_PROFILING)
     # -fno-omit-frame-pointer is required for better profiling results.
     target_compile_options(gperftools::libprofiler
                            INTERFACE -fno-omit-frame-pointer)
+    target_compile_options(func_sketch_lib PUBLIC -fno-omit-frame-pointer)
 
     add_subdirectory(profiling)
 endif()

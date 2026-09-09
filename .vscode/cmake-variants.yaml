@@ -34,6 +34,16 @@ buildType:
         FUNC_SKETCH_ENABLE_AUSAN: OFF
         FUNC_SKETCH_WRITE_JUNIT: OFF
         FUNC_SKETCH_ENABLE_PROFILING: ON
+    rel-with-debuginfo-profiling:
+      short: RelWithDebInfo Profiling
+      long: Release build with debug info and profiling enabled
+      buildType: RelWithDebInfo
+      settings:
+        FUNC_SKETCH_BUILD_TESTS: ON
+        FUNC_SKETCH_ENABLE_CCACHE: ON
+        FUNC_SKETCH_ENABLE_AUSAN: OFF
+        FUNC_SKETCH_WRITE_JUNIT: OFF
+        FUNC_SKETCH_ENABLE_PROFILING: ON
     release:
       short: Release
       long: Release build
