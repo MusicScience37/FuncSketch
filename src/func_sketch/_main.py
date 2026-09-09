@@ -16,8 +16,11 @@
 
 from kivy.config import Config
 
-# Disable Kivy's mouse multi-touch simulation to prevent red dots in the application.
-Config.set("input", "mouse", "mouse,disable_multitouch")
+if Config is not None:
+    # Disable Kivy's mouse multi-touch simulation to prevent red dots in the
+    # application.
+    # Config is None when building documentation with Sphinx.
+    Config.set("input", "mouse", "mouse,disable_multitouch")
 
 from func_sketch._gui.func_sketch_app import FuncSketchApp  # noqa: E402
 
