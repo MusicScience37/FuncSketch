@@ -25,9 +25,7 @@ from func_sketch._cpp import (
     PlotRange,
 )
 from func_sketch._cpp import Plotter as CppPlotter
-from func_sketch._cpp import (
-    PointConverter,
-)
+from func_sketch._cpp import PointConverter
 from func_sketch._impl.sampled_curve import SampledCurve
 
 LOGGER = logging.getLogger(__name__)
