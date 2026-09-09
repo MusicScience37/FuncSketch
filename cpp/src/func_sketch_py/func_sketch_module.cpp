@@ -129,6 +129,14 @@ func_sketch::math::PythonFunctionList generate_python_function_list() {
 NB_MODULE(_cpp, m) {
     using nanobind::literals::operator""_a;
 
+    // Kivy's Property system used in func_sketch._gui keeps our bound
+    // objects (e.g., Point, PlotRange) reachable only through reference
+    // cycles that Python's cyclic garbage collector cannot traverse
+    // (Kivy's Property storage is a Cython type without GC support). This
+    // is not a growing leak, but nanobind still reports these objects as
+    // leaked when the interpreter shuts down, so disable that warning.
+    nanobind::set_leak_warnings(false);
+
     m.doc() = "C++ module for func_sketch";
 
     using func_sketch::expressions::ExpressionPtr;
