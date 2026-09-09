@@ -14,7 +14,15 @@
 
 """Main function of FuncSketch package."""
 
-from func_sketch._gui.func_sketch_app import FuncSketchApp
+from kivy.config import Config
+
+if Config is not None:
+    # Disable Kivy's mouse multi-touch simulation to prevent red dots in the
+    # application.
+    # Config is None when building documentation with Sphinx.
+    Config.set("input", "mouse", "mouse,disable_multitouch")
+
+from func_sketch._gui.func_sketch_app import FuncSketchApp  # noqa: E402
 
 
 def main() -> None:

@@ -19,7 +19,7 @@ import logging
 import kivy.properties
 import kivy.uix.boxlayout
 
-from func_sketch._cpp import PointList
+from func_sketch._cpp import PlotConfig, PlotRange, PointList
 from func_sketch._gui.constants import (
     CURVE_COLORS,
     DEFAULT_PLOT_CONFIG,
@@ -68,8 +68,8 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
     def on_shared_state(self, _instance: object, _value: object) -> None:
         """Callback when the shared_state property is set."""
         self.shared_state.bind(
-            plot_range=self._on_shared_plot_range,
-            plot_config=self._on_shared_plot_config,
+            on_plot_range_changed=self._on_shared_plot_range,
+            on_plot_config_changed=self._on_shared_plot_config,
         )
 
     def _on_curve_config_at_child(self, index: int) -> None:
@@ -88,6 +88,25 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
         Args:
             index: Index of the curve to resample.
         """
+        sampled_curve = self._resample_one_curve_without_event(index)
+        self.shared_state.update_sampled_curve(self, index, sampled_curve)
+
+    def _resample_all_curves(self) -> None:
+        """Resample all curves."""
+        sampled_curves = [
+            self._resample_one_curve_without_event(i) for i in range(NUM_CURVES)
+        ]
+        self.shared_state.update_sampled_curve_all(self, sampled_curves)
+
+    def _resample_one_curve_without_event(self, index: int) -> SampledCurve:
+        """Resample a curve without event dispatching.
+
+        Args:
+            index: Index of the curve to resample.
+
+        Returns:
+            SampledCurve: The resampled curve.
+        """
         curve_config = self.shared_state.curve_configs[index]
         try:
             # Empty expression is handled in CurveSampler.
@@ -99,19 +118,18 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
             )
         else:
             self._curve_config_widgets[index].error_message = ""
-        self.shared_state.update_sampled_curve(self, index, sampled_curve)
+        return sampled_curve
 
-    def _resample_all_curves(self) -> None:
-        """Resample all curves."""
-        for i in range(NUM_CURVES):
-            self._resample_one_curve(i)
-
-    def _on_shared_plot_range(self, _instance: object, _value: object) -> None:
-        """Callback when the plot_range property is set in shared_state."""
-        self._curve_sampler.plot_range = self.shared_state.plot_range
+    def _on_shared_plot_range(
+        self, _instance: object, _source: object, value: PlotRange
+    ) -> None:
+        """Callback when the on_plot_range_changed event is dispatched."""
+        self._curve_sampler.plot_range = value
         self._resample_all_curves()
 
-    def _on_shared_plot_config(self, _instance: object, _value: object) -> None:
-        """Callback when the plot_config property is set in shared_state."""
-        self._curve_sampler.config = self.shared_state.plot_config.sampling
+    def _on_shared_plot_config(
+        self, _instance: object, _source: object, value: PlotConfig
+    ) -> None:
+        """Callback when the on_plot_config_changed event is dispatched."""
+        self._curve_sampler.config = value.sampling
         self._resample_all_curves()

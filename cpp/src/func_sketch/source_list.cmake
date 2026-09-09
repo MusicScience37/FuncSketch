@@ -33,6 +33,7 @@ set(SOURCE_FILES
     plotter/plotter.cpp
     plotter/plotting_util.cpp
     plotter/point.cpp
+    plotter/point_converter.cpp
     plotter/rgb_color.cpp
     plotter/sampling_config.cpp
     plotter/text_renderer.cpp

@@ -6,6 +6,7 @@
 #include <fmt/format.h>
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
+#include <nanobind/operators.h>
 #include <nanobind/stl/complex.h>
 #include <nanobind/stl/pair.h>
 #include <nanobind/stl/string.h>
@@ -24,6 +25,7 @@
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/plotter.h"
 #include "func_sketch/plotter/point.h"
+#include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/rgb_color.h"
 #include "func_sketch/plotter/sampling_config.h"
 
@@ -127,6 +129,8 @@ func_sketch::math::PythonFunctionList generate_python_function_list() {
 NB_MODULE(_cpp, m) {
     using nanobind::literals::operator""_a;
 
+    nanobind::set_leak_warnings(false);
+
     m.doc() = "C++ module for func_sketch";
 
     using func_sketch::expressions::ExpressionPtr;
@@ -182,7 +186,10 @@ Objects of this class can be called with a string to parse it into an Expression
     nanobind::class_<Point>(m, "Point", "Class of points.")
         .def(nanobind::init<double, double>(), "x"_a, "y"_a, "Constructor.")
         .def_rw("x", &Point::x, "X coordinate.")
-        .def_rw("y", &Point::y, "Y coordinate.");
+        .def_rw("y", &Point::y, "Y coordinate.")
+        .def(nanobind::self + nanobind::self, "Add two points.")
+        .def(nanobind::self - nanobind::self,
+            "Subtract a point from another point.");
 
     nanobind::class_<PointList>(m, "PointList", "Class of lists of points.")
         .def(nanobind::init<std::vector<Point>>(), "points"_a, "Constructor.")
@@ -194,7 +201,24 @@ Objects of this class can be called with a string to parse it into an Expression
                  std::pair<double, double>>(),
             "x_range"_a, "y_range"_a, "Constructor.")
         .def_prop_ro("x_range", &PlotRange::x_range, "Range of x-axis.")
-        .def_prop_ro("y_range", &PlotRange::y_range, "Range of y-axis.");
+        .def_prop_ro("y_range", &PlotRange::y_range, "Range of y-axis.")
+        .def("contains", &PlotRange::contains, "point"_a,
+            "Check if a point is in the range.")
+        .def("zoom", &PlotRange::zoom, "center"_a, "factor"_a,
+            R"(Zoom this plot range.
+
+Args:
+    center: Center point for zooming. This point won't move after zooming.
+    factor: Factor for zooming. Values greater than 1 will zoom in, and
+        values between 0 and 1 will zoom out.)")
+        .def("pan", &PlotRange::pan, "diff"_a,
+            R"(Pan this plot range.
+
+Args:
+    diff: Difference to move the range.)")
+        .def(
+            "copy", [](const PlotRange& self) { return self; },
+            "Copy an independent copy of this plot range.");
 
     using func_sketch::plotter::Margin;
     nanobind::class_<Margin>(m, "Margin", "Class to save margins of plots.")
@@ -509,6 +533,30 @@ Note:
             },
             "function"_a, "Sample a function and return a list of points.");
 
+    using func_sketch::plotter::PointConverter;
+    nanobind::class_<PointConverter>(m, "PointConverter",
+        "Class to convert points between coordinate systems.")
+        .def(
+            "convert_plot_to_image",
+            [](const PointConverter& self, const Point& point) {
+                const auto image_point = self.convert_plot_to_image(point);
+                return std::make_pair(image_point.x, image_point.y);
+            },
+            "point"_a,
+            "Convert a point from plot coordinates to image coordinates.")
+        .def(
+            "convert_image_to_plot",
+            [](const PointConverter& self, std::pair<int, int> point) {
+                return self.convert_image_to_plot(
+                    cv::Point(point.first, point.second));
+            },
+            "point"_a,
+            "Convert a point from image coordinates to plot coordinates.")
+        .def_prop_ro("image_to_plot_coefficient",
+            &PointConverter::image_to_plot_coefficient,
+            "Get the coefficients to convert from image coordinates to plot "
+            "coordinates. (read-only)");
+
     using func_sketch::plotter::Plotter;
     nanobind::class_<Plotter>(m, "Plotter", "Class for plotting.")
         .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
@@ -535,6 +583,8 @@ Note:
             "height"_a, "width"_a, "Set the desired size of images.")
         .def_prop_ro("actual_size", &Plotter::actual_size,
             "Get the actual size of images. (read-only)")
+        .def_prop_ro("point_converter", &Plotter::point_converter,
+            "Get the point converter. (read-only)")
         .def(
             "write_background",
             [](Plotter& self, const RawImage& raw_image) {

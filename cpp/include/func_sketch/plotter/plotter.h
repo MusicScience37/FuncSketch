@@ -25,6 +25,7 @@
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
+#include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/text_renderer.h"
 
 namespace func_sketch::plotter {
@@ -82,6 +83,13 @@ public:
      * \return Pair of actual height and actual width of the plots.
      */
     [[nodiscard]] std::pair<int, int> actual_size() const noexcept;
+
+    /*!
+     * \brief Get the point converter.
+     *
+     * \return Reference to the point converter.
+     */
+    [[nodiscard]] const PointConverter& point_converter() const noexcept;
 
     /*!
      * \brief Write background of plots.
@@ -227,6 +235,9 @@ private:
 
     //! Text renderer.
     TextRenderer text_renderer_;
+
+    //! Point converter.
+    PointConverter point_converter_;
 };
 
 }  // namespace func_sketch::plotter

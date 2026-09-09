@@ -64,7 +64,10 @@ namespace {
 
 // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
 Plotter::Plotter(const PlotRange& range, const PlotConfig& config)
-    : range_(range), config_(config) {
+    : range_(range),
+      config_(config),
+      point_converter_(
+          plot_region_margin_, range_, actual_height_, actual_width_) {
     update_internal_parameters();
 }
 
@@ -81,14 +84,18 @@ Plotter& Plotter::config(const PlotConfig& value) {
 }
 
 Plotter& Plotter::desired_size(int height, int width) {
-    desired_height_ = height;
-    desired_width_ = width;
+    desired_height_ = std::max(height, 1);
+    desired_width_ = std::max(width, 1);
     update_internal_parameters();
     return *this;
 }
 
 [[nodiscard]] std::pair<int, int> Plotter::actual_size() const noexcept {
     return {actual_height_, actual_width_};
+}
+
+[[nodiscard]] const PointConverter& Plotter::point_converter() const noexcept {
+    return point_converter_;
 }
 
 void Plotter::write_background(Image& image) {
@@ -155,8 +162,8 @@ void Plotter::write_curve(
             end_xy = compute_intersection_with_range(start_xy, end_xy, range_);
         }
 
-        write_line(image, start_xy, end_xy, cv_color, line_width, range_,
-            plot_region_margin_);
+        write_line(
+            image, start_xy, end_xy, cv_color, line_width, point_converter_);
     }
 }
 
@@ -170,8 +177,8 @@ void Plotter::write_grid_lines(Image& image) {
             : config_.grid().line_width();
         write_line(image, Point{.x = x_value, .y = range_.y_range().first},
             Point{.x = x_value, .y = range_.y_range().second},
-            convert_color(config_.grid().color()), line_width, range_,
-            plot_region_margin_);
+            convert_color(config_.grid().color()), line_width,
+            point_converter_);
     }
     // horizontal lines.
     for (const Real y_value : y_axis_ticks_.values) {
@@ -180,8 +187,8 @@ void Plotter::write_grid_lines(Image& image) {
             : config_.grid().line_width();
         write_line(image, Point{.x = range_.x_range().first, .y = y_value},
             Point{.x = range_.x_range().second, .y = y_value},
-            convert_color(config_.grid().color()), line_width, range_,
-            plot_region_margin_);
+            convert_color(config_.grid().color()), line_width,
+            point_converter_);
     }
 }
 
@@ -221,9 +228,8 @@ void Plotter::write_x_axis(Image& image) {
 
         const double x_value =
             (range_.x_range().first + range_.x_range().second) * 0.5;
-        const auto base_position =
-            convert_position(Point{.x = x_value, .y = y_value}, range_,
-                plot_region_margin_, size);
+        const auto base_position = point_converter_.convert_plot_to_image(
+            Point{.x = x_value, .y = y_value});
         auto top_left_position = cv::Point(base_position.x - text_width / 2,
             base_position.y + config_.axes().tick_label_margin() * 2 +
                 x_axis_tick_height_ + text_height);
@@ -235,7 +241,7 @@ void Plotter::write_x_axis(Image& image) {
 
     write_line(image, Point{.x = range_.x_range().first, .y = y_value},
         Point{.x = range_.x_range().second, .y = y_value}, color,
-        config_.axes().line_width(), range_, plot_region_margin_);
+        config_.axes().line_width(), point_converter_);
 
     const int font_size = config_.axes().tick_label_font_size();
     text_renderer_.font_size(font_size);
@@ -247,9 +253,8 @@ void Plotter::write_x_axis(Image& image) {
         const auto text = x_axis_ticks_.strings[i];
         const auto [text_height, text_width] = text_renderer_.text_size(text);
 
-        const auto base_position =
-            convert_position(Point{.x = x_value, .y = y_value}, range_,
-                plot_region_margin_, size);
+        const auto base_position = point_converter_.convert_plot_to_image(
+            Point{.x = x_value, .y = y_value});
         const int tick_margin = config_.axes().tick_label_margin();
         auto top_left_position = cv::Point(base_position.x - text_width / 2,
             base_position.y + tick_margin + text_height);
@@ -276,9 +281,8 @@ void Plotter::write_y_axis(Image& image) {
 
         const double y_value =
             (range_.y_range().first + range_.y_range().second) * 0.5;
-        const auto base_position =
-            convert_position(Point{.x = x_value, .y = y_value}, range_,
-                plot_region_margin_, size);
+        const auto base_position = point_converter_.convert_plot_to_image(
+            Point{.x = x_value, .y = y_value});
         auto top_left_position =
             cv::Point(base_position.x - config_.axes().tick_label_margin() * 2 -
                     y_axis_tick_width_ - text_width,
@@ -291,7 +295,7 @@ void Plotter::write_y_axis(Image& image) {
 
     write_line(image, Point{.x = x_value, .y = range_.y_range().first},
         Point{.x = x_value, .y = range_.y_range().second}, color,
-        config_.axes().line_width(), range_, plot_region_margin_);
+        config_.axes().line_width(), point_converter_);
 
     const int font_size = config_.axes().tick_label_font_size();
     text_renderer_.font_size(font_size);
@@ -303,9 +307,8 @@ void Plotter::write_y_axis(Image& image) {
         const auto text = y_axis_ticks_.strings[i];
         const auto [text_height, text_width] = text_renderer_.text_size(text);
 
-        const auto base_position =
-            convert_position(Point{.x = x_value, .y = y_value}, range_,
-                plot_region_margin_, size);
+        const auto base_position = point_converter_.convert_plot_to_image(
+            Point{.x = x_value, .y = y_value});
         const int tick_margin = config_.axes().tick_label_margin();
         cv::Point top_left_position;
         top_left_position =
@@ -404,8 +407,14 @@ bool Plotter::try_update_internal_parameters() {
         static_cast<int>(config_.axes().num_pixels_per_tick_in_y_axis());
     const auto min_available_width =
         static_cast<int>(config_.axes().num_pixels_per_tick_in_x_axis());
-    return available_height > min_available_height &&
-        available_width > min_available_width;
+    if (available_height <= min_available_height ||
+        available_width <= min_available_width) {
+        return false;
+    }
+
+    point_converter_ = PointConverter(
+        plot_region_margin_, range_, actual_height_, actual_width_);
+    return true;
 }
 
 int Plotter::plot_title_height() {

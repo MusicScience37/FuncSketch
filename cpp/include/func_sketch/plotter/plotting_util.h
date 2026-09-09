@@ -22,9 +22,9 @@
 #include <opencv2/core.hpp>
 
 #include "func_sketch/plotter/image.h"
-#include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
+#include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/rgb_color.h"
 
 namespace func_sketch::plotter {
@@ -41,18 +41,6 @@ namespace func_sketch::plotter {
 [[nodiscard]] cv::Scalar convert_color(const RGBColor& color);
 
 /*!
- * \brief Convert a position from plot coordinates to image coordinates.
- *
- * \param[in] position Position in plot coordinates.
- * \param[in] range Range of plots.
- * \param[in] margin Margins of plots.
- * \param[in] size Size of the image.
- * \return Converted position in image coordinates.
- */
-[[nodiscard]] cv::Point convert_position(const Point& position,
-    const PlotRange& range, const Margin& margin, const cv::MatSize& size);
-
-/*!
  * \brief Write a line on an image.
  *
  * \param[out] image Image to write on.
@@ -60,12 +48,11 @@ namespace func_sketch::plotter {
  * \param[in] end_point Ending point of the line.
  * \param[in] color Color of the line.
  * \param[in] line_width Width of the line.
- * \param[in] range Range of plots.
- * \param[in] margin Margins of plots.
+ * \param[in] point_converter Converter between plot and image coordinates.
  */
 void write_line(Image& image, const Point& start_point, const Point& end_point,
-    const cv::Scalar& color, int line_width, const PlotRange& range,
-    const Margin& margin);
+    const cv::Scalar& color, int line_width,
+    const PointConverter& point_converter);
 
 /*!
  * \brief Try to clamp a point with infinity to the range.

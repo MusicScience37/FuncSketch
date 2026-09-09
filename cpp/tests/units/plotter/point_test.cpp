@@ -30,4 +30,24 @@ TEST_CASE("func_sketch::plotter::Point") {
 
         CHECK(fmt::format("{}", point) == "Point(1.23, 4.56)");
     }
+
+    SECTION("add") {
+        const Point left{.x = 1.23, .y = 4.56};
+        const Point right{.x = 7.89, .y = 0.12};
+
+        const Point result = left + right;
+
+        CHECK(result.x == 1.23 + 7.89);  // NOLINT(*-magic-numbers)
+        CHECK(result.y == 4.56 + 0.12);  // NOLINT(*-magic-numbers)
+    }
+
+    SECTION("subtract") {
+        const Point left{.x = 1.23, .y = 4.56};
+        const Point right{.x = 7.89, .y = 0.12};
+
+        const Point result = left - right;
+
+        CHECK(result.x == 1.23 - 7.89);  // NOLINT(*-magic-numbers)
+        CHECK(result.y == 4.56 - 0.12);  // NOLINT(*-magic-numbers)
+    }
 }

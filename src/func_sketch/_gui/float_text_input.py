@@ -96,7 +96,7 @@ class FloatTextInput(PlainTextInput):
             return
         self._syncing = True
         try:
-            self.text = str(value)
+            self.text = f"{value:.5g}"
         finally:
             self._syncing = False
         self.is_valid = True

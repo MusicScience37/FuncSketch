@@ -87,6 +87,11 @@ CURVE_COLORS = [
 ]
 """Colors for curves in the plot area."""
 
+# Color for the status bar
+
+STATUS_BAR_BACKGROUND_COLOR = _GRAY90
+"""Background color for the status bar."""
+
 # Font sizes
 
 FONT_SIZE_DEFAULT = 15
@@ -101,6 +106,9 @@ FONT_SIZE_HEADER2 = 20
 FONT_SIZE_TEXT = 15
 """Font size for normal text."""
 
+FONT_SIZE_STATUS_BAR = 13
+"""Font size for the status bar."""
+
 # Spacing
 
 SPACING_DEFAULT = 10
@@ -114,6 +122,9 @@ SPACING_HEADER2 = 15
 
 PADDING_NAVIGATION = 15
 """Padding for the navigation area."""
+
+PADDING_STATUS_BAR = 5
+"""Padding for the status bar."""
 
 # Curves
 
