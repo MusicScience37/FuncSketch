@@ -125,7 +125,7 @@ func_sketch::math::PythonFunctionList generate_python_function_list() {
 
 }  // namespace
 
-// NOLINTNEXTLINE(*-identifier-length,*-vararg,*-c-arrays,*-array-decay,*-value-param): external library.
+// NOLINTNEXTLINE(*-identifier-length,*-vararg,*-c-arrays,*-array-decay,*-value-param,*-signed-bitwise): external library.
 NB_MODULE(_cpp, m) {
     using nanobind::literals::operator""_a;
 
