@@ -284,6 +284,8 @@ pre-commit:
 
 sonarqube:
   stage: test
+  only:
+    - main
   needs: []
   image: "musicscience37/clang-ci:clang22"
   variables:
