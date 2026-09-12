@@ -24,7 +24,9 @@ set(SOURCE_FILES
     parser/expression_parser.cpp
     parser/parsed_expression.cpp
     plotter/axes_config.cpp
+    plotter/axes_writer.cpp
     plotter/axis_ticks.cpp
+    plotter/curve_writer.cpp
     plotter/function_sampler.cpp
     plotter/grid_config.cpp
     plotter/margin.cpp
@@ -37,4 +39,5 @@ set(SOURCE_FILES
     plotter/rgb_color.cpp
     plotter/sampling_config.cpp
     plotter/text_renderer.cpp
+    plotter/title_writer.cpp
 )

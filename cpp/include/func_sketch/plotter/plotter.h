@@ -19,14 +19,14 @@
  */
 #pragma once
 
-#include "func_sketch/plotter/axis_ticks.h"
+#include "func_sketch/plotter/axes_writer.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/point_converter.h"
-#include "func_sketch/plotter/text_renderer.h"
+#include "func_sketch/plotter/title_writer.h"
 
 namespace func_sketch::plotter {
 
@@ -117,34 +117,6 @@ public:
 
 private:
     /*!
-     * \brief Write grid lines of plots.
-     *
-     * \param[in] image Image to write.
-     */
-    void write_grid_lines(Image& image);
-
-    /*!
-     * \brief Write the title of the plot.
-     *
-     * \param[in] image Image to write.
-     */
-    void write_plot_title(Image& image);
-
-    /*!
-     * \brief Write x axis.
-     *
-     * \param[in] image Image to write.
-     */
-    void write_x_axis(Image& image);
-
-    /*!
-     * \brief Write y axis.
-     *
-     * \param[in] image Image to write.
-     */
-    void write_y_axis(Image& image);
-
-    /*!
      * \brief Update internal parameters.
      */
     void update_internal_parameters();
@@ -157,48 +129,6 @@ private:
      * \retval false Current actual image size is insufficient.
      */
     [[nodiscard]] bool try_update_internal_parameters();
-
-    /*!
-     * \brief Calculate the height of the title of the plot.
-     *
-     * \return Height of the title of the plot.
-     *
-     * \note This function assumes that the title of the plot is present.
-     */
-    [[nodiscard]] int plot_title_height();
-
-    /*!
-     * \brief Update axis ticks.
-     */
-    void update_axis_ticks();
-
-    /*!
-     * \brief Update the height of x-axis ticks.
-     */
-    void update_x_axis_tick_height();
-
-    /*!
-     * \brief Update the width of y-axis ticks.
-     */
-    void update_y_axis_tick_width();
-
-    /*!
-     * \brief Calculate the height of x-axis title.
-     *
-     * \return Height of the x-axis title.
-     *
-     * \note This function assumes that the x-axis title is present.
-     */
-    [[nodiscard]] int x_axis_title_height();
-
-    /*!
-     * \brief Calculate the width of y-axis title.
-     *
-     * \return Width of the y-axis title.
-     *
-     * \note This function assumes that the y-axis title is present.
-     */
-    [[nodiscard]] int y_axis_title_width();
 
     //! Range of plots.
     PlotRange range_;
@@ -221,23 +151,14 @@ private:
     //! Margin of the plot region.
     Margin plot_region_margin_;
 
-    //! Ticks of the x-axis.
-    AxisTicks x_axis_ticks_;
-
-    //! Ticks of the y-axis.
-    AxisTicks y_axis_ticks_;
-
-    //! Height of x-axis ticks.
-    int x_axis_tick_height_{};
-
-    //! Width of y-axis ticks.
-    int y_axis_tick_width_{};
-
-    //! Text renderer.
-    TextRenderer text_renderer_;
-
     //! Point converter.
     PointConverter point_converter_;
+
+    //! Writer of plot titles.
+    TitleWriter title_writer_;
+
+    //! Writer of axes.
+    AxesWriter axes_writer_;
 };
 
 }  // namespace func_sketch::plotter

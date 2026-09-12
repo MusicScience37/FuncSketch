@@ -82,4 +82,15 @@ void write_line(Image& image, const Point& start_point, const Point& end_point,
 [[nodiscard]] Point compute_intersection_with_range(const Point& point_in_range,
     const Point& point_out_of_range, const PlotRange& range);
 
+/*!
+ * \brief Adjust the position of text to be inside the image.
+ *
+ * \param[in] position Desired position of the text.
+ * \param[in] text_size Size of the text.
+ * \param[in] image_size Size of the image.
+ * \return Adjusted position of the text.
+ */
+[[nodiscard]] cv::Point adjust_text_position(const cv::Point& position,
+    const cv::Size& text_size, const cv::Size& image_size);
+
 }  // namespace func_sketch::plotter
