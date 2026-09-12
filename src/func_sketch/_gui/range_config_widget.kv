@@ -21,20 +21,11 @@
 
 <RangeConfigWidget>:
     orientation: "vertical"
-    size_hint_y: None
-    height: self.minimum_height
     spacing: SPACING_DEFAULT
     x_min_text_input: x_min_text_input
     x_max_text_input: x_max_text_input
     y_min_text_input: y_min_text_input
     y_max_text_input: y_max_text_input
-    Label:
-        text: "Range"
-        size_hint_y: None
-        height: self.texture_size[1]
-        font_size: FONT_SIZE_HEADER1
-        halign: "left"
-        text_size: self.width, None
     GridLayout:
         cols: 3
         size_hint_y: None
