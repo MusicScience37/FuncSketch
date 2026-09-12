@@ -46,7 +46,8 @@ public:
      */
     template <MathFunctionType T>
     void emplace(T&& function) {
-        functions_.emplace(function.name(), std::forward<T>(function));
+        functions_.try_emplace(static_cast<std::string>(function.name()),
+            std::forward<T>(function));
     }
 
     /*!

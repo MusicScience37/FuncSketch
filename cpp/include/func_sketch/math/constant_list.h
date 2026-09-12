@@ -44,7 +44,7 @@ public:
      * \param[in] value Value of the constant.
      */
     void emplace(const std::string& name, Number value) {
-        constants_.emplace(name, value);
+        constants_.try_emplace(name, value);
     }
 
     /*!
