@@ -65,7 +65,7 @@ void AxesWriter::write(Image& image, const PlotConfig& config,
 }
 
 void AxesWriter::write_grid_lines(Image& image, const PlotConfig& config,
-    const PlotRange& range, const PointConverter& point_converter) {
+    const PlotRange& range, const PointConverter& point_converter) const {
     // vertical lines.
     for (const Real x_value : x_axis_ticks_.values) {
         const int line_width = (x_value == 0.0)

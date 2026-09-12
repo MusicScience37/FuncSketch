@@ -68,7 +68,7 @@ private:
      * \param[in] point_converter Point converter.
      */
     void write_grid_lines(Image& image, const PlotConfig& config,
-        const PlotRange& range, const PointConverter& point_converter);
+        const PlotRange& range, const PointConverter& point_converter) const;
 
     /*!
      * \brief Write x axis.
