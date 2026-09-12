@@ -1,3 +1,22 @@
+/*
+ * Copyright 2026 MusicScience37 (Kenta Kabashima)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*!
+ * \file
+ * \brief Implementation of the C++ module for Python.
+ */
 #include <cstdint>
 #include <functional>
 #include <utility>
@@ -13,6 +32,7 @@
 #include <nanobind/stl/vector.h>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
 #include "func_sketch/parser/expression_parser.h"
@@ -511,7 +531,8 @@ Note:
             // Making the getter nullptr causes an error in mypy, so we must
             // write a getter that throws an exception instead.
             [](FunctionSampler& self) -> PlotRange {
-                throw std::runtime_error("Property 'range' is write-only.");
+                throw func_sketch::PermissionErrorException(
+                    "Property 'range' is write-only.");
             },
             [](FunctionSampler& self, const PlotRange& value) {
                 self.range(value);
@@ -520,7 +541,8 @@ Note:
         .def_prop_rw(
             "config",
             [](FunctionSampler& self) -> SamplingConfig {
-                throw std::runtime_error("Property 'config' is write-only.");
+                throw func_sketch::PermissionErrorException(
+                    "Property 'config' is write-only.");
             },
             [](FunctionSampler& self, const SamplingConfig& value) {
                 self.config(value);
@@ -564,14 +586,16 @@ Note:
         .def_prop_rw(
             "range",
             [](Plotter& self) -> PlotRange {
-                throw std::runtime_error("Property 'range' is write-only.");
+                throw func_sketch::PermissionErrorException(
+                    "Property 'range' is write-only.");
             },
             [](Plotter& self, const PlotRange& value) { self.range(value); },
             "Range of plots. (write-only)")
         .def_prop_rw(
             "config",
             [](Plotter& self) -> PlotConfig {
-                throw std::runtime_error("Property 'config' is write-only.");
+                throw func_sketch::PermissionErrorException(
+                    "Property 'config' is write-only.");
             },
             [](Plotter& self, const PlotConfig& value) { self.config(value); },
             "Configuration of plots. (write-only)")

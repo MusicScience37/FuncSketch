@@ -32,29 +32,29 @@ struct Point {
 
     //! Y coordinate.
     double y;
+
+    /*!
+     * \brief Add two points.
+     *
+     * \param[in] left Left point.
+     * \param[in] right Right point.
+     * \return Sum of the two points.
+     */
+    friend Point operator+(const Point& left, const Point& right) {
+        return Point{.x = left.x + right.x, .y = left.y + right.y};
+    }
+
+    /*!
+     * \brief Subtract a point from another point.
+     *
+     * \param[in] left Left point.
+     * \param[in] right Right point.
+     * \return Difference of the two points.
+     */
+    friend Point operator-(const Point& left, const Point& right) {
+        return Point{.x = left.x - right.x, .y = left.y - right.y};
+    }
 };
-
-/*!
- * \brief Add two points.
- *
- * \param[in] left Left point.
- * \param[in] right Right point.
- * \return Sum of the two points.
- */
-inline Point operator+(const Point& left, const Point& right) {
-    return Point{.x = left.x + right.x, .y = left.y + right.y};
-}
-
-/*!
- * \brief Subtract a point from another point.
- *
- * \param[in] left Left point.
- * \param[in] right Right point.
- * \return Difference of the two points.
- */
-inline Point operator-(const Point& left, const Point& right) {
-    return Point{.x = left.x - right.x, .y = left.y - right.y};
-}
 
 }  // namespace func_sketch::plotter
 

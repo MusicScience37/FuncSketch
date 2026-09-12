@@ -22,7 +22,7 @@
 #include <fmt/format.h>
 
 auto fmt::formatter<func_sketch::expressions::ParameterExpression>::format(
-    const func_sketch::expressions::ParameterExpression& value,
+    const func_sketch::expressions::ParameterExpression& /*value*/,
     format_context& context) const -> format_context::iterator {
     return fmt::formatter<string_view>::format("x", context);
 }

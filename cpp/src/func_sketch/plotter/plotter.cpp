@@ -21,7 +21,6 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <stdexcept>
 
 #include <fmt/format.h>
 #include <opencv2/imgproc.hpp>
@@ -132,7 +131,7 @@ void Plotter::update_internal_parameters() {
     }
     // This should not occur in normal circumstances because 1.1^50*300
     // (approximately 35217) is large enough.
-    throw std::runtime_error("Failed to tune parameters for plots.");
+    throw AlgorithmFailureException("Failed to tune parameters for plots.");
 }
 
 bool Plotter::try_update_internal_parameters() {

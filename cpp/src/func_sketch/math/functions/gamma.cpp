@@ -25,6 +25,7 @@
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/acceptable_types.h"
+#include "func_sketch/math/functions/boost_math_policy.h"
 #include "func_sketch/math/general_math_function.h"
 #include "func_sketch/math/math_function.h"
 
@@ -38,11 +39,7 @@ MathFunction gamma_function(std::function<Complex(Complex)> complex_gamma) {
                 if constexpr (std::is_same_v<ArgType, Complex>) {
                     return complex_gamma(arg);
                 } else {
-                    try {
-                        return boost::math::tgamma(arg);
-                    } catch (const std::exception& e) {
-                        return std::numeric_limits<Real>::quiet_NaN();
-                    }
+                    return boost::math::tgamma(arg, BoostMathPolicy());
                 }
             }));
 }
@@ -51,11 +48,7 @@ MathFunction lgamma_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
             "lgamma", [](Real arg) {
-                try {
-                    return boost::math::lgamma(arg);
-                } catch (const std::exception& e) {
-                    return std::numeric_limits<Real>::quiet_NaN();
-                }
+                return boost::math::lgamma(arg, BoostMathPolicy());
             }));
 }
 

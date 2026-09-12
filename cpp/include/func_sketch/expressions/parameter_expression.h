@@ -42,10 +42,9 @@ struct fmt::formatter<func_sketch::expressions::ParameterExpression>
     /*!
      * \brief Format a value.
      *
-     * \param[in] value Value to format.
      * \param[in] context Format context.
      * \return Iterator to the end of the formatted output.
      */
-    auto format(const func_sketch::expressions::ParameterExpression& value,
+    auto format(const func_sketch::expressions::ParameterExpression& /*value*/,
         format_context& context) const -> format_context::iterator;
 };
