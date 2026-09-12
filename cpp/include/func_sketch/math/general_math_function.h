@@ -191,7 +191,7 @@ private:
     std::string name_;
 
     //! Function object to compute numbers.
-    FunctionType function_;
+    [[no_unique_address]] FunctionType function_;
 };
 
 namespace details {

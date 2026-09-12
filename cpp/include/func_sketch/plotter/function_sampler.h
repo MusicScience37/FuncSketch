@@ -173,7 +173,7 @@ private:
     SamplingConfig config_;
 
     //! Evaluator of expressions.
-    expressions::ExpressionEvaluator evaluator_;
+    [[no_unique_address]] expressions::ExpressionEvaluator evaluator_;
 };
 
 }  // namespace func_sketch::plotter
