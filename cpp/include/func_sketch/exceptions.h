@@ -47,4 +47,21 @@ public:
     using InvalidArgumentException::InvalidArgumentException;
 };
 
+/*!
+ * \brief Class of exceptions for failure of algorithms.
+ */
+class AlgorithmFailureException : public FuncSketchException {
+public:
+    using FuncSketchException::FuncSketchException;
+};
+
+/*!
+ * \brief Class of exceptions for permission errors.
+ *
+ */
+class PermissionErrorException : public FuncSketchException {
+public:
+    using FuncSketchException::FuncSketchException;
+};
+
 }  // namespace func_sketch
