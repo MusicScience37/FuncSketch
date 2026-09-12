@@ -41,6 +41,7 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
 
     def __init__(self, **kwargs) -> None:
         self._collapsed = False
+        self._animating = False
 
         self._title_widget: kivy.uix.label.Label | None = None
         self._arrow_widget: RotatableArrow | None = None
@@ -98,7 +99,7 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
         self._content_widget.size_hint_y = None
         self._content_widget.height = self._content_widget.minimum_height
         self._content_widget.bind(
-            minimum_height=lambda _instance, _value: self._update_content_height()
+            minimum_height=lambda _instance, _value: self._update_content_height(False)
         )
 
         super().add_widget(self._header_widget, *args, **kwargs)
@@ -141,10 +142,15 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
             d=ANIMATION_DURATION,
             t="out_quad",
         ).start(self._arrow_widget)
-        self._update_content_height()
+        self._update_content_height(True)
 
-    def _update_content_height(self) -> None:
-        """Update the height of the content widget based on the collapsed state."""
+    def _update_content_height(self, animate: bool) -> None:
+        """Update the height of the content widget based on the collapsed state.
+
+        Args:
+            animate: Whether to animate the change.
+                This will be overridden to True if an animation is already in progress.
+        """
         if self._content_widget is None:
             return
 
@@ -152,7 +158,18 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
         if content_minimum_height == 0:
             raise ValueError("Content widget has zero minimum height.")
 
+        if self._animating:
+            animate = True
+
         kivy.animation.Animation.cancel_all(self._content_widget, "height", "opacity")
+
+        if not animate:
+            self._content_widget.height = (
+                0 if self._collapsed else content_minimum_height
+            )
+            self._content_widget.opacity = 0.0 if self._collapsed else 1.0
+            self._content_widget.disabled = self._collapsed
+            return
 
         if self._collapsed:
             animation = kivy.animation.Animation(
@@ -167,6 +184,8 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
             animation.bind(
                 on_complete=lambda *_: setattr(self._content_widget, "disabled", True)
             )
+            self._animating = True
+            animation.bind(on_complete=lambda *_: setattr(self, "_animating", False))
             animation.start(self._content_widget)
         else:
             self._content_widget.disabled = False
@@ -179,4 +198,6 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
                 d=ANIMATION_DURATION,
                 t="in_expo",
             )
+            animation.bind(on_complete=lambda *_: setattr(self, "_animating", False))
+            self._animating = True
             animation.start(self._content_widget)
