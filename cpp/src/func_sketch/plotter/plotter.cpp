@@ -20,7 +20,6 @@
 #include "func_sketch/plotter/plotter.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstddef>
 #include <stdexcept>
 
@@ -28,6 +27,7 @@
 #include <opencv2/imgproc.hpp>
 
 #include "func_sketch/exceptions.h"
+#include "func_sketch/plotter/curve_writer.h"
 #include "func_sketch/plotter/plotting_util.h"
 #include "func_sketch/plotter/point.h"
 
@@ -92,48 +92,8 @@ void Plotter::write_curve(
         throw InvalidArgumentException("Invalid image size.");
     }
 
-    const auto cv_color = convert_color(color);
-    const int line_width = config_.curve_line_width();
-
-    const std::size_t num_samples = samples.size();
-    if (num_samples < 2) {
-        return;
-    }
-    for (std::size_t i = 0; i < num_samples - 1; ++i) {
-        Point start_xy = samples[i];
-        Point end_xy = samples[i + 1];
-
-        const bool is_start_in_range = range_.contains(start_xy);
-        const bool is_end_in_range = range_.contains(end_xy);
-        if (!is_start_in_range && !is_end_in_range) {
-            // In this case, the range of the line segment may contain a
-            // singularity of the function.
-            continue;
-        }
-
-        if (std::isnan(start_xy.x) || std::isnan(start_xy.y) ||
-            std::isnan(end_xy.x) || std::isnan(end_xy.y)) {
-            // NaN cannot be fixed.
-            continue;
-        }
-
-        if (!is_start_in_range) {
-            if (!try_clamp_infinity(start_xy, range_)) {
-                continue;
-            }
-            start_xy =
-                compute_intersection_with_range(end_xy, start_xy, range_);
-        }
-        if (!is_end_in_range) {
-            if (!try_clamp_infinity(end_xy, range_)) {
-                continue;
-            }
-            end_xy = compute_intersection_with_range(start_xy, end_xy, range_);
-        }
-
-        write_line(
-            image, start_xy, end_xy, cv_color, line_width, point_converter_);
-    }
+    CurveWriter::write_curve(
+        samples, color, image, config_, range_, point_converter_);
 }
 
 void Plotter::update_internal_parameters() {
