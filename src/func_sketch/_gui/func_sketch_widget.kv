@@ -36,6 +36,7 @@
 #:import PlotWidget func_sketch._gui.plot_widget.PlotWidget
 #:import RangeConfigWidget func_sketch._gui.range_config_widget.RangeConfigWidget
 #:import StatusBarWidget func_sketch._gui.status_bar_widget.StatusBarWidget
+#:import CollapsibleBox func_sketch._gui.collapsible_box.CollapsibleBox
 
 <Splitter>:
     strip_cls: PlainSplitterStrip
@@ -66,10 +67,14 @@
                     height: self.minimum_height
                     spacing: SPACING_HEADER1
                     padding: PADDING_NAVIGATION
-                    RangeConfigWidget:
-                        shared_state: root.shared_state
-                    CurveConfigListWidget:
-                        shared_state: root.shared_state
+                    CollapsibleBox:
+                        title: "Curves"
+                        CurveConfigListWidget:
+                            shared_state: root.shared_state
+                    CollapsibleBox:
+                        title: "Range"
+                        RangeConfigWidget:
+                            shared_state: root.shared_state
     StatusBarWidget:
         canvas.before:
             Color:
