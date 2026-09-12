@@ -34,7 +34,7 @@ namespace func_sketch::plotter {
 constexpr std::string_view default_plot_title;
 
 //! Default font size of the title of the plot.
-constexpr int default_plot_title_font_size = 20;
+constexpr int default_plot_title_font_size = 18;
 
 //! Default color of the title of the plot.
 constexpr auto default_plot_title_color = default_axes_color;
