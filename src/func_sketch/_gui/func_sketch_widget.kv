@@ -26,6 +26,7 @@
 #:import SPLITTER_COLOR func_sketch._gui.constants.SPLITTER_COLOR
 #:import NAVIGATION_BACKGROUND_COLOR func_sketch._gui.constants.NAVIGATION_BACKGROUND_COLOR
 #:import STATUS_BAR_BACKGROUND_COLOR func_sketch._gui.constants.STATUS_BAR_BACKGROUND_COLOR
+#:import SECTION_BORDER_COLOR func_sketch._gui.constants.SECTION_BORDER_COLOR
 
 #:include common.kv
 #:include range_config_widget.kv
@@ -65,14 +66,20 @@
                     orientation: "vertical"
                     size_hint_y: None
                     height: self.minimum_height
-                    spacing: SPACING_HEADER1
-                    padding: PADDING_NAVIGATION
+                    # No spacing here. Padding is sufficient for the spacing.
                     CollapsibleBox:
                         title: "Curves"
+                        padding: PADDING_NAVIGATION
+                        canvas:
+                            Color:
+                                rgba: SECTION_BORDER_COLOR
+                            Line:
+                                points: [self.x, self.y, self.x + self.width, self.y]
                         CurveConfigListWidget:
                             shared_state: root.shared_state
                     CollapsibleBox:
                         title: "Range"
+                        padding: PADDING_NAVIGATION
                         RangeConfigWidget:
                             shared_state: root.shared_state
     StatusBarWidget:

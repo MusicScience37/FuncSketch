@@ -30,7 +30,7 @@ _GRAY99 = hex_to_rgba("#FCFCFB")
 _GRAY97 = hex_to_rgba("#F6F5F4")
 _GRAY90 = hex_to_rgba("#E2DDDA")
 _GRAY85 = hex_to_rgba("#D3CCC8")
-_GRAY70 = hex_to_rgba("#A99B93")
+_GRAY75 = hex_to_rgba("#B7ABA4")
 _GRAY50 = hex_to_rgba("#6A615C")
 _GRAY30 = hex_to_rgba("#312D2A")
 
@@ -68,8 +68,11 @@ TEXT_INPUT_ERROR_BORDER_COLOR = _ERROR50
 ERROR_MESSAGE_COLOR = _ERROR50
 """Color for error messages."""
 
-ROTATABLE_ARROW_COLOR = _GRAY70
+ROTATABLE_ARROW_COLOR = _GRAY75
 """Color for rotatable arrows."""
+
+SECTION_BORDER_COLOR = _GRAY85
+"""Color for section borders."""
 
 # Colors in navigation area
 
