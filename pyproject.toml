@@ -108,7 +108,7 @@ test = [
 select = [
     "B",
     "C4",
-    # "CPY" # TODO Enable after fix.
+    "CPY",
     "EXE",
     "LOG",
     "G",
