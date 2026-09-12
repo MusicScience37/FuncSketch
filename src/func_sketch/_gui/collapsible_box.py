@@ -34,10 +34,13 @@ LOGGER = logging.getLogger(__name__)
 
 
 class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
-    """Widget of a collapsible box."""
+    """Class of widgets of collapsible boxes."""
 
     title = kivy.properties.StringProperty("")
+    """Title."""
+
     title_font_size = kivy.properties.NumericProperty(FONT_SIZE_HEADER1)
+    """Font size of the title."""
 
     def __init__(self, **kwargs) -> None:
         self._collapsed = False

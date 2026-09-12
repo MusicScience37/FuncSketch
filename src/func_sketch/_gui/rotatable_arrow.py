@@ -25,6 +25,7 @@ class RotatableArrow(kivy.uix.label.Label):
     """Widget of a rotatable arrow."""
 
     rotation_angle = kivy.properties.NumericProperty(0)
+    """Angle of rotation in degrees."""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
