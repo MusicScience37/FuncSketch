@@ -26,7 +26,7 @@
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/point_converter.h"
-#include "func_sketch/plotter/text_renderer.h"
+#include "func_sketch/plotter/title_writer.h"
 
 namespace func_sketch::plotter {
 
@@ -117,13 +117,6 @@ public:
 
 private:
     /*!
-     * \brief Write the title of the plot.
-     *
-     * \param[in] image Image to write.
-     */
-    void write_plot_title(Image& image);
-
-    /*!
      * \brief Update internal parameters.
      */
     void update_internal_parameters();
@@ -136,15 +129,6 @@ private:
      * \retval false Current actual image size is insufficient.
      */
     [[nodiscard]] bool try_update_internal_parameters();
-
-    /*!
-     * \brief Calculate the height of the title of the plot.
-     *
-     * \return Height of the title of the plot.
-     *
-     * \note This function assumes that the title of the plot is present.
-     */
-    [[nodiscard]] int plot_title_height();
 
     //! Range of plots.
     PlotRange range_;
@@ -167,11 +151,11 @@ private:
     //! Margin of the plot region.
     Margin plot_region_margin_;
 
-    //! Text renderer.
-    TextRenderer text_renderer_;
-
     //! Point converter.
     PointConverter point_converter_;
+
+    //! Writer of plot titles.
+    TitleWriter title_writer_;
 
     //! Writer of axes.
     AxesWriter axes_writer_;

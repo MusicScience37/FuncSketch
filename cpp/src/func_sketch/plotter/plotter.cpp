@@ -80,7 +80,7 @@ void Plotter::write_background(Image& image) {
     const auto color = convert_color(config_.background_color());
     image = color;
 
-    write_plot_title(image);
+    title_writer_.write(image, plot_region_margin_, config_);
     axes_writer_.write(image, config_, range_, point_converter_);
 }
 
@@ -136,26 +136,6 @@ void Plotter::write_curve(
     }
 }
 
-void Plotter::write_plot_title(Image& image) {
-    if (config_.plot_title().empty()) {
-        return;
-    }
-    const auto size = image.size;
-    const auto color = convert_color(config_.plot_title_color());
-
-    const auto& text = config_.plot_title();
-    const int font_size = config_.plot_title_font_size();
-    text_renderer_.font_size(font_size);
-    const auto [text_height, text_width] = text_renderer_.text_size(text);
-
-    cv::Point top_left_position(plot_region_margin_.left(),
-        plot_region_margin_.top() - config_.plot_title_margin());
-    top_left_position = adjust_text_position(top_left_position,
-        cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
-
-    text_renderer_.render_text(image, text, top_left_position, color);
-}
-
 void Plotter::update_internal_parameters() {
     // At first, try with the desired image size.
     actual_height_ = desired_height_;
@@ -196,20 +176,14 @@ void Plotter::update_internal_parameters() {
 }
 
 bool Plotter::try_update_internal_parameters() {
-    // Margin of the overall graphics.
+    // Start from the margin of the overall graphics.
     plot_region_margin_ = config_.base_margin();
 
-    // Handle the plot title.
-    if (!config_.plot_title().empty()) {
-        const int additional_margin =
-            plot_title_height() + config_.plot_title_margin();
-        plot_region_margin_.top(plot_region_margin_.top() + additional_margin);
-    }
+    title_writer_.prepare(plot_region_margin_, config_);
 
     axes_writer_.prepare(
         plot_region_margin_, config_, range_, actual_height_, actual_width_);
 
-    // Handle minimum margins.
     plot_region_margin_.expand_to_at_least(config_.min_plot_margin());
 
     // Finally, check the available area for the plot region.
@@ -217,7 +191,7 @@ bool Plotter::try_update_internal_parameters() {
         plot_region_margin_.bottom();
     const int available_width = actual_width_ - plot_region_margin_.left() -
         plot_region_margin_.right();
-    // Use the tick spacing as the minimum size.
+    // Use the tick spacing as the minimum size to prevent no ticks.
     const auto min_available_height =
         static_cast<int>(config_.axes().num_pixels_per_tick_in_y_axis());
     const auto min_available_width =
@@ -230,14 +204,6 @@ bool Plotter::try_update_internal_parameters() {
     point_converter_ = PointConverter(
         plot_region_margin_, range_, actual_height_, actual_width_);
     return true;
-}
-
-int Plotter::plot_title_height() {
-    const int font_size = config_.plot_title_font_size();
-    text_renderer_.font_size(font_size);
-    const auto [text_height, text_width] =
-        text_renderer_.text_size(config_.plot_title());
-    return text_height;
 }
 
 }  // namespace func_sketch::plotter

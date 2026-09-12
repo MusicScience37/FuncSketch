@@ -38,4 +38,5 @@ set(SOURCE_FILES
     plotter/rgb_color.cpp
     plotter/sampling_config.cpp
     plotter/text_renderer.cpp
+    plotter/title_writer.cpp
 )
