@@ -24,6 +24,7 @@ set(SOURCE_FILES
     parser/expression_parser.cpp
     parser/parsed_expression.cpp
     plotter/axes_config.cpp
+    plotter/axes_writer.cpp
     plotter/axis_ticks.cpp
     plotter/function_sampler.cpp
     plotter/grid_config.cpp

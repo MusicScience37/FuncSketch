@@ -27,40 +27,11 @@
 #include <fmt/format.h>
 #include <opencv2/imgproc.hpp>
 
-#include "func_sketch/common_types.h"
 #include "func_sketch/exceptions.h"
-#include "func_sketch/plotter/axis_ticks.h"
 #include "func_sketch/plotter/plotting_util.h"
 #include "func_sketch/plotter/point.h"
 
 namespace func_sketch::plotter {
-
-namespace {
-
-/*!
- * \brief Adjust the position of text to be inside the image.
- *
- * \param[in] position Desired position of the text.
- * \param[in] text_size Size of the text.
- * \param[in] image_size Size of the image.
- * \return Adjusted position of the text.
- */
-[[nodiscard]] cv::Point adjust_text_position(const cv::Point& position,
-    const cv::Size& text_size, const cv::Size& image_size) {
-    cv::Point adjusted_position = position;
-
-    adjusted_position.x = std::max(adjusted_position.x, 0);
-    adjusted_position.x =
-        std::min(adjusted_position.x, image_size.width - text_size.width);
-
-    adjusted_position.y = std::max(adjusted_position.y, 0);
-    adjusted_position.y =
-        std::min(adjusted_position.y, image_size.height - text_size.height);
-
-    return adjusted_position;
-}
-
-}  // namespace
 
 // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
 Plotter::Plotter(const PlotRange& range, const PlotConfig& config)
@@ -109,10 +80,8 @@ void Plotter::write_background(Image& image) {
     const auto color = convert_color(config_.background_color());
     image = color;
 
-    write_grid_lines(image);
     write_plot_title(image);
-    write_x_axis(image);
-    write_y_axis(image);
+    axes_writer_.write(image, config_, range_, point_converter_);
 }
 
 void Plotter::write_curve(
@@ -167,31 +136,6 @@ void Plotter::write_curve(
     }
 }
 
-void Plotter::write_grid_lines(Image& image) {
-    const auto size = image.size;
-
-    // vertical lines.
-    for (const Real x_value : x_axis_ticks_.values) {
-        const int line_width = (x_value == 0.0)
-            ? config_.grid().zero_line_width()
-            : config_.grid().line_width();
-        write_line(image, Point{.x = x_value, .y = range_.y_range().first},
-            Point{.x = x_value, .y = range_.y_range().second},
-            convert_color(config_.grid().color()), line_width,
-            point_converter_);
-    }
-    // horizontal lines.
-    for (const Real y_value : y_axis_ticks_.values) {
-        const int line_width = (y_value == 0.0)
-            ? config_.grid().zero_line_width()
-            : config_.grid().line_width();
-        write_line(image, Point{.x = range_.x_range().first, .y = y_value},
-            Point{.x = range_.x_range().second, .y = y_value},
-            convert_color(config_.grid().color()), line_width,
-            point_converter_);
-    }
-}
-
 void Plotter::write_plot_title(Image& image) {
     if (config_.plot_title().empty()) {
         return;
@@ -210,115 +154,6 @@ void Plotter::write_plot_title(Image& image) {
         cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
 
     text_renderer_.render_text(image, text, top_left_position, color);
-}
-
-void Plotter::write_x_axis(Image& image) {
-    const auto size = image.size;
-
-    const auto color = convert_color(config_.axes().color());
-
-    // Draw the x-axis at the bottom in the plot.
-    const Real y_value = range_.y_range().first;
-
-    if (!config_.axes().x_axis_title().empty()) {
-        const auto& text = config_.axes().x_axis_title();
-        const int font_size = config_.axes().axes_title_font_size();
-        text_renderer_.font_size(font_size);
-        const auto [text_height, text_width] = text_renderer_.text_size(text);
-
-        const double x_value =
-            (range_.x_range().first + range_.x_range().second) * 0.5;
-        const auto base_position = point_converter_.convert_plot_to_image(
-            Point{.x = x_value, .y = y_value});
-        auto top_left_position = cv::Point(base_position.x - text_width / 2,
-            base_position.y + config_.axes().tick_label_margin() * 2 +
-                x_axis_tick_height_ + text_height);
-        top_left_position = adjust_text_position(top_left_position,
-            cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
-
-        text_renderer_.render_text(image, text, top_left_position, color);
-    }
-
-    write_line(image, Point{.x = range_.x_range().first, .y = y_value},
-        Point{.x = range_.x_range().second, .y = y_value}, color,
-        config_.axes().line_width(), point_converter_);
-
-    const int font_size = config_.axes().tick_label_font_size();
-    text_renderer_.font_size(font_size);
-
-    assert(x_axis_ticks_.values.size() == x_axis_ticks_.strings.size());
-    for (std::size_t i = 0; i < x_axis_ticks_.values.size(); ++i) {
-        const Real x_value = x_axis_ticks_.values[i];
-
-        const auto text = x_axis_ticks_.strings[i];
-        const auto [text_height, text_width] = text_renderer_.text_size(text);
-
-        const auto base_position = point_converter_.convert_plot_to_image(
-            Point{.x = x_value, .y = y_value});
-        const int tick_margin = config_.axes().tick_label_margin();
-        auto top_left_position = cv::Point(base_position.x - text_width / 2,
-            base_position.y + tick_margin + text_height);
-        top_left_position = adjust_text_position(top_left_position,
-            cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
-
-        text_renderer_.render_text(image, text, top_left_position, color);
-    }
-}
-
-void Plotter::write_y_axis(Image& image) {
-    const auto size = image.size;
-
-    const auto color = convert_color(config_.axes().color());
-
-    // Draw the y-axis at the left in the plot.
-    const Real x_value = range_.x_range().first;
-
-    if (!config_.axes().y_axis_title().empty()) {
-        const auto& text = config_.axes().y_axis_title();
-        const int font_size = config_.axes().axes_title_font_size();
-        text_renderer_.font_size(font_size);
-        const auto [text_height, text_width] = text_renderer_.text_size(text);
-
-        const double y_value =
-            (range_.y_range().first + range_.y_range().second) * 0.5;
-        const auto base_position = point_converter_.convert_plot_to_image(
-            Point{.x = x_value, .y = y_value});
-        auto top_left_position =
-            cv::Point(base_position.x - config_.axes().tick_label_margin() * 2 -
-                    y_axis_tick_width_ - text_width,
-                base_position.y + text_height / 2);
-        top_left_position = adjust_text_position(top_left_position,
-            cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
-
-        text_renderer_.render_text(image, text, top_left_position, color);
-    }
-
-    write_line(image, Point{.x = x_value, .y = range_.y_range().first},
-        Point{.x = x_value, .y = range_.y_range().second}, color,
-        config_.axes().line_width(), point_converter_);
-
-    const int font_size = config_.axes().tick_label_font_size();
-    text_renderer_.font_size(font_size);
-
-    assert(y_axis_ticks_.values.size() == y_axis_ticks_.strings.size());
-    for (std::size_t i = 0; i < y_axis_ticks_.values.size(); ++i) {
-        const Real y_value = y_axis_ticks_.values[i];
-
-        const auto text = y_axis_ticks_.strings[i];
-        const auto [text_height, text_width] = text_renderer_.text_size(text);
-
-        const auto base_position = point_converter_.convert_plot_to_image(
-            Point{.x = x_value, .y = y_value});
-        const int tick_margin = config_.axes().tick_label_margin();
-        cv::Point top_left_position;
-        top_left_position =
-            cv::Point(base_position.x - tick_margin - text_width,
-                base_position.y + text_height / 2);
-        top_left_position = adjust_text_position(top_left_position,
-            cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
-
-        text_renderer_.render_text(image, text, top_left_position, color);
-    }
 }
 
 void Plotter::update_internal_parameters() {
@@ -371,28 +206,8 @@ bool Plotter::try_update_internal_parameters() {
         plot_region_margin_.top(plot_region_margin_.top() + additional_margin);
     }
 
-    // Handle axis titles.
-    if (!config_.axes().x_axis_title().empty()) {
-        const int additional_margin =
-            x_axis_title_height() + config_.axes().tick_label_margin();
-        plot_region_margin_.bottom(
-            plot_region_margin_.bottom() + additional_margin);
-    }
-    if (!config_.axes().y_axis_title().empty()) {
-        const int additional_margin =
-            y_axis_title_width() + config_.axes().tick_label_margin();
-        plot_region_margin_.left(
-            plot_region_margin_.left() + additional_margin);
-    }
-
-    // Handle ticks.
-    update_axis_ticks();
-    update_x_axis_tick_height();
-    update_y_axis_tick_width();
-    plot_region_margin_.bottom(plot_region_margin_.bottom() +
-        x_axis_tick_height_ + config_.axes().tick_label_margin());
-    plot_region_margin_.left(plot_region_margin_.left() + y_axis_tick_width_ +
-        config_.axes().tick_label_margin());
+    axes_writer_.prepare(
+        plot_region_margin_, config_, range_, actual_height_, actual_width_);
 
     // Handle minimum margins.
     plot_region_margin_.expand_to_at_least(config_.min_plot_margin());
@@ -423,65 +238,6 @@ int Plotter::plot_title_height() {
     const auto [text_height, text_width] =
         text_renderer_.text_size(config_.plot_title());
     return text_height;
-}
-
-void Plotter::update_axis_ticks() {
-    auto margin = plot_region_margin_;
-    // TODO Use approximate sizes of ticks here.
-
-    margin.expand_to_at_least(config_.min_plot_margin());
-
-    const int available_width = actual_width_ - margin.left() - margin.right();
-    const int available_height =
-        actual_height_ - margin.top() - margin.bottom();
-    const auto approx_num_ticks_x = static_cast<std::size_t>(std::round(
-        static_cast<double>(available_width) /
-        static_cast<double>(config_.axes().num_pixels_per_tick_in_x_axis())));
-    const auto approx_num_ticks_y = static_cast<std::size_t>(std::round(
-        static_cast<double>(available_height) /
-        static_cast<double>(config_.axes().num_pixels_per_tick_in_y_axis())));
-    // Too small values will be automatically adjusted by generate_axis_ticks.
-
-    generate_axis_ticks(range_.x_range(), approx_num_ticks_x, x_axis_ticks_);
-    generate_axis_ticks(range_.y_range(), approx_num_ticks_y, y_axis_ticks_);
-}
-
-void Plotter::update_x_axis_tick_height() {
-    int height = 0;
-    const int font_size = config_.axes().tick_label_font_size();
-    text_renderer_.font_size(font_size);
-    for (const auto& str : x_axis_ticks_.strings) {
-        const auto [text_height, text_width] = text_renderer_.text_size(str);
-        height = std::max(height, text_height);
-    }
-    x_axis_tick_height_ = height;
-}
-
-void Plotter::update_y_axis_tick_width() {
-    int width = 0;
-    const int font_size = config_.axes().tick_label_font_size();
-    text_renderer_.font_size(font_size);
-    for (const auto& str : y_axis_ticks_.strings) {
-        const auto [text_height, text_width] = text_renderer_.text_size(str);
-        width = std::max(width, text_width);
-    }
-    y_axis_tick_width_ = width;
-}
-
-int Plotter::x_axis_title_height() {
-    const int font_size = config_.axes().axes_title_font_size();
-    text_renderer_.font_size(font_size);
-    const auto [text_height, text_width] =
-        text_renderer_.text_size(config_.axes().x_axis_title());
-    return text_height;
-}
-
-int Plotter::y_axis_title_width() {
-    const int font_size = config_.axes().axes_title_font_size();
-    text_renderer_.font_size(font_size);
-    const auto [text_height, text_width] =
-        text_renderer_.text_size(config_.axes().y_axis_title());
-    return text_width;
 }
 
 }  // namespace func_sketch::plotter

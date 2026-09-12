@@ -116,4 +116,19 @@ Point compute_intersection_with_range(const Point& point_in_range,
     return intersection;
 }
 
+cv::Point adjust_text_position(const cv::Point& position,
+    const cv::Size& text_size, const cv::Size& image_size) {
+    cv::Point adjusted_position = position;
+
+    adjusted_position.x = std::max(adjusted_position.x, 0);
+    adjusted_position.x =
+        std::min(adjusted_position.x, image_size.width - text_size.width);
+
+    adjusted_position.y = std::max(adjusted_position.y, 0);
+    adjusted_position.y =
+        std::min(adjusted_position.y, image_size.height - text_size.height);
+
+    return adjusted_position;
+}
+
 }  // namespace func_sketch::plotter
