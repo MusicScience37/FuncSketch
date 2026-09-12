@@ -21,6 +21,8 @@ if Config is not None:
     # application.
     # Config is None when building documentation with Sphinx.
     Config.set("input", "mouse", "mouse,disable_multitouch")
+    Config.set("graphics", "width", "1300")
+    Config.set("graphics", "height", "800")
 
 from func_sketch._gui.func_sketch_app import FuncSketchApp  # noqa: E402
 
