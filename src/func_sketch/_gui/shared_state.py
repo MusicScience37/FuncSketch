@@ -18,6 +18,7 @@ import logging
 
 import kivy.event
 import kivy.properties
+import numpy
 
 from func_sketch._cpp import PlotConfig, PlotRange, Point, PointList
 from func_sketch._gui.constants import (
@@ -71,6 +72,13 @@ class SharedState(kivy.event.EventDispatcher):
     or None if the mouse is not in the plot region.
     """
 
+    image_buffer = kivy.properties.ObjectProperty(
+        None, allownone=True, force_dispatch=True
+    )
+    """Image buffer.
+    This is represented as a numpy array.
+    """
+
     def __init__(self, **kwargs) -> None:
         """Constructor."""
         self.register_event_type("on_plot_range_changed")
@@ -79,6 +87,7 @@ class SharedState(kivy.event.EventDispatcher):
         self.register_event_type("on_sampled_curve_changed")
         self.register_event_type("on_sampled_curve_changed_any")
         self.register_event_type("on_mouse_pos_in_plot_changed")
+        self.register_event_type("on_image_buffer_changed")
         super().__init__(**kwargs)
 
     def update_plot_range(self, source: object, value: PlotRange) -> None:
@@ -153,6 +162,16 @@ class SharedState(kivy.event.EventDispatcher):
         self.mouse_pos_in_plot = value
         self.dispatch("on_mouse_pos_in_plot_changed", source, value)
 
+    def update_image_buffer(self, source: object, value: numpy.ndarray) -> None:
+        """Update the image buffer.
+
+        Args:
+            source (object): Source of the update.
+            value (numpy.ndarray): New image buffer.
+        """
+        self.image_buffer = value
+        self.dispatch("on_image_buffer_changed", source, value)
+
     def on_plot_range_changed(self, source: object, value: PlotRange) -> None:
         """Event handler for plot range changes."""
 
@@ -174,3 +193,6 @@ class SharedState(kivy.event.EventDispatcher):
 
     def on_mouse_pos_in_plot_changed(self, source: object, value: Point | None) -> None:
         """Event handler for changes of the mouse position in the plot."""
+
+    def on_image_buffer_changed(self, source: object, value: numpy.ndarray) -> None:
+        """Event handler for changes of the image buffer."""

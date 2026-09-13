@@ -94,6 +94,11 @@ CURVE_COLORS = [
 ]
 """Colors for curves in the plot area."""
 
+# Color for the menu bar
+
+MENU_BAR_BACKGROUND_COLOR = _GRAY90
+"""Background color for the menu bar."""
+
 # Color for the status bar
 
 STATUS_BAR_BACKGROUND_COLOR = _GRAY90
@@ -130,8 +135,20 @@ SPACING_HEADER2 = 15
 PADDING_NAVIGATION = 15
 """Padding for the navigation area."""
 
+PADDING_MENU_BUTTON = 3
+"""Padding for the menu buttons."""
+
+PADDING_MENU_BAR = 2
+"""Padding for the menu bar."""
+
+SPACING_MENU_BAR = 2
+"""Spacing for the menu bar."""
+
 PADDING_STATUS_BAR = 5
 """Padding for the status bar."""
+
+MENU_DROP_DOWN_WIDTH = 150
+"""Width of the menu drop-down."""
 
 # Animation duration
 
