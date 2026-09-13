@@ -38,12 +38,15 @@
 #:import RangeConfigWidget func_sketch._gui.range_config_widget.RangeConfigWidget
 #:import StatusBarWidget func_sketch._gui.status_bar_widget.StatusBarWidget
 #:import CollapsibleBox func_sketch._gui.collapsible_box.CollapsibleBox
+#:import MenuWidget func_sketch._gui.menu_widget.MenuWidget
 
 <Splitter>:
     strip_cls: PlainSplitterStrip
 
 <FuncSketchWidget>
     orientation: "vertical"
+    MenuWidget:
+        shared_state: root.shared_state
     BoxLayout:
         orientation: "horizontal"
         PlotWidget:

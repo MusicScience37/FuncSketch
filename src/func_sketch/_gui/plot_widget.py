@@ -109,6 +109,9 @@ class PlotWidget(kivy.uix.image.Image):
         self._texture.flip_vertical()
         self.texture = self._texture
 
+        if self.shared_state is not None:
+            self.shared_state.update_image_buffer(self, self._image_buffer)
+
     def _update_plot(self) -> None:
         """Update the plot."""
         self._plotter(self.shared_state.sampled_curves, self._image_buffer)

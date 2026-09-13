@@ -30,6 +30,8 @@
 #include <nanobind/stl/pair.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/exceptions.h"
@@ -615,7 +617,7 @@ Note:
                 auto image = to_image(raw_image);
                 self.write_background(image);
             },
-            "image"_a,
+            nanobind::call_guard<nanobind::gil_scoped_release>(), "image"_a,
             R"(Write background of a plot.
 
 The pixels of image are modified in place.)")
@@ -626,8 +628,20 @@ The pixels of image are modified in place.)")
                 auto image = to_image(raw_image);
                 self.write_curve(point_list.points, color, image);
             },
+            nanobind::call_guard<nanobind::gil_scoped_release>(),
             "point_list"_a, "color"_a, "image"_a,
             R"(Write a curve on a plot.
 
 The pixels of image are modified in place.)");
+
+    m.def(
+        "save_image",
+        [](const RawImage& raw_image, const std::string& file_path) {
+            auto image = to_image(raw_image);
+            cv::Mat output;
+            cv::cvtColor(image, output, cv::COLOR_RGB2BGR);
+            return cv::imwrite(file_path, output);
+        },
+        nanobind::call_guard<nanobind::gil_scoped_release>(), "image"_a,
+        "file_path"_a, "Save an image to a file.");
 }
