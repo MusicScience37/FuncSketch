@@ -79,6 +79,12 @@ class SharedState(kivy.event.EventDispatcher):
     This is represented as a numpy array.
     """
 
+    fixed_desired_size = kivy.properties.ObjectProperty(None, allownone=True)
+    """Fixed desired size of the image.
+    This is represented as a tuple of two integers (height, width).
+    None specifies that the size can be flexible.
+    """
+
     def __init__(self, **kwargs) -> None:
         """Constructor."""
         self.register_event_type("on_plot_range_changed")
@@ -88,6 +94,7 @@ class SharedState(kivy.event.EventDispatcher):
         self.register_event_type("on_sampled_curve_changed_any")
         self.register_event_type("on_mouse_pos_in_plot_changed")
         self.register_event_type("on_image_buffer_changed")
+        self.register_event_type("on_fixed_desired_size_changed")
         super().__init__(**kwargs)
 
     def update_plot_range(self, source: object, value: PlotRange) -> None:
@@ -172,6 +179,18 @@ class SharedState(kivy.event.EventDispatcher):
         self.image_buffer = value
         self.dispatch("on_image_buffer_changed", source, value)
 
+    def update_fixed_desired_size(
+        self, source: object, value: tuple[int, int] | None
+    ) -> None:
+        """Update the fixed desired size of the image.
+
+        Args:
+            source (object): Source of the update.
+            value (tuple[int, int] | None): New fixed desired size, or None if the size can be flexible.
+        """
+        self.fixed_desired_size = value
+        self.dispatch("on_fixed_desired_size_changed", source, value)
+
     def on_plot_range_changed(self, source: object, value: PlotRange) -> None:
         """Event handler for plot range changes."""
 
@@ -196,3 +215,8 @@ class SharedState(kivy.event.EventDispatcher):
 
     def on_image_buffer_changed(self, source: object, value: numpy.ndarray) -> None:
         """Event handler for changes of the image buffer."""
+
+    def on_fixed_desired_size_changed(
+        self, source: object, value: tuple[int, int] | None
+    ) -> None:
+        """Event handler for changes of the fixed desired size of the image."""

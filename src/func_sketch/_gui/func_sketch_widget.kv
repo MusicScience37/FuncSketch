@@ -32,6 +32,7 @@
 #:include range_config_widget.kv
 #:include curve_config_widget.kv
 #:include curve_config_list_widget.kv
+#:include image_size_widget.kv
 #:import CurveConfigListWidget func_sketch._gui.curve_config_list_widget.CurveConfigListWidget
 #:import PlainSplitterStrip func_sketch._gui.plain_splitter_strip.PlainSplitterStrip
 #:import PlotWidget func_sketch._gui.plot_widget.PlotWidget
@@ -39,6 +40,7 @@
 #:import StatusBarWidget func_sketch._gui.status_bar_widget.StatusBarWidget
 #:import CollapsibleBox func_sketch._gui.collapsible_box.CollapsibleBox
 #:import MenuWidget func_sketch._gui.menu_widget.MenuWidget
+#:import ImageSizeWidget func_sketch._gui.image_size_widget.ImageSizeWidget
 
 <Splitter>:
     strip_cls: PlainSplitterStrip
@@ -83,7 +85,17 @@
                     CollapsibleBox:
                         title: "Range"
                         padding: PADDING_NAVIGATION
+                        canvas:
+                            Color:
+                                rgba: SECTION_BORDER_COLOR
+                            Line:
+                                points: [self.x, self.y, self.x + self.width, self.y]
                         RangeConfigWidget:
+                            shared_state: root.shared_state
+                    CollapsibleBox:
+                        title: "Image Size"
+                        padding: PADDING_NAVIGATION
+                        ImageSizeWidget:
                             shared_state: root.shared_state
     StatusBarWidget:
         canvas.before:
