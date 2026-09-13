@@ -39,6 +39,9 @@ class ImageSizeWidget(kivy.uix.boxlayout.BoxLayout):
     fixed_width_input = kivy.properties.ObjectProperty()
     """PlainTextInput widget for fixed width."""
 
+    error_message = kivy.properties.StringProperty("")
+    """Error message to show in the GUI."""
+
     def on_shared_state(self, _instance: object, _value: object) -> None:
         """Callback when the shared state changes."""
         self._update_current_size()
@@ -68,6 +71,7 @@ class ImageSizeWidget(kivy.uix.boxlayout.BoxLayout):
         """Update the current size labels."""
         if (
             self.shared_state is None
+            or self.fix_size_switch is None
             or self.current_height_label is None
             or self.current_width_label is None
         ):
@@ -79,6 +83,16 @@ class ImageSizeWidget(kivy.uix.boxlayout.BoxLayout):
 
         self.current_height_label.text = str(image_buffer.shape[0])
         self.current_width_label.text = str(image_buffer.shape[1])
+
+        if self.shared_state.fixed_desired_size is not None:
+            fixed_height, fixed_width = self.shared_state.fixed_desired_size
+            if (
+                fixed_height == image_buffer.shape[0]
+                and fixed_width == image_buffer.shape[1]
+            ):
+                self.error_message = ""
+            else:
+                self.error_message = "Too small fixed size was overridden."
 
     def _on_fix_size_switch_active(self, _instance: object, _value: object) -> None:
         """Callback when the fix size switch is toggled."""
@@ -110,5 +124,7 @@ class ImageSizeWidget(kivy.uix.boxlayout.BoxLayout):
             self.shared_state.update_fixed_desired_size(
                 self, (fixed_height, fixed_width)
             )
+            # Error message in this case will be updated in _update_current_size function.
         except ValueError:
             self.shared_state.update_fixed_desired_size(self, None)
+            self.error_message = "Invalid fixed size."
