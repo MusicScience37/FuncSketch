@@ -35,7 +35,9 @@ class SwitchWidget(kivy.uix.behaviors.button.ButtonBehavior, kivy.uix.label.Labe
 
         with self.canvas.before:
             self._box_color = kivy.graphics.Color(0.5, 0.5, 0.5, 1)
-            self._box = kivy.graphics.BoxShadow(pos=self.pos, size=self.size)
+            self._box = kivy.graphics.RoundedRectangle(
+                pos=self.pos, size=self.size, radius=[SWITCH_PADDING * 2]
+            )
 
         self.bind(pos=lambda *_: setattr(self._box, "pos", self.pos))
         self.bind(size=lambda *_: setattr(self._box, "size", self.size))
