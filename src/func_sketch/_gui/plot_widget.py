@@ -17,6 +17,7 @@
 import logging
 
 import kivy.core.window
+import kivy.graphics
 import kivy.graphics.texture
 import kivy.input
 import kivy.properties
@@ -24,7 +25,11 @@ import kivy.uix.image
 import numpy
 
 from func_sketch._cpp import PlotConfig, PlotRange, Point
-from func_sketch._gui.constants import DEFAULT_PLOT_CONFIG, DEFAULT_PLOT_RANGE
+from func_sketch._gui.constants import (
+    DEFAULT_PLOT_CONFIG,
+    DEFAULT_PLOT_RANGE,
+    PLOT_BACKGROUND_PADDING_COLOR,
+)
 from func_sketch._impl.plotter import Plotter
 
 LOGGER = logging.getLogger(__name__)
@@ -52,12 +57,33 @@ class PlotWidget(kivy.uix.image.Image):
         self._current_touch_modifiers: list[str] = []
         kivy.core.window.Window.bind(mouse_pos=self._on_mouse_pos)
 
+        self.fit_mode = "contain"
+
+        with self.canvas.before:
+            kivy.graphics.Color(*PLOT_BACKGROUND_PADDING_COLOR)
+            self._background_rect = kivy.graphics.Rectangle(
+                pos=self.pos,
+                size=self.size,
+            )
+
+        self.bind(
+            pos=lambda _instance, _value: setattr(
+                self._background_rect, "pos", self.pos
+            )
+        )
+        self.bind(
+            size=lambda _instance, _value: setattr(
+                self._background_rect, "size", self.size
+            )
+        )
+
     def on_shared_state(self, _instance: object, _value: object) -> None:
         """Callback when the shared_state property is set."""
         self.shared_state.bind(
             on_plot_range_changed=self._on_shared_plot_range,
             on_plot_config_changed=self._on_shared_plot_config,
             on_sampled_curve_changed_any=self._on_shared_sampled_curve,
+            on_fixed_desired_size_changed=self._on_shared_fixed_desired_size,
         )
         self._prepare_texture()
         self._update_plot()
@@ -88,9 +114,22 @@ class PlotWidget(kivy.uix.image.Image):
         """Callback when the on_sampled_curve_changed event is dispatched."""
         self._update_plot()
 
+    def _on_shared_fixed_desired_size(
+        self, _instance: object, _source: object, _value: object
+    ) -> None:
+        """Callback when the on_fixed_desired_size_changed event is dispatched."""
+        self._prepare_texture()
+        self._update_plot()
+
     def _prepare_texture(self) -> None:
         """Prepare texture for the plot."""
-        width, height = self.size
+        if self.shared_state is None:
+            return
+        if self.shared_state.fixed_desired_size is None:
+            width, height = self.size
+        else:
+            height, width = self.shared_state.fixed_desired_size
+
         self._plotter.desired_size(int(height), int(width))
         height, width = self._plotter.actual_size
         if (
@@ -109,8 +148,7 @@ class PlotWidget(kivy.uix.image.Image):
         self._texture.flip_vertical()
         self.texture = self._texture
 
-        if self.shared_state is not None:
-            self.shared_state.update_image_buffer(self, self._image_buffer)
+        self.shared_state.update_image_buffer(self, self._image_buffer)
 
     def _update_plot(self) -> None:
         """Update the plot."""
@@ -201,10 +239,10 @@ class PlotWidget(kivy.uix.image.Image):
             dx_pixel = touch.pos[0] - self._last_mouse_pos_in_pixel[0]
             dy_pixel = touch.pos[1] - self._last_mouse_pos_in_pixel[1]
             x_coeff, y_coeff = self._plotter.point_converter.image_to_plot_coefficient
-            widget_width, widget_height = self.size
+            norm_width, norm_height = self.norm_image_size
             image_height, image_width = self._plotter.actual_size
-            x_coeff = x_coeff * image_width / widget_width
-            y_coeff = y_coeff * image_height / widget_height
+            x_coeff = x_coeff * image_width / norm_width
+            y_coeff = y_coeff * image_height / norm_height
             diff_plot = Point(x=-dx_pixel * x_coeff, y=-dy_pixel * y_coeff)
 
             plot_range = self.shared_state.plot_range
@@ -297,12 +335,17 @@ class PlotWidget(kivy.uix.image.Image):
             Position in plot coordinates.
         """
         widget_width, widget_height = self.size
+        norm_width, norm_height = self.norm_image_size
+        offset_x = (widget_width - norm_width) / 2
+        offset_y = (widget_height - norm_height) / 2
         image_height, image_width = self._plotter.actual_size
-        image_x = int(pos_in_widget[0] * image_width / widget_width)
+        image_x = int((pos_in_widget[0] - offset_x) * image_width / norm_width)
         # Kivy's coordinate system has the origin at the bottom-left corner,
         # but OpenCV's coordinate system has the origin at the top-left corner.
         image_y = int(
-            (image_height - 1 - pos_in_widget[1]) * image_height / widget_height
+            (norm_height - 1 - (pos_in_widget[1] - offset_y))
+            * image_height
+            / norm_height
         )
         return self._plotter.point_converter.convert_image_to_plot((image_x, image_y))
 

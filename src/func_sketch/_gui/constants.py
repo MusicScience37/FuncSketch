@@ -23,6 +23,7 @@ from func_sketch._impl.color_util import (
 # Colors
 
 _PRIMARY99 = hex_to_rgba("#FEFBF9")
+_PRIMARY75 = hex_to_rgba("#E79964")
 _PRIMARY65 = hex_to_rgba("#CB7739")
 _PRIMARY50 = hex_to_rgba("#8E5225")
 
@@ -74,6 +75,12 @@ ROTATABLE_ARROW_COLOR = _GRAY75
 SECTION_BORDER_COLOR = _GRAY85
 """Color for section borders."""
 
+SWITCH_ON_COLOR = _PRIMARY75
+"""Color for the switch in the ON state."""
+
+SWITCH_OFF_COLOR = _GRAY85
+"""Color for the switch in the OFF state."""
+
 # Colors in navigation area
 
 NAVIGATION_BACKGROUND_COLOR = _GRAY97
@@ -83,6 +90,9 @@ NAVIGATION_BACKGROUND_COLOR = _GRAY97
 
 PLOT_BACKGROUND_COLOR = _WHITE
 """Background color for the plot area."""
+
+PLOT_BACKGROUND_PADDING_COLOR = _GRAY90
+"""Background padding color for the plot area."""
 
 CURVE_COLORS = [
     # Colors in https://jfly.uni-koeln.de/color/#pallet
@@ -149,6 +159,9 @@ PADDING_STATUS_BAR = 5
 
 MENU_DROP_DOWN_WIDTH = 150
 """Width of the menu drop-down."""
+
+SWITCH_PADDING = 3
+"""Padding for switch widgets."""
 
 # Animation duration
 
