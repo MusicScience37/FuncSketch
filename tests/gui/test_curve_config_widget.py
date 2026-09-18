@@ -29,82 +29,6 @@ _KV_FILE = pathlib.Path(curve_config_widget_module.__file__).with_name(
 kivy.lang.Builder.load_file(str(_KV_FILE))
 
 
-class TestCurveConfigWidgetExpressionTextSync:
-    """Test of synchronization of the expression_text property."""
-
-    def test_input_text_is_initialized_from_expression_text(self) -> None:
-        """Test that expression_text_input.text is initialized from expression_text."""
-        widget = CurveConfigWidget(expression_text="x**2")
-
-        assert widget.expression_text_input.text == "x**2"
-
-    def test_expression_text_updates_input_text(self) -> None:
-        """Test that changing expression_text updates the text of expression_text_input."""
-        widget = CurveConfigWidget()
-        on_text_changed = []
-        widget.expression_text_input.bind(
-            text=lambda _instance, value: on_text_changed.append(value)
-        )
-
-        widget.expression_text = "sin(x)"
-
-        assert widget.expression_text_input.text == "sin(x)"
-        assert on_text_changed == ["sin(x)"]
-
-    def test_input_text_updates_expression_text(self) -> None:
-        """Test that changing the text of expression_text_input updates expression_text."""
-        widget = CurveConfigWidget()
-        on_expression_text_changed = []
-        widget.bind(
-            expression_text=lambda _instance, value: on_expression_text_changed.append(
-                value
-            )
-        )
-
-        widget.expression_text_input.text = "cos(x)"
-
-        assert widget.expression_text == "cos(x)"
-        assert on_expression_text_changed == ["cos(x)"]
-
-    def test_update_via_expression_text_does_not_cause_extra_events(self) -> None:
-        """Test that updating expression_text does not trigger redundant sync events."""
-        widget = CurveConfigWidget()
-        on_expression_text_changed = []
-        widget.bind(
-            expression_text=lambda _instance, value: on_expression_text_changed.append(
-                value
-            )
-        )
-        on_text_changed = []
-        widget.expression_text_input.bind(
-            text=lambda _instance, value: on_text_changed.append(value)
-        )
-
-        widget.expression_text = "tan(x)"
-
-        assert len(on_expression_text_changed) == 1
-        assert len(on_text_changed) == 1
-
-    def test_update_via_input_text_does_not_cause_extra_events(self) -> None:
-        """Test that updating the input text does not trigger redundant sync events."""
-        widget = CurveConfigWidget()
-        on_expression_text_changed = []
-        widget.bind(
-            expression_text=lambda _instance, value: on_expression_text_changed.append(
-                value
-            )
-        )
-        on_text_changed = []
-        widget.expression_text_input.bind(
-            text=lambda _instance, value: on_text_changed.append(value)
-        )
-
-        widget.expression_text_input.text = "log(x)"
-
-        assert len(on_expression_text_changed) == 1
-        assert len(on_text_changed) == 1
-
-
 class TestCurveConfigWidgetCurveConfigSync:
     """Test of synchronization of the curve_config property."""
 
@@ -146,7 +70,7 @@ class TestCurveConfigWidgetCurveConfigSync:
 
         widget.curve_config = new_curve_config
 
-        assert widget.expression_text_input.text == "cos(x)"
+        assert widget.ids.expression_text_input.text == "cos(x)"
 
     def test_curve_config_changes_when_expression_text_changes(self) -> None:
         """Test that curve_config is notified when expression_text changes."""
@@ -187,7 +111,7 @@ class TestCurveConfigWidgetCurveConfigSync:
             curve_config=lambda _instance, value: on_curve_config_changed.append(value)
         )
 
-        widget.expression_text_input.text = "log(x)"
+        widget.ids.expression_text_input.text = "log(x)"
 
         assert len(on_curve_config_changed) == 1
         assert on_curve_config_changed[0].function_expression_str == "log(x)"

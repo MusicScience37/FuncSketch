@@ -24,65 +24,32 @@ class ImageSizeWidget(kivy.uix.boxlayout.BoxLayout):
     shared_state = kivy.properties.ObjectProperty()
     """Shared state object."""
 
-    current_height_label = kivy.properties.ObjectProperty()
-    """Label widget for current height."""
-
-    current_width_label = kivy.properties.ObjectProperty()
-    """Label widget for current width."""
-
-    fix_size_switch = kivy.properties.ObjectProperty()
-    """Switch widget for fixing the size."""
-
-    fixed_height_input = kivy.properties.ObjectProperty()
-    """PlainTextInput widget for fixed height."""
-
-    fixed_width_input = kivy.properties.ObjectProperty()
-    """PlainTextInput widget for fixed width."""
-
     error_message = kivy.properties.StringProperty("")
     """Error message to show in the GUI."""
+
+    def on_kv_post(self, base_widget: object) -> None:
+        """Callback after the kv rules of this widget are applied."""
+        super().on_kv_post(base_widget)
+        self.ids.fix_size_switch.bind(active=self._on_fix_size_switch_active)
+        self.ids.fixed_height_input.bind(text=self._on_fixed_size_changed)
+        self.ids.fixed_width_input.bind(text=self._on_fixed_size_changed)
 
     def on_shared_state(self, _instance: object, _value: object) -> None:
         """Callback when the shared state changes."""
         self._update_current_size()
         self.shared_state.bind(image_buffer=lambda *_: self._update_current_size())
 
-    def on_current_height_label(self, _instance: object, _value: object) -> None:
-        """Callback when the current height label changes."""
-        self._update_current_size()
-
-    def on_current_width_label(self, _instance: object, _value: object) -> None:
-        """Callback when the current width label changes."""
-        self._update_current_size()
-
-    def on_fix_size_switch(self, _instance: object, _value: object) -> None:
-        """Callback when the fix size switch changes."""
-        self.fix_size_switch.bind(active=self._on_fix_size_switch_active)
-
-    def on_fixed_height_input(self, _instance: object, _value: object) -> None:
-        """Callback when the fixed height input changes."""
-        self.fixed_height_input.bind(text=self._on_fixed_size_changed)
-
-    def on_fixed_width_input(self, _instance: object, _value: object) -> None:
-        """Callback when the fixed width input changes."""
-        self.fixed_width_input.bind(text=self._on_fixed_size_changed)
-
     def _update_current_size(self) -> None:
         """Update the current size labels."""
-        if (
-            self.shared_state is None
-            or self.fix_size_switch is None
-            or self.current_height_label is None
-            or self.current_width_label is None
-        ):
+        if self.shared_state is None:
             return
 
         image_buffer = self.shared_state.image_buffer
         if image_buffer is None:
             return
 
-        self.current_height_label.text = str(image_buffer.shape[0])
-        self.current_width_label.text = str(image_buffer.shape[1])
+        self.ids.current_height_label.text = str(image_buffer.shape[0])
+        self.ids.current_width_label.text = str(image_buffer.shape[1])
 
         if self.shared_state.fixed_desired_size is not None:
             fixed_height, fixed_width = self.shared_state.fixed_desired_size
@@ -96,31 +63,24 @@ class ImageSizeWidget(kivy.uix.boxlayout.BoxLayout):
 
     def _on_fix_size_switch_active(self, _instance: object, _value: object) -> None:
         """Callback when the fix size switch is toggled."""
-        if self.fixed_height_input is None or self.fixed_width_input is None:
-            return
-
-        self.fixed_height_input.disabled = not self.fix_size_switch.active
-        self.fixed_width_input.disabled = not self.fix_size_switch.active
+        active = self.ids.fix_size_switch.active
+        self.ids.fixed_height_input.disabled = not active
+        self.ids.fixed_width_input.disabled = not active
 
         self._on_fixed_size_changed(None, None)
 
     def _on_fixed_size_changed(self, _instance: object, _value: object) -> None:
         """Callback when the fixed size is changed."""
-        if (
-            self.shared_state is None
-            or self.fix_size_switch is None
-            or self.fixed_height_input is None
-            or self.fixed_width_input is None
-        ):
+        if self.shared_state is None:
             return
 
-        if not self.fix_size_switch.active:
+        if not self.ids.fix_size_switch.active:
             self.shared_state.update_fixed_desired_size(self, None)
             return
 
         try:
-            fixed_height = int(self.fixed_height_input.text)
-            fixed_width = int(self.fixed_width_input.text)
+            fixed_height = int(self.ids.fixed_height_input.text)
+            fixed_width = int(self.ids.fixed_width_input.text)
             self.shared_state.update_fixed_desired_size(
                 self, (fixed_height, fixed_width)
             )

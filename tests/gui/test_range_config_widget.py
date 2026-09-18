@@ -40,10 +40,10 @@ class TestRangeConfigWidgetSharedStateSync:
 
         widget = RangeConfigWidget(shared_state=shared_state)
 
-        assert widget.x_min_text_input.value == -1.0
-        assert widget.x_max_text_input.value == 2.0
-        assert widget.y_min_text_input.value == -4.0
-        assert widget.y_max_text_input.value == 5.0
+        assert widget.ids.x_min_text_input.value == -1.0
+        assert widget.ids.x_max_text_input.value == 2.0
+        assert widget.ids.y_min_text_input.value == -4.0
+        assert widget.ids.y_max_text_input.value == 5.0
 
 
 class TestRangeConfigWidgetChildrenToSharedStateSync:
@@ -62,7 +62,7 @@ class TestRangeConfigWidgetChildrenToSharedStateSync:
             )
         )
 
-        widget.x_min_text_input.value = -10.0
+        widget.ids.x_min_text_input.value = -10.0
 
         assert shared_state.plot_range.x_range == (-10.0, 2.0)
         assert shared_state.plot_range.y_range == (-4.0, 5.0)
@@ -83,7 +83,7 @@ class TestRangeConfigWidgetChildrenToSharedStateSync:
             )
         )
 
-        widget.x_max_text_input.value = 10.0
+        widget.ids.x_max_text_input.value = 10.0
 
         assert shared_state.plot_range.x_range == (-1.0, 10.0)
         assert shared_state.plot_range.y_range == (-4.0, 5.0)
@@ -104,7 +104,7 @@ class TestRangeConfigWidgetChildrenToSharedStateSync:
             )
         )
 
-        widget.y_min_text_input.value = -20.0
+        widget.ids.y_min_text_input.value = -20.0
 
         assert shared_state.plot_range.x_range == (-1.0, 2.0)
         assert shared_state.plot_range.y_range == (-20.0, 5.0)
@@ -125,7 +125,7 @@ class TestRangeConfigWidgetChildrenToSharedStateSync:
             )
         )
 
-        widget.y_max_text_input.value = 20.0
+        widget.ids.y_max_text_input.value = 20.0
 
         assert shared_state.plot_range.x_range == (-1.0, 2.0)
         assert shared_state.plot_range.y_range == (-4.0, 20.0)
@@ -150,7 +150,7 @@ class TestRangeConfigWidgetInvalidRange:
             )
         )
 
-        widget.x_min_text_input.value = 5.0
+        widget.ids.x_min_text_input.value = 5.0
 
         assert shared_state.plot_range.x_range == (-1.0, 2.0)
         assert shared_state.plot_range.y_range == (-4.0, 5.0)
@@ -170,7 +170,7 @@ class TestRangeConfigWidgetInvalidRange:
             )
         )
 
-        widget.y_min_text_input.value = 10.0
+        widget.ids.y_min_text_input.value = 10.0
 
         assert shared_state.plot_range.x_range == (-1.0, 2.0)
         assert shared_state.plot_range.y_range == (-4.0, 5.0)
