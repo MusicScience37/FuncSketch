@@ -15,6 +15,7 @@
 """Class of widgets to show plots."""
 
 import logging
+import time
 
 import kivy.core.window
 import kivy.graphics
@@ -151,9 +152,14 @@ class PlotWidget(kivy.uix.image.Image):
 
     def _update_plot(self) -> None:
         """Update the plot."""
+        start_time = time.perf_counter()
         self._plotter.write(self.shared_state.sampled_curves, self._image_buffer)
         self._texture.blit_buffer(
             self._image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
+        )
+        end_time = time.perf_counter()
+        LOGGER.debug(
+            "PlotWidget: Plotted in %.2f ms.", (end_time - start_time) * 1000.0
         )
 
     def on_touch_down(self, touch: kivy.input.MotionEvent) -> bool:
