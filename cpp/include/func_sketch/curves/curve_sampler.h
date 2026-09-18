@@ -70,7 +70,7 @@ public:
     [[nodiscard]] SampledCurve operator()(const ExplicitCurveSpec& spec) const;
 
 private:
-    //! Parse of expressions.
+    //! Parser of expressions.
     parser::ExpressionParser expression_parser_;
 
     //! Sampler of functions.
