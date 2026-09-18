@@ -22,6 +22,11 @@ package func_sketch {
         t
     }
 
+    struct Point {
+        + x : Real
+        + y : Real
+    }
+
     package utilities {
         class Any {
             + Any(object : T)
@@ -123,16 +128,24 @@ package func_sketch {
         ExpressionParser ..> ExpressionPtr
     }
 
+    package sampling {
+        class SamplingConfig
+
+        class FunctionSampler {
+            + range(value : PlotRange)
+            + config(value : SamplingConfig)
+            + operator()(function : ExpressionPtr) : std::vector<Point>
+        }
+        FunctionSampler o-- SamplingConfig
+        FunctionSampler ...> ExpressionPtr
+        FunctionSampler ..> Point
+    }
+
     package plotter {
         struct RGBColor {
             + r : uint8_t
             + g : uint8_t
             + b : uint8_t
-        }
-
-        struct Point {
-            + x : Real
-            + y : Real
         }
 
         class Image <<typedef>> {
@@ -143,24 +156,16 @@ package func_sketch {
             + x_range() : std::pair<Real, Real>
             + y_range() : std::pair<Real, Real>
         }
+        FunctionSampler o-- PlotRange
 
         struct PlotConfig
-
-        class FunctionSampler {
-            + range(value : PlotRange)
-            + config(value : PlotConfig)
-            + operator()(function : ExpressionPtr) : std::vector<Point>
-        }
-        FunctionSampler o-- PlotRange
-        FunctionSampler o-- PlotConfig
-        FunctionSampler ...> ExpressionPtr
-        FunctionSampler ..> Point
 
         class Plotter {
             + range(value : PlotRange)
             + config(value : PlotConfig)
             + write_background(image : Image&)
             + write_curve(samples : std::vector<Point>, color : RGBColor, image : Image&)
+            + write(sampled_curves : std::vector<SampledCurve>, image : Image&)
         }
         Plotter o-- PlotRange
         Plotter o-- PlotConfig
@@ -168,6 +173,34 @@ package func_sketch {
         Plotter ..> RGBColor
         Plotter ..> Image
     }
+
+    package curves {
+        struct ExplicitCurveSpec {
+            + name : std::string
+            + function_expression_str : std::string
+            + color : RGBColor
+        }
+        ExplicitCurveSpec o-- RGBColor
+
+        struct SampledCurve {
+            + name : std::string
+            + points : std::vector<Point>
+            + color : RGBColor
+        }
+        SampledCurve ..> Point
+        SampledCurve o-- RGBColor
+
+        class CurveSampler {
+            + range(value : PlotRange)
+            + config(value : PlotConfig)
+            + operator()(spec : ExplicitCurveSpec) : SampledCurve
+        }
+        CurveSampler o-- ExpressionParser
+        CurveSampler o-- FunctionSampler
+        CurveSampler ..> ExplicitCurveSpec
+        CurveSampler ..> SampledCurve
+    }
+    Plotter ..> SampledCurve
 }
 
 @enduml
