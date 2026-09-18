@@ -24,9 +24,9 @@
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
-#include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/title_writer.h"
+#include "func_sketch/point.h"
 
 namespace func_sketch::plotter {
 

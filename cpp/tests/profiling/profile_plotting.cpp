@@ -25,8 +25,8 @@
 
 #include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
-#include "func_sketch/plotter/function_sampler.h"
 #include "func_sketch/plotter/plotter.h"
+#include "func_sketch/sampling/function_sampler.h"
 
 constexpr int image_width = 800;
 constexpr int image_height = 600;
@@ -46,12 +46,12 @@ int main(int argc, char** argv) {
 
     const auto range =
         func_sketch::plotter::PlotRange({-1.0, 1.0}, {-1.0, 1.0});
-    const auto sampling_config = func_sketch::plotter::SamplingConfig{};
+    const auto sampling_config = func_sketch::sampling::SamplingConfig{};
     const auto plot_config = func_sketch::plotter::PlotConfig{};
 
     const auto python_function_list = func_sketch::math::PythonFunctionList{};
     func_sketch::parser::ExpressionParser parser{python_function_list};
-    func_sketch::plotter::FunctionSampler sampler{range, sampling_config};
+    func_sketch::sampling::FunctionSampler sampler{range, sampling_config};
     func_sketch::plotter::Plotter plotter{range, plot_config};
 
     cv::Mat image(image_height, image_width, CV_8UC3);

@@ -26,7 +26,7 @@
 #include "func_sketch/plotter/grid_config.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/rgb_color.h"
-#include "func_sketch/plotter/sampling_config.h"
+#include "func_sketch/sampling/sampling_config.h"
 
 namespace func_sketch::plotter {
 
@@ -139,14 +139,14 @@ public:
      *
      * \return Reference to the configuration of sampling.
      */
-    [[nodiscard]] SamplingConfig& sampling() noexcept;
+    [[nodiscard]] sampling::SamplingConfig& sampling() noexcept;
 
     /*!
      * \brief Get the configuration of sampling.
      *
      * \return Reference to the configuration of sampling.
      */
-    [[nodiscard]] const SamplingConfig& sampling() const noexcept;
+    [[nodiscard]] const sampling::SamplingConfig& sampling() const noexcept;
 
     /*!
      * \brief Set the title of the plot.
@@ -259,7 +259,7 @@ private:
     GridConfig grid_;
 
     //! Configuration of sampling.
-    SamplingConfig sampling_;
+    sampling::SamplingConfig sampling_;
 
     //! Title of the plot.
     std::string plot_title_{default_plot_title};

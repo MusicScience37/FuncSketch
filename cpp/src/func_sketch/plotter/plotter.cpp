@@ -28,7 +28,7 @@
 #include "func_sketch/exceptions.h"
 #include "func_sketch/plotter/curve_writer.h"
 #include "func_sketch/plotter/plotting_util.h"
-#include "func_sketch/plotter/point.h"
+#include "func_sketch/point.h"
 
 namespace func_sketch::plotter {
 

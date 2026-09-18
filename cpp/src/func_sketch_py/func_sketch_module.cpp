@@ -39,17 +39,17 @@
 #include "func_sketch/expressions/expression_ptr.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/axes_config.h"
-#include "func_sketch/plotter/function_sampler.h"
 #include "func_sketch/plotter/grid_config.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/plotter.h"
-#include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/rgb_color.h"
-#include "func_sketch/plotter/sampling_config.h"
+#include "func_sketch/point.h"
+#include "func_sketch/sampling/function_sampler.h"
+#include "func_sketch/sampling/sampling_config.h"
 
 namespace {
 
@@ -59,7 +59,7 @@ namespace {
  */
 struct PointList {
     //! Points.
-    std::vector<func_sketch::plotter::Point> points;
+    std::vector<func_sketch::Point> points;
 };
 
 /*!
@@ -204,7 +204,7 @@ Objects of this class can be called with a string to parse it into an Expression
         .def_rw("g", &RGBColor::g, "Green component.")
         .def_rw("b", &RGBColor::b, "Blue component.");
 
-    using func_sketch::plotter::Point;
+    using func_sketch::Point;
     nanobind::class_<Point>(m, "Point", "Class of points.")
         .def(nanobind::init<double, double>(), "x"_a, "y"_a, "Constructor.")
         .def_rw("x", &Point::x, "X coordinate.")
@@ -368,7 +368,7 @@ Note:
             [](GridConfig& self, const RGBColor& value) { self.color(value); },
             "Color of grid lines.");
 
-    using func_sketch::plotter::SamplingConfig;
+    using func_sketch::sampling::SamplingConfig;
     nanobind::class_<SamplingConfig>(
         m, "SamplingConfig", "Class to configure sampling of functions.")
         .def(nanobind::init<>(), "Constructor.")
@@ -523,7 +523,7 @@ Note:
             "copy", [](const PlotConfig& self) { return self; },
             "Create an independent copy of this configuration.");
 
-    using func_sketch::plotter::FunctionSampler;
+    using func_sketch::sampling::FunctionSampler;
     nanobind::class_<FunctionSampler>(
         m, "FunctionSampler", "Class to sample functions for plotting.")
         .def(nanobind::init<PlotRange, SamplingConfig>(), "range"_a, "config"_a,

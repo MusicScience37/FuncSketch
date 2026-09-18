@@ -27,17 +27,17 @@ set(SOURCE_FILES
     plotter/axes_writer.cpp
     plotter/axis_ticks.cpp
     plotter/curve_writer.cpp
-    plotter/function_sampler.cpp
     plotter/grid_config.cpp
     plotter/margin.cpp
     plotter/plot_config.cpp
     plotter/plot_range.cpp
     plotter/plotter.cpp
     plotter/plotting_util.cpp
-    plotter/point.cpp
     plotter/point_converter.cpp
     plotter/rgb_color.cpp
-    plotter/sampling_config.cpp
     plotter/text_renderer.cpp
     plotter/title_writer.cpp
+    point.cpp
+    sampling/function_sampler.cpp
+    sampling/sampling_config.cpp
 )

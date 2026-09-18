@@ -24,10 +24,10 @@
 #include "func_sketch/expressions/expression.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/plotter/plot_range.h"
-#include "func_sketch/plotter/point.h"
-#include "func_sketch/plotter/sampling_config.h"
+#include "func_sketch/point.h"
+#include "func_sketch/sampling/sampling_config.h"
 
-namespace func_sketch::plotter {
+namespace func_sketch::sampling {
 
 /*!
  * \brief Class to sample functions for plotting.
@@ -40,7 +40,8 @@ public:
      * \param[in] range Range of plots.
      * \param[in] config Configuration of sampling.
      */
-    FunctionSampler(const PlotRange& range, const SamplingConfig& config);
+    FunctionSampler(
+        const plotter::PlotRange& range, const SamplingConfig& config);
 
     /*!
      * \brief Set the range of plots.
@@ -48,7 +49,7 @@ public:
      * \param[in] value Range of plots.
      * \return Reference to this object.
      */
-    FunctionSampler& range(const PlotRange& value);
+    FunctionSampler& range(const plotter::PlotRange& value);
 
     /*!
      * \brief Set the configuration of sampling.
@@ -167,7 +168,7 @@ private:
         const Point& left_point, const Point& right_point) const;
 
     //! Range of plots.
-    PlotRange range_;
+    plotter::PlotRange range_;
 
     //! Configuration of sampling.
     SamplingConfig config_;
@@ -176,4 +177,4 @@ private:
     [[no_unique_address]] expressions::ExpressionEvaluator evaluator_;
 };
 
-}  // namespace func_sketch::plotter
+}  // namespace func_sketch::sampling

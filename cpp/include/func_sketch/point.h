@@ -21,7 +21,7 @@
 
 #include <fmt/base.h>
 
-namespace func_sketch::plotter {
+namespace func_sketch {
 
 /*!
  * \brief Struct of a point.
@@ -56,15 +56,14 @@ struct Point {
     }
 };
 
-}  // namespace func_sketch::plotter
+}  // namespace func_sketch
 
 /*!
  * \brief Specialization of fmt::formatter for
- * func_sketch::plotter::Point.
+ * func_sketch::Point.
  */
 template <>
-struct fmt::formatter<func_sketch::plotter::Point>
-    : fmt::formatter<string_view> {
+struct fmt::formatter<func_sketch::Point> : fmt::formatter<string_view> {
     /*!
      * \brief Format a value.
      *
@@ -72,6 +71,6 @@ struct fmt::formatter<func_sketch::plotter::Point>
      * \param[in] context Format context.
      * \return Iterator to the end of the formatted output.
      */
-    auto format(const func_sketch::plotter::Point& value,
-        format_context& context) const -> format_context::iterator;
+    auto format(const func_sketch::Point& value, format_context& context) const
+        -> format_context::iterator;
 };

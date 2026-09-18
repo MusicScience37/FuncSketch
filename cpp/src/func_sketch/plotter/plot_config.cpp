@@ -41,9 +41,9 @@ GridConfig& PlotConfig::grid() noexcept { return grid_; }
 
 const GridConfig& PlotConfig::grid() const noexcept { return grid_; }
 
-SamplingConfig& PlotConfig::sampling() noexcept { return sampling_; }
+sampling::SamplingConfig& PlotConfig::sampling() noexcept { return sampling_; }
 
-const SamplingConfig& PlotConfig::sampling() const noexcept {
+const sampling::SamplingConfig& PlotConfig::sampling() const noexcept {
     return sampling_;
 }
 

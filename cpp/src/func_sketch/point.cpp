@@ -17,13 +17,12 @@
  * \file
  * \brief Implementation of Point struct.
  */
-#include "func_sketch/plotter/point.h"
+#include "func_sketch/point.h"
 
 #include <fmt/format.h>
 
 // NOLINTNEXTLINE(*-static): API of an external library.
-auto fmt::formatter<func_sketch::plotter::Point>::format(
-    const func_sketch::plotter::Point& value, format_context& context) const
-    -> format_context::iterator {
+auto fmt::formatter<func_sketch::Point>::format(const func_sketch::Point& value,
+    format_context& context) const -> format_context::iterator {
     return fmt::format_to(context.out(), "Point({}, {})", value.x, value.y);
 }

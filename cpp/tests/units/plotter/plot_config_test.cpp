@@ -253,15 +253,15 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         PlotConfig config;
 
         CHECK(config.sampling().initial_num_sample_points() ==
-            func_sketch::plotter::default_initial_num_sample_points);
+            func_sketch::sampling::default_initial_num_sample_points);
         CHECK(config.sampling().max_num_sample_points() ==
-            func_sketch::plotter::default_max_num_sample_points);
+            func_sketch::sampling::default_max_num_sample_points);
         CHECK(config.sampling().max_coordinate_change_rate() ==
-            func_sketch::plotter::default_max_coordinate_change_rate);
+            func_sketch::sampling::default_max_coordinate_change_rate);
         CHECK(config.sampling().slope_change_threshold() ==
-            func_sketch::plotter::default_slope_change_threshold);
+            func_sketch::sampling::default_slope_change_threshold);
         CHECK(config.sampling().min_param_change_rate() ==
-            func_sketch::plotter::default_min_param_change_rate);
+            func_sketch::sampling::default_min_param_change_rate);
 
         config.sampling()
             .initial_num_sample_points(200)
