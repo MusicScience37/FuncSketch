@@ -30,7 +30,10 @@ import cv2
 import numpy
 
 from func_sketch._cpp import (
+    CurveSampler,
+    ExplicitCurveSpec,
     PlotRange,
+    Plotter,
     RGBColor,
 )
 from func_sketch._gui.constants import (
@@ -38,9 +41,6 @@ from func_sketch._gui.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
 )
-from func_sketch._impl.curve_config import CurveConfig
-from func_sketch._impl.curve_sampler import CurveSampler
-from func_sketch._impl.plotter import Plotter
 
 THIS_DIR = pathlib.Path(__file__).absolute().parent
 
@@ -202,18 +202,20 @@ def generate_plots() -> None:
     plotter.desired_size(height, width)
 
     for plot_info in PLOT_LIST:
-        curve_config = CurveConfig(
-            function_expression_str=plot_info.expression_str, color=CURVE_COLORS[0]
+        curve_spec = ExplicitCurveSpec(
+            name=plot_info.expression_str,
+            function_expression_str=plot_info.expression_str,
+            color=CURVE_COLORS[0],
         )
         range = PlotRange(plot_info.x_range, plot_info.y_range)
-        sampler.plot_range = range
-        plotter.plot_range = range
+        sampler.range = range
+        plotter.range = range
         config.plot_title = f"Plot of {plot_info.expression_str}"
         plotter.config = config
         actual_height, actual_width = plotter.actual_size
         image = numpy.ndarray((actual_height, actual_width, 3), dtype=numpy.uint8)
-        sampled_curve = sampler(curve_config)
-        plotter([sampled_curve], image)
+        sampled_curve = sampler(curve_spec)
+        plotter.write([sampled_curve], image)
 
         cv2.cvtColor(image, cv2.COLOR_RGB2BGR, dst=image)
 

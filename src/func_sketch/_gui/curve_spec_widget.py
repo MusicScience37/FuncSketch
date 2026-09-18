@@ -17,11 +17,11 @@
 import kivy.properties
 import kivy.uix.boxlayout
 
+from func_sketch._cpp import ExplicitCurveSpec, RGBColor
 from func_sketch._gui.sync_properties import sync_properties
-from func_sketch._impl.curve_config import CurveConfig
 
 
-class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
+class CurveSpecWidget(kivy.uix.boxlayout.BoxLayout):
     """Class of widgets to configure curves.
 
     Note:
@@ -31,7 +31,7 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
         - curve_name (writable)
         - curve_color (writable)
         - error_message (writable)
-        - curve_config (writable)
+        - curve_spec (writable)
     """
 
     expression_text = kivy.properties.StringProperty()
@@ -40,41 +40,43 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
     curve_name = kivy.properties.StringProperty()
     """Name of the curve."""
 
-    curve_color = kivy.properties.ObjectProperty()
+    curve_color = kivy.properties.ObjectProperty(RGBColor(0, 0, 0))
     """Color of the curve."""
 
     error_message = kivy.properties.StringProperty("")
-    """Error message related to the curve configuration."""
+    """Error message related to the curve specification."""
 
     def on_kv_post(self, base_widget: object) -> None:
         """Callback after the kv rules of this widget are applied."""
         super().on_kv_post(base_widget)
         sync_properties(self, "expression_text", self.ids.expression_text_input, "text")
 
-    def _get_curve_config(self) -> CurveConfig:
-        """Get the curve configuration.
+    def _get_curve_spec(self) -> ExplicitCurveSpec:
+        """Get the curve specification.
 
         Returns:
-            Curve configuration.
+            Curve specification.
         """
-        return CurveConfig(
+        return ExplicitCurveSpec(
+            name=self.curve_name,
             function_expression_str=self.expression_text,
             color=self.curve_color,
         )
 
-    def _set_curve_config(self, curve_config: CurveConfig) -> None:
-        """Set the curve configuration.
+    def _set_curve_spec(self, curve_spec: ExplicitCurveSpec) -> None:
+        """Set the curve specification.
 
         Args:
-            curve_config: Curve configuration.
+            curve_spec: Curve specification.
         """
-        self.expression_text = curve_config.function_expression_str
-        self.curve_color = curve_config.color
+        self.curve_name = curve_spec.name
+        self.expression_text = curve_spec.function_expression_str
+        self.curve_color = curve_spec.color
 
-    curve_config = kivy.properties.AliasProperty(
-        _get_curve_config,
-        _set_curve_config,
-        bind=("expression_text", "curve_color"),
+    curve_spec = kivy.properties.AliasProperty(
+        _get_curve_spec,
+        _set_curve_spec,
+        bind=("curve_name", "expression_text", "curve_color"),
         cache=True,
     )
-    """Curve configuration."""
+    """Curve specification."""

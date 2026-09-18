@@ -25,12 +25,12 @@
 
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_range.h"
-#include "func_sketch/plotter/point.h"
+#include "func_sketch/point.h"
 
 TEST_CASE("func_sketch::plotter::PointConverter") {
+    using func_sketch::Point;
     using func_sketch::plotter::Margin;
     using func_sketch::plotter::PlotRange;
-    using func_sketch::plotter::Point;
     using func_sketch::plotter::PointConverter;
 
     constexpr double tolerance = 1e-10;

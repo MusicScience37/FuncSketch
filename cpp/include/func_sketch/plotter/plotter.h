@@ -19,14 +19,17 @@
  */
 #pragma once
 
+#include <vector>
+
+#include "func_sketch/curves/sampled_curve.h"
 #include "func_sketch/plotter/axes_writer.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
-#include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/title_writer.h"
+#include "func_sketch/point.h"
 
 namespace func_sketch::plotter {
 
@@ -94,7 +97,7 @@ public:
     /*!
      * \brief Write background of plots.
      *
-     * \param[in] image Image to write.
+     * \param[out] image Image to write.
      *
      * \note This changes the internal states holding some parameters used in
      * write_curve function.
@@ -106,7 +109,7 @@ public:
      *
      * \param[in] samples Samples points of the curve.
      * \param[in] color Color of the curve.
-     * \param[in] image Image to write.
+     * \param[out] image Image to write.
      *
      * \note This function must be called after write_background function
      * because this function uses some parameters computed in write_background
@@ -114,6 +117,18 @@ public:
      */
     void write_curve(
         const std::vector<Point>& samples, const RGBColor& color, Image& image);
+
+    /*!
+     * \brief Write a plot.
+     *
+     * \param[in] sampled_curves Sampled curves to plot.
+     * \param[out] image Image to write.
+     *
+     * \note This function writes the entire plot, including the background and
+     * all sampled curves.
+     */
+    void write(
+        const std::vector<curves::SampledCurve>& sampled_curves, Image& image);
 
 private:
     /*!

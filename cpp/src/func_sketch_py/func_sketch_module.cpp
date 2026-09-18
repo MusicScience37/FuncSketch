@@ -34,22 +34,25 @@
 #include <opencv2/imgproc.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/curves/curve_sampler.h"
+#include "func_sketch/curves/explicit_curve_spec.h"
+#include "func_sketch/curves/sampled_curve.h"
 #include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/axes_config.h"
-#include "func_sketch/plotter/function_sampler.h"
 #include "func_sketch/plotter/grid_config.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/plotter.h"
-#include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/rgb_color.h"
-#include "func_sketch/plotter/sampling_config.h"
+#include "func_sketch/point.h"
+#include "func_sketch/sampling/function_sampler.h"
+#include "func_sketch/sampling/sampling_config.h"
 
 namespace {
 
@@ -59,7 +62,7 @@ namespace {
  */
 struct PointList {
     //! Points.
-    std::vector<func_sketch::plotter::Point> points;
+    std::vector<func_sketch::Point> points;
 };
 
 /*!
@@ -204,7 +207,7 @@ Objects of this class can be called with a string to parse it into an Expression
         .def_rw("g", &RGBColor::g, "Green component.")
         .def_rw("b", &RGBColor::b, "Blue component.");
 
-    using func_sketch::plotter::Point;
+    using func_sketch::Point;
     nanobind::class_<Point>(m, "Point", "Class of points.")
         .def(nanobind::init<double, double>(), "x"_a, "y"_a, "Constructor.")
         .def_rw("x", &Point::x, "X coordinate.")
@@ -368,7 +371,7 @@ Note:
             [](GridConfig& self, const RGBColor& value) { self.color(value); },
             "Color of grid lines.");
 
-    using func_sketch::plotter::SamplingConfig;
+    using func_sketch::sampling::SamplingConfig;
     nanobind::class_<SamplingConfig>(
         m, "SamplingConfig", "Class to configure sampling of functions.")
         .def(nanobind::init<>(), "Constructor.")
@@ -523,7 +526,7 @@ Note:
             "copy", [](const PlotConfig& self) { return self; },
             "Create an independent copy of this configuration.");
 
-    using func_sketch::plotter::FunctionSampler;
+    using func_sketch::sampling::FunctionSampler;
     nanobind::class_<FunctionSampler>(
         m, "FunctionSampler", "Class to sample functions for plotting.")
         .def(nanobind::init<PlotRange, SamplingConfig>(), "range"_a, "config"_a,
@@ -581,6 +584,63 @@ Note:
             "Get the coefficients to convert from image coordinates to plot "
             "coordinates. (read-only)");
 
+    using func_sketch::curves::ExplicitCurveSpec;
+    nanobind::class_<ExplicitCurveSpec>(m, "ExplicitCurveSpec",
+        "Struct of specifications of curves with explicit functions.")
+        .def(nanobind::init<std::string, std::string, RGBColor>(), "name"_a,
+            "function_expression_str"_a, "color"_a, "Constructor.")
+        .def_rw("name", &ExplicitCurveSpec::name, "Name of the curve.")
+        .def_rw("function_expression_str",
+            &ExplicitCurveSpec::function_expression_str,
+            "String of the function expression.")
+        .def_rw("color", &ExplicitCurveSpec::color, "Color.");
+
+    using func_sketch::curves::SampledCurve;
+    nanobind::class_<SampledCurve>(
+        m, "SampledCurve", "Struct of sampled curves.")
+        .def(nanobind::init<std::string, std::vector<Point>, RGBColor>(),
+            "name"_a, "points"_a, "color"_a, "Constructor.")
+        .def_rw("name", &SampledCurve::name, "Name of the curve.")
+        .def_rw("points", &SampledCurve::points, "Sampled points of the curve.")
+        .def_rw("color", &SampledCurve::color, "Color of the curve.");
+
+    using func_sketch::curves::CurveSampler;
+    nanobind::class_<CurveSampler>(m, "CurveSampler", "Class to sample curves.")
+        .def(
+            "__init__",
+            [](CurveSampler* self, const PlotRange& range,
+                const SamplingConfig& config) {
+                new (self) CurveSampler(
+                    range, config, generate_python_function_list());
+            },
+            "range"_a, "config"_a, "Constructor.")
+        .def_prop_rw(
+            "range",
+            [](CurveSampler& self) -> PlotRange {
+                throw func_sketch::PermissionErrorException(
+                    "Property 'range' is write-only.");
+            },
+            [](CurveSampler& self, const PlotRange& value) {
+                self.range(value);
+            },
+            "Range of plots. (write-only)")
+        .def_prop_rw(
+            "config",
+            [](CurveSampler& self) -> SamplingConfig {
+                throw func_sketch::PermissionErrorException(
+                    "Property 'config' is write-only.");
+            },
+            [](CurveSampler& self, const SamplingConfig& value) {
+                self.config(value);
+            },
+            "Configuration of sampling. (write-only)")
+        .def(
+            "__call__",
+            [](const CurveSampler& self, const ExplicitCurveSpec& spec) {
+                return self(spec);
+            },
+            "spec"_a, "Sample a curve and return a sampled curve.");
+
     using func_sketch::plotter::Plotter;
     nanobind::class_<Plotter>(m, "Plotter", "Class for plotting.")
         .def(nanobind::init<PlotRange, PlotConfig>(), "range"_a, "config"_a,
@@ -631,6 +691,23 @@ The pixels of image are modified in place.)")
             nanobind::call_guard<nanobind::gil_scoped_release>(),
             "point_list"_a, "color"_a, "image"_a,
             R"(Write a curve on a plot.
+
+The pixels of image are modified in place.)")
+        .def(
+            "write",
+            [](Plotter& self,
+                const std::vector<func_sketch::curves::SampledCurve>&
+                    sampled_curves,
+                const RawImage& raw_image) {
+                auto image = to_image(raw_image);
+                self.write(sampled_curves, image);
+            },
+            nanobind::call_guard<nanobind::gil_scoped_release>(),
+            "sampled_curves"_a, "image"_a,
+            R"(Write a plot.
+
+This function writes the entire plot, including the background and all
+sampled curves.
 
 The pixels of image are modified in place.)");
 

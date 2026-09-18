@@ -17,18 +17,18 @@
  * \file
  * \brief Test of SamplingConfig class.
  */
-#include "func_sketch/plotter/sampling_config.h"
+#include "func_sketch/sampling/sampling_config.h"
 
 #include <catch2/catch_test_macros.hpp>
 
-TEST_CASE("func_sketch::plotter::SamplingConfig") {
-    using func_sketch::plotter::SamplingConfig;
+TEST_CASE("func_sketch::sampling::SamplingConfig") {
+    using func_sketch::sampling::SamplingConfig;
 
     SECTION("set and get initial number of sample points") {
         SamplingConfig config;
 
         CHECK(config.initial_num_sample_points() ==
-            func_sketch::plotter::default_initial_num_sample_points);
+            func_sketch::sampling::default_initial_num_sample_points);
 
         CHECK_NOTHROW(config.initial_num_sample_points(200));
         CHECK(config.initial_num_sample_points() == 200);
@@ -50,7 +50,7 @@ TEST_CASE("func_sketch::plotter::SamplingConfig") {
         SamplingConfig config;
 
         CHECK(config.max_num_sample_points() ==
-            func_sketch::plotter::default_max_num_sample_points);
+            func_sketch::sampling::default_max_num_sample_points);
 
         CHECK_NOTHROW(config.max_num_sample_points(2000));
         CHECK(config.max_num_sample_points() == 2000);
@@ -65,21 +65,21 @@ TEST_CASE("func_sketch::plotter::SamplingConfig") {
         CHECK(config.max_num_sample_points() == 2);
 
         CHECK_NOTHROW(config.max_num_sample_points(
-            func_sketch::plotter::max_max_num_sample_points));
+            func_sketch::sampling::max_max_num_sample_points));
         CHECK(config.max_num_sample_points() ==
-            func_sketch::plotter::max_max_num_sample_points);
+            func_sketch::sampling::max_max_num_sample_points);
 
         CHECK_THROWS(config.max_num_sample_points(
-            func_sketch::plotter::max_max_num_sample_points + 1));
+            func_sketch::sampling::max_max_num_sample_points + 1));
         CHECK(config.max_num_sample_points() ==
-            func_sketch::plotter::max_max_num_sample_points);
+            func_sketch::sampling::max_max_num_sample_points);
     }
 
     SECTION("set and get maximum coordinate change rate") {
         SamplingConfig config;
 
         CHECK(config.max_coordinate_change_rate() ==
-            func_sketch::plotter::default_max_coordinate_change_rate);
+            func_sketch::sampling::default_max_coordinate_change_rate);
 
         CHECK_NOTHROW(config.max_coordinate_change_rate(0.05));
         CHECK(config.max_coordinate_change_rate() == 0.05);
@@ -95,7 +95,7 @@ TEST_CASE("func_sketch::plotter::SamplingConfig") {
         SamplingConfig config;
 
         CHECK(config.slope_change_threshold() ==
-            func_sketch::plotter::default_slope_change_threshold);
+            func_sketch::sampling::default_slope_change_threshold);
 
         CHECK_NOTHROW(config.slope_change_threshold(0.5));
         CHECK(config.slope_change_threshold() == 0.5);
@@ -111,19 +111,19 @@ TEST_CASE("func_sketch::plotter::SamplingConfig") {
         SamplingConfig config;
 
         CHECK(config.min_param_change_rate() ==
-            func_sketch::plotter::default_min_param_change_rate);
+            func_sketch::sampling::default_min_param_change_rate);
 
         CHECK_NOTHROW(config.min_param_change_rate(0.01));
         CHECK(config.min_param_change_rate() == 0.01);
 
         CHECK_NOTHROW(config.min_param_change_rate(
-            func_sketch::plotter::min_min_param_change_rate));
+            func_sketch::sampling::min_min_param_change_rate));
         CHECK(config.min_param_change_rate() ==
-            func_sketch::plotter::min_min_param_change_rate);
+            func_sketch::sampling::min_min_param_change_rate);
 
         CHECK_THROWS(config.min_param_change_rate(
-            func_sketch::plotter::min_min_param_change_rate / 2.0));
+            func_sketch::sampling::min_min_param_change_rate / 2.0));
         CHECK(config.min_param_change_rate() ==
-            func_sketch::plotter::min_min_param_change_rate);
+            func_sketch::sampling::min_min_param_change_rate);
     }
 }

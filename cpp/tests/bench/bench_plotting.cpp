@@ -25,8 +25,8 @@
 
 #include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
-#include "func_sketch/plotter/function_sampler.h"
 #include "func_sketch/plotter/plotter.h"
+#include "func_sketch/sampling/function_sampler.h"
 
 constexpr int image_width = 800;
 constexpr int image_height = 600;
@@ -91,9 +91,9 @@ private:
         func_sketch::math::PythonFunctionList{}};
 
     //! Sampler.
-    func_sketch::plotter::FunctionSampler sampler_{
+    func_sketch::sampling::FunctionSampler sampler_{
         func_sketch::plotter::PlotRange({-1.0, 1.0}, {-1.0, 1.0}),
-        func_sketch::plotter::SamplingConfig()};
+        func_sketch::sampling::SamplingConfig()};
 
     //! Plotter.
     func_sketch::plotter::Plotter plotter_{

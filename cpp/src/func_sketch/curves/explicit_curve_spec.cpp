@@ -15,15 +15,19 @@
  */
 /*!
  * \file
- * \brief Implementation of Point struct.
+ * \brief Implementation of ExplicitCurveSpec struct.
  */
-#include "func_sketch/plotter/point.h"
+#include "func_sketch/curves/explicit_curve_spec.h"
 
 #include <fmt/format.h>
 
 // NOLINTNEXTLINE(*-static): API of an external library.
-auto fmt::formatter<func_sketch::plotter::Point>::format(
-    const func_sketch::plotter::Point& value, format_context& context) const
-    -> format_context::iterator {
-    return fmt::format_to(context.out(), "Point({}, {})", value.x, value.y);
+auto fmt::formatter<func_sketch::curves::ExplicitCurveSpec>::format(
+    const func_sketch::curves::ExplicitCurveSpec& value,
+    format_context& context) const -> format_context::iterator {
+    return fmt::formatter<string_view>::format(
+        fmt::format("ExplicitCurveSpec{{name=\"{}\", "
+                    "function_expression_str=\"{}\", color={}}}",
+            value.name, value.function_expression_str, value.color),
+        context);
 }

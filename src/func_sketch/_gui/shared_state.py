@@ -20,15 +20,19 @@ import kivy.event
 import kivy.properties
 import numpy
 
-from func_sketch._cpp import PlotConfig, PlotRange, Point, PointList
+from func_sketch._cpp import (
+    ExplicitCurveSpec,
+    PlotConfig,
+    PlotRange,
+    Point,
+    SampledCurve,
+)
 from func_sketch._gui.constants import (
     CURVE_COLORS,
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
     NUM_CURVES,
 )
-from func_sketch._impl.curve_config import CurveConfig
-from func_sketch._impl.sampled_curve import SampledCurve
 
 LOGGER = logging.getLogger(__name__)
 
@@ -50,17 +54,21 @@ class SharedState(kivy.event.EventDispatcher):
     plot_config = kivy.properties.ObjectProperty(DEFAULT_PLOT_CONFIG)
     """Configuration of the plot."""
 
-    curve_configs = kivy.properties.ListProperty(
+    curve_specs = kivy.properties.ListProperty(
         [
-            CurveConfig(function_expression_str="", color=CURVE_COLORS[i])
+            ExplicitCurveSpec(
+                name=f"Curve {i + 1}",
+                function_expression_str="",
+                color=CURVE_COLORS[i],
+            )
             for i in range(NUM_CURVES)
         ]
     )
-    """Configurations of the curves."""
+    """Specifications of the curves."""
 
     sampled_curves = kivy.properties.ListProperty(
         [
-            SampledCurve(samples=PointList([]), color=CURVE_COLORS[i])
+            SampledCurve(name=f"Curve {i + 1}", points=[], color=CURVE_COLORS[i])
             for i in range(NUM_CURVES)
         ]
     )
@@ -89,7 +97,7 @@ class SharedState(kivy.event.EventDispatcher):
         """Constructor."""
         self.register_event_type("on_plot_range_changed")
         self.register_event_type("on_plot_config_changed")
-        self.register_event_type("on_curve_config_changed")
+        self.register_event_type("on_curve_spec_changed")
         self.register_event_type("on_sampled_curve_changed")
         self.register_event_type("on_sampled_curve_changed_any")
         self.register_event_type("on_mouse_pos_in_plot_changed")
@@ -117,18 +125,18 @@ class SharedState(kivy.event.EventDispatcher):
         self.plot_config = value
         self.dispatch("on_plot_config_changed", source, value)
 
-    def update_curve_config(
-        self, source: object, index: int, value: CurveConfig
+    def update_curve_spec(
+        self, source: object, index: int, value: ExplicitCurveSpec
     ) -> None:
-        """Update configuration of a curve.
+        """Update specification of a curve.
 
         Args:
             source (object): Source of the update.
-            index (int): Index of the curve configuration to update.
-            value (CurveConfig): New configuration of the curve.
+            index (int): Index of the curve specification to update.
+            value (ExplicitCurveSpec): New specification of the curve.
         """
-        self.curve_configs[index] = value
-        self.dispatch("on_curve_config_changed", source, index, value)
+        self.curve_specs[index] = value
+        self.dispatch("on_curve_spec_changed", source, index, value)
 
     def update_sampled_curve(
         self, source: object, index: int, value: SampledCurve
@@ -197,10 +205,10 @@ class SharedState(kivy.event.EventDispatcher):
     def on_plot_config_changed(self, source: object, value: PlotConfig) -> None:
         """Event handler for plot config changes."""
 
-    def on_curve_config_changed(
-        self, source: object, index: int, value: CurveConfig
+    def on_curve_spec_changed(
+        self, source: object, index: int, value: ExplicitCurveSpec
     ) -> None:
-        """Event handler for curve config changes."""
+        """Event handler for curve spec changes."""
 
     def on_sampled_curve_changed(
         self, source: object, index: int, value: SampledCurve

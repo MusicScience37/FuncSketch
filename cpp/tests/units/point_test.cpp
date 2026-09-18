@@ -17,13 +17,13 @@
  * \file
  * \brief Test of Point struct.
  */
-#include "func_sketch/plotter/point.h"
+#include "func_sketch/point.h"
 
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
 
-TEST_CASE("func_sketch::plotter::Point") {
-    using func_sketch::plotter::Point;
+TEST_CASE("func_sketch::Point") {
+    using func_sketch::Point;
 
     SECTION("format") {
         const Point point{.x = 1.23, .y = 4.56};

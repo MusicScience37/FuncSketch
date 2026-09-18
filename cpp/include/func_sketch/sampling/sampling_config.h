@@ -21,7 +21,7 @@
 
 #include <cstddef>
 
-namespace func_sketch::plotter {
+namespace func_sketch::sampling {
 
 //! Default number of points to sample initially in adaptive sampling.
 constexpr std::size_t default_initial_num_sample_points = 110;
@@ -171,4 +171,4 @@ private:
     double min_param_change_rate_{default_min_param_change_rate};
 };
 
-}  // namespace func_sketch::plotter
+}  // namespace func_sketch::sampling

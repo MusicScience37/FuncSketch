@@ -23,8 +23,8 @@
 #include <fmt/format.h>
 
 TEST_CASE("func_sketch::plotter::PlotRange") {
+    using func_sketch::Point;
     using func_sketch::plotter::PlotRange;
-    using func_sketch::plotter::Point;
 
     SECTION("check ranges in constructor") {
         CHECK_NOTHROW(PlotRange({0.0, 1.0}, {2.0, 3.0}));

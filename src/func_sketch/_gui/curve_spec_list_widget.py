@@ -15,33 +15,32 @@
 """Class of the widget for a list of curve configuration widgets."""
 
 import logging
+import time
 
 import kivy.properties
 import kivy.uix.boxlayout
 
-from func_sketch._cpp import PlotConfig, PlotRange, PointList
+from func_sketch._cpp import CurveSampler, PlotConfig, PlotRange, SampledCurve
 from func_sketch._gui.constants import (
     CURVE_COLORS,
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
     NUM_CURVES,
 )
-from func_sketch._gui.curve_config_widget import CurveConfigWidget
-from func_sketch._impl.curve_sampler import CurveSampler
-from func_sketch._impl.sampled_curve import SampledCurve
+from func_sketch._gui.curve_spec_widget import CurveSpecWidget
 
 LOGGER = logging.getLogger(__name__)
 
 
-class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
-    """Class of the widget for a list of curve configuration widgets."""
+class CurveSpecListWidget(kivy.uix.boxlayout.BoxLayout):
+    """Class of the widget for a list of curve specification widgets."""
 
     shared_state = kivy.properties.ObjectProperty()
     """Shared state object."""
 
     def __init__(self, **kwargs) -> None:
         """Constructor."""
-        self._curve_config_widgets: list[CurveConfigWidget] = []
+        self._curve_spec_widgets: list[CurveSpecWidget] = []
         self._curve_sampler = CurveSampler(
             DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG.sampling
         )
@@ -52,14 +51,13 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
         super().on_kv_post(base_widget)
 
         for i in range(NUM_CURVES):
-            curve_name = f"Curve {i + 1}"
-            curve_config_widget = CurveConfigWidget(
-                curve_name=curve_name, curve_color=CURVE_COLORS[i]
+            curve_spec_widget = CurveSpecWidget(
+                curve_name=f"Curve {i + 1}", curve_color=CURVE_COLORS[i]
             )
-            self._curve_config_widgets.append(curve_config_widget)
-            self.ids.curve_config_list_layout.add_widget(curve_config_widget)
-            curve_config_widget.bind(
-                curve_config=lambda _instance, _value, i=i: self._on_curve_config_at_child(
+            self._curve_spec_widgets.append(curve_spec_widget)
+            self.ids.curve_spec_list_layout.add_widget(curve_spec_widget)
+            curve_spec_widget.bind(
+                curve_spec=lambda _instance, _value, i=i: self._on_curve_spec_at_child(
                     i
                 )
             )
@@ -71,14 +69,14 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
             on_plot_config_changed=self._on_shared_plot_config,
         )
 
-    def _on_curve_config_at_child(self, index: int) -> None:
-        """Callback when a curve configuration is changed at a child widget.
+    def _on_curve_spec_at_child(self, index: int) -> None:
+        """Callback when a curve specification is changed at a child widget.
 
         Args:
-            index: Index of the curve configuration that changed.
+            index: Index of the curve specification that changed.
         """
-        curve_config = self._curve_config_widgets[index].curve_config
-        self.shared_state.update_curve_config(self, index, curve_config)
+        curve_spec = self._curve_spec_widgets[index].curve_spec
+        self.shared_state.update_curve_spec(self, index, curve_spec)
         self._resample_one_curve(index)
 
     def _resample_one_curve(self, index: int) -> None:
@@ -106,24 +104,33 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
         Returns:
             SampledCurve: The resampled curve.
         """
-        curve_config = self.shared_state.curve_configs[index]
+        curve_spec = self.shared_state.curve_specs[index]
+        if not curve_spec.function_expression_str:
+            self._curve_spec_widgets[index].error_message = ""
+            return SampledCurve(name=curve_spec.name, points=[], color=curve_spec.color)
         try:
-            # Empty expression is handled in CurveSampler.
-            sampled_curve = self._curve_sampler(curve_config)
+            start_time = time.perf_counter()
+            sampled_curve = self._curve_sampler(curve_spec)
+            end_time = time.perf_counter()
+            LOGGER.debug(
+                "CurveSpecListWidget: Sampled %d points in %.2f ms.",
+                len(sampled_curve.points),
+                (end_time - start_time) * 1000.0,
+            )
         except RuntimeError as e:
-            self._curve_config_widgets[index].error_message = str(e)
+            self._curve_spec_widgets[index].error_message = str(e)
             sampled_curve = SampledCurve(
-                samples=PointList([]), color=curve_config.color
+                name=curve_spec.name, points=[], color=curve_spec.color
             )
         else:
-            self._curve_config_widgets[index].error_message = ""
+            self._curve_spec_widgets[index].error_message = ""
         return sampled_curve
 
     def _on_shared_plot_range(
         self, _instance: object, _source: object, value: PlotRange
     ) -> None:
         """Callback when the on_plot_range_changed event is dispatched."""
-        self._curve_sampler.plot_range = value
+        self._curve_sampler.range = value
         self._resample_all_curves()
 
     def _on_shared_plot_config(

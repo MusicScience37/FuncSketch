@@ -15,55 +15,40 @@
  */
 /*!
  * \file
- * \brief Definition of Point struct.
+ * \brief Definition of ExplicitCurveSpec struct.
  */
 #pragma once
 
+#include <string>
+
 #include <fmt/base.h>
 
-namespace func_sketch::plotter {
+#include "func_sketch/plotter/rgb_color.h"
+
+namespace func_sketch::curves {
 
 /*!
- * \brief Struct of a point.
+ * \brief Struct of specifications of curves with explicit functions.
  */
-struct Point {
-    //! X coordinate.
-    double x;
+struct ExplicitCurveSpec {
+    //! Name of the curve.
+    std::string name;
 
-    //! Y coordinate.
-    double y;
+    //! String of the function expression.
+    std::string function_expression_str;
 
-    /*!
-     * \brief Add two points.
-     *
-     * \param[in] left Left point.
-     * \param[in] right Right point.
-     * \return Sum of the two points.
-     */
-    friend Point operator+(const Point& left, const Point& right) {
-        return Point{.x = left.x + right.x, .y = left.y + right.y};
-    }
-
-    /*!
-     * \brief Subtract a point from another point.
-     *
-     * \param[in] left Left point.
-     * \param[in] right Right point.
-     * \return Difference of the two points.
-     */
-    friend Point operator-(const Point& left, const Point& right) {
-        return Point{.x = left.x - right.x, .y = left.y - right.y};
-    }
+    //! Color.
+    plotter::RGBColor color;
 };
 
-}  // namespace func_sketch::plotter
+}  // namespace func_sketch::curves
 
 /*!
  * \brief Specialization of fmt::formatter for
- * func_sketch::plotter::Point.
+ * func_sketch::curves::ExplicitCurveSpec.
  */
 template <>
-struct fmt::formatter<func_sketch::plotter::Point>
+struct fmt::formatter<func_sketch::curves::ExplicitCurveSpec>
     : fmt::formatter<string_view> {
     /*!
      * \brief Format a value.
@@ -72,6 +57,6 @@ struct fmt::formatter<func_sketch::plotter::Point>
      * \param[in] context Format context.
      * \return Iterator to the end of the formatted output.
      */
-    auto format(const func_sketch::plotter::Point& value,
+    auto format(const func_sketch::curves::ExplicitCurveSpec& value,
         format_context& context) const -> format_context::iterator;
 };

@@ -17,7 +17,7 @@
  * \file
  * \brief Test of FunctionSampler class.
  */
-#include "func_sketch/plotter/function_sampler.h"
+#include "func_sketch/sampling/function_sampler.h"
 
 #include <memory>
 
@@ -32,16 +32,16 @@
 #include "func_sketch/math/binary_operator.h"
 #include "func_sketch/math/binary_operators.h"
 
-TEST_CASE("func_sketch::plotter::FunctionSampler") {
+TEST_CASE("func_sketch::sampling::FunctionSampler") {
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::ExpressionPtr;
     using func_sketch::expressions::ParameterExpression;
     using func_sketch::math::BinaryOperator;
     using func_sketch::math::MultiplicationOperator;
-    using func_sketch::plotter::FunctionSampler;
     using func_sketch::plotter::PlotRange;
-    using func_sketch::plotter::SamplingConfig;
+    using func_sketch::sampling::FunctionSampler;
+    using func_sketch::sampling::SamplingConfig;
 
     SECTION("sample initial points when adaptive sampling is disabled") {
         const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});

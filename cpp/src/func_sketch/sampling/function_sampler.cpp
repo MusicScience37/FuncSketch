@@ -17,20 +17,20 @@
  * \file
  * \brief Implementation of FunctionSampler class.
  */
-#include "func_sketch/plotter/function_sampler.h"
+#include "func_sketch/sampling/function_sampler.h"
 
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
 
-namespace func_sketch::plotter {
+namespace func_sketch::sampling {
 
 FunctionSampler::FunctionSampler(
     // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
-    const PlotRange& range, const SamplingConfig& config)
+    const plotter::PlotRange& range, const SamplingConfig& config)
     : range_(range), config_(config) {}
 
-FunctionSampler& FunctionSampler::range(const PlotRange& value) {
+FunctionSampler& FunctionSampler::range(const plotter::PlotRange& value) {
     range_ = value;
     return *this;
 }
@@ -221,4 +221,4 @@ bool FunctionSampler::is_sampling_should_be_skipped(
     return false;
 }
 
-}  // namespace func_sketch::plotter
+}  // namespace func_sketch::sampling

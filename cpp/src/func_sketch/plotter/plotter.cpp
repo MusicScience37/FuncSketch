@@ -28,7 +28,7 @@
 #include "func_sketch/exceptions.h"
 #include "func_sketch/plotter/curve_writer.h"
 #include "func_sketch/plotter/plotting_util.h"
-#include "func_sketch/plotter/point.h"
+#include "func_sketch/point.h"
 
 namespace func_sketch::plotter {
 
@@ -93,6 +93,14 @@ void Plotter::write_curve(
 
     CurveWriter::write_curve(
         samples, color, image, config_, range_, point_converter_);
+}
+
+void Plotter::write(
+    const std::vector<curves::SampledCurve>& sampled_curves, Image& image) {
+    write_background(image);
+    for (const auto& curve : sampled_curves) {
+        write_curve(curve.points, curve.color, image);
+    }
 }
 
 void Plotter::update_internal_parameters() {

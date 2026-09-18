@@ -26,15 +26,15 @@
 #include <opencv2/imgproc.hpp>
 
 #include "func_sketch/plotter/image.h"
-#include "func_sketch/plotter/point.h"
 #include "func_sketch/plotter/rgb_color.h"
+#include "func_sketch/point.h"
 
 TEST_CASE("func_sketch::plotter::Plotter") {
+    using func_sketch::Point;
     using func_sketch::plotter::Image;
     using func_sketch::plotter::PlotConfig;
     using func_sketch::plotter::PlotRange;
     using func_sketch::plotter::Plotter;
-    using func_sketch::plotter::Point;
     using func_sketch::plotter::RGBColor;
 
     SECTION("write background") {

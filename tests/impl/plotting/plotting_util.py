@@ -16,11 +16,14 @@
 
 import numpy
 
-from func_sketch._cpp import PlotConfig, PlotRange
+from func_sketch._cpp import (
+    CurveSampler,
+    ExplicitCurveSpec,
+    PlotConfig,
+    PlotRange,
+    Plotter,
+)
 from func_sketch._gui.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
-from func_sketch._impl.curve_config import CurveConfig
-from func_sketch._impl.curve_sampler import CurveSampler
-from func_sketch._impl.plotter import Plotter
 
 
 def plot_function(
@@ -52,11 +55,15 @@ def plot_function(
 
     sampled_curves = []
     for i, expression_str in enumerate(expression_str_list):
-        curve_config = CurveConfig(expression_str, CURVE_COLORS[i % len(CURVE_COLORS)])
-        sampled_curve = sampler(curve_config)
+        curve_spec = ExplicitCurveSpec(
+            name=expression_str,
+            function_expression_str=expression_str,
+            color=CURVE_COLORS[i % len(CURVE_COLORS)],
+        )
+        sampled_curve = sampler(curve_spec)
         sampled_curves.append(sampled_curve)
 
     image = numpy.ndarray((height, width, 3), dtype=numpy.uint8)
-    plotter(sampled_curves, image)
+    plotter.write(sampled_curves, image)
 
     return image

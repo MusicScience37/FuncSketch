@@ -19,13 +19,8 @@ import typing
 import numpy
 import pytest
 
-from func_sketch._cpp import (
-    PlotRange,
-)
+from func_sketch._cpp import CurveSampler, ExplicitCurveSpec, PlotRange, Plotter
 from func_sketch._gui.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
-from func_sketch._impl.curve_config import CurveConfig
-from func_sketch._impl.curve_sampler import CurveSampler
-from func_sketch._impl.plotter import Plotter
 
 EXPRESSION_STR_LIST = [
     "x",
@@ -53,14 +48,16 @@ def test_plot_function(benchmark: typing.Callable, expression_str: str) -> None:
     sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)
 
-    curve_config = CurveConfig(expression_str, CURVE_COLORS[0])
+    curve_spec = ExplicitCurveSpec(
+        name="Curve", function_expression_str=expression_str, color=CURVE_COLORS[0]
+    )
     image = numpy.ndarray((height, width, 3), dtype=numpy.uint8)
 
     def plot_function() -> None:
-        sampled_curve = sampler(curve_config)
-        plotter([sampled_curve], image)
+        sampled_curve = sampler(curve_spec)
+        plotter.write([sampled_curve], image)
 
-    benchmark.extra_info["num_points"] = len(sampler(curve_config).samples.points)  # type: ignore[attr-defined]
+    benchmark.extra_info["num_points"] = len(sampler(curve_spec).points)  # type: ignore[attr-defined]
     benchmark(plot_function)
 
 
@@ -72,10 +69,12 @@ def test_sample_function(benchmark: typing.Callable, expression_str: str) -> Non
 
     sampler = CurveSampler(range, config.sampling)
 
-    curve_config = CurveConfig(expression_str, CURVE_COLORS[0])
+    curve_spec = ExplicitCurveSpec(
+        name="Curve", function_expression_str=expression_str, color=CURVE_COLORS[0]
+    )
 
     def sample_function() -> None:
-        sampler(curve_config)
+        sampler(curve_spec)
 
-    benchmark.extra_info["num_points"] = len(sampler(curve_config).samples.points)  # type: ignore[attr-defined]
+    benchmark.extra_info["num_points"] = len(sampler(curve_spec).points)  # type: ignore[attr-defined]
     benchmark(sample_function)

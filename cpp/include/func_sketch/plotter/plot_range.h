@@ -23,7 +23,7 @@
 
 #include <fmt/base.h>
 
-#include "func_sketch/plotter/point.h"
+#include "func_sketch/point.h"
 
 namespace func_sketch::plotter {
 

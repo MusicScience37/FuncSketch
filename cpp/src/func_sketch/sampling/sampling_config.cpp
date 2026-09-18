@@ -17,13 +17,13 @@
  * \file
  * \brief Implementation of SamplingConfig class.
  */
-#include "func_sketch/plotter/sampling_config.h"
+#include "func_sketch/sampling/sampling_config.h"
 
 #include <fmt/format.h>
 
 #include "func_sketch/exceptions.h"
 
-namespace func_sketch::plotter {
+namespace func_sketch::sampling {
 
 SamplingConfig& SamplingConfig::initial_num_sample_points(std::size_t value) {
     if (value < 2) {
@@ -96,4 +96,4 @@ double SamplingConfig::min_param_change_rate() const noexcept {
     return min_param_change_rate_;
 }
 
-}  // namespace func_sketch::plotter
+}  // namespace func_sketch::sampling
