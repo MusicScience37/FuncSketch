@@ -36,9 +36,6 @@ LOGGER = logging.getLogger(__name__)
 class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
     """Class of the widget for a list of curve configuration widgets."""
 
-    curve_config_list_layout = kivy.properties.ObjectProperty()
-    """Layout widget for the list of curve configuration widgets."""
-
     shared_state = kivy.properties.ObjectProperty()
     """Shared state object."""
 
@@ -50,15 +47,17 @@ class CurveConfigListWidget(kivy.uix.boxlayout.BoxLayout):
         )
         super().__init__(**kwargs)
 
-    def on_curve_config_list_layout(self, _instance: object, _value: object) -> None:
-        """Callback when the curve_config_list_layout property is set."""
+    def on_kv_post(self, base_widget: object) -> None:
+        """Callback after the kv rules of this widget are applied."""
+        super().on_kv_post(base_widget)
+
         for i in range(NUM_CURVES):
             curve_name = f"Curve {i + 1}"
             curve_config_widget = CurveConfigWidget(
                 curve_name=curve_name, curve_color=CURVE_COLORS[i]
             )
             self._curve_config_widgets.append(curve_config_widget)
-            self.curve_config_list_layout.add_widget(curve_config_widget)
+            self.ids.curve_config_list_layout.add_widget(curve_config_widget)
             curve_config_widget.bind(
                 curve_config=lambda _instance, _value, i=i: self._on_curve_config_at_child(
                     i

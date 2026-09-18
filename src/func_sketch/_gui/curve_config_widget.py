@@ -17,7 +17,7 @@
 import kivy.properties
 import kivy.uix.boxlayout
 
-from func_sketch._gui.plain_text_input import PlainTextInput
+from func_sketch._gui.sync_properties import sync_properties
 from func_sketch._impl.curve_config import CurveConfig
 
 
@@ -37,48 +37,6 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
     expression_text = kivy.properties.StringProperty()
     """Text of the function expression."""
 
-    expression_text_input = kivy.properties.ObjectProperty()
-    """TextInput widget for the function expression."""
-
-    def __init__(self, **kwargs: object) -> None:
-        """Constructor."""
-        self._syncing_expression_text = False
-        super().__init__(**kwargs)
-
-    def _sync_expression_text_from_parent_to_child(
-        self, _instance: object, _value: object
-    ) -> None:
-        """Sync expression text from parent to child."""
-        if self._syncing_expression_text:
-            return
-        self._syncing_expression_text = True
-        try:
-            if self.expression_text_input:
-                self.expression_text_input.text = self.expression_text
-        finally:
-            self._syncing_expression_text = False
-
-    def _sync_expression_text_from_child_to_parent(
-        self, _instance: object, _value: object
-    ) -> None:
-        """Sync expression text from child to parent."""
-        if self._syncing_expression_text:
-            return
-        self._syncing_expression_text = True
-        try:
-            self.expression_text = self.expression_text_input.text
-        finally:
-            self._syncing_expression_text = False
-
-    def on_expression_text_input(
-        self, _instance: object, value: PlainTextInput | None
-    ) -> None:
-        """Callback when the expression_text_input property is set."""
-        if value:
-            value.bind(text=self._sync_expression_text_from_child_to_parent)
-            self.bind(expression_text=self._sync_expression_text_from_parent_to_child)
-            self._sync_expression_text_from_parent_to_child(None, None)
-
     curve_name = kivy.properties.StringProperty()
     """Name of the curve."""
 
@@ -87,6 +45,11 @@ class CurveConfigWidget(kivy.uix.boxlayout.BoxLayout):
 
     error_message = kivy.properties.StringProperty("")
     """Error message related to the curve configuration."""
+
+    def on_kv_post(self, base_widget: object) -> None:
+        """Callback after the kv rules of this widget are applied."""
+        super().on_kv_post(base_widget)
+        sync_properties(self, "expression_text", self.ids.expression_text_input, "text")
 
     def _get_curve_config(self) -> CurveConfig:
         """Get the curve configuration.
