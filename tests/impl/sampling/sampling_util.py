@@ -16,9 +16,13 @@
 
 import numpy
 
-from func_sketch._cpp import PlotRange, RGBColor, SamplingConfig
-from func_sketch._impl.curve_config import CurveConfig
-from func_sketch._impl.curve_sampler import CurveSampler
+from func_sketch._cpp import (
+    CurveSampler,
+    ExplicitCurveSpec,
+    PlotRange,
+    RGBColor,
+    SamplingConfig,
+)
 
 
 def sample_function(
@@ -40,10 +44,13 @@ def sample_function(
     range = PlotRange(x_range, y_range)
     sampler = CurveSampler(range, config)
 
-    sampled_curve = sampler(CurveConfig(expression_str, line_color))
+    curve_spec = ExplicitCurveSpec(
+        name="Curve", function_expression_str=expression_str, color=line_color
+    )
+    sampled_curve = sampler(curve_spec)
 
-    x_values = numpy.array([point.x for point in sampled_curve.samples.points])
-    y_values = numpy.array([point.y for point in sampled_curve.samples.points])
+    x_values = numpy.array([point.x for point in sampled_curve.points])
+    y_values = numpy.array([point.y for point in sampled_curve.points])
 
     return x_values, y_values
 

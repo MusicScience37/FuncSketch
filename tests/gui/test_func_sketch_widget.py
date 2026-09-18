@@ -40,4 +40,4 @@ class TestFuncSketchWidget:
         # Actual functionality should be checked visually.
         widget = FuncSketchWidget()
 
-        widget.shared_state.curve_configs[0].function_expression_str = "x**2"
+        widget.shared_state.curve_specs[0].function_expression_str = "x**2"

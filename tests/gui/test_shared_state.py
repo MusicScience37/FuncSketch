@@ -14,11 +14,15 @@
 
 """Test of SharedState."""
 
-from func_sketch._cpp import PlotConfig, PlotRange, PointList, RGBColor
+from func_sketch._cpp import (
+    ExplicitCurveSpec,
+    PlotConfig,
+    PlotRange,
+    RGBColor,
+    SampledCurve,
+)
 from func_sketch._gui.constants import NUM_CURVES
 from func_sketch._gui.shared_state import SharedState
-from func_sketch._impl.curve_config import CurveConfig
-from func_sketch._impl.sampled_curve import SampledCurve
 
 
 class TestSharedState:
@@ -30,7 +34,7 @@ class TestSharedState:
 
         assert state.plot_range is not None
         assert state.plot_config is not None
-        assert len(state.curve_configs) == NUM_CURVES
+        assert len(state.curve_specs) == NUM_CURVES
         assert len(state.sampled_curves) == NUM_CURVES
 
     def test_update_plot_range(self) -> None:
@@ -73,29 +77,29 @@ class TestSharedState:
         assert on_plot_config_changed_list[0][0] == source
         assert on_plot_config_changed_list[0][1] is new_plot_config
 
-    def test_update_curve_config(self) -> None:
-        """Test to update curve config."""
+    def test_update_curve_spec(self) -> None:
+        """Test to update curve spec."""
         state = SharedState()
 
-        on_curve_config_changed_list = []
+        on_curve_spec_changed_list = []
         state.bind(
-            on_curve_config_changed=lambda instance, source, index, value: on_curve_config_changed_list.append(
+            on_curve_spec_changed=lambda instance, source, index, value: on_curve_spec_changed_list.append(
                 (source, index, value)
             )
         )
 
         source = "test"
         index = 1
-        new_curve_config = CurveConfig(
-            function_expression_str="x", color=RGBColor(1, 2, 3)
+        new_curve_spec = ExplicitCurveSpec(
+            name="Curve", function_expression_str="x", color=RGBColor(1, 2, 3)
         )
-        state.update_curve_config(source, index, new_curve_config)
+        state.update_curve_spec(source, index, new_curve_spec)
 
-        assert state.curve_configs[index] == new_curve_config
-        assert len(on_curve_config_changed_list) == 1
-        assert on_curve_config_changed_list[0][0] == source
-        assert on_curve_config_changed_list[0][1] == index
-        assert on_curve_config_changed_list[0][2] is new_curve_config
+        assert state.curve_specs[index] == new_curve_spec
+        assert len(on_curve_spec_changed_list) == 1
+        assert on_curve_spec_changed_list[0][0] == source
+        assert on_curve_spec_changed_list[0][1] == index
+        assert on_curve_spec_changed_list[0][2] is new_curve_spec
 
     def test_update_sampled_curve(self) -> None:
         """Test to update sampled curve."""
@@ -110,7 +114,9 @@ class TestSharedState:
 
         source = "test"
         index = 1
-        new_sampled_curve = SampledCurve(samples=PointList([]), color=RGBColor(1, 2, 3))
+        new_sampled_curve = SampledCurve(
+            name="Curve", points=[], color=RGBColor(1, 2, 3)
+        )
         state.update_sampled_curve(source, index, new_sampled_curve)
 
         assert state.sampled_curves[index] == new_sampled_curve

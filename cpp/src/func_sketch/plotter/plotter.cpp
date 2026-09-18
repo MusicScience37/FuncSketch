@@ -95,6 +95,14 @@ void Plotter::write_curve(
         samples, color, image, config_, range_, point_converter_);
 }
 
+void Plotter::write(
+    const std::vector<curves::SampledCurve>& sampled_curves, Image& image) {
+    write_background(image);
+    for (const auto& curve : sampled_curves) {
+        write_curve(curve.points, curve.color, image);
+    }
+}
+
 void Plotter::update_internal_parameters() {
     // At first, try with the desired image size.
     actual_height_ = desired_height_;

@@ -24,13 +24,12 @@ import kivy.properties
 import kivy.uix.image
 import numpy
 
-from func_sketch._cpp import PlotConfig, PlotRange, Point
+from func_sketch._cpp import PlotConfig, PlotRange, Plotter, Point
 from func_sketch._gui.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
     PLOT_BACKGROUND_PADDING_COLOR,
 )
-from func_sketch._impl.plotter import Plotter
 
 LOGGER = logging.getLogger(__name__)
 
@@ -98,7 +97,7 @@ class PlotWidget(kivy.uix.image.Image):
     ) -> None:
         """Callback when the on_plot_range_changed event is dispatched."""
         self._range = value
-        self._plotter.plot_range = self._range
+        self._plotter.range = self._range
         self._prepare_texture()
         self._update_plot()
 
@@ -152,7 +151,7 @@ class PlotWidget(kivy.uix.image.Image):
 
     def _update_plot(self) -> None:
         """Update the plot."""
-        self._plotter(self.shared_state.sampled_curves, self._image_buffer)
+        self._plotter.write(self.shared_state.sampled_curves, self._image_buffer)
         self._texture.blit_buffer(
             self._image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
         )

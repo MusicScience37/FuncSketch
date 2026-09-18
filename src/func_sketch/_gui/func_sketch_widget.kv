@@ -30,10 +30,10 @@
 
 #:include common.kv
 #:include range_config_widget.kv
-#:include curve_config_widget.kv
-#:include curve_config_list_widget.kv
+#:include curve_spec_widget.kv
+#:include curve_spec_list_widget.kv
 #:include image_size_widget.kv
-#:import CurveConfigListWidget func_sketch._gui.curve_config_list_widget.CurveConfigListWidget
+#:import CurveSpecListWidget func_sketch._gui.curve_spec_list_widget.CurveSpecListWidget
 #:import PlainSplitterStrip func_sketch._gui.plain_splitter_strip.PlainSplitterStrip
 #:import PlotWidget func_sketch._gui.plot_widget.PlotWidget
 #:import RangeConfigWidget func_sketch._gui.range_config_widget.RangeConfigWidget
@@ -80,7 +80,7 @@
                                 rgba: SECTION_BORDER_COLOR
                             Line:
                                 points: [self.x, self.y, self.x + self.width, self.y]
-                        CurveConfigListWidget:
+                        CurveSpecListWidget:
                             shared_state: root.shared_state
                     CollapsibleBox:
                         title: "Range"
