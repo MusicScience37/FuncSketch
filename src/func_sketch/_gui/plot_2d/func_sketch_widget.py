@@ -12,21 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Main function of FuncSketch package."""
+"""Class of FuncSketch GUI widget."""
 
-from kivy.config import Config
+import kivy.properties
+import kivy.uix.boxlayout
 
-if Config is not None:
-    # Disable Kivy's mouse multi-touch simulation to prevent red dots in the
-    # application.
-    # Config is None when building documentation with Sphinx.
-    Config.set("input", "mouse", "mouse,disable_multitouch")
-    Config.set("graphics", "width", "1300")
-    Config.set("graphics", "height", "800")
-
-from func_sketch._gui.plot_2d.func_sketch_app import FuncSketchApp  # noqa: E402
+from func_sketch._gui.plot_2d.shared_state import SharedState
 
 
-def main() -> None:
-    """Main function."""
-    FuncSketchApp().run()
+class FuncSketchWidget(kivy.uix.boxlayout.BoxLayout):
+    """Class of FuncSketch GUI widget."""
+
+    shared_state = kivy.properties.ObjectProperty(SharedState())
+    """Shared state object."""

@@ -12,21 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Main function of FuncSketch package."""
+"""Class of FuncSketch GUI application."""
 
-from kivy.config import Config
+import kivy.app
+import kivy.lang
 
-if Config is not None:
-    # Disable Kivy's mouse multi-touch simulation to prevent red dots in the
-    # application.
-    # Config is None when building documentation with Sphinx.
-    Config.set("input", "mouse", "mouse,disable_multitouch")
-    Config.set("graphics", "width", "1300")
-    Config.set("graphics", "height", "800")
-
-from func_sketch._gui.plot_2d.func_sketch_app import FuncSketchApp  # noqa: E402
+from func_sketch._gui.plot_2d.func_sketch_widget import FuncSketchWidget
 
 
-def main() -> None:
-    """Main function."""
+class FuncSketchApp(kivy.app.App):
+    """Class of FuncSketch GUI application."""
+
+    def build(self):
+        """Build the GUI application.
+
+        Returns:
+            FuncSketchWidget: Root widget of the GUI application.
+        """
+        kivy.lang.Builder.load_file("plot_2d/func_sketch_widget.kv")
+        return FuncSketchWidget()
+
+
+if __name__ == "__main__":
     FuncSketchApp().run()

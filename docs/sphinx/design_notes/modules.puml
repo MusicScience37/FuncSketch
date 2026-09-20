@@ -1,9 +1,12 @@
 @startuml structure_module
 
 package "FuncSketch\n(func_sketch)" <<Python>> {
-    component "GUI\n(func_sketch.gui)" <<Python>> as gui
+    component "GUI\n(func_sketch._gui)" <<Python>> as gui {
+        component "2D Plotting\n(func_sketch._gui.plot_2d)" <<Python>> as plot_2d
+        component "Common GUI Components\n(func_sketch._gui.common)" <<Python>> as common
+    }
 
-    component "C++ Module\n(func_sketch.cpp)" <<C++/Python>> as cpp_module {
+    component "C++ Module\n(func_sketch._cpp)" <<C++/Python>> as cpp_module {
         component "Function Plotter\n(func_sketch::plotter)" <<C++>> as plotter
         component "Function Expressions\n(func_sketch::expressions)" <<C++>> as expressions
         component "Expression Parser\n(func_sketch::parser)" <<C++>> as parser
@@ -21,7 +24,8 @@ package "Main Third-Party Libraries" {
     component "nanobind" <<C++/Python>>
 }
 
-gui ..> cpp_module
+gui ...> cpp_module
+plot_2d ..> common
 parser ..> expressions
 plotter ..> expressions
 expressions ..> math
