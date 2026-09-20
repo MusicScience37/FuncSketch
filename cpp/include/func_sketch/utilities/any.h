@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include <any>
+#include <memory>
 #include <type_traits>
 #include <utility>
 
@@ -28,7 +28,8 @@ namespace func_sketch::utilities {
 /*!
  * \brief Class to store any type of value.
  *
- * \note This class is a wrapper of std::any.
+ * \note This class is a version of std::any without type checking.
+ * Correct types must be handled by the caller.
  */
 class Any {
 public:
@@ -39,7 +40,8 @@ public:
      */
     template <typename T>
         requires(!std::is_same_v<std::decay_t<T>, Any>)
-    explicit Any(T&& value) : value_(std::forward<T>(value)) {}
+    explicit Any(T&& value)
+        : value_(std::make_shared<std::decay_t<T>>(std::forward<T>(value))) {}
 
     /*!
      * \brief Get the stored value.
@@ -49,12 +51,12 @@ public:
      */
     template <typename T>
     [[nodiscard]] const T& get() const {
-        return std::any_cast<const T&>(value_);
+        return *static_cast<const T*>(value_.get());
     }
 
 private:
     //! Stored value.
-    std::any value_;
+    std::shared_ptr<void> value_;
 };
 
 }  // namespace func_sketch::utilities

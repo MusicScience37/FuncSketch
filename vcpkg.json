@@ -3,6 +3,7 @@
   "dependencies": [
     "boost-spirit",
     "boost-math",
+    "boost-container",
     "eigen3",
     {
       "name": "opencv4",

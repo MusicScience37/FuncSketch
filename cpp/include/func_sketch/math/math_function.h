@@ -19,9 +19,9 @@
  */
 #pragma once
 
+#include <span>
 #include <string_view>
 #include <utility>
-#include <vector>
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/math_function_type.h"
@@ -47,7 +47,7 @@ public:
               return obj.get<T>().name();
           }),
           scalar_operator_(
-              [](const utilities::Any& obj, const std::vector<Number>& args,
+              [](const utilities::Any& obj, std::span<const Number> args,
                   Number& result) { obj.get<T>()(args, result); }) {}
 
     /*!
@@ -63,7 +63,7 @@ public:
      * \param[in] args Arguments.
      * \param[out] result Result.
      */
-    void operator()(const std::vector<Number>& args, Number& result) const {
+    void operator()(std::span<const Number> args, Number& result) const {
         scalar_operator_(function_, args, result);
     }
 
@@ -75,7 +75,7 @@ private:
     //! Signature of function to operate on scalars.
     using ScalarOperatorSignature = void(
         const utilities::Any& /*function_object*/,
-        const std::vector<Number>& /*args*/, Number& /*result*/);
+        std::span<const Number> /*args*/, Number& /*result*/);
 
     //! Function object.
     utilities::Any function_;

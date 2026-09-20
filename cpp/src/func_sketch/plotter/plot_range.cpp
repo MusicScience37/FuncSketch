@@ -44,20 +44,6 @@ PlotRange::PlotRange(const std::pair<double, double>& x_range,
     }
 }
 
-auto PlotRange::x_range() const noexcept -> std::pair<double, double> {
-    return x_range_;
-}
-
-auto PlotRange::y_range() const noexcept -> std::pair<double, double> {
-    return y_range_;
-}
-
-bool PlotRange::contains(const Point& point) const noexcept {
-    return std::isfinite(point.x) && std::isfinite(point.y) &&
-        x_range_.first <= point.x && point.x <= x_range_.second &&
-        y_range_.first <= point.y && point.y <= y_range_.second;
-}
-
 void PlotRange::zoom(const Point& center, double factor) {
     if (!std::isfinite(factor) || factor <= 0.0) {
         throw InvalidArgumentException(

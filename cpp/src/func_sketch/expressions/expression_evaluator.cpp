@@ -23,7 +23,11 @@
 #include <variant>
 #include <vector>
 
+#include <boost/container/static_vector.hpp>
+#include <fmt/format.h>
+
 #include "func_sketch/common_types.h"
+#include "func_sketch/exceptions.h"
 
 namespace func_sketch::expressions {
 
@@ -79,8 +83,13 @@ void ExpressionEvaluator::evaluate(
 
 void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
     Number parameter, Number& result) {
-    std::vector<Number> argument_values;
-    argument_values.reserve(expression.arguments.size());
+    constexpr std::size_t max_num_args = 8;
+    if (expression.arguments.size() > max_num_args) {
+        throw InvalidExpressionException(
+            fmt::format("Too many function arguments. max: {}, actual: {}.",
+                max_num_args, expression.arguments.size()));
+    }
+    boost::container::static_vector<Number, max_num_args> argument_values;
     for (const auto& argument : expression.arguments) {
         Number argument_value;
         evaluate(*argument, parameter, argument_value);
