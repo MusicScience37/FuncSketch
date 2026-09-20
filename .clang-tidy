@@ -39,14 +39,12 @@ Checks: >
 # Ignored checks:
 #
 # - google-runtime-references is a Google-specific rule, and forces use of raw pointers.
-# - clang-analyzer-core.UndefinedBinaryOperatorResult cause warnings for Eigen.
 # - clang-analyzer-optin.performance.Padding is hard to be fixed.
 # - readability-function-cognitive-complexity is hard to be fixed in tests.
 # - bugprone-easily-swappable-parameters, readability-suspicious-call-argument is difficult to fix.
 # - cert-err58-cpp produces warnings in all tests due to Catch2 library.
 # - bugprone-optional-value-conversion has a bug to generate warnings even when checks of existence of values exist.
 # - readability-math-missing-parentheses generates too many warnings in existing codes.
-# - hicpp-use-auto, modernize-use-auto should not be fixed in source codes using Eigen library.
 # - bugprone-misplaced-widening-cast generates false positives.
 # - readability-qualified-auto make source codes less changeable.
 # - modernize-use-trailing-return-type reduces readability.

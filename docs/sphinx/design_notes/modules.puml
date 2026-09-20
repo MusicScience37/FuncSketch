@@ -19,7 +19,6 @@ package "Main Third-Party Libraries" {
 
     component "Boost.Spirit" <<C++>>
     component "Boost.Math" <<C++>>
-    component "Eigen" <<C++>>
     component "OpenCV" <<C++>>
     component "nanobind" <<C++/Python>>
 }
@@ -32,7 +31,6 @@ expressions ..> math
 
 gui ..> "Kivy"
 parser ..> "Boost.Spirit"
-math ..> "Eigen"
 math ..> "Boost.Math"
 plotter ..> "OpenCV"
 cpp_module ..> "nanobind"
@@ -45,16 +43,9 @@ end note
 "Boost.Spirit" .. boost_spirit_note
 
 note as boost_math_note
-    For special functions
-    not in Eigen.
+    For special functions.
 end note
 "Boost.Math" .. boost_math_note
-
-note as eigen_note
-    For vector
-    operations.
-end note
-"Eigen" .. eigen_note
 
 note as opencv_note
     For plotting.
