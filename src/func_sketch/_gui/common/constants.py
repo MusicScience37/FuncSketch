@@ -15,7 +15,7 @@
 """Constants for the GUI."""
 
 from func_sketch._cpp import PlotConfig, PlotRange, RGBColor
-from func_sketch._impl.color_util import (
+from func_sketch._gui.common.color_util import (
     hex_to_rgba,
     rgba_to_rgb_color,
 )
