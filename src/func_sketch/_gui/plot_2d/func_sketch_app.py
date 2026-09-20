@@ -12,11 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#:import ERROR_MESSAGE_COLOR func_sketch._gui.constants.ERROR_MESSAGE_COLOR
+"""Class of FuncSketch GUI application."""
 
-<ErrorMessageLabel@Label>:
-    size_hint_y: None
-    text_size: self.width, None
-    height: self.texture_size[1] if self.text else 0
-    color: ERROR_MESSAGE_COLOR
-    opacity: 1 if self.text else 0
+import kivy.app
+import kivy.lang
+
+from func_sketch._gui.plot_2d.func_sketch_widget import FuncSketchWidget
+
+
+class FuncSketchApp(kivy.app.App):
+    """Class of FuncSketch GUI application."""
+
+    def build(self):
+        """Build the GUI application.
+
+        Returns:
+            FuncSketchWidget: Root widget of the GUI application.
+        """
+        kivy.lang.Builder.load_file("plot_2d/func_sketch_widget.kv")
+        return FuncSketchWidget()
+
+
+if __name__ == "__main__":
+    FuncSketchApp().run()

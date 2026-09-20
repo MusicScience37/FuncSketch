@@ -21,13 +21,13 @@ import kivy.properties
 import kivy.uix.boxlayout
 
 from func_sketch._cpp import CurveSampler, PlotConfig, PlotRange, SampledCurve
-from func_sketch._gui.constants import (
+from func_sketch._gui.common.constants import (
     CURVE_COLORS,
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
     NUM_CURVES,
 )
-from func_sketch._gui.curve_spec_widget import CurveSpecWidget
+from func_sketch._gui.plot_2d.curve_spec_widget import CurveSpecWidget
 
 LOGGER = logging.getLogger(__name__)
 

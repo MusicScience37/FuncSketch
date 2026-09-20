@@ -16,9 +16,9 @@
 
 import kivy.lang
 
-from func_sketch._gui.func_sketch_widget import FuncSketchWidget
+from func_sketch._gui.plot_2d.func_sketch_widget import FuncSketchWidget
 
-kivy.lang.Builder.load_file("func_sketch_widget.kv")
+kivy.lang.Builder.load_file("plot_2d/func_sketch_widget.kv")
 
 
 def _ignore(_) -> None:

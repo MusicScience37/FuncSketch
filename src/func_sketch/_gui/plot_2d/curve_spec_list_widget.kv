@@ -12,21 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Main function of FuncSketch package."""
+#:import FONT_SIZE_HEADER1 func_sketch._gui.common.constants.FONT_SIZE_HEADER1
+#:import SPACING_HEADER2 func_sketch._gui.common.constants.SPACING_HEADER2
 
-from kivy.config import Config
-
-if Config is not None:
-    # Disable Kivy's mouse multi-touch simulation to prevent red dots in the
-    # application.
-    # Config is None when building documentation with Sphinx.
-    Config.set("input", "mouse", "mouse,disable_multitouch")
-    Config.set("graphics", "width", "1300")
-    Config.set("graphics", "height", "800")
-
-from func_sketch._gui.plot_2d.func_sketch_app import FuncSketchApp  # noqa: E402
-
-
-def main() -> None:
-    """Main function."""
-    FuncSketchApp().run()
+<CurveSpecListWidget>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: self.minimum_height
+    spacing: SPACING_HEADER2
+    BoxLayout:
+        id: curve_spec_list_layout
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: SPACING_HEADER2

@@ -16,7 +16,7 @@
 
 import math
 
-from func_sketch._gui.float_text_input import FloatTextInput
+from func_sketch._gui.common.float_text_input import FloatTextInput
 
 
 class TestFloatTextInput:

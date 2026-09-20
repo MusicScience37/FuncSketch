@@ -12,17 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#:import FONT_SIZE_HEADER1 func_sketch._gui.constants.FONT_SIZE_HEADER1
-#:import SPACING_HEADER2 func_sketch._gui.constants.SPACING_HEADER2
+"""Class of FuncSketch GUI widget."""
 
-<CurveSpecListWidget>:
-    orientation: "vertical"
-    size_hint_y: None
-    height: self.minimum_height
-    spacing: SPACING_HEADER2
-    BoxLayout:
-        id: curve_spec_list_layout
-        orientation: "vertical"
-        size_hint_y: None
-        height: self.minimum_height
-        spacing: SPACING_HEADER2
+import kivy.properties
+import kivy.uix.boxlayout
+
+from func_sketch._gui.plot_2d.shared_state import SharedState
+
+
+class FuncSketchWidget(kivy.uix.boxlayout.BoxLayout):
+    """Class of FuncSketch GUI widget."""
+
+    shared_state = kivy.properties.ObjectProperty(SharedState())
+    """Shared state object."""

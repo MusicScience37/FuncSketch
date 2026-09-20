@@ -12,7 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#:import NORMAL_TEXT_COLOR func_sketch._gui.constants.NORMAL_TEXT_COLOR
-
-<Label>:
-    color: NORMAL_TEXT_COLOR
+"""Package of common GUI components."""

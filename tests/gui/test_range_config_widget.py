@@ -14,19 +14,13 @@
 
 """Test of RangeConfigWidget."""
 
-import pathlib
-
 import kivy.lang
 
-import func_sketch._gui.range_config_widget as range_config_widget_module
 from func_sketch._cpp import PlotRange
-from func_sketch._gui.range_config_widget import RangeConfigWidget
-from func_sketch._gui.shared_state import SharedState
+from func_sketch._gui.plot_2d.range_config_widget import RangeConfigWidget
+from func_sketch._gui.plot_2d.shared_state import SharedState
 
-_KV_FILE = pathlib.Path(range_config_widget_module.__file__).with_name(
-    "range_config_widget.kv"
-)
-kivy.lang.Builder.load_file(str(_KV_FILE))
+kivy.lang.Builder.load_file("plot_2d/range_config_widget.kv")
 
 
 class TestRangeConfigWidgetSharedStateSync:

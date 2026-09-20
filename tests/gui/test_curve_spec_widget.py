@@ -14,18 +14,12 @@
 
 """Test of CurveSpecWidget."""
 
-import pathlib
-
 import kivy.lang
 
-import func_sketch._gui.curve_spec_widget as curve_spec_widget_module
 from func_sketch._cpp import ExplicitCurveSpec, RGBColor
-from func_sketch._gui.curve_spec_widget import CurveSpecWidget
+from func_sketch._gui.plot_2d.curve_spec_widget import CurveSpecWidget
 
-_KV_FILE = pathlib.Path(curve_spec_widget_module.__file__).with_name(
-    "curve_spec_widget.kv"
-)
-kivy.lang.Builder.load_file(str(_KV_FILE))
+kivy.lang.Builder.load_file("plot_2d/curve_spec_widget.kv")
 
 
 def _colors_equal(lhs: RGBColor, rhs: RGBColor) -> bool:

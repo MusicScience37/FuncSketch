@@ -18,7 +18,7 @@ import kivy.graphics
 import kivy.properties
 import kivy.uix.label
 
-from func_sketch._gui.constants import ROTATABLE_ARROW_COLOR
+from func_sketch._gui.common.constants import ROTATABLE_ARROW_COLOR
 
 
 class RotatableArrow(kivy.uix.label.Label):

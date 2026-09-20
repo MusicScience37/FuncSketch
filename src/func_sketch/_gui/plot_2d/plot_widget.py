@@ -26,7 +26,7 @@ import kivy.uix.image
 import numpy
 
 from func_sketch._cpp import PlotConfig, PlotRange, Plotter, Point
-from func_sketch._gui.constants import (
+from func_sketch._gui.common.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
     PLOT_BACKGROUND_PADDING_COLOR,

@@ -20,7 +20,7 @@ import numpy
 import pytest
 
 from func_sketch._cpp import CurveSampler, ExplicitCurveSpec, PlotRange, Plotter
-from func_sketch._gui.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
+from func_sketch._gui.common.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
 
 EXPRESSION_STR_LIST = [
     "x",

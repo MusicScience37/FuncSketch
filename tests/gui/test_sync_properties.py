@@ -17,7 +17,7 @@
 import kivy.event
 import kivy.properties
 
-from func_sketch._gui.sync_properties import sync_properties
+from func_sketch._gui.common.sync_properties import sync_properties
 
 
 class _ObjectA(kivy.event.EventDispatcher):

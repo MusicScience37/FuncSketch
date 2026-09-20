@@ -17,10 +17,10 @@
 import kivy.lang
 
 from func_sketch._cpp import PlotConfig, PlotRange
-from func_sketch._gui.curve_spec_list_widget import CurveSpecListWidget
-from func_sketch._gui.shared_state import SharedState
+from func_sketch._gui.plot_2d.curve_spec_list_widget import CurveSpecListWidget
+from func_sketch._gui.plot_2d.shared_state import SharedState
 
-kivy.lang.Builder.load_file("curve_spec_list_widget.kv")
+kivy.lang.Builder.load_file("plot_2d/curve_spec_list_widget.kv")
 
 
 class TestCurveSpecListWidget:

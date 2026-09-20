@@ -26,7 +26,7 @@ import kivy.uix.dropdown
 import kivy.uix.label
 
 from func_sketch._cpp import save_image
-from func_sketch._gui.constants import (
+from func_sketch._gui.common.constants import (
     MENU_BAR_BACKGROUND_COLOR,
     MENU_DROP_DOWN_WIDTH,
     PADDING_MENU_BAR,

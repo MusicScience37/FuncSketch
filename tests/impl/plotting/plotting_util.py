@@ -23,7 +23,7 @@ from func_sketch._cpp import (
     PlotRange,
     Plotter,
 )
-from func_sketch._gui.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
+from func_sketch._gui.common.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
 
 
 def plot_function(

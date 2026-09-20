@@ -23,12 +23,12 @@ import kivy.uix.boxlayout
 import kivy.uix.label
 import kivy.uix.widget
 
-from func_sketch._gui.constants import (
+from func_sketch._gui.common.constants import (
     ANIMATION_DURATION,
     FONT_SIZE_HEADER1,
     SPACING_DEFAULT,
 )
-from func_sketch._gui.rotatable_arrow import RotatableArrow
+from func_sketch._gui.common.rotatable_arrow import RotatableArrow
 
 LOGGER = logging.getLogger(__name__)
 

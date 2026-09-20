@@ -19,7 +19,11 @@ import kivy.properties
 import kivy.uix.behaviors.button
 import kivy.uix.label
 
-from func_sketch._gui.constants import SWITCH_OFF_COLOR, SWITCH_ON_COLOR, SWITCH_PADDING
+from func_sketch._gui.common.constants import (
+    SWITCH_OFF_COLOR,
+    SWITCH_ON_COLOR,
+    SWITCH_PADDING,
+)
 
 
 class SwitchWidget(kivy.uix.behaviors.button.ButtonBehavior, kivy.uix.label.Label):

@@ -19,7 +19,7 @@ import math
 
 import kivy.properties
 
-from func_sketch._gui.plain_text_input import PlainTextInput
+from func_sketch._gui.common.plain_text_input import PlainTextInput
 
 LOGGER = logging.getLogger(__name__)
 

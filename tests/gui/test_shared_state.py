@@ -21,8 +21,8 @@ from func_sketch._cpp import (
     RGBColor,
     SampledCurve,
 )
-from func_sketch._gui.constants import NUM_CURVES
-from func_sketch._gui.shared_state import SharedState
+from func_sketch._gui.common.constants import NUM_CURVES
+from func_sketch._gui.plot_2d.shared_state import SharedState
 
 
 class TestSharedState:

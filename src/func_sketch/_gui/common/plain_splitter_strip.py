@@ -16,7 +16,7 @@
 
 import kivy.uix.splitter
 
-from func_sketch._gui.constants import SPLITTER_COLOR
+from func_sketch._gui.common.constants import SPLITTER_COLOR
 
 
 class PlainSplitterStrip(kivy.uix.splitter.SplitterStrip):

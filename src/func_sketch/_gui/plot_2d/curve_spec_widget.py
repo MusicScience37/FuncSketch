@@ -18,7 +18,7 @@ import kivy.properties
 import kivy.uix.boxlayout
 
 from func_sketch._cpp import ExplicitCurveSpec, RGBColor
-from func_sketch._gui.sync_properties import sync_properties
+from func_sketch._gui.common.sync_properties import sync_properties
 
 
 class CurveSpecWidget(kivy.uix.boxlayout.BoxLayout):

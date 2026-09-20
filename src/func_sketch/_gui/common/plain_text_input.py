@@ -18,7 +18,7 @@ import kivy.graphics
 import kivy.properties
 import kivy.uix.textinput
 
-from func_sketch._gui.constants import (
+from func_sketch._gui.common.constants import (
     NORMAL_TEXT_COLOR,
     TEXT_INPUT_ERROR_BACKGROUND_COLOR,
     TEXT_INPUT_ERROR_BORDER_COLOR,

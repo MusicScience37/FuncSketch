@@ -14,7 +14,7 @@
 
 """Test of plotting with configurations."""
 
-from func_sketch._gui.constants import DEFAULT_PLOT_CONFIG
+from func_sketch._gui.common.constants import DEFAULT_PLOT_CONFIG
 
 from .plotting_util import plot_function
 

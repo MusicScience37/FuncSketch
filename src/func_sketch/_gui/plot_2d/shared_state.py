@@ -27,7 +27,7 @@ from func_sketch._cpp import (
     Point,
     SampledCurve,
 )
-from func_sketch._gui.constants import (
+from func_sketch._gui.common.constants import (
     CURVE_COLORS,
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
