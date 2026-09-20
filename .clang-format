@@ -12,7 +12,7 @@ AlignAfterOpenBracket: DontAlign
 AlignOperands: DontAlign
 
 IncludeCategories:
-  - Regex: '^<(Eigen/.*|.*\.(h|hpp))>$'
+  - Regex: '^<(.*\.(h|hpp))>$'
     Priority: 2
   - Regex: "^<"
     Priority: 1
