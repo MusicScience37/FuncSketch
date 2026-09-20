@@ -15,7 +15,6 @@
 """Class of widgets to show plots."""
 
 import logging
-import time
 
 import kivy.core.window
 import kivy.graphics
@@ -23,14 +22,11 @@ import kivy.graphics.texture
 import kivy.input
 import kivy.properties
 import kivy.uix.image
-import numpy
 
-from func_sketch._cpp import PlotConfig, PlotRange, Plotter, Point
 from func_sketch._gui.common.constants import (
-    DEFAULT_PLOT_CONFIG,
-    DEFAULT_PLOT_RANGE,
     PLOT_BACKGROUND_PADDING_COLOR,
 )
+from func_sketch._gui.plot_2d.plot_widget_model import PlotWidgetModel
 
 LOGGER = logging.getLogger(__name__)
 
@@ -45,16 +41,22 @@ class PlotWidget(kivy.uix.image.Image):
         """Constructor."""
         super().__init__(**kwargs)
 
-        self._range = DEFAULT_PLOT_RANGE
-        self._plotter = Plotter(self._range, DEFAULT_PLOT_CONFIG)
-
-        # Initialize with a small image to prevent errors in _prepare_texture.
-        # This will be altered with the actual plot size later.
-        self._image_buffer = numpy.zeros((1, 1, 3), dtype=numpy.uint8)
+        self._model = PlotWidgetModel()
         self._prepare_texture()
+        self._model.bind(
+            image_buffer=lambda _instance, _value: self._prepare_texture(),
+            on_image_buffer_written=self._on_image_buffer_written,
+        )
+        self.bind(
+            size=lambda _instance, value: self._model.on_widget_size(value),
+            norm_image_size=lambda _instance, value: self._model.on_norm_image_size(
+                value
+            ),
+            shared_state=lambda _instance, value: setattr(
+                self._model, "shared_state", value
+            ),
+        )
 
-        self._last_mouse_pos_in_pixel: tuple[float, float] | None = None
-        self._current_touch_modifiers: list[str] = []
         kivy.core.window.Window.bind(mouse_pos=self._on_mouse_pos)
 
         self.fit_mode = "contain"
@@ -65,101 +67,40 @@ class PlotWidget(kivy.uix.image.Image):
                 pos=self.pos,
                 size=self.size,
             )
-
         self.bind(
             pos=lambda _instance, _value: setattr(
                 self._background_rect, "pos", self.pos
-            )
-        )
-        self.bind(
+            ),
             size=lambda _instance, _value: setattr(
                 self._background_rect, "size", self.size
-            )
+            ),
         )
 
-    def on_shared_state(self, _instance: object, _value: object) -> None:
-        """Callback when the shared_state property is set."""
-        self.shared_state.bind(
-            on_plot_range_changed=self._on_shared_plot_range,
-            on_plot_config_changed=self._on_shared_plot_config,
-            on_sampled_curve_changed_any=self._on_shared_sampled_curve,
-            on_fixed_desired_size_changed=self._on_shared_fixed_desired_size,
-        )
-        self._prepare_texture()
-        self._update_plot()
+    def on_kv_post(self, base_widget: object) -> None:
+        """Callback after the kv rules of this widget are applied."""
+        super().on_kv_post(base_widget)
 
-    def on_size(self, _instance: object, _value: object) -> None:
-        """Callback when the size of the widget is changed."""
-        self._prepare_texture()
-        self._update_plot()
-
-    def _on_shared_plot_range(
-        self, _instance: object, _source: object, value: PlotRange
-    ) -> None:
-        """Callback when the on_plot_range_changed event is dispatched."""
-        self._range = value
-        self._plotter.range = self._range
-        self._prepare_texture()
-        self._update_plot()
-
-    def _on_shared_plot_config(
-        self, _instance: object, _source: object, value: PlotConfig
-    ) -> None:
-        """Callback when the on_plot_config_changed event is dispatched."""
-        self._plotter.config = value
-        self._prepare_texture()
-        self._update_plot()
-
-    def _on_shared_sampled_curve(self, _instance: object, _source: object) -> None:
-        """Callback when the on_sampled_curve_changed event is dispatched."""
-        self._update_plot()
-
-    def _on_shared_fixed_desired_size(
-        self, _instance: object, _source: object, _value: object
-    ) -> None:
-        """Callback when the on_fixed_desired_size_changed event is dispatched."""
-        self._prepare_texture()
-        self._update_plot()
+        self._model.init()
 
     def _prepare_texture(self) -> None:
         """Prepare texture for the plot."""
-        if self.shared_state is None:
-            return
-        if self.shared_state.fixed_desired_size is None:
-            width, height = self.size
-        else:
-            height, width = self.shared_state.fixed_desired_size
+        image_buffer = self._model.image_buffer
+        height, width = image_buffer.shape[:2]
 
-        self._plotter.desired_size(int(height), int(width))
-        height, width = self._plotter.actual_size
-        if (
-            height == self._image_buffer.shape[0]
-            and width == self._image_buffer.shape[1]
-        ):
-            return
-
-        self._image_buffer = numpy.zeros((height, width, 3), dtype=numpy.uint8)
         self._texture = kivy.graphics.texture.Texture.create(
             size=(width, height), colorfmt="rgb"
         )
         self._texture.blit_buffer(
-            self._image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
+            image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
         )
         self._texture.flip_vertical()
         self.texture = self._texture
 
-        self.shared_state.update_image_buffer(self, self._image_buffer)
-
-    def _update_plot(self) -> None:
-        """Update the plot."""
-        start_time = time.perf_counter()
-        self._plotter.write(self.shared_state.sampled_curves, self._image_buffer)
+    def _on_image_buffer_written(self, _instance: object) -> None:
+        """Callback when the image buffer is written (no update for the image size)."""
+        # In this case, texture does not need to be recreated, only updated.
         self._texture.blit_buffer(
-            self._image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
-        )
-        end_time = time.perf_counter()
-        LOGGER.debug(
-            "PlotWidget: Plotted in %.2f ms.", (end_time - start_time) * 1000.0
+            self._model.image_buffer.tobytes(), colorfmt="rgb", bufferfmt="ubyte"
         )
 
     def on_touch_down(self, touch: kivy.input.MotionEvent) -> bool:
@@ -173,7 +114,7 @@ class PlotWidget(kivy.uix.image.Image):
         """
         if self.collide_point(*touch.pos):
             if touch.is_mouse_scrolling:
-                self._handle_scrolling(touch)
+                self._model.on_mouse_scroll(is_scroll_down=touch.button == "scrolldown")
                 return True
             elif touch.is_touch:
                 if touch.button == "left":
@@ -185,18 +126,6 @@ class PlotWidget(kivy.uix.image.Image):
 
         return super().on_touch_down(touch)
 
-    def _handle_scrolling(self, touch: kivy.input.MotionEvent) -> None:
-        """Handle events of scrolling.
-
-        Args:
-            touch: The touch event.
-        """
-        mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
-        if mouse_pos_in_plot is not None:
-            # Zoom the plot range.
-            is_zoom_in = touch.button == "scrolldown"
-            self._zoom(center=mouse_pos_in_plot, is_zoom_in=is_zoom_in)
-
     def _handle_left_button_down(self, touch: kivy.input.MotionEvent) -> None:
         """Handle events when the left mouse button is pressed.
 
@@ -205,12 +134,13 @@ class PlotWidget(kivy.uix.image.Image):
         """
         mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
         if mouse_pos_in_plot is not None:
-            # Begin to pan the range or select the new range.
             touch.grab(self)
             touch.push()
             touch.apply_transform_2d(self._to_widget_pos)
-            self._last_mouse_pos_in_pixel = touch.pos
-            self._current_touch_modifiers = kivy.core.window.Window.modifiers.copy()
+            self._model.on_mouse_left_button_down(
+                relative_pos=touch.pos,
+                current_touch_modifiers=kivy.core.window.Window.modifiers.copy(),
+            )
             touch.pop()
 
     def on_touch_move(self, touch: kivy.input.MotionEvent) -> bool:
@@ -234,28 +164,10 @@ class PlotWidget(kivy.uix.image.Image):
         Args:
             touch: The touch event.
         """
-        if (
-            "ctrl" not in self._current_touch_modifiers
-            and self._last_mouse_pos_in_pixel is not None
-        ):
-            # Pan the plot range.
-            touch.push()
-            touch.apply_transform_2d(self._to_widget_pos)
-            dx_pixel = touch.pos[0] - self._last_mouse_pos_in_pixel[0]
-            dy_pixel = touch.pos[1] - self._last_mouse_pos_in_pixel[1]
-            x_coeff, y_coeff = self._plotter.point_converter.image_to_plot_coefficient
-            norm_width, norm_height = self.norm_image_size
-            image_height, image_width = self._plotter.actual_size
-            x_coeff = x_coeff * image_width / norm_width
-            y_coeff = y_coeff * image_height / norm_height
-            diff_plot = Point(x=-dx_pixel * x_coeff, y=-dy_pixel * y_coeff)
-
-            plot_range = self.shared_state.plot_range
-            plot_range.pan(diff_plot)
-            self.shared_state.update_plot_range(self, plot_range)
-
-            self._last_mouse_pos_in_pixel = touch.pos
-            touch.pop()
+        touch.push()
+        touch.apply_transform_2d(self._to_widget_pos)
+        self._model.on_mouse_left_button_dragging(relative_pos=touch.pos)
+        touch.pop()
 
     def on_touch_up(self, touch: kivy.input.MotionEvent) -> bool:
         """Callback when a touch up event occurs.
@@ -276,28 +188,10 @@ class PlotWidget(kivy.uix.image.Image):
 
     def _handle_left_button_up(self, touch: kivy.input.MotionEvent) -> None:
         """Handle events when the left mouse button is released."""
-        if (
-            "ctrl" in self._current_touch_modifiers
-            and self._last_mouse_pos_in_pixel is not None
-        ):
-            mouse_pos_in_plot = self.shared_state.mouse_pos_in_plot
-            if mouse_pos_in_plot is not None:
-                # Finish to select the new range.
-                touch.push()
-                touch.apply_transform_2d(self._to_widget_pos)
-                first_pos_in_plot = self._widget_to_plot(self._last_mouse_pos_in_pixel)
-                second_pos_in_plot = self._widget_to_plot(touch.pos)
-                x_min = min(first_pos_in_plot.x, second_pos_in_plot.x)
-                x_max = max(first_pos_in_plot.x, second_pos_in_plot.x)
-                y_min = min(first_pos_in_plot.y, second_pos_in_plot.y)
-                y_max = max(first_pos_in_plot.y, second_pos_in_plot.y)
-                self.shared_state.update_plot_range(
-                    self,
-                    PlotRange(x_range=(x_min, x_max), y_range=(y_min, y_max)),
-                )
-                touch.pop()
-        self._last_mouse_pos_in_pixel = None
-        self._current_touch_modifiers = []
+        touch.push()
+        touch.apply_transform_2d(self._to_widget_pos)
+        self._model.on_mouse_left_button_up(relative_pos=touch.pos)
+        touch.pop()
 
     def _on_mouse_pos(self, _instance: object, value: tuple[float, float]) -> None:
         """Callback when the mouse position is changed."""
@@ -306,13 +200,7 @@ class PlotWidget(kivy.uix.image.Image):
             return
 
         relative_pos = self.to_widget(*value, relative=True)
-        plot_pos = self._widget_to_plot(relative_pos)
-
-        if not self._range.contains(plot_pos):
-            self.shared_state.update_mouse_pos_in_plot(self, None)
-            return
-
-        self.shared_state.update_mouse_pos_in_plot(self, plot_pos)
+        self._model.on_mouse_pos_in_widget(relative_pos)
 
     def _to_widget_pos(self, x: float, y: float) -> tuple[float, float]:
         """Convert a position in window coordinates to widget-relative coordinates.
@@ -329,39 +217,3 @@ class PlotWidget(kivy.uix.image.Image):
             Position in widget-relative coordinates.
         """
         return self.to_widget(x, y, relative=True)
-
-    def _widget_to_plot(self, pos_in_widget: tuple[float, float]) -> Point:
-        """Convert a position in widget coordinates to plot coordinates.
-
-        Args:
-            pos_in_widget: Position in widget coordinates.
-
-        Returns:
-            Position in plot coordinates.
-        """
-        widget_width, widget_height = self.size
-        norm_width, norm_height = self.norm_image_size
-        offset_x = (widget_width - norm_width) / 2
-        offset_y = (widget_height - norm_height) / 2
-        image_height, image_width = self._plotter.actual_size
-        image_x = int((pos_in_widget[0] - offset_x) * image_width / norm_width)
-        # Kivy's coordinate system has the origin at the bottom-left corner,
-        # but OpenCV's coordinate system has the origin at the top-left corner.
-        image_y = int(
-            (norm_height - 1 - (pos_in_widget[1] - offset_y))
-            * image_height
-            / norm_height
-        )
-        return self._plotter.point_converter.convert_image_to_plot((image_x, image_y))
-
-    def _zoom(self, center: Point, is_zoom_in: bool) -> None:
-        """Zoom the plot.
-
-        Args:
-            center: Center point for zooming in plot coordinates.
-            is_zoom_in: True to zoom in, False to zoom out.
-        """
-        factor = 2.0 if is_zoom_in else 0.5
-        plot_range = self.shared_state.plot_range
-        plot_range.zoom(center, factor)
-        self.shared_state.update_plot_range(self, plot_range)
