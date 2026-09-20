@@ -20,12 +20,12 @@
 #pragma once
 
 #include <concepts>
+#include <span>
 #include <string>
 #include <string_view>
 #include <tuple>
 #include <utility>
 #include <variant>
-#include <vector>
 
 #include <fmt/base.h>
 #include <fmt/format.h>
@@ -73,7 +73,7 @@ public:
      * \param[in] args Arguments.
      * \param[out] result Result.
      */
-    void operator()(const std::vector<Number>& args, Number& result) const {
+    void operator()(std::span<const Number> args, Number& result) const {
         constexpr std::size_t num_args = sizeof...(AcceptableTypesPerArgument);
         if (args.size() != num_args) {
             throw InvalidExpressionException(fmt::format(
@@ -95,7 +95,7 @@ private:
      * \param[out] result Result.
      */
     template <std::size_t... Indices>
-    void operate_impl(const std::vector<Number>& args, Number& result,
+    void operate_impl(std::span<const Number> args, Number& result,
         std::index_sequence<Indices...> /*indices*/) const {
         std::visit(
             [this, &result](const auto&... actual_args) {

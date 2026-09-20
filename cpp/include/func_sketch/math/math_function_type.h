@@ -20,8 +20,8 @@
 #pragma once
 
 #include <concepts>
+#include <span>
 #include <string_view>
-#include <vector>
 
 #include "func_sketch/common_types.h"
 
@@ -38,7 +38,7 @@ concept MathFunctionType = requires() {
         { function_object.name() } -> std::convertible_to<std::string_view>;
     };
 
-    requires requires(const T& function_object, const std::vector<Number>& args,
+    requires requires(const T& function_object, std::span<const Number> args,
         Number& result) {
         { function_object(args, result) } -> std::same_as<void>;
     };
