@@ -19,6 +19,7 @@ import logging
 import kivy.animation
 import kivy.input
 import kivy.properties
+import kivy.uix.behaviors.button
 import kivy.uix.boxlayout
 import kivy.uix.label
 import kivy.uix.widget
@@ -29,12 +30,15 @@ from func_sketch._gui.common.constants import (
     SPACING_DEFAULT,
 )
 from func_sketch._gui.common.rotatable_arrow import RotatableArrow
+from func_sketch._gui.common.sync_properties import sync_properties
 
 LOGGER = logging.getLogger(__name__)
 
 
-class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
-    """Class of widgets of collapsible boxes."""
+class CollapsibleBoxHeader(
+    kivy.uix.behaviors.button.ButtonBehavior, kivy.uix.boxlayout.BoxLayout
+):
+    """Class of headers of collapsible boxes."""
 
     title = kivy.properties.StringProperty("")
     """Title."""
@@ -42,21 +46,11 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
     title_font_size = kivy.properties.NumericProperty(FONT_SIZE_HEADER1)
     """Font size of the title."""
 
+    collapsed = kivy.properties.BooleanProperty(False)
+    """Whether the box is collapsed."""
+
     def __init__(self, **kwargs) -> None:
-        self._collapsed = False
-        self._animating = False
-
-        self._title_widget: kivy.uix.label.Label | None = None
-        self._arrow_widget: RotatableArrow | None = None
-        self._header_widget: kivy.uix.boxlayout.BoxLayout | None = None
-        self._content_widget: kivy.uix.widget.Widget | None = None
-
         super().__init__(**kwargs)
-
-    def add_widget(self, widget: kivy.uix.widget.Widget, *args, **kwargs) -> None:
-        """Add a widget."""
-        if self._content_widget is not None:
-            raise ValueError("Content widget already added.")
 
         self._title_widget = kivy.uix.label.Label()
         self._title_widget.text = self.title
@@ -90,20 +84,69 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
         self._title_widget.bind(height=self._arrow_widget.setter("height"))
         self._arrow_widget.rotation_angle = -90
 
-        self._header_widget = kivy.uix.boxlayout.BoxLayout()
-        self._header_widget.add_widget(self._title_widget)
-        self._header_widget.add_widget(self._arrow_widget)
-        self._header_widget.orientation = "horizontal"
-        self._header_widget.size_hint_y = None
-        self._header_widget.height = self._header_widget.minimum_height
-        self._header_widget.bind(minimum_height=self._header_widget.setter("height"))
+        self.add_widget(self._title_widget)
+        self.add_widget(self._arrow_widget)
+        self.orientation = "horizontal"
+        self.size_hint_y = None
+        self.height = self.minimum_height
+        self.bind(minimum_height=self.setter("height"))
+
+    def on_release(self) -> None:
+        """Callback when the header is released."""
+        self.collapsed = not self.collapsed
+
+    def on_collapsed(self, _instance: object, value: bool) -> None:
+        """Callback when the collapsed property changes.
+
+        Args:
+            value (bool): The new value of the collapsed property.
+        """
+        kivy.animation.Animation.cancel_all(self._arrow_widget, "rotation_angle")
+        kivy.animation.Animation(
+            rotation_angle=0 if value else -90,
+            d=ANIMATION_DURATION,
+            t="out_quad",
+        ).start(self._arrow_widget)
+
+
+class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
+    """Class of widgets of collapsible boxes."""
+
+    title = kivy.properties.StringProperty("")
+    """Title."""
+
+    title_font_size = kivy.properties.NumericProperty(FONT_SIZE_HEADER1)
+    """Font size of the title."""
+
+    collapsed = kivy.properties.BooleanProperty(False)
+    """Whether the box is collapsed."""
+
+    def __init__(self, **kwargs) -> None:
+        self._animating = False
+
+        self._header_widget: CollapsibleBoxHeader | None = None
+        self._content_widget: kivy.uix.widget.Widget | None = None
+
+        super().__init__(**kwargs)
+
+    def add_widget(self, widget: kivy.uix.widget.Widget, *args, **kwargs) -> None:
+        """Add a widget."""
+        if self._content_widget is not None:
+            raise ValueError("Content widget already added.")
+
+        self._header_widget = CollapsibleBoxHeader()
+        self.bind(
+            title=self._header_widget.setter("title"),
+            title_font_size=self._header_widget.setter("title_font_size"),
+        )
+        sync_properties(self, "collapsed", self._header_widget, "collapsed")
 
         self._content_widget = widget
         self._content_widget.size_hint_y = None
-        self._content_widget.height = self._content_widget.minimum_height
         self._content_widget.bind(
             minimum_height=lambda _instance, _value: self._update_content_height(False)
         )
+        self._update_content_height(False)
 
         super().add_widget(self._header_widget, *args, **kwargs)
         super().add_widget(self._content_widget, *args, **kwargs)
@@ -113,6 +156,10 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
         self.bind(minimum_height=self.setter("height"))
         self.spacing = SPACING_DEFAULT
 
+    def on_collapsed(self, _instance: object, _value: bool) -> None:
+        """Toggle the collapsed state of the content widget."""
+        self._update_content_height(True)
+
     def on_touch_down(self, touch: kivy.input.MotionEvent) -> bool:
         """Callback when the touch down event occurs.
 
@@ -121,31 +168,48 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
 
         Returns:
             True if the event is handled, False otherwise.
-
-        Note:
-            This handles the touch down event for the header widget.
         """
-        if self._header_widget is not None and self._header_widget.collide_point(
-            *touch.pos
+        if self._header_widget is not None and self._header_widget.dispatch(
+            "on_touch_down", touch
         ):
-            LOGGER.debug("Header widget pressed.")
-            self._toggle_collapsed()
             return True
-        return super().on_touch_down(touch)
+        if self.collapsed or self._content_widget is None:
+            return False
+        return self._content_widget.dispatch("on_touch_down", touch)
 
-    def _toggle_collapsed(self) -> None:
-        """Toggle the collapsed state of the content widget."""
-        if self._arrow_widget is None or self._content_widget is None:
-            return
+    def on_touch_move(self, touch: kivy.input.MotionEvent) -> bool:
+        """Callback when the touch move event occurs.
 
-        self._collapsed = not self._collapsed
-        kivy.animation.Animation.cancel_all(self._arrow_widget, "rotation_angle")
-        kivy.animation.Animation(
-            rotation_angle=0 if self._collapsed else -90,
-            d=ANIMATION_DURATION,
-            t="out_quad",
-        ).start(self._arrow_widget)
-        self._update_content_height(True)
+        Args:
+            touch: The touch event.
+
+        Returns:
+            True if the event is handled, False otherwise.
+        """
+        if self._header_widget is not None and self._header_widget.dispatch(
+            "on_touch_move", touch
+        ):
+            return True
+        if self.collapsed or self._content_widget is None:
+            return False
+        return self._content_widget.dispatch("on_touch_move", touch)
+
+    def on_touch_up(self, touch: kivy.input.MotionEvent) -> bool:
+        """Callback when the touch up event occurs.
+
+        Args:
+            touch: The touch event.
+
+        Returns:
+            True if the event is handled, False otherwise.
+        """
+        if self._header_widget is not None and self._header_widget.dispatch(
+            "on_touch_up", touch
+        ):
+            return True
+        if self.collapsed or self._content_widget is None:
+            return False
+        return self._content_widget.dispatch("on_touch_up", touch)
 
     def _update_content_height(self, animate: bool) -> None:
         """Update the height of the content widget based on the collapsed state.
@@ -158,8 +222,6 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
             return
 
         content_minimum_height = self._content_widget.minimum_height
-        if content_minimum_height == 0:
-            raise ValueError("Content widget has zero minimum height.")
 
         if self._animating:
             animate = True
@@ -168,13 +230,13 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
 
         if not animate:
             self._content_widget.height = (
-                0 if self._collapsed else content_minimum_height
+                0 if self.collapsed else content_minimum_height
             )
-            self._content_widget.opacity = 0.0 if self._collapsed else 1.0
-            self._content_widget.disabled = self._collapsed
+            self._content_widget.opacity = 0.0 if self.collapsed else 1.0
+            self._content_widget.disabled = self.collapsed
             return
 
-        if self._collapsed:
+        if self.collapsed:
             animation = kivy.animation.Animation(
                 opacity=0.0,
                 d=ANIMATION_DURATION,
