@@ -14,7 +14,7 @@ This project is made of a C++ module with Python bindings and Python scripts for
 
 Directory structure:
 
-- `cpp`: C++ source codes
+- `cpp`: C++ source code
   - `cmake`: Scripts for CMake
   - `include`: Header files
   - `src`: Source files
@@ -25,12 +25,12 @@ Directory structure:
     - `sphinx/design_notes/classes_python.puml`: UML class diagram for Python classes
     - `sphinx/design_notes/grammar.md`: Grammar for the parser
     - `sphinx/design_notes/modules.puml`: UML diagram for module structure
-- `src`: Python source codes
+- `src`: Python source code
   - `func_sketch`: Python package
     - `_gui`: Package directory for GUI
     - `_impl`: Package directory for the internal logic
-    - `_cpp`: C++ extension module built from source codes in `cpp` directory
-- `tests`: Tests of Python source codes
+    - `_cpp`: C++ extension module built from source code in `cpp` directory
+- `tests`: Tests of Python source code
 
 ## Notes on C++ Source Codes
 
