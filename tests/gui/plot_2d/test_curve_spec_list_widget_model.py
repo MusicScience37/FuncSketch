@@ -12,26 +12,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test of CurveSpecListWidget."""
-
-import kivy.lang
+"""Test of CurveSpecListWidgetModel."""
 
 from func_sketch._cpp import PlotConfig, PlotRange
-from func_sketch._gui.plot_2d.curve_spec_list_widget import CurveSpecListWidget
+from func_sketch._gui.plot_2d.curve_spec_list_widget_model import (
+    CurveSpecListWidgetModel,
+)
 from func_sketch._gui.plot_2d.shared_state import SharedState
 
-kivy.lang.Builder.load_file("plot_2d/curve_spec_list_widget.kv")
+
+def _create_model(shared_state: SharedState) -> CurveSpecListWidgetModel:
+    """Create a CurveSpecListWidgetModel bound to the given shared state.
+
+    Args:
+        shared_state: Shared state to bind.
+
+    Returns:
+        Created model.
+    """
+    model = CurveSpecListWidgetModel()
+    model.shared_state = shared_state
+    model.init()
+    return model
 
 
-class TestCurveSpecListWidget:
-    """Test of CurveSpecListWidget."""
+class TestCurveSpecListWidgetModel:
+    """Test of CurveSpecListWidgetModel."""
 
-    def test_update_in_curve_spec_widget(self) -> None:
-        """Test for updates in a CurveSpecWidget."""
+    def test_update_in_curve_spec_model(self) -> None:
+        """Test for updates in a CurveSpecWidgetModel."""
         shared_state = SharedState()
-        widget = CurveSpecListWidget(shared_state=shared_state)
+        model = _create_model(shared_state)
 
-        widget._curve_spec_widgets[0].expression_text = "x**2"
+        model.curve_models[0].expression_text = "x**2"
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
         assert len(shared_state.sampled_curves[0].points) > 0
@@ -39,9 +52,9 @@ class TestCurveSpecListWidget:
     def test_plot_range_update(self) -> None:
         """Test for updates in the plot range."""
         shared_state = SharedState()
-        widget = CurveSpecListWidget(shared_state=shared_state)
+        model = _create_model(shared_state)
 
-        widget._curve_spec_widgets[0].expression_text = "x**2"
+        model.curve_models[0].expression_text = "x**2"
         shared_state.update_plot_range(None, PlotRange((-2.0, 2.0), (-1.0, 1.0)))
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
@@ -54,9 +67,9 @@ class TestCurveSpecListWidget:
         # But check that this operation does not cause an error.
 
         shared_state = SharedState()
-        widget = CurveSpecListWidget(shared_state=shared_state)
+        model = _create_model(shared_state)
 
-        widget._curve_spec_widgets[0].expression_text = "x**2"
+        model.curve_models[0].expression_text = "x**2"
         shared_state.update_plot_config(None, PlotConfig())
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"

@@ -205,7 +205,9 @@ Objects of this class can be called with a string to parse it into an Expression
             "g"_a, "b"_a, "Constructor.")
         .def_rw("r", &RGBColor::r, "Red component.")
         .def_rw("g", &RGBColor::g, "Green component.")
-        .def_rw("b", &RGBColor::b, "Blue component.");
+        .def_rw("b", &RGBColor::b, "Blue component.")
+        .def(
+            nanobind::self == nanobind::self, "Check if two colors are equal.");
 
     using func_sketch::Point;
     nanobind::class_<Point>(m, "Point", "Class of points.")
