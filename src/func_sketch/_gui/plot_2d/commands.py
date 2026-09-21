@@ -39,8 +39,12 @@ class Commands(kivy.event.EventDispatcher):
         root = tkinter.Tk()
         root.withdraw()  # Hide the root window
         file_path = tkinter.filedialog.asksaveasfilename(
-            defaultextension=".png",
-            filetypes=[("PNG files", "*.png")],
+            filetypes=[
+                ("JPEG files", "*.jpg"),
+                ("PNG files", "*.png"),
+                ("TIFF files", "*.tiff"),
+                ("WEBP files", "*.webp"),
+            ],
         )
         root.destroy()
 
