@@ -142,10 +142,10 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
 
         self._content_widget = widget
         self._content_widget.size_hint_y = None
-        self._content_widget.height = self._content_widget.minimum_height
         self._content_widget.bind(
             minimum_height=lambda _instance, _value: self._update_content_height(False)
         )
+        self._update_content_height(False)
 
         super().add_widget(self._header_widget, *args, **kwargs)
         super().add_widget(self._content_widget, *args, **kwargs)
@@ -172,7 +172,26 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
             "on_touch_down", touch
         ):
             return True
-        return super().on_touch_down(touch)
+        if self.collapsed or self._content_widget is None:
+            return False
+        return self._content_widget.dispatch("on_touch_down", touch)
+
+    def on_touch_move(self, touch: kivy.input.MotionEvent) -> bool:
+        """Callback when the touch move event occurs.
+
+        Args:
+            touch: The touch event.
+
+        Returns:
+            True if the event is handled, False otherwise.
+        """
+        if self._header_widget is not None and self._header_widget.dispatch(
+            "on_touch_move", touch
+        ):
+            return True
+        if self.collapsed or self._content_widget is None:
+            return False
+        return self._content_widget.dispatch("on_touch_move", touch)
 
     def on_touch_up(self, touch: kivy.input.MotionEvent) -> bool:
         """Callback when the touch up event occurs.
@@ -187,7 +206,9 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
             "on_touch_up", touch
         ):
             return True
-        return super().on_touch_up(touch)
+        if self.collapsed or self._content_widget is None:
+            return False
+        return self._content_widget.dispatch("on_touch_up", touch)
 
     def _update_content_height(self, animate: bool) -> None:
         """Update the height of the content widget based on the collapsed state.
@@ -200,8 +221,6 @@ class CollapsibleBox(kivy.uix.boxlayout.BoxLayout):
             return
 
         content_minimum_height = self._content_widget.minimum_height
-        if content_minimum_height == 0:
-            raise ValueError("Content widget has zero minimum height.")
 
         if self._animating:
             animate = True

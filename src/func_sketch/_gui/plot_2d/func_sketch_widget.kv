@@ -45,7 +45,7 @@
 <Splitter>:
     strip_cls: PlainSplitterStrip
 
-<FuncSketchWidget>
+<FuncSketchWidget>:
     orientation: "vertical"
     MenuWidget:
         shared_state: root.shared_state
@@ -84,6 +84,7 @@
                             shared_state: root.shared_state
                     CollapsibleBox:
                         title: "Range"
+                        collapsed: True
                         padding: PADDING_NAVIGATION
                         canvas:
                             Color:
@@ -94,6 +95,7 @@
                             shared_state: root.shared_state
                     CollapsibleBox:
                         title: "Image Size"
+                        collapsed: True
                         padding: PADDING_NAVIGATION
                         ImageSizeWidget:
                             shared_state: root.shared_state
