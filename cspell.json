@@ -65,6 +65,7 @@
     "Dsonar",
     "DVCPKG",
     "dvipdfmx",
+    "Eigen",
     "ellint",
     "ellipe",
     "ellipeinc",

@@ -51,3 +51,4 @@ This project is licensed under the [Apache License 2.0](https://www.apache.org/l
 
 - [Coverage of C++](https://funcsketch.musicscience37.com/coverage_cpp/)
 - [Coverage of Python](https://funcsketch.musicscience37.com/coverage_python/)
+- [FuncSketch on SonarQube](https://sonarcloud.io/project/overview?id=MusicScience37Projects_func-sketch)

@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Helper script to create lists of source codes for build."""
+"""Helper script to create lists of source code for build."""
 
 from pathlib import Path
 
