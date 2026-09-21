@@ -13,3 +13,7 @@
 # limitations under the License.
 
 """FuncSketch - a graphing calculator."""
+
+from func_sketch._cpp import __version__  # type: ignore
+
+__all__ = ["__version__"]
