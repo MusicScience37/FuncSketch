@@ -17,7 +17,7 @@ The gamma function is a special function extending the factorial to real numbers
     :returns: The value of :math:`\Gamma(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
-    .. image:: plots/gamma.png
+    .. image:: plots/gamma.webp
 
 .. funcsketch:function:: lgamma(x)
 
@@ -31,4 +31,4 @@ The gamma function is a special function extending the factorial to real numbers
     :returns: The value of :math:`\log{|\Gamma(x)|}`.
     :rtype: Real
 
-    .. image:: plots/lgamma.png
+    .. image:: plots/lgamma.webp
