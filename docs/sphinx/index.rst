@@ -37,6 +37,7 @@ C++ API reference is separately generated and can be found in `here <doxygen>`_.
     :maxdepth: 1
     :caption: About
 
+    license
     changelogs/index
 
 .. toctree::
