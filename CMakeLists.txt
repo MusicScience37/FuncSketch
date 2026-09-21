@@ -31,7 +31,23 @@ if(FUNC_SKETCH_BUILD_TESTS)
     list(APPEND VCPKG_MANIFEST_FEATURES "tests")
 endif()
 
-project(func_sketch LANGUAGES CXX)
+# ##############################################################################
+# Get version from pyproject.toml
+# ##############################################################################
+if(DEFINED SKBUILD_PROJECT_VERSION)
+    # Set by scikit-build-core when building the Python package.
+    set(FUNC_SKETCH_VERSION ${SKBUILD_PROJECT_VERSION})
+else()
+    file(READ ${CMAKE_CURRENT_SOURCE_DIR}/pyproject.toml PYPROJECT_TOML_CONTENT)
+    string(REGEX MATCH "\nversion = \"([0-9]+\\.[0-9]+\\.[0-9]+)\"" _
+                 "${PYPROJECT_TOML_CONTENT}")
+    set(FUNC_SKETCH_VERSION ${CMAKE_MATCH_1})
+endif()
+
+project(
+    func_sketch
+    VERSION ${FUNC_SKETCH_VERSION}
+    LANGUAGES CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cpp/cmake")
 

@@ -53,6 +53,7 @@
 #include "func_sketch/point.h"
 #include "func_sketch/sampling/function_sampler.h"
 #include "func_sketch/sampling/sampling_config.h"
+#include "func_sketch/version.h"
 
 namespace {
 
@@ -156,6 +157,8 @@ NB_MODULE(_cpp, m) {
 
     nanobind::set_leak_warnings(false);
 
+    m.attr("__version__") = fmt::format("{}.{}.{}", FUNC_SKETCH_VERSION_MAJOR,
+        FUNC_SKETCH_VERSION_MINOR, FUNC_SKETCH_VERSION_PATCH);
     m.doc() = "C++ module for func_sketch";
 
     using func_sketch::expressions::ExpressionPtr;

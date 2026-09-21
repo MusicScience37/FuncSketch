@@ -24,9 +24,15 @@ if Config is not None:
     Config.set("graphics", "width", "1300")
     Config.set("graphics", "height", "800")
 
+import logging  # noqa: E402
+
+from func_sketch._cpp import __version__  # type: ignore # noqa: E402
 from func_sketch._gui.plot_2d.func_sketch_app import FuncSketchApp  # noqa: E402
+
+LOGGER = logging.getLogger(__name__)
 
 
 def main() -> None:
     """Main function."""
+    LOGGER.info("FuncSketch version %s", __version__)
     FuncSketchApp().run()
