@@ -25,7 +25,7 @@
     height: self.minimum_height
     spacing: SPACING_DEFAULT
     Label:
-        text: root.curve_name
+        text: root._model.curve_name
         size_hint_y: None
         height: self.texture_size[1]
         font_size: FONT_SIZE_HEADER2
@@ -49,4 +49,4 @@
             height: self.minimum_height
             font_size: FONT_SIZE_TEXT
     ErrorMessageLabel:
-        text: root.error_message
+        text: root._model.error_message

@@ -12,71 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Class of widgets to configure curves."""
+"""Class of widgets of curve specifications."""
 
-import kivy.properties
 import kivy.uix.boxlayout
 
-from func_sketch._cpp import ExplicitCurveSpec, RGBColor
 from func_sketch._gui.common.sync_properties import sync_properties
+from func_sketch._gui.plot_2d.curve_spec_widget_model import CurveSpecWidgetModel
 
 
 class CurveSpecWidget(kivy.uix.boxlayout.BoxLayout):
-    """Class of widgets to configure curves.
+    """Class of widgets of curve specifications."""
 
-    Note:
-        Following properties can be used:
-
-        - expression_text (writable)
-        - curve_name (writable)
-        - curve_color (writable)
-        - error_message (writable)
-        - curve_spec (writable)
-    """
-
-    expression_text = kivy.properties.StringProperty()
-    """Text of the function expression."""
-
-    curve_name = kivy.properties.StringProperty()
-    """Name of the curve."""
-
-    curve_color = kivy.properties.ObjectProperty(RGBColor(0, 0, 0))
-    """Color of the curve."""
-
-    error_message = kivy.properties.StringProperty("")
-    """Error message related to the curve specification."""
+    def __init__(self, model: CurveSpecWidgetModel, **kwargs) -> None:
+        """Constructor."""
+        self._model = model
+        super().__init__(**kwargs)
 
     def on_kv_post(self, base_widget: object) -> None:
         """Callback after the kv rules of this widget are applied."""
         super().on_kv_post(base_widget)
-        sync_properties(self, "expression_text", self.ids.expression_text_input, "text")
-
-    def _get_curve_spec(self) -> ExplicitCurveSpec:
-        """Get the curve specification.
-
-        Returns:
-            Curve specification.
-        """
-        return ExplicitCurveSpec(
-            name=self.curve_name,
-            function_expression_str=self.expression_text,
-            color=self.curve_color,
+        sync_properties(
+            self._model, "expression_text", self.ids.expression_text_input, "text"
         )
-
-    def _set_curve_spec(self, curve_spec: ExplicitCurveSpec) -> None:
-        """Set the curve specification.
-
-        Args:
-            curve_spec: Curve specification.
-        """
-        self.curve_name = curve_spec.name
-        self.expression_text = curve_spec.function_expression_str
-        self.curve_color = curve_spec.color
-
-    curve_spec = kivy.properties.AliasProperty(
-        _get_curve_spec,
-        _set_curve_spec,
-        bind=("curve_name", "expression_text", "curve_color"),
-        cache=True,
-    )
-    """Curve specification."""
