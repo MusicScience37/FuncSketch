@@ -17,6 +17,7 @@
 import logging
 
 import kivy.animation
+import kivy.input
 import kivy.properties
 import kivy.uix.behaviors.button
 import kivy.uix.boxlayout
