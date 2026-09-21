@@ -52,15 +52,20 @@ class CommandButton(kivy.uix.behaviors.button.ButtonBehavior, kivy.uix.label.Lab
             texture_size=lambda _instance, value: setattr(self, "height", value[1])
         )
 
-        self.text_size = (self.width, None)
-        self.bind(
-            width=lambda _instance, value: setattr(self, "text_size", (value, None))
-        )
-
         self.halign = "left"
         self.valign = "middle"
-
         self.padding = PADDING_MENU_BUTTON + SPACING_MENU_BAR
+
+        self.text_size = (None, None)
+        self.texture_update()
+        self.natural_width = self.texture_size[0]
+
+        self.text_size = (max(self.width, self.natural_width), None)
+        self.bind(
+            width=lambda _instance, value: setattr(
+                self, "text_size", (max(value, self.natural_width), None)
+            )
+        )
 
         self.bind(on_release=lambda instance: callback())
 
@@ -111,7 +116,7 @@ class MenuDropDown(kivy.uix.dropdown.DropDown):
         """Update the width."""
         self.width = max(
             max(
-                (child.texture_size[0] for child in self._buttons),
+                (child.natural_width for child in self._buttons),
                 default=MENU_DROP_DOWN_WIDTH,
             ),
             MENU_DROP_DOWN_WIDTH,
