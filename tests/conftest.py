@@ -18,9 +18,9 @@ import os
 import pathlib
 import shutil
 
+import cv2
 import numpy
 import pytest
-import skimage.io
 import skimage.metrics
 
 # This must be set before importing Kivy.
@@ -64,14 +64,14 @@ class ImageApprover:
         Args:
             received: Actual image.
         """
-        approved_path = self._data_dir / f"{self._base_name}.approved.png"
-        received_path = self._data_dir / f"{self._base_name}.received.png"
-        diff_path = self._data_dir / f"{self._base_name}.diff.png"
+        approved_path = self._data_dir / f"{self._base_name}.approved.webp"
+        received_path = self._data_dir / f"{self._base_name}.received.webp"
+        diff_path = self._data_dir / f"{self._base_name}.diff.webp"
 
         self._data_dir.mkdir(parents=True, exist_ok=True)
 
         if not approved_path.exists():
-            skimage.io.imsave(str(received_path), received)
+            self._write_image(received_path, received)
             shutil.copy(received_path, approved_path)
             pytest.fail(
                 f"Approved image file does not exist: {approved_path}. "
@@ -79,10 +79,10 @@ class ImageApprover:
                 "Please check and approve it."
             )
 
-        approved = skimage.io.imread(str(approved_path))
+        approved = self._read_image(approved_path)
 
         if received.shape != approved.shape:
-            skimage.io.imsave(str(received_path), received)
+            self._write_image(received_path, received)
             shutil.copy(received_path, approved_path)
             pytest.fail(
                 f"Shape mismatch: received={received.shape}, approved={approved.shape}. "
@@ -104,8 +104,8 @@ class ImageApprover:
         diff = (diff * 255).astype(numpy.uint8)
 
         if score < self._threshold:
-            skimage.io.imsave(str(received_path), received)
-            skimage.io.imsave(str(diff_path), diff, check_contrast=False)
+            self._write_image(received_path, received)
+            self._write_image(diff_path, diff)
             shutil.copy(received_path, approved_path)
             pytest.fail(
                 f"Image mismatch: score={score}, threshold={self._threshold}. "
@@ -118,6 +118,31 @@ class ImageApprover:
         # Successful verification, remove the received and diff images.
         received_path.unlink(missing_ok=True)
         diff_path.unlink(missing_ok=True)
+
+    def _read_image(self, path: pathlib.Path) -> numpy.ndarray:
+        """Read an image from the specified path.
+
+        Args:
+            path: Path to the image file.
+
+        Returns:
+            The read image as a numpy array.
+        """
+        result = cv2.imread(str(path), cv2.IMREAD_UNCHANGED)
+        assert result is not None
+        result = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
+        return result
+
+    def _write_image(self, path: pathlib.Path, image: numpy.ndarray) -> None:
+        """Write an image to the specified path.
+
+        Args:
+            path: Path to the image file.
+            image: The image as a numpy array to be written.
+        """
+        # Save as lossless WebP.
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        cv2.imwrite(str(path), image, [cv2.IMWRITE_WEBP_QUALITY, 101])
 
 
 @pytest.fixture
