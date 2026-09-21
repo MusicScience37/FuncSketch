@@ -184,6 +184,7 @@
     "VIDEODRIVER",
     "Virtualenv",
     "virtualenvs",
+    "webp",
     "Woverloaded"
   ],
   "ignoreWords": [],

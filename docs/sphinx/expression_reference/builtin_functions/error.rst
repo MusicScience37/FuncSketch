@@ -15,7 +15,7 @@ The error function is a special function related to the normal distribution.
     :returns: The value of :math:`\mathrm{erf}(x)`.
     :rtype: Real
 
-    .. image:: plots/erf.png
+    .. image:: plots/erf.webp
 
 .. funcsketch:function:: erfc(x)
 
@@ -29,4 +29,4 @@ The error function is a special function related to the normal distribution.
     :returns: The value of :math:`\mathrm{erfc}(x)`.
     :rtype: Real
 
-    .. image:: plots/erfc.png
+    .. image:: plots/erfc.webp

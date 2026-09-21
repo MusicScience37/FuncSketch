@@ -65,123 +65,123 @@ class PlotInfo:
 PLOT_LIST = [
     # For bessel.rst.
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_j0.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_j0.webp",
         expression_str="bessel_j(0, x)",
         x_range=(-10.0, 10.0),
         y_range=(-0.5, 1.2),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_j1.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_j1.webp",
         expression_str="bessel_j(1, x)",
         x_range=(-10.0, 10.0),
         y_range=(-1.0, 1.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_y0.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_y0.webp",
         expression_str="bessel_y(0, x)",
         x_range=(0.0, 10.0),
         y_range=(-1.0, 1.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_y1.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_y1.webp",
         expression_str="bessel_y(1, x)",
         x_range=(0.0, 10.0),
         y_range=(-1.0, 1.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_i0.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_i0.webp",
         expression_str="bessel_i(0, x)",
         x_range=(-3.0, 3.0),
         y_range=(-3.0, 3.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_i1.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_i1.webp",
         expression_str="bessel_i(1, x)",
         x_range=(-3.0, 3.0),
         y_range=(-3.0, 3.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_k0.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_k0.webp",
         expression_str="bessel_k(0, x)",
         x_range=(0.0, 3.0),
         y_range=(0.0, 3.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_k1.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/bessel_k1.webp",
         expression_str="bessel_k(1, x)",
         x_range=(0.0, 3.0),
         y_range=(0.0, 3.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_j0.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_j0.webp",
         expression_str="spherical_bessel_j(0, x)",
         x_range=(-1.0, 10.0),
         y_range=(-0.5, 1.2),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_j1.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_j1.webp",
         expression_str="spherical_bessel_j(1, x)",
         x_range=(-1.0, 10.0),
         y_range=(-0.5, 0.5),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_y0.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_y0.webp",
         expression_str="spherical_bessel_y(0, x)",
         x_range=(-1.0, 10.0),
         y_range=(-3.0, 1.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_y1.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/spherical_bessel_y1.webp",
         expression_str="spherical_bessel_y(1, x)",
         x_range=(-1.0, 10.0),
         y_range=(-3.0, 1.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_ber.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_ber.webp",
         expression_str="kelvin_ber(0, x)",
         x_range=(0.0, 10.0),
         y_range=(-10.0, 10.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_bei.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_bei.webp",
         expression_str="kelvin_bei(0, x)",
         x_range=(0.0, 10.0),
         y_range=(-40.0, 20.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_ker.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_ker.webp",
         expression_str="kelvin_ker(0, x)",
         x_range=(0.0, 10.0),
         y_range=(-1.0, 5.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_kei.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/kelvin_kei.webp",
         expression_str="kelvin_kei(0, x)",
         x_range=(0.0, 10.0),
         y_range=(-1.0, 0.2),
     ),
     # For error.rst.
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/erf.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/erf.webp",
         expression_str="erf(x)",
         x_range=(-3.0, 3.0),
         y_range=(-1.5, 1.5),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/erfc.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/erfc.webp",
         expression_str="erfc(x)",
         x_range=(-3.0, 3.0),
         y_range=(-0.5, 2.5),
     ),
     # For gamma.rst.
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/gamma.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/gamma.webp",
         expression_str="gamma(x)",
         x_range=(-3.0, 5.0),
         y_range=(-10.0, 10.0),
     ),
     PlotInfo(
-        file_path="sphinx/expression_reference/builtin_functions/plots/lgamma.png",
+        file_path="sphinx/expression_reference/builtin_functions/plots/lgamma.webp",
         expression_str="lgamma(x)",
         x_range=(-3.0, 5.0),
         y_range=(-1.0, 3.0),
@@ -219,7 +219,9 @@ def generate_plots() -> None:
 
         cv2.cvtColor(image, cv2.COLOR_RGB2BGR, dst=image)
 
-        cv2.imwrite(str(THIS_DIR / plot_info.file_path), image)
+        cv2.imwrite(
+            str(THIS_DIR / plot_info.file_path), image, [cv2.IMWRITE_WEBP_QUALITY, 101]
+        )
 
 
 if __name__ == "__main__":

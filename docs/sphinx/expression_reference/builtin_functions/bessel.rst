@@ -16,8 +16,8 @@ Bessel Functions
     :returns: The value of :math:`J_{\nu}(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
-    .. image:: plots/bessel_j0.png
-    .. image:: plots/bessel_j1.png
+    .. image:: plots/bessel_j0.webp
+    .. image:: plots/bessel_j1.webp
 
 .. funcsketch:function:: bessel_y(v, x)
 
@@ -34,8 +34,8 @@ Bessel Functions
     :returns: The value of :math:`Y_{\nu}(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
-    .. image:: plots/bessel_y0.png
-    .. image:: plots/bessel_y1.png
+    .. image:: plots/bessel_y0.webp
+    .. image:: plots/bessel_y1.webp
 
 .. funcsketch:function:: bessel_i(v, x)
 
@@ -52,8 +52,8 @@ Bessel Functions
     :returns: The value of :math:`I_{\nu}(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
-    .. image:: plots/bessel_i0.png
-    .. image:: plots/bessel_i1.png
+    .. image:: plots/bessel_i0.webp
+    .. image:: plots/bessel_i1.webp
 
 .. funcsketch:function:: bessel_k(v, x)
 
@@ -70,8 +70,8 @@ Bessel Functions
     :returns: The value of :math:`K_{\nu}(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
-    .. image:: plots/bessel_k0.png
-    .. image:: plots/bessel_k1.png
+    .. image:: plots/bessel_k0.webp
+    .. image:: plots/bessel_k1.webp
 
 .. funcsketch:function:: hankel1(v, x)
 
@@ -125,8 +125,8 @@ Bessel Functions
     :returns: The value of :math:`j_n(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
-    .. image:: plots/spherical_bessel_j0.png
-    .. image:: plots/spherical_bessel_j1.png
+    .. image:: plots/spherical_bessel_j0.webp
+    .. image:: plots/spherical_bessel_j1.webp
 
 .. funcsketch:function:: spherical_bessel_y(n, x)
 
@@ -142,8 +142,8 @@ Bessel Functions
     :returns: The value of :math:`y_n(x)`.
     :rtype: Real or Complex according to the type of ``x``.
 
-    .. image:: plots/spherical_bessel_y0.png
-    .. image:: plots/spherical_bessel_y1.png
+    .. image:: plots/spherical_bessel_y0.webp
+    .. image:: plots/spherical_bessel_y1.webp
 
 .. funcsketch:function:: spherical_hankel1(n, x)
 
@@ -196,7 +196,7 @@ Bessel Functions
     :returns: The value of :math:`\text{ber}_{\nu}(x)`.
     :rtype: Real
 
-    .. image:: plots/kelvin_ber.png
+    .. image:: plots/kelvin_ber.webp
 
 .. funcsketch:function:: kelvin_bei(v, x)
 
@@ -211,7 +211,7 @@ Bessel Functions
     :returns: The value of :math:`\text{bei}_{\nu}(x)`.
     :rtype: Real
 
-    .. image:: plots/kelvin_bei.png
+    .. image:: plots/kelvin_bei.webp
 
 .. funcsketch:function:: kelvin_ker(v, x)
 
@@ -226,7 +226,7 @@ Bessel Functions
     :returns: The value of :math:`\text{ker}_{\nu}(x)`.
     :rtype: Real
 
-    .. image:: plots/kelvin_ker.png
+    .. image:: plots/kelvin_ker.webp
 
 .. funcsketch:function:: kelvin_kei(v, x)
 
@@ -241,4 +241,4 @@ Bessel Functions
     :returns: The value of :math:`\text{kei}_{\nu}(x)`.
     :rtype: Real
 
-    .. image:: plots/kelvin_kei.png
+    .. image:: plots/kelvin_kei.webp
