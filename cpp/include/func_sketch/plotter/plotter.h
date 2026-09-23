@@ -24,10 +24,12 @@
 #include "func_sketch/curves/sampled_curve.h"
 #include "func_sketch/plotter/axes_writer.h"
 #include "func_sketch/plotter/image.h"
+#include "func_sketch/plotter/legend_writer.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point_converter.h"
+#include "func_sketch/plotter/rgb_color.h"
 #include "func_sketch/plotter/title_writer.h"
 #include "func_sketch/point.h"
 
@@ -70,6 +72,19 @@ public:
      * \return Reference to this object.
      */
     Plotter& config(const PlotConfig& value);
+
+    /*!
+     * \brief Set the legend entries.
+     *
+     * \param[in] entries Legend entries.
+     * \return Reference to this object.
+     *
+     * \note The given entries are used to determine the space for the legend in
+     * the image; the legend itself is written later in write_background() or
+     * write().
+     */
+    Plotter& legend_entries(
+        const std::vector<std::pair<std::string, RGBColor>>& entries);
 
     /*!
      * \brief Set the desired size of images.
@@ -174,6 +189,9 @@ private:
 
     //! Writer of axes.
     AxesWriter axes_writer_;
+
+    //! Writer of legends.
+    LegendWriter legend_writer_;
 };
 
 }  // namespace func_sketch::plotter

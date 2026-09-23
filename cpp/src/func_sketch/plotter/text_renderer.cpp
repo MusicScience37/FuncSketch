@@ -38,16 +38,18 @@ void TextRenderer::font_size(int value) {
     font_scale_ = cv::getFontScaleFromHeight(font_face, value);
 }
 
-std::pair<int, int> TextRenderer::text_size(const std::string& text) const {
+TextSize TextRenderer::text_size(const std::string& text) const {
+    int baseline = 0;
     const cv::Size size =
-        cv::getTextSize(text, font_face, font_scale_, thickness, nullptr);
-    return {size.height, size.width};
+        cv::getTextSize(text, font_face, font_scale_, thickness, &baseline);
+    return TextSize{
+        .height = size.height, .depth = baseline, .width = size.width};
 }
 
 void TextRenderer::render_text(Image& image, const std::string& text,
-    const cv::Point& top_left_position, const cv::Scalar& color) const {
-    cv::putText(image, text, top_left_position, font_face, font_scale_, color,
-        thickness, cv::LINE_AA);
+    const cv::Point& bottom_left_position, const cv::Scalar& color) const {
+    cv::putText(image, text, bottom_left_position, font_face, font_scale_,
+        color, thickness, cv::LINE_AA);
 }
 
 }  // namespace func_sketch::plotter

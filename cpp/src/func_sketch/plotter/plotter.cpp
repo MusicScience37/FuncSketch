@@ -53,6 +53,13 @@ Plotter& Plotter::config(const PlotConfig& value) {
     return *this;
 }
 
+Plotter& Plotter::legend_entries(
+    const std::vector<std::pair<std::string, RGBColor>>& entries) {
+    legend_writer_.legend_entries(entries);
+    update_internal_parameters();
+    return *this;
+}
+
 Plotter& Plotter::desired_size(int height, int width) {
     desired_height_ = std::max(height, 1);
     desired_width_ = std::max(width, 1);
@@ -80,6 +87,7 @@ void Plotter::write_background(Image& image) {
     image = color;
 
     title_writer_.write(image, plot_region_margin_, config_);
+    legend_writer_.write(image, config_, plot_region_margin_);
     axes_writer_.write(image, config_, range_, point_converter_);
 }
 
@@ -148,6 +156,9 @@ bool Plotter::try_update_internal_parameters() {
 
     title_writer_.prepare(plot_region_margin_, config_);
 
+    const int legend_height =
+        legend_writer_.prepare(plot_region_margin_, config_);
+
     axes_writer_.prepare(
         plot_region_margin_, config_, range_, actual_height_, actual_width_);
 
@@ -159,8 +170,9 @@ bool Plotter::try_update_internal_parameters() {
     const int available_width = actual_width_ - plot_region_margin_.left() -
         plot_region_margin_.right();
     // Use the tick spacing as the minimum size to prevent no ticks.
-    const auto min_available_height =
-        static_cast<int>(config_.axes().num_pixels_per_tick_in_y_axis());
+    const auto min_available_height = std::max(
+        static_cast<int>(config_.axes().num_pixels_per_tick_in_y_axis()),
+        legend_height);
     const auto min_available_width =
         static_cast<int>(config_.axes().num_pixels_per_tick_in_x_axis());
     if (available_height <= min_available_height ||

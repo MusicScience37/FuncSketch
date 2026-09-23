@@ -146,6 +146,64 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(const_config.grid().color() == new_color);
     }
 
+    SECTION("access the configuration of the legend") {
+        using func_sketch::plotter::RGBColor;
+
+        PlotConfig config;
+
+        CHECK(config.legend().visible() ==
+            func_sketch::plotter::default_legend_visible);
+        CHECK(config.legend().title() ==
+            func_sketch::plotter::default_legend_title);
+        CHECK(config.legend().title_font_size() ==
+            func_sketch::plotter::default_legend_title_font_size);
+        CHECK(config.legend().curve_name_font_size() ==
+            func_sketch::plotter::default_legend_curve_name_font_size);
+        CHECK(config.legend().color() ==
+            func_sketch::plotter::default_legend_color);
+        CHECK(config.legend().entry_spacing() ==
+            func_sketch::plotter::default_legend_entry_spacing);
+        CHECK(config.legend().margin() ==
+            func_sketch::plotter::default_legend_margin);
+        CHECK(config.legend().curve_line_length() ==
+            func_sketch::plotter::default_legend_curve_line_length);
+        CHECK(config.legend().curve_line_name_spacing() ==
+            func_sketch::plotter::default_legend_curve_line_name_spacing);
+
+        const RGBColor new_color{.r = 100, .g = 150, .b = 200};
+        config.legend()
+            .visible(true)
+            .title("Functions")
+            .title_font_size(14)
+            .curve_name_font_size(12)
+            .color(new_color)
+            .entry_spacing(6)
+            .margin(9)
+            .curve_line_length(30)
+            .curve_line_name_spacing(4);
+
+        CHECK(config.legend().visible());
+        CHECK(config.legend().title() == "Functions");
+        CHECK(config.legend().title_font_size() == 14);
+        CHECK(config.legend().curve_name_font_size() == 12);
+        CHECK(config.legend().color() == new_color);
+        CHECK(config.legend().entry_spacing() == 6);
+        CHECK(config.legend().margin() == 9);
+        CHECK(config.legend().curve_line_length() == 30);
+        CHECK(config.legend().curve_line_name_spacing() == 4);
+
+        const PlotConfig& const_config = config;
+        CHECK(const_config.legend().visible());
+        CHECK(const_config.legend().title() == "Functions");
+        CHECK(const_config.legend().title_font_size() == 14);
+        CHECK(const_config.legend().curve_name_font_size() == 12);
+        CHECK(const_config.legend().color() == new_color);
+        CHECK(const_config.legend().entry_spacing() == 6);
+        CHECK(const_config.legend().margin() == 9);
+        CHECK(const_config.legend().curve_line_length() == 30);
+        CHECK(const_config.legend().curve_line_name_spacing() == 4);
+    }
+
     SECTION("set and get plot title") {
         PlotConfig config;
 

@@ -45,20 +45,21 @@ void TitleWriter::write(
     const auto& text = config.plot_title();
     const int font_size = config.plot_title_font_size();
     text_renderer_.font_size(font_size);
-    const auto [text_height, text_width] = text_renderer_.text_size(text);
+    const auto [text_height, text_depth, text_width] =
+        text_renderer_.text_size(text);
 
-    cv::Point top_left_position(plot_region_margin.left(),
+    cv::Point bottom_left_position(plot_region_margin.left(),
         plot_region_margin.top() - config.plot_title_margin());
-    top_left_position = adjust_text_position(top_left_position,
+    bottom_left_position = adjust_text_position(bottom_left_position,
         cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
 
-    text_renderer_.render_text(image, text, top_left_position, color);
+    text_renderer_.render_text(image, text, bottom_left_position, color);
 }
 
 int TitleWriter::plot_title_height(const PlotConfig& config) {
     const int font_size = config.plot_title_font_size();
     text_renderer_.font_size(font_size);
-    const auto [text_height, text_width] =
+    const auto [text_height, text_depth, text_width] =
         text_renderer_.text_size(config.plot_title());
     return text_height;
 }

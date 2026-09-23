@@ -24,6 +24,7 @@
 
 #include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/grid_config.h"
+#include "func_sketch/plotter/legend_config.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/rgb_color.h"
 #include "func_sketch/sampling/sampling_config.h"
@@ -40,7 +41,7 @@ constexpr int default_plot_title_font_size = 18;
 constexpr auto default_plot_title_color = default_axes_color;
 
 //! Default margin for the title of the plot.
-constexpr int default_plot_title_margin = 15;
+constexpr int default_plot_title_margin = default_plot_title_font_size;
 
 //! Default minimum left margin of the plot region in pixels.
 constexpr int default_min_plot_left_margin = 60;
@@ -133,6 +134,20 @@ public:
      * \return Reference to the configuration of the grid.
      */
     [[nodiscard]] const GridConfig& grid() const noexcept;
+
+    /*!
+     * \brief Access the configuration of the legend.
+     *
+     * \return Reference to the configuration of the legend.
+     */
+    [[nodiscard]] LegendConfig& legend() noexcept;
+
+    /*!
+     * \brief Get the configuration of the legend.
+     *
+     * \return Reference to the configuration of the legend.
+     */
+    [[nodiscard]] const LegendConfig& legend() const noexcept;
 
     /*!
      * \brief Access the configuration of sampling.
@@ -257,6 +272,9 @@ private:
 
     //! Configuration of the grid.
     GridConfig grid_;
+
+    //! Configuration of the legend.
+    LegendConfig legend_;
 
     //! Configuration of sampling.
     sampling::SamplingConfig sampling_;
