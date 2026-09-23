@@ -47,7 +47,7 @@ constexpr int default_legend_entry_spacing =
     default_legend_curve_name_font_size / 3;
 
 //! Default margin between the legend and the plot area in pixels.
-constexpr int default_legend_margin = default_legend_curve_name_font_size;
+constexpr int default_legend_margin = default_legend_entry_spacing;
 
 //! Default length in pixels of the line representing a curve in the legend.
 constexpr int default_legend_curve_line_length = 25;

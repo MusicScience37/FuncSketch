@@ -22,7 +22,7 @@ from .plotting_util import plot_function
 def test_plot_with_titles(image_approver) -> None:
     """Test of plotting with axis titles and the plot title."""
     config = DEFAULT_PLOT_CONFIG.copy()
-    config.axes.x_axis_title = "Time"
+    config.axes.x_axis_title = "Angle"
     config.axes.y_axis_title = "Amplitude"
     config.plot_title = "Sine Wave"
 
