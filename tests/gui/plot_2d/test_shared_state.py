@@ -21,7 +21,11 @@ from func_sketch._cpp import (
     RGBColor,
     SampledCurve,
 )
-from func_sketch._gui.common.constants import NUM_CURVES
+from func_sketch._gui.common.constants import (
+    DEFAULT_PLOT_CONFIG,
+    DEFAULT_PLOT_RANGE,
+    NUM_CURVES,
+)
 from func_sketch._gui.plot_2d.shared_state import SharedState
 
 
@@ -36,6 +40,24 @@ class TestSharedState:
         assert state.plot_config is not None
         assert len(state.curve_specs) == NUM_CURVES
         assert len(state.sampled_curves) == NUM_CURVES
+
+    def test_initial_values_are_not_shared(self) -> None:
+        """Test that initial values are not shared between instances."""
+        state1 = SharedState()
+        state2 = SharedState()
+
+        assert state1.plot_range is not DEFAULT_PLOT_RANGE
+        assert state1.plot_range is not state2.plot_range
+        assert state1.plot_config is not DEFAULT_PLOT_CONFIG
+        assert state1.plot_config is not state2.plot_config
+        for i in range(NUM_CURVES):
+            assert state1.curve_specs[i] is not state2.curve_specs[i]
+            assert state1.sampled_curves[i] is not state2.sampled_curves[i]
+
+        state1.plot_config.legend.visible = not DEFAULT_PLOT_CONFIG.legend.visible
+
+        assert state1.plot_config.legend.visible != DEFAULT_PLOT_CONFIG.legend.visible
+        assert state2.plot_config.legend.visible == DEFAULT_PLOT_CONFIG.legend.visible
 
     def test_update_plot_range(self) -> None:
         """Test to update plot range."""

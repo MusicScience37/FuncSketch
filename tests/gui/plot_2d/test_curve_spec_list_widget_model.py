@@ -74,3 +74,48 @@ class TestCurveSpecListWidgetModel:
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
         assert len(shared_state.sampled_curves[0].points) > 0
+
+    def test_show_legend_to_shared_state(self) -> None:
+        """Test for updates of show_legend reflected to the shared state."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+        on_plot_config_changed = []
+        shared_state.bind(
+            on_plot_config_changed=lambda _instance, source, _value: on_plot_config_changed.append(
+                source
+            )
+        )
+
+        model.show_legend = True
+
+        assert shared_state.plot_config.legend.visible
+        assert on_plot_config_changed == [model]
+
+    def test_show_legend_from_shared_state(self) -> None:
+        """Test for updates of show_legend from the shared state."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+        on_plot_config_changed = []
+        shared_state.bind(
+            on_plot_config_changed=lambda _instance, source, _value: on_plot_config_changed.append(
+                source
+            )
+        )
+
+        config = PlotConfig()
+        config.legend.visible = True
+        shared_state.update_plot_config(None, config)
+
+        assert model.show_legend
+        assert on_plot_config_changed == [None]
+
+    def test_empty_curve_name(self) -> None:
+        """Test that an empty curve name is replaced with the default name."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+
+        model.curve_models[0].curve_name = "Test"
+        assert shared_state.curve_specs[0].name == "Test"
+
+        model.curve_models[0].curve_name = ""
+        assert shared_state.curve_specs[0].name == "Curve 1"

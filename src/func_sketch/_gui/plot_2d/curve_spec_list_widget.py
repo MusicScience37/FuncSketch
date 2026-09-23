@@ -19,6 +19,7 @@ import logging
 import kivy.properties
 import kivy.uix.boxlayout
 
+from func_sketch._gui.common.sync_properties import sync_properties
 from func_sketch._gui.plot_2d.curve_spec_list_widget_model import (
     CurveSpecListWidgetModel,
 )
@@ -48,3 +49,7 @@ class CurveSpecListWidget(kivy.uix.boxlayout.BoxLayout):
         for model in self._model.curve_models:
             curve_spec_widget = CurveSpecWidget(model=model)
             self.ids.curve_spec_list_layout.add_widget(curve_spec_widget)
+
+        sync_properties(
+            self._model, "show_legend", self.ids.show_legend_switch, "active"
+        )

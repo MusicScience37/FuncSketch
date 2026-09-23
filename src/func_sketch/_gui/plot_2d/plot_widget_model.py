@@ -21,7 +21,7 @@ import kivy.event
 import kivy.properties
 import numpy
 
-from func_sketch._cpp import PlotConfig, PlotRange, Plotter, Point
+from func_sketch._cpp import PlotConfig, PlotRange, Plotter, Point, SampledCurve
 from func_sketch._gui.common.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
@@ -71,7 +71,6 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
             on_sampled_curve_changed_any=self._on_shared_sampled_curve,
             on_fixed_desired_size_changed=self._on_shared_fixed_desired_size,
         )
-        self._update_image_buffer()
         self._update_plot()
 
     def on_widget_size(self, size: tuple[float, float]) -> None:
@@ -83,7 +82,6 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
         """
         self._widget_height = int(size[1])
         self._widget_width = int(size[0])
-        self._update_image_buffer()
         self._update_plot()
 
     def on_norm_image_size(self, value: tuple[float, float]) -> None:
@@ -101,7 +99,6 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
     ) -> None:
         """Callback when the on_plot_range_changed event is dispatched."""
         self._plotter.range = value
-        self._update_image_buffer()
         self._update_plot()
 
     def _on_shared_plot_config(
@@ -109,7 +106,6 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
     ) -> None:
         """Callback when the on_plot_config_changed event is dispatched."""
         self._plotter.config = value
-        self._update_image_buffer()
         self._update_plot()
 
     def _on_shared_sampled_curve(self, _instance: object, _source: object) -> None:
@@ -120,11 +116,10 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
         self, _instance: object, _source: object, _value: object
     ) -> None:
         """Callback when the on_fixed_desired_size_changed event is dispatched."""
-        self._update_image_buffer()
         self._update_plot()
 
-    def _update_image_buffer(self) -> None:
-        """Update the buffer of the image."""
+    def _update_image_buffer_if_needed(self) -> None:
+        """Update the buffer of the image if needed."""
         if self.shared_state.fixed_desired_size is None:
             height = self._widget_height
             width = self._widget_width
@@ -141,8 +136,15 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
 
     def _update_plot(self) -> None:
         """Update the plot."""
+        sampled_curves: list[SampledCurve] = self.shared_state.sampled_curves
+        self._plotter.legend_entries = [
+            (curve.name, curve.color) for curve in sampled_curves if not curve.empty()
+        ]
+
+        self._update_image_buffer_if_needed()
+
         start_time = time.perf_counter()
-        self._plotter.write(self.shared_state.sampled_curves, self.image_buffer)
+        self._plotter.write(sampled_curves, self.image_buffer)
         end_time = time.perf_counter()
         LOGGER.debug(
             "PlotWidget: Plotted in %.2f ms.", (end_time - start_time) * 1000.0

@@ -84,3 +84,17 @@ class TestCurveSpecWidgetModelCurveSpecSync:
         assert len(on_curve_spec_changed) == 1
         assert on_curve_spec_changed[0].function_expression_str == "x"
         assert on_curve_spec_changed[0].color == color
+
+    def test_curve_spec_uses_default_curve_name_when_curve_name_is_empty(
+        self,
+    ) -> None:
+        """Test that curve_spec uses default_curve_name when curve_name is empty."""
+        model = CurveSpecWidgetModel(
+            curve_color=RGBColor(0, 0, 0), default_curve_name="Default"
+        )
+
+        model.curve_name = "Curve"
+        assert model.curve_spec.name == "Curve"
+
+        model.curve_name = ""
+        assert model.curve_spec.name == "Default"

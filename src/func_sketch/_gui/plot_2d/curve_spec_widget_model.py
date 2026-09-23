@@ -29,6 +29,9 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
     curve_name = kivy.properties.StringProperty()
     """Name of the curve."""
 
+    default_curve_name = kivy.properties.StringProperty()
+    """Default name of the curve used when the name is empty."""
+
     curve_color = kivy.properties.ObjectProperty(RGBColor(0, 0, 0))
     """Color of the curve."""
 
@@ -42,7 +45,7 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
             Curve specification.
         """
         return ExplicitCurveSpec(
-            name=self.curve_name,
+            name=self.curve_name or self.default_curve_name,
             function_expression_str=self.expression_text,
             color=self.curve_color,
         )
@@ -60,7 +63,7 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
     curve_spec = kivy.properties.AliasProperty(
         _get_curve_spec,
         _set_curve_spec,
-        bind=("curve_name", "expression_text", "curve_color"),
+        bind=("curve_name", "default_curve_name", "expression_text", "curve_color"),
         cache=True,
     )
     """Curve specification."""

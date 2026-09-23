@@ -48,30 +48,16 @@ class SharedState(kivy.event.EventDispatcher):
     will be dispatched to notify the changes with the source of the change.
     """
 
-    plot_range = kivy.properties.ObjectProperty(DEFAULT_PLOT_RANGE)
+    plot_range = kivy.properties.ObjectProperty()
     """Range of the plot."""
 
-    plot_config = kivy.properties.ObjectProperty(DEFAULT_PLOT_CONFIG)
+    plot_config = kivy.properties.ObjectProperty()
     """Configuration of the plot."""
 
-    curve_specs = kivy.properties.ListProperty(
-        [
-            ExplicitCurveSpec(
-                name=f"Curve {i + 1}",
-                function_expression_str="",
-                color=CURVE_COLORS[i],
-            )
-            for i in range(NUM_CURVES)
-        ]
-    )
+    curve_specs = kivy.properties.ListProperty()
     """Specifications of the curves."""
 
-    sampled_curves = kivy.properties.ListProperty(
-        [
-            SampledCurve(name=f"Curve {i + 1}", points=[], color=CURVE_COLORS[i])
-            for i in range(NUM_CURVES)
-        ]
-    )
+    sampled_curves = kivy.properties.ListProperty()
     """Sampled curves."""
 
     mouse_pos_in_plot = kivy.properties.ObjectProperty(None, allownone=True)
@@ -103,6 +89,26 @@ class SharedState(kivy.event.EventDispatcher):
         self.register_event_type("on_mouse_pos_in_plot_changed")
         self.register_event_type("on_image_buffer_changed")
         self.register_event_type("on_fixed_desired_size_changed")
+        kwargs.setdefault("plot_range", DEFAULT_PLOT_RANGE.copy())
+        kwargs.setdefault("plot_config", DEFAULT_PLOT_CONFIG.copy())
+        kwargs.setdefault(
+            "curve_specs",
+            [
+                ExplicitCurveSpec(
+                    name=f"Curve {i + 1}",
+                    function_expression_str="",
+                    color=CURVE_COLORS[i],
+                )
+                for i in range(NUM_CURVES)
+            ],
+        )
+        kwargs.setdefault(
+            "sampled_curves",
+            [
+                SampledCurve(name=f"Curve {i + 1}", points=[], color=CURVE_COLORS[i])
+                for i in range(NUM_CURVES)
+            ],
+        )
         super().__init__(**kwargs)
 
     def update_plot_range(self, source: object, value: PlotRange) -> None:
