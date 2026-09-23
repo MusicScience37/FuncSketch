@@ -20,7 +20,6 @@
 #pragma once
 
 #include <opencv2/core.hpp>
-#include <opencv2/core/types.hpp>
 
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/plot_range.h"
