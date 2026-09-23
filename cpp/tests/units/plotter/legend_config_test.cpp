@@ -86,6 +86,18 @@ TEST_CASE("func_sketch::plotter::LegendConfig") {
         CHECK(config.curve_name_font_size() == 1);
     }
 
+    SECTION("set and get color") {
+        using func_sketch::plotter::RGBColor;
+
+        LegendConfig config;
+
+        CHECK(config.color() == func_sketch::plotter::default_legend_color);
+
+        const RGBColor new_color{.r = 100, .g = 150, .b = 200};
+        CHECK_NOTHROW(config.color(new_color));
+        CHECK(config.color() == new_color);
+    }
+
     SECTION("set and get entry spacing") {
         LegendConfig config;
 

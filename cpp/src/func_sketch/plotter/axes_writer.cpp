@@ -105,13 +105,13 @@ void AxesWriter::write_x_axis(Image& image, const PlotConfig& config,
             (range.x_range().first + range.x_range().second) * 0.5;
         const auto base_position = point_converter.convert_plot_to_image(
             Point{.x = x_value, .y = y_value});
-        auto top_left_position = cv::Point(base_position.x - text_width / 2,
+        auto bottom_left_position = cv::Point(base_position.x - text_width / 2,
             base_position.y + config.axes().tick_label_margin() * 2 +
                 x_axis_tick_height_ + text_height);
-        top_left_position = adjust_text_position(top_left_position,
+        bottom_left_position = adjust_text_position(bottom_left_position,
             cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
 
-        text_renderer_.render_text(image, text, top_left_position, color);
+        text_renderer_.render_text(image, text, bottom_left_position, color);
     }
 
     write_line(image, Point{.x = range.x_range().first, .y = y_value},
@@ -131,12 +131,12 @@ void AxesWriter::write_x_axis(Image& image, const PlotConfig& config,
         const auto base_position = point_converter.convert_plot_to_image(
             Point{.x = x_value, .y = y_value});
         const int tick_margin = config.axes().tick_label_margin();
-        auto top_left_position = cv::Point(base_position.x - text_width / 2,
+        auto bottom_left_position = cv::Point(base_position.x - text_width / 2,
             base_position.y + tick_margin + text_height);
-        top_left_position = adjust_text_position(top_left_position,
+        bottom_left_position = adjust_text_position(bottom_left_position,
             cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
 
-        text_renderer_.render_text(image, text, top_left_position, color);
+        text_renderer_.render_text(image, text, bottom_left_position, color);
     }
 }
 
@@ -159,14 +159,14 @@ void AxesWriter::write_y_axis(Image& image, const PlotConfig& config,
             (range.y_range().first + range.y_range().second) * 0.5;
         const auto base_position = point_converter.convert_plot_to_image(
             Point{.x = x_value, .y = y_value});
-        auto top_left_position =
+        auto bottom_left_position =
             cv::Point(base_position.x - config.axes().tick_label_margin() * 2 -
                     y_axis_tick_width_ - text_width,
                 base_position.y + text_height / 2);
-        top_left_position = adjust_text_position(top_left_position,
+        bottom_left_position = adjust_text_position(bottom_left_position,
             cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
 
-        text_renderer_.render_text(image, text, top_left_position, color);
+        text_renderer_.render_text(image, text, bottom_left_position, color);
     }
 
     write_line(image, Point{.x = x_value, .y = range.y_range().first},
@@ -186,14 +186,14 @@ void AxesWriter::write_y_axis(Image& image, const PlotConfig& config,
         const auto base_position = point_converter.convert_plot_to_image(
             Point{.x = x_value, .y = y_value});
         const int tick_margin = config.axes().tick_label_margin();
-        cv::Point top_left_position;
-        top_left_position =
+        cv::Point bottom_left_position;
+        bottom_left_position =
             cv::Point(base_position.x - tick_margin - text_width,
                 base_position.y + text_height / 2);
-        top_left_position = adjust_text_position(top_left_position,
+        bottom_left_position = adjust_text_position(bottom_left_position,
             cv::Size(text_width, text_height), cv::Size(size[1], size[0]));
 
-        text_renderer_.render_text(image, text, top_left_position, color);
+        text_renderer_.render_text(image, text, bottom_left_position, color);
     }
 }
 

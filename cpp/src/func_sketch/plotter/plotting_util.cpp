@@ -46,6 +46,11 @@ void write_line(Image& image, const Point& start_point, const Point& end_point,
         image, start_pixel, end_pixel, color, line_width, cv::LINE_AA, shift);
 }
 
+void write_line(Image& image, const cv::Point& start_point,
+    const cv::Point& end_point, const cv::Scalar& color, int line_width) {
+    cv::line(image, start_point, end_point, color, line_width, cv::LINE_AA);
+}
+
 bool try_clamp_infinity(Point& point, const PlotRange& range) {
     if (std::isinf(point.x) && std::isinf(point.y)) {
         return false;

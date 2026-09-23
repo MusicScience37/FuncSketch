@@ -39,3 +39,23 @@ def test_plot_without_titles(image_approver) -> None:
 
     image = plot_function(["sin(x)"], (-3.0, 3.0), (-1.5, 1.5), config=config)
     image_approver.verify(image)
+
+
+def test_plot_with_legend(image_approver) -> None:
+    """Test of plotting with a legend."""
+    config = DEFAULT_PLOT_CONFIG.copy()
+    config.legend.visible = True
+    config.legend.title = "Legend"
+
+    image = plot_function(["sin(x)", "cos(x)"], (-3.0, 3.0), (-1.5, 1.5), config=config)
+    image_approver.verify(image)
+
+
+def test_plot_with_legend_without_title(image_approver) -> None:
+    """Test of plotting with a legend without a title."""
+    config = DEFAULT_PLOT_CONFIG.copy()
+    config.legend.visible = True
+    config.legend.title = ""
+
+    image = plot_function(["sin(x)", "cos(x)"], (-3.0, 3.0), (-1.5, 1.5), config=config)
+    image_approver.verify(image)

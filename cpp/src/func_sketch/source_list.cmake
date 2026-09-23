@@ -31,6 +31,7 @@ set(SOURCE_FILES
     plotter/curve_writer.cpp
     plotter/grid_config.cpp
     plotter/legend_config.cpp
+    plotter/legend_writer.cpp
     plotter/margin.cpp
     plotter/plot_config.cpp
     plotter/plot_range.cpp

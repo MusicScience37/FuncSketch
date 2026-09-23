@@ -53,6 +53,11 @@ LegendConfig& LegendConfig::curve_name_font_size(int value) {
     return *this;
 }
 
+LegendConfig& LegendConfig::color(RGBColor value) {
+    color_ = value;
+    return *this;
+}
+
 LegendConfig& LegendConfig::entry_spacing(int value) {
     if (value < 0) {
         throw InvalidArgumentException(
@@ -98,6 +103,8 @@ int LegendConfig::title_font_size() const noexcept { return title_font_size_; }
 int LegendConfig::curve_name_font_size() const noexcept {
     return curve_name_font_size_;
 }
+
+RGBColor LegendConfig::color() const noexcept { return color_; }
 
 int LegendConfig::entry_spacing() const noexcept { return entry_spacing_; }
 

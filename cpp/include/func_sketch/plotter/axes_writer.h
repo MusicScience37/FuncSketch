@@ -48,7 +48,7 @@ public:
         const PlotRange& range, int height, int width);
 
     /*!
-     * \brief Write axes in plots.
+     * \brief Write axes in the plot.
      *
      * \param[in,out] image Image to write.
      * \param[in] config Configuration of plots.

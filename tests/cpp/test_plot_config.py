@@ -98,21 +98,26 @@ class TestPlotConfig:
     def test_legend(self) -> None:
         """Test of legend property."""
         config = PlotConfig()
+        color = RGBColor(0x11, 0x22, 0x33)
 
         # Configuration of the legend can be changed in place.
-        config.legend.visible = False
+        config.legend.visible = True
         config.legend.title = "Functions"
         config.legend.title_font_size = 14
         config.legend.curve_name_font_size = 12
+        config.legend.color = color
         config.legend.entry_spacing = 6
         config.legend.margin = 9
         config.legend.curve_line_length = 30
         config.legend.curve_line_name_spacing = 4
 
-        assert not config.legend.visible
+        assert config.legend.visible
         assert config.legend.title == "Functions"
         assert config.legend.title_font_size == 14
         assert config.legend.curve_name_font_size == 12
+        assert config.legend.color.r == color.r
+        assert config.legend.color.g == color.g
+        assert config.legend.color.b == color.b
         assert config.legend.entry_spacing == 6
         assert config.legend.margin == 9
         assert config.legend.curve_line_length == 30

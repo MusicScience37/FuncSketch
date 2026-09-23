@@ -22,10 +22,12 @@
 #include <string>
 #include <string_view>
 
+#include "func_sketch/plotter/rgb_color.h"
+
 namespace func_sketch::plotter {
 
 //! Default value of whether the legend is visible.
-constexpr bool default_legend_visible = true;
+constexpr bool default_legend_visible = false;
 
 //! Default title of the legend (empty string specifies no title).
 constexpr std::string_view default_legend_title;
@@ -36,24 +38,24 @@ constexpr int default_legend_title_font_size = 11;
 //! Default font size of curve names in the legend in pixels.
 constexpr int default_legend_curve_name_font_size = 11;
 
+//! Default color of the legend text.
+constexpr auto default_legend_color = RGBColor{.r = 0x24, .g = 0x24, .b = 0x24};
+
 //! Default vertical spacing between legend entries in pixels.
 constexpr int default_legend_entry_spacing =
-    default_legend_curve_name_font_size;  // TODO Tune this value after
-                                          // plotting.
+    default_legend_curve_name_font_size +
+    default_legend_curve_name_font_size / 2;
 
 //! Default margin between the legend and the plot area in pixels.
-constexpr int default_legend_margin =
-    default_legend_curve_name_font_size;  // TODO Tune this value after
-                                          // plotting.
+constexpr int default_legend_margin = default_legend_curve_name_font_size;
 
 //! Default length in pixels of the line representing a curve in the legend.
-constexpr int default_legend_curve_line_length =
-    20;  // TODO Tune this value after plotting.
+constexpr int default_legend_curve_line_length = 25;
 
 //! Default spacing in pixels between the line representing a curve and the
 //! curve name in the legend.
 constexpr int default_legend_curve_line_name_spacing =
-    8;  // TODO Tune this value after plotting.
+    default_legend_curve_name_font_size / 2;
 
 /*!
  * \brief Class of configurations of legends.
@@ -98,6 +100,14 @@ public:
      * \return Reference to this object.
      */
     LegendConfig& curve_name_font_size(int value);
+
+    /*!
+     * \brief Set the color of the legend text.
+     *
+     * \param[in] value Color of the legend text.
+     * \return Reference to this object.
+     */
+    LegendConfig& color(RGBColor value);
 
     /*!
      * \brief Set the vertical spacing between legend entries in pixels.
@@ -166,6 +176,13 @@ public:
     [[nodiscard]] int curve_name_font_size() const noexcept;
 
     /*!
+     * \brief Get the color of the legend text.
+     *
+     * \return Color of the legend text.
+     */
+    [[nodiscard]] RGBColor color() const noexcept;
+
+    /*!
      * \brief Get the vertical spacing between legend entries in pixels.
      *
      * \return Vertical spacing between legend entries in pixels.
@@ -208,6 +225,9 @@ private:
 
     //! Font size of curve names in the legend in pixels.
     int curve_name_font_size_{default_legend_curve_name_font_size};
+
+    //! Color of the legend text.
+    RGBColor color_{default_legend_color};
 
     //! Vertical spacing between legend entries in pixels.
     int entry_spacing_{default_legend_entry_spacing};

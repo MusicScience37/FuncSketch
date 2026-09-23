@@ -19,6 +19,7 @@
  */
 #include <cstdint>
 #include <functional>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -415,6 +416,13 @@ Note:
             },
             "Font size of curve names in the legend in pixels.")
         .def_prop_rw(
+            "color",
+            [](const LegendConfig& self) -> RGBColor { return self.color(); },
+            [](LegendConfig& self, const RGBColor& value) {
+                self.color(value);
+            },
+            "Color of the legend text.")
+        .def_prop_rw(
             "entry_spacing",
             [](const LegendConfig& self) -> int {
                 return self.entry_spacing();
@@ -743,6 +751,20 @@ Note:
             },
             [](Plotter& self, const PlotConfig& value) { self.config(value); },
             "Configuration of plots. (write-only)")
+        .def_prop_rw(
+            "legend_entries",
+            [](Plotter& self) -> std::vector<std::pair<std::string, RGBColor>> {
+                throw func_sketch::PermissionErrorException(
+                    "Property 'legend_entries' is write-only.");
+            },
+            [](Plotter& self,
+                const std::vector<std::pair<std::string, RGBColor>>& value) {
+                self.legend_entries(value);
+            },
+            R"(Legend entries as pairs of curve names and colors. (write-only)
+
+The given entries are used to determine the space for the legend in the image;
+the legend itself is written later in write().)")
         .def(
             "desired_size",
             [](Plotter& self, int height, int width) {

@@ -58,14 +58,14 @@ public:
      *
      * \param[out] image Image to render on.
      * \param[in] text Text to render.
-     * \param[in] top_left_position Top-left position to render the text.
+     * \param[in] bottom_left_position Bottom-left position to render the text.
      * \param[in] color Color of the text.
      *
      * \note Call font_size() before calling this function.
      * Otherwise the behavior is undefined.
      */
     void render_text(Image& image, const std::string& text,
-        const cv::Point& top_left_position, const cv::Scalar& color) const;
+        const cv::Point& bottom_left_position, const cv::Scalar& color) const;
 
 private:
     //! Font size.

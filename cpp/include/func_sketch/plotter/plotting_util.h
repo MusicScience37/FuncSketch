@@ -20,6 +20,7 @@
 #pragma once
 
 #include <opencv2/core.hpp>
+#include <opencv2/core/types.hpp>
 
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/plot_range.h"
@@ -53,6 +54,18 @@ namespace func_sketch::plotter {
 void write_line(Image& image, const Point& start_point, const Point& end_point,
     const cv::Scalar& color, int line_width,
     const PointConverter& point_converter);
+
+/*!
+ * \brief Write a line on an image.
+ *
+ * \param[out] image Image to write on.
+ * \param[in] start_point Starting point of the line in pixel.
+ * \param[in] end_point Ending point of the line in pixel.
+ * \param[in] color Color of the line.
+ * \param[in] line_width Width of the line.
+ */
+void write_line(Image& image, const cv::Point& start_point,
+    const cv::Point& end_point, const cv::Scalar& color, int line_width);
 
 /*!
  * \brief Try to clamp a point with infinity to the range.
