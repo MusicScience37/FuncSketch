@@ -14,6 +14,8 @@
 
 """Test of plotting combined expressions."""
 
+from func_sketch._gui.common.constants import DEFAULT_PLOT_CONFIG
+
 from .plotting_util import plot_function
 
 
@@ -27,18 +29,24 @@ class TestCombined:
 
     def test_plot_five_curves(self, image_approver) -> None:
         """Test of plotting five curves."""
+        config = DEFAULT_PLOT_CONFIG.copy()
+        config.legend.visible = True
         image = plot_function(
             ["x", "-x", "exp(x)", "gamma(x)", "log10(x)"],
             (-3.0, 3.0),
             (-3.0, 3.0),
+            config=config,
         )
         image_approver.verify(image)
 
     def test_plot_five_sine_curves(self, image_approver) -> None:
         """Test of plotting five sine curves."""
+        config = DEFAULT_PLOT_CONFIG.copy()
+        config.legend.visible = True
         image = plot_function(
             ["sin(x)", "sin(x-0.4)", "sin(x-0.8)", "sin(x-1.2)", "sin(x-1.6)"],
             (-2.0, 4.0),
             (-2.0, 2.0),
+            config=config,
         )
         image_approver.verify(image)
