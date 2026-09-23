@@ -30,6 +30,7 @@ set(SOURCE_FILES
     plotter/axis_ticks.cpp
     plotter/curve_writer.cpp
     plotter/grid_config.cpp
+    plotter/legend_config.cpp
     plotter/margin.cpp
     plotter/plot_config.cpp
     plotter/plot_range.cpp

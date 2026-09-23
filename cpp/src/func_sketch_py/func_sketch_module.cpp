@@ -44,6 +44,7 @@
 #include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/grid_config.h"
 #include "func_sketch/plotter/image.h"
+#include "func_sketch/plotter/legend_config.h"
 #include "func_sketch/plotter/margin.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
@@ -376,6 +377,75 @@ Note:
             [](GridConfig& self, const RGBColor& value) { self.color(value); },
             "Color of grid lines.");
 
+    using func_sketch::plotter::LegendConfig;
+    nanobind::class_<LegendConfig>(
+        m, "LegendConfig", "Class of configurations of legends.")
+        .def(nanobind::init<>(), "Constructor.")
+        .def_prop_rw(
+            "visible",
+            [](const LegendConfig& self) -> bool { return self.visible(); },
+            [](LegendConfig& self, bool value) { self.visible(value); },
+            "Whether the legend is visible.")
+        .def_prop_rw(
+            "title",
+            [](const LegendConfig& self) -> std::string {
+                return self.title();
+            },
+            [](LegendConfig& self, std::string value) {
+                self.title(std::move(value));
+            },
+            R"(Title of the legend.
+
+Note:
+    Empty string means no title.)")
+        .def_prop_rw(
+            "title_font_size",
+            [](const LegendConfig& self) -> int {
+                return self.title_font_size();
+            },
+            [](LegendConfig& self, int value) { self.title_font_size(value); },
+            "Font size of the title of the legend in pixels.")
+        .def_prop_rw(
+            "curve_name_font_size",
+            [](const LegendConfig& self) -> int {
+                return self.curve_name_font_size();
+            },
+            [](LegendConfig& self, int value) {
+                self.curve_name_font_size(value);
+            },
+            "Font size of curve names in the legend in pixels.")
+        .def_prop_rw(
+            "entry_spacing",
+            [](const LegendConfig& self) -> int {
+                return self.entry_spacing();
+            },
+            [](LegendConfig& self, int value) { self.entry_spacing(value); },
+            "Vertical spacing between legend entries in pixels.")
+        .def_prop_rw(
+            "margin",
+            [](const LegendConfig& self) -> int { return self.margin(); },
+            [](LegendConfig& self, int value) { self.margin(value); },
+            "Margin between the legend and the plot area in pixels.")
+        .def_prop_rw(
+            "curve_line_length",
+            [](const LegendConfig& self) -> int {
+                return self.curve_line_length();
+            },
+            [](LegendConfig& self, int value) {
+                self.curve_line_length(value);
+            },
+            "Length in pixels of the line representing a curve in the legend.")
+        .def_prop_rw(
+            "curve_line_name_spacing",
+            [](const LegendConfig& self) -> int {
+                return self.curve_line_name_spacing();
+            },
+            [](LegendConfig& self, int value) {
+                self.curve_line_name_spacing(value);
+            },
+            "Spacing in pixels between the line representing a curve and the "
+            "curve name in the legend.");
+
     using func_sketch::sampling::SamplingConfig;
     nanobind::class_<SamplingConfig>(
         m, "SamplingConfig", "Class to configure sampling of functions.")
@@ -467,6 +537,13 @@ Note:
                 self.grid() = value;
             },
             "Configuration of the grid of plots.")
+        .def_prop_rw(
+            "legend",
+            [](PlotConfig& self) -> LegendConfig& { return self.legend(); },
+            [](PlotConfig& self, const LegendConfig& value) {
+                self.legend() = value;
+            },
+            "Configuration of the legend of plots.")
         .def_prop_rw(
             "sampling",
             [](PlotConfig& self) -> SamplingConfig& { return self.sampling(); },

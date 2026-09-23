@@ -95,6 +95,29 @@ class TestPlotConfig:
         assert config.grid.color.g == color.g
         assert config.grid.color.b == color.b
 
+    def test_legend(self) -> None:
+        """Test of legend property."""
+        config = PlotConfig()
+
+        # Configuration of the legend can be changed in place.
+        config.legend.visible = False
+        config.legend.title = "Functions"
+        config.legend.title_font_size = 14
+        config.legend.curve_name_font_size = 12
+        config.legend.entry_spacing = 6
+        config.legend.margin = 9
+        config.legend.curve_line_length = 30
+        config.legend.curve_line_name_spacing = 4
+
+        assert not config.legend.visible
+        assert config.legend.title == "Functions"
+        assert config.legend.title_font_size == 14
+        assert config.legend.curve_name_font_size == 12
+        assert config.legend.entry_spacing == 6
+        assert config.legend.margin == 9
+        assert config.legend.curve_line_length == 30
+        assert config.legend.curve_line_name_spacing == 4
+
     def test_plot_title(self) -> None:
         """Test of plot_title property."""
         config = PlotConfig()

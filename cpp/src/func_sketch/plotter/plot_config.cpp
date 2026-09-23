@@ -41,6 +41,10 @@ GridConfig& PlotConfig::grid() noexcept { return grid_; }
 
 const GridConfig& PlotConfig::grid() const noexcept { return grid_; }
 
+LegendConfig& PlotConfig::legend() noexcept { return legend_; }
+
+const LegendConfig& PlotConfig::legend() const noexcept { return legend_; }
+
 sampling::SamplingConfig& PlotConfig::sampling() noexcept { return sampling_; }
 
 const sampling::SamplingConfig& PlotConfig::sampling() const noexcept {
