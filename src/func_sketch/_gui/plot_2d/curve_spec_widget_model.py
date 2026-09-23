@@ -18,6 +18,7 @@ import kivy.event
 import kivy.properties
 
 from func_sketch._cpp import ExplicitCurveSpec, RGBColor
+from func_sketch._gui.common.color_util import rgb_color_to_rgba
 
 
 class CurveSpecWidgetModel(kivy.event.EventDispatcher):
@@ -69,3 +70,18 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
         cache=True,
     )
     """Curve specification."""
+
+    def _get_curve_color_as_rgba(self) -> tuple[float, float, float, float]:
+        """Get the color of the curve as an RGBA tuple.
+
+        Returns:
+            Color of the curve as an RGBA tuple.
+        """
+        return rgb_color_to_rgba(self.curve_color)
+
+    curve_color_as_rgba = kivy.properties.AliasProperty(
+        _get_curve_color_as_rgba,
+        bind=("curve_color",),
+        cache=True,
+    )
+    """Color of the curve as an RGBA tuple."""
