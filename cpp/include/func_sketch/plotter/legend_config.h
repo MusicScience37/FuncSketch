@@ -49,11 +49,11 @@ constexpr int default_legend_entry_spacing =
 //! Default margin between the legend and the plot area in pixels.
 constexpr int default_legend_margin = default_legend_entry_spacing;
 
-//! Default length in pixels of the line representing a curve in the legend.
+//! Default length of the line representing a curve in the legend in pixels.
 constexpr int default_legend_curve_line_length = 25;
 
-//! Default spacing in pixels between the line representing a curve and the
-//! curve name in the legend.
+//! Default spacing between the line representing a curve and the curve name
+//! in the legend in pixels.
 constexpr int default_legend_curve_line_name_spacing =
     default_legend_curve_name_font_size / 2;
 
@@ -126,21 +126,21 @@ public:
     LegendConfig& margin(int value);
 
     /*!
-     * \brief Set the length in pixels of the line representing a curve in the
-     * legend.
+     * \brief Set the length of the line representing a curve in the legend in
+     * pixels.
      *
-     * \param[in] value Length in pixels of the line representing a curve in
-     * the legend.
+     * \param[in] value Length of the line representing a curve in the legend
+     * in pixels.
      * \return Reference to this object.
      */
     LegendConfig& curve_line_length(int value);
 
     /*!
-     * \brief Set the spacing in pixels between the line representing a curve
-     * and the curve name in the legend.
+     * \brief Set the spacing between the line representing a curve and the
+     * curve name in the legend in pixels.
      *
-     * \param[in] value Spacing in pixels between the line representing a curve
-     * and the curve name in the legend.
+     * \param[in] value Spacing between the line representing a curve and the
+     * curve name in the legend in pixels.
      * \return Reference to this object.
      */
     LegendConfig& curve_line_name_spacing(int value);
@@ -197,19 +197,19 @@ public:
     [[nodiscard]] int margin() const noexcept;
 
     /*!
-     * \brief Get the length in pixels of the line representing a curve in the
-     * legend.
+     * \brief Get the length of the line representing a curve in the legend in
+     * pixels.
      *
-     * \return Length in pixels of the line representing a curve in the legend.
+     * \return Length of the line representing a curve in the legend in pixels.
      */
     [[nodiscard]] int curve_line_length() const noexcept;
 
     /*!
-     * \brief Get the spacing in pixels between the line representing a curve
-     * and the curve name in the legend.
+     * \brief Get the spacing between the line representing a curve and the
+     * curve name in the legend in pixels.
      *
-     * \return Spacing in pixels between the line representing a curve and the
-     * curve name in the legend.
+     * \return Spacing between the line representing a curve and the curve name
+     * in the legend in pixels.
      */
     [[nodiscard]] int curve_line_name_spacing() const noexcept;
 
@@ -235,11 +235,11 @@ private:
     //! Margin between the legend and the plot area in pixels.
     int margin_{default_legend_margin};
 
-    //! Length in pixels of the line representing a curve in the legend.
+    //! Length of the line representing a curve in the legend in pixels.
     int curve_line_length_{default_legend_curve_line_length};
 
-    //! Spacing in pixels between the line representing a curve and the curve
-    //! name in the legend.
+    //! Spacing between the line representing a curve and the curve name in
+    //! the legend in pixels.
     int curve_line_name_spacing_{default_legend_curve_line_name_spacing};
 };
 

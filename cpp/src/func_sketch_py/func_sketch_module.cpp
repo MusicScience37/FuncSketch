@@ -442,7 +442,7 @@ Note:
             [](LegendConfig& self, int value) {
                 self.curve_line_length(value);
             },
-            "Length in pixels of the line representing a curve in the legend.")
+            "Length of the line representing a curve in the legend in pixels.")
         .def_prop_rw(
             "curve_line_name_spacing",
             [](const LegendConfig& self) -> int {
@@ -451,8 +451,8 @@ Note:
             [](LegendConfig& self, int value) {
                 self.curve_line_name_spacing(value);
             },
-            "Spacing in pixels between the line representing a curve and the "
-            "curve name in the legend.");
+            "Spacing between the line representing a curve and the curve name "
+            "in the legend in pixels.");
 
     using func_sketch::sampling::SamplingConfig;
     nanobind::class_<SamplingConfig>(
