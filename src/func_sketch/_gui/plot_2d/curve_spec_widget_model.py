@@ -56,7 +56,9 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
         Args:
             curve_spec: Curve specification.
         """
-        self.curve_name = curve_spec.name
+        self.curve_name = (
+            "" if curve_spec.name == self.default_curve_name else curve_spec.name
+        )
         self.expression_text = curve_spec.function_expression_str
         self.curve_color = curve_spec.color
 
