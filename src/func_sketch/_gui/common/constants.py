@@ -97,10 +97,10 @@ PLOT_BACKGROUND_PADDING_COLOR = _GRAY90
 CURVE_COLORS = [
     # Colors in https://jfly.uni-koeln.de/color/#pallet
     RGBColor(0, 114, 178),  # Blue
-    RGBColor(204, 121, 167),  # Reddish purple
-    RGBColor(86, 180, 233),  # Sky blue
     RGBColor(213, 94, 0),  # Vermilion
+    RGBColor(86, 180, 233),  # Sky blue
     RGBColor(230, 159, 0),  # Orange
+    RGBColor(204, 121, 167),  # Reddish purple
 ]
 """Colors for curves in the plot area."""
 
