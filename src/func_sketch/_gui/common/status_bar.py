@@ -52,7 +52,12 @@ class StatusBar(kivy.uix.label.Label):
         )
         self.text_size = (self.width, None)
         self.font_size = FONT_SIZE_STATUS_BAR
-        self.padding = PADDING_STATUS_BAR
+        self.padding = [
+            PADDING_STATUS_BAR,  # left
+            0,  # top
+            PADDING_STATUS_BAR,  # right
+            0,  # bottom
+        ]  # Top and bottom padding is done in height calculation.
         self.bind(
             texture_size=lambda _instance, value: setattr(
                 self,
