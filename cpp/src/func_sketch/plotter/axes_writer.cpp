@@ -99,7 +99,8 @@ void AxesWriter::write_x_axis(Image& image, const PlotConfig& config,
         const auto& text = config.axes().x_axis_title();
         const int font_size = config.axes().axes_title_font_size();
         text_renderer_.font_size(font_size);
-        const auto [text_height, text_width] = text_renderer_.text_size(text);
+        const auto [text_height, text_depth, text_width] =
+            text_renderer_.text_size(text);
 
         const double x_value =
             (range.x_range().first + range.x_range().second) * 0.5;
@@ -126,7 +127,8 @@ void AxesWriter::write_x_axis(Image& image, const PlotConfig& config,
         const Real x_value = x_axis_ticks_.values[i];
 
         const auto text = x_axis_ticks_.strings[i];
-        const auto [text_height, text_width] = text_renderer_.text_size(text);
+        const auto [text_height, text_depth, text_width] =
+            text_renderer_.text_size(text);
 
         const auto base_position = point_converter.convert_plot_to_image(
             Point{.x = x_value, .y = y_value});
@@ -153,7 +155,8 @@ void AxesWriter::write_y_axis(Image& image, const PlotConfig& config,
         const auto& text = config.axes().y_axis_title();
         const int font_size = config.axes().axes_title_font_size();
         text_renderer_.font_size(font_size);
-        const auto [text_height, text_width] = text_renderer_.text_size(text);
+        const auto [text_height, text_depth, text_width] =
+            text_renderer_.text_size(text);
 
         const double y_value =
             (range.y_range().first + range.y_range().second) * 0.5;
@@ -181,7 +184,8 @@ void AxesWriter::write_y_axis(Image& image, const PlotConfig& config,
         const Real y_value = y_axis_ticks_.values[i];
 
         const auto text = y_axis_ticks_.strings[i];
-        const auto [text_height, text_width] = text_renderer_.text_size(text);
+        const auto [text_height, text_depth, text_width] =
+            text_renderer_.text_size(text);
 
         const auto base_position = point_converter.convert_plot_to_image(
             Point{.x = x_value, .y = y_value});
@@ -220,13 +224,16 @@ void AxesWriter::update_axis_ticks(const Margin& plot_region_margin,
 
 void AxesWriter::update_x_axis_tick_height(const PlotConfig& config) {
     int height = 0;
+    int depth = 0;
     const int font_size = config.axes().tick_label_font_size();
     text_renderer_.font_size(font_size);
     for (const auto& str : x_axis_ticks_.strings) {
-        const auto [text_height, text_width] = text_renderer_.text_size(str);
+        const auto [text_height, text_depth, text_width] =
+            text_renderer_.text_size(str);
         height = std::max(height, text_height);
+        depth = std::max(depth, text_depth);
     }
-    x_axis_tick_height_ = height;
+    x_axis_tick_height_ = height + depth;
 }
 
 void AxesWriter::update_y_axis_tick_width(const PlotConfig& config) {
@@ -234,7 +241,8 @@ void AxesWriter::update_y_axis_tick_width(const PlotConfig& config) {
     const int font_size = config.axes().tick_label_font_size();
     text_renderer_.font_size(font_size);
     for (const auto& str : y_axis_ticks_.strings) {
-        const auto [text_height, text_width] = text_renderer_.text_size(str);
+        const auto [text_height, text_depth, text_width] =
+            text_renderer_.text_size(str);
         width = std::max(width, text_width);
     }
     y_axis_tick_width_ = width;
@@ -243,15 +251,15 @@ void AxesWriter::update_y_axis_tick_width(const PlotConfig& config) {
 int AxesWriter::x_axis_title_height(const PlotConfig& config) {
     const int font_size = config.axes().axes_title_font_size();
     text_renderer_.font_size(font_size);
-    const auto [text_height, text_width] =
+    const auto [text_height, text_depth, text_width] =
         text_renderer_.text_size(config.axes().x_axis_title());
-    return text_height;
+    return text_height + text_depth;
 }
 
 int AxesWriter::y_axis_title_width(const PlotConfig& config) {
     const int font_size = config.axes().axes_title_font_size();
     text_renderer_.font_size(font_size);
-    const auto [text_height, text_width] =
+    const auto [text_height, text_depth, text_width] =
         text_renderer_.text_size(config.axes().y_axis_title());
     return text_width;
 }

@@ -21,7 +21,6 @@
 
 #include <algorithm>
 #include <ranges>
-#include <tuple>
 
 #include "func_sketch/plotter/plotting_util.h"
 
@@ -46,9 +45,11 @@ int LegendWriter::prepare(
     // Handle the title.
     if (!config.legend().title().empty()) {
         text_renderer_.font_size(config.legend().title_font_size());
-        std::tie(legend_height, legend_width) =
+        const auto title_text_size =
             text_renderer_.text_size(config.legend().title());
-        legend_height += config.legend().entry_spacing();
+        legend_height =
+            title_text_size.height + config.legend().entry_spacing();
+        legend_width = title_text_size.width;
     }
 
     // Handle the curve names in legend entries.
@@ -59,17 +60,20 @@ int LegendWriter::prepare(
                 return text_renderer_.text_size(entry.first);
             }),
             std::make_pair(0, 0),
-            [](const auto& previous_result, const auto& size) {
-                return std::make_pair(previous_result.first + size.first,
-                    std::max(previous_result.second, size.second));
+            [](const auto& previous_result, const TextSize& size) {
+                return std::make_pair(previous_result.first + size.height,
+                    std::max(previous_result.second, size.width));
             });
 
     const int entry_max_width = config.legend().curve_line_length() +
         config.legend().curve_line_name_spacing() + curve_name_max_width;
     legend_width = std::max(legend_width, entry_max_width);
+    const int last_curve_name_depth =
+        text_renderer_.text_size(legend_entries_.back().first).depth;
     legend_height += curve_name_height_sum +
         static_cast<int>(legend_entries_.size() - 1) *
-            config.legend().entry_spacing();
+            config.legend().entry_spacing() +
+        last_curve_name_depth;
 
     legend_width += config.legend().margin();
 
@@ -98,10 +102,10 @@ void LegendWriter::write(
         const auto title_text_size =
             text_renderer_.text_size(config.legend().title());
         text_renderer_.render_text(image, config.legend().title(),
-            cv::Point(position_x, position_y + title_text_size.first),
+            cv::Point(position_x, position_y + title_text_size.height),
             legend_color_in_cv);
 
-        position_y += title_text_size.first + config.legend().entry_spacing();
+        position_y += title_text_size.height + config.legend().entry_spacing();
     }
 
     // Handle the legend entries.
@@ -110,7 +114,7 @@ void LegendWriter::write(
         const auto curve_name_text_size = text_renderer_.text_size(curve_name);
 
         const int line_position_y =
-            position_y + (curve_name_text_size.first + 1) / 2;
+            position_y + (curve_name_text_size.height + 1) / 2;
         const int line_end_x = position_x + config.legend().curve_line_length();
         const auto line_start_point = cv::Point(position_x, line_position_y);
         const auto line_end_point = cv::Point(line_end_x, line_position_y);
@@ -119,13 +123,13 @@ void LegendWriter::write(
 
         const int text_position_x =
             line_end_x + config.legend().curve_line_name_spacing();
-        const auto text_bottom_left_position =
-            cv::Point(text_position_x, position_y + curve_name_text_size.first);
+        const auto text_bottom_left_position = cv::Point(
+            text_position_x, position_y + curve_name_text_size.height);
         text_renderer_.render_text(
             image, curve_name, text_bottom_left_position, legend_color_in_cv);
 
         position_y +=
-            curve_name_text_size.first + config.legend().entry_spacing();
+            curve_name_text_size.height + config.legend().entry_spacing();
     }
 }
 

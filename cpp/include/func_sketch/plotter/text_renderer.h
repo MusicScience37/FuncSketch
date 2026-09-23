@@ -26,6 +26,20 @@
 namespace func_sketch::plotter {
 
 /*!
+ * \brief Struct of sizes of texts.
+ */
+struct TextSize {
+    //! Height of the text above the baseline.
+    int height;
+
+    //! Depth of the text below the baseline.
+    int depth;
+
+    //! Width of the text.
+    int width;
+};
+
+/*!
  * \brief Class to render texts on images.
  */
 class TextRenderer {
@@ -46,12 +60,12 @@ public:
      * \brief Get the size of a text.
      *
      * \param[in] text Text.
-     * \return Height and width of the text.
+     * \return Size of the text.
      *
      * \note Call font_size() before calling this function.
      * Otherwise the behavior is undefined.
      */
-    [[nodiscard]] std::pair<int, int> text_size(const std::string& text) const;
+    [[nodiscard]] TextSize text_size(const std::string& text) const;
 
     /*!
      * \brief Render a text.

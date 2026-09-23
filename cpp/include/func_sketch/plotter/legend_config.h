@@ -44,7 +44,7 @@ constexpr auto default_legend_color = RGBColor{.r = 0x24, .g = 0x24, .b = 0x24};
 //! Default vertical spacing between legend entries in pixels.
 constexpr int default_legend_entry_spacing =
     default_legend_curve_name_font_size +
-    default_legend_curve_name_font_size / 2;
+    default_legend_curve_name_font_size / 3;
 
 //! Default margin between the legend and the plot area in pixels.
 constexpr int default_legend_margin = default_legend_curve_name_font_size;
