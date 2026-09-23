@@ -18,6 +18,7 @@ import kivy.event
 import kivy.properties
 
 from func_sketch._cpp import ExplicitCurveSpec, RGBColor
+from func_sketch._gui.common.color_util import rgb_color_to_rgba
 
 
 class CurveSpecWidgetModel(kivy.event.EventDispatcher):
@@ -28,6 +29,9 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
 
     curve_name = kivy.properties.StringProperty()
     """Name of the curve."""
+
+    default_curve_name = kivy.properties.StringProperty()
+    """Default name of the curve used when the name is empty."""
 
     curve_color = kivy.properties.ObjectProperty(RGBColor(0, 0, 0))
     """Color of the curve."""
@@ -42,7 +46,7 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
             Curve specification.
         """
         return ExplicitCurveSpec(
-            name=self.curve_name,
+            name=self.curve_name or self.default_curve_name,
             function_expression_str=self.expression_text,
             color=self.curve_color,
         )
@@ -53,14 +57,31 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
         Args:
             curve_spec: Curve specification.
         """
-        self.curve_name = curve_spec.name
+        self.curve_name = (
+            "" if curve_spec.name == self.default_curve_name else curve_spec.name
+        )
         self.expression_text = curve_spec.function_expression_str
         self.curve_color = curve_spec.color
 
     curve_spec = kivy.properties.AliasProperty(
         _get_curve_spec,
         _set_curve_spec,
-        bind=("curve_name", "expression_text", "curve_color"),
+        bind=("curve_name", "default_curve_name", "expression_text", "curve_color"),
         cache=True,
     )
     """Curve specification."""
+
+    def _get_curve_color_as_rgba(self) -> tuple[float, float, float, float]:
+        """Get the color of the curve as an RGBA tuple.
+
+        Returns:
+            Color of the curve as an RGBA tuple.
+        """
+        return rgb_color_to_rgba(self.curve_color)
+
+    curve_color_as_rgba = kivy.properties.AliasProperty(
+        _get_curve_color_as_rgba,
+        bind=("curve_color",),
+        cache=True,
+    )
+    """Color of the curve as an RGBA tuple."""

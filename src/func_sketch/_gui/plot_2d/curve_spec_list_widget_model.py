@@ -37,6 +37,9 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
     shared_state = kivy.properties.ObjectProperty()
     """Shared state object."""
 
+    show_legend = kivy.properties.BooleanProperty(False)
+    """Whether to show the legend."""
+
     def __init__(self, **kwargs) -> None:
         """Constructor."""
         self._curve_sampler = CurveSampler(
@@ -60,6 +63,7 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
         """
         for i, curve in enumerate(self.shared_state.curve_specs):
             curve_model = CurveSpecWidgetModel()
+            curve_model.default_curve_name = curve.name
             curve_model.curve_spec = curve
             curve_model.bind(
                 curve_spec=lambda _instance, _value, i=i: self._on_curve_spec_at_child(
@@ -67,6 +71,8 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
                 )
             )
             self._curve_models.append(curve_model)
+
+        self.show_legend = self.shared_state.plot_config.legend.visible
 
         self.shared_state.bind(
             on_plot_range_changed=self._on_shared_plot_range,
@@ -84,6 +90,7 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
         self, _instance: object, _source: object, value: PlotConfig
     ) -> None:
         """Callback when the on_plot_config_changed event is dispatched."""
+        self.show_legend = value.legend.visible
         self._curve_sampler.config = value.sampling
         self._resample_all_curves()
 
@@ -143,3 +150,11 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
         else:
             self._curve_models[index].error_message = ""
         return sampled_curve
+
+    def on_show_legend(self, _instance: object, value: bool) -> None:
+        """Callback when the show_legend property is changed."""
+        config = self.shared_state.plot_config
+        if config.legend.visible == value:
+            return
+        config.legend.visible = value
+        self.shared_state.update_plot_config(self, config)

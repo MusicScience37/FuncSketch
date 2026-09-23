@@ -71,3 +71,20 @@ def rgba_to_rgb_color(rgba: tuple[float, float, float, float]) -> RGBColor:
     """
     r, g, b, _ = rgba
     return RGBColor(int(r * 255), int(g * 255), int(b * 255))
+
+
+def rgb_color_to_rgba(rgb_color: RGBColor) -> tuple[float, float, float, float]:
+    """Convert an RGBColor object to an RGBA tuple.
+
+    Args:
+        rgb_color: RGBColor object.
+
+    Returns:
+        RGBA tuple with values in the range [0.0, 1.0].
+    """
+    return (
+        rgb_color.r / 255.0,
+        rgb_color.g / 255.0,
+        rgb_color.b / 255.0,
+        1.0,
+    )

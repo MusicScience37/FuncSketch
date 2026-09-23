@@ -692,7 +692,11 @@ Note:
             "name"_a, "points"_a, "color"_a, "Constructor.")
         .def_rw("name", &SampledCurve::name, "Name of the curve.")
         .def_rw("points", &SampledCurve::points, "Sampled points of the curve.")
-        .def_rw("color", &SampledCurve::color, "Color of the curve.");
+        .def_rw("color", &SampledCurve::color, "Color of the curve.")
+        .def(
+            "empty",
+            [](const SampledCurve& self) { return self.points.empty(); },
+            "Check if the sampled curve is empty.");
 
     using func_sketch::curves::CurveSampler;
     nanobind::class_<CurveSampler>(m, "CurveSampler", "Class to sample curves.")

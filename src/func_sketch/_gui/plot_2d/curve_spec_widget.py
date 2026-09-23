@@ -34,3 +34,4 @@ class CurveSpecWidget(kivy.uix.boxlayout.BoxLayout):
         sync_properties(
             self._model, "expression_text", self.ids.expression_text_input, "text"
         )
+        sync_properties(self._model, "curve_name", self.ids.name_text_input, "text")

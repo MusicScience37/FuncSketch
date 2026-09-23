@@ -13,13 +13,32 @@
 # limitations under the License.
 
 #:import FONT_SIZE_HEADER1 func_sketch._gui.common.constants.FONT_SIZE_HEADER1
+#:import FONT_SIZE_TEXT func_sketch._gui.common.constants.FONT_SIZE_TEXT
 #:import SPACING_HEADER2 func_sketch._gui.common.constants.SPACING_HEADER2
+#:import SPACING_DEFAULT func_sketch._gui.common.constants.SPACING_DEFAULT
+
+#:import SwitchWidget func_sketch._gui.common.switch_widget.SwitchWidget
 
 <CurveSpecListWidget>:
     orientation: "vertical"
     size_hint_y: None
     height: self.minimum_height
     spacing: SPACING_HEADER2
+    GridLayout:
+        cols: 2
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: SPACING_DEFAULT
+        Label:
+            text: "Show legend:"
+            font_size: FONT_SIZE_TEXT
+            text_size: self.width, None
+            halign: "left"
+        SwitchWidget:
+            id: show_legend_switch
+            size_hint_y: None
+            height: self.texture_size[1]
+            active: False
     BoxLayout:
         id: curve_spec_list_layout
         orientation: "vertical"
