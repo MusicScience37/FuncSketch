@@ -48,7 +48,7 @@ public:
         const PlotRange& range, int height, int width);
 
     /*!
-     * \brief Write axes in the plot.
+     * \brief Write axes in plots.
      *
      * \param[in,out] image Image to write.
      * \param[in] config Configuration of plots.
@@ -106,8 +106,7 @@ private:
         int width);
 
     /*!
-     * \brief Update the height of x-axis ticks including the depth below the
-     * baseline.
+     * \brief Update the height of x-axis ticks.
      *
      * \param[in] config Configuration of plots.
      */
@@ -124,8 +123,7 @@ private:
      * \brief Calculate the height of x-axis title.
      *
      * \param[in] config Configuration of plots.
-     * \return Height of the x-axis title including the depth below the
-     * baseline.
+     * \return Height of the x-axis title.
      *
      * \note This function assumes that the x-axis title is present.
      */
@@ -147,7 +145,7 @@ private:
     //! Ticks of the y-axis.
     AxisTicks y_axis_ticks_;
 
-    //! Height of x-axis ticks including the depth below the baseline.
+    //! Height of x-axis ticks.
     int x_axis_tick_height_{};
 
     //! Width of y-axis ticks.
