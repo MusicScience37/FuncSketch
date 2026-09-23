@@ -33,6 +33,7 @@
 #:include plot_2d/curve_spec_widget.kv
 #:include plot_2d/curve_spec_list_widget.kv
 #:include plot_2d/image_size_widget.kv
+#:include plot_2d/titles_config_widget.kv
 #:import CurveSpecListWidget func_sketch._gui.plot_2d.curve_spec_list_widget.CurveSpecListWidget
 #:import PlainSplitterStrip func_sketch._gui.common.plain_splitter_strip.PlainSplitterStrip
 #:import PlotWidget func_sketch._gui.plot_2d.plot_widget.PlotWidget
@@ -41,6 +42,7 @@
 #:import CollapsibleBox func_sketch._gui.common.collapsible_box.CollapsibleBox
 #:import MenuWidget func_sketch._gui.plot_2d.menu_widget.MenuWidget
 #:import ImageSizeWidget func_sketch._gui.plot_2d.image_size_widget.ImageSizeWidget
+#:import TitlesConfigWidget func_sketch._gui.plot_2d.titles_config_widget.TitlesConfigWidget
 
 <Splitter>:
     strip_cls: PlainSplitterStrip
@@ -97,7 +99,18 @@
                         title: "Image Size"
                         collapsed: True
                         padding: PADDING_NAVIGATION
+                        canvas:
+                            Color:
+                                rgba: SECTION_BORDER_COLOR
+                            Line:
+                                points: [self.x, self.y, self.x + self.width, self.y]
                         ImageSizeWidget:
+                            shared_state: root.shared_state
+                    CollapsibleBox:
+                        title: "Titles"
+                        collapsed: True
+                        padding: PADDING_NAVIGATION
+                        TitlesConfigWidget:
                             shared_state: root.shared_state
     StatusBarWidget:
         shared_state: root.shared_state

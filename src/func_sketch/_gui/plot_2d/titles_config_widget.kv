@@ -1,0 +1,63 @@
+# Copyright 2026 MusicScience37 (Kenta Kabashima)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#:import FONT_SIZE_TEXT func_sketch._gui.common.constants.FONT_SIZE_TEXT
+#:import SPACING_DEFAULT func_sketch._gui.common.constants.SPACING_DEFAULT
+
+#:import PlainTextInput func_sketch._gui.common.plain_text_input.PlainTextInput
+
+<TitlesConfigWidget>:
+    orientation: "vertical"
+    spacing: SPACING_DEFAULT
+    GridLayout:
+        cols: 2
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: SPACING_DEFAULT
+        Label:
+            text: "Plot title:"
+            size_hint_x: None
+            width: self.texture_size[0]
+            font_size: FONT_SIZE_TEXT
+            halign: "left"
+        PlainTextInput:
+            id: plot_title_text_input
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+            font_size: FONT_SIZE_TEXT
+        Label:
+            text: "x-axis title:"
+            size_hint_x: None
+            width: self.texture_size[0]
+            font_size: FONT_SIZE_TEXT
+            halign: "left"
+        PlainTextInput:
+            id: x_axis_title_text_input
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+            font_size: FONT_SIZE_TEXT
+        Label:
+            text: "y-axis title:"
+            size_hint_x: None
+            width: self.texture_size[0]
+            font_size: FONT_SIZE_TEXT
+            halign: "left"
+        PlainTextInput:
+            id: y_axis_title_text_input
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+            font_size: FONT_SIZE_TEXT
