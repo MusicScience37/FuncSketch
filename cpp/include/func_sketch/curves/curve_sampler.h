@@ -22,6 +22,7 @@
 #include "func_sketch/curves/explicit_curve_spec.h"
 #include "func_sketch/curves/sampled_curve.h"
 #include "func_sketch/math/functions/python_function_list.h"
+#include "func_sketch/math/math_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/sampling/function_sampler.h"
@@ -68,6 +69,14 @@ public:
      * \return Sampled curve.
      */
     [[nodiscard]] SampledCurve operator()(const ExplicitCurveSpec& spec) const;
+
+    /*!
+     * \brief Get the list of mathematical functions.
+     *
+     * \return List of mathematical functions.
+     */
+    [[nodiscard]] const math::MathFunctionList& math_function_list()
+        const noexcept;
 
 private:
     //! Parser of expressions.

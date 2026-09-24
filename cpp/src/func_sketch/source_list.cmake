@@ -21,6 +21,7 @@ set(SOURCE_FILES
     math/functions/pow.cpp
     math/functions/trigonometric.cpp
     math/generate_math_function_list.cpp
+    math/math_function_list.cpp
     parser/convert_expression.cpp
     parser/expression_grammar.cpp
     parser/expression_parser.cpp

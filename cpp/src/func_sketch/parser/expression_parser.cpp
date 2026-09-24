@@ -70,4 +70,9 @@ expressions::ExpressionPtr ExpressionParser::operator()(
         parsed_expression, pimpl_->math_function_list, pimpl_->constant_list);
 }
 
+const math::MathFunctionList& ExpressionParser::math_function_list()
+    const noexcept {
+    return pimpl_->math_function_list;
+}
+
 }  // namespace func_sketch::parser
