@@ -8,63 +8,30 @@ A project to create a graphing calculator.
 - Support for a wide range of mathematical functions,
   from basic ones like trigonometric functions to special functions such as Bessel functions.
 
-## Directory Structure
+## Architecture and Design
 
 This project is made of a C++ module with Python bindings and Python scripts for the GUI.
 
-Directory structure:
+Important design documents:
 
-- `cpp`: C++ source code
-  - `cmake`: Scripts for CMake
-  - `include`: Header files
-  - `src`: Source files
-  - `tests`: Tests
-- `docs`: Documentation
-  - Some important files:
-    - `sphinx/design_notes/classes_cpp.puml`: UML class diagram for C++ classes
-    - `sphinx/design_notes/classes_python.puml`: UML class diagram for Python classes
-    - `sphinx/design_notes/grammar.md`: Grammar for the parser
-    - `sphinx/design_notes/modules.puml`: UML diagram for module structure
-- `src`: Python source code
-  - `func_sketch`: Python package
-    - `_gui`: Package directory for GUI
-    - `_impl`: Package directory for the internal logic
-    - `_cpp`: C++ extension module built from source code in `cpp` directory
-- `tests`: Tests of Python source code
+- `docs/sphinx/design_notes/classes_cpp.puml`: UML class diagram for C++ classes
+- `docs/sphinx/design_notes/classes_python.puml`: UML class diagram for Python classes
+- `docs/sphinx/design_notes/grammar.md`: Grammar for the parser
+- `docs/sphinx/design_notes/modules.puml`: UML diagram for module structure
 
-## Notes on C++ Source Codes
+## Notes on C++ Source Code
 
-- Use C++ 23 standard.
-- Use CMake.
-  - Build directory is `build/Debug` for debug build and `build/Release` for release build. Use `build/Debug` by default.
-- Use `clang-format` and `clang-tidy`.
-- Use `Catch2` and `ApprovalTests` for unit tests.
-- Use `nanobind` for Python bindings.
-- Use `Boost.Spirit` for parsing.
+- Source code is located in `cpp` directory, not `src` directory.
+- Configuration files including `CMakeLists.txt` for C++ is located in the repository root.
+- Build directory is `build/Debug` for debug build and `build/Release` for release build. Use `build/Debug` by default.
 - Use `Boost.Math` for special functions not in C++ standard library.
 - Use `fmt` for formatting strings.
-- Use `OpenCV` for writing plots.
-- This project will support several platforms in the future, so platform-dependent functions should not be called directly. Instead, use existing cross-platform library functions.
-- Tests of plotting is done in Python, so run tests in Python after changing plotting-related C++ codes.
+- This project supports several platforms, so platform-dependent functions should not be called directly. Instead, use existing cross-platform library functions.
+- Some classes are tested in Python, so run the Python tests after changing C++ code.
 
-## Notes on Python Source Codes
+## Notes on Python Source Code
 
-- Use Python 3.13.
-- Use `black` and `isort` for formatting.
 - Use `Ruff` for linting, not for formatting.
-- Use `mypy` for type checking.
-- Use `pytest` for unit tests.
-  - See `scripts/run_pytest.sh` for the appropriate way to run pytest.
-  - When testing plotting of functions with finite domain, specify the range with a larger domain than the function's domain to check that the function is not plotted outside its domain.
-    Also, singularities of functions should be included in the range to check behavior of the function near singularities.
-- Comments should be in Google style.
-
-## Notes on Sphinx Documentation
-
-- Use docs/build.sh to build the documentation.
-  This script runs `sphinx-build` with required arguments and environment variables.
-  And it also runs `sphinx-apidoc` to generate API reference included in the documentation.
-- conf.py defines a custom directive `funcsketch:function` for documenting functions in FuncSketch.
-  Functions documented with `funcsketch:function` directive can be referenced with `:funcsketch:func:` role.
-- Documentation can be written also in Markdown format using `myst_parser` extension.
-- For natural logarithm function, use `log` instead of `ln`.
+- See `scripts/run_pytest.sh` for the appropriate way to run pytest.
+- When testing plotting of functions with finite domain, specify the range with a larger domain than the function's domain to check that the function is not plotted outside its domain.
+  Also, singularities of functions should be included in the range to check behavior of the function near singularities.
