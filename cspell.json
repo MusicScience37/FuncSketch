@@ -154,6 +154,7 @@
     "PYPI",
     "pyproject",
     "pytest",
+    "rapidfuzz",
     "rgba",
     "rtol",
     "rtype",
