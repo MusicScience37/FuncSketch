@@ -20,7 +20,7 @@ Bessel Functions
 
 .. funcsketch:function:: bessel_y(v, x)
 
-    (Cylindrical) Bessel function of the second kind.
+    (Cylindrical) Bessel function of the second kind (Neumann function).
 
     :param v: The order of the Bessel function.
     :type v: Integer or Real
@@ -125,7 +125,7 @@ Bessel Functions
 
 .. funcsketch:function:: spherical_bessel_y(n, x)
 
-    Spherical Bessel function of the second kind.
+    Spherical Bessel function of the second kind (spherical Neumann function).
 
     :param n: The order of the spherical Bessel function.
     :type n: Integer
