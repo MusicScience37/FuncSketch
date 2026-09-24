@@ -22,8 +22,10 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/math/constant_info.h"
 
 namespace func_sketch::math {
 
@@ -59,6 +61,20 @@ public:
             return std::nullopt;
         }
         return iter->second;
+    }
+
+    /*!
+     * \brief Create a list of information of constants.
+     *
+     * \return List of information of constants.
+     */
+    [[nodiscard]] std::vector<ConstantInfo> create_constant_info_list() const {
+        std::vector<ConstantInfo> info_list;
+        info_list.reserve(constants_.size());
+        for (const auto& [name, value] : constants_) {
+            info_list.emplace_back(name);
+        }
+        return info_list;
     }
 
 private:

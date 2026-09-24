@@ -75,4 +75,8 @@ const math::MathFunctionList& ExpressionParser::math_function_list()
     return pimpl_->math_function_list;
 }
 
+const math::ConstantList& ExpressionParser::constant_list() const noexcept {
+    return pimpl_->constant_list;
+}
+
 }  // namespace func_sketch::parser

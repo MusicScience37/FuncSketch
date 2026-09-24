@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of MathFunctionInfo class.
+ * \brief Definition of ConstantInfo class.
  */
 #pragma once
 
@@ -25,29 +25,29 @@
 namespace func_sketch::math {
 
 /*!
- * \brief Class to store information about a mathematical function.
+ * \brief Class to store information about a constant.
  *
  * \note Future implementation may include additional information about the
- * mathematical function.
+ * constant.
  */
-class MathFunctionInfo {
+class ConstantInfo {
 public:
     /*!
      * \brief Constructor.
      *
-     * \param[in] name Name of the mathematical function.
+     * \param[in] name Name of the constant.
      */
-    explicit MathFunctionInfo(std::string name) : name_(std::move(name)) {}
+    explicit ConstantInfo(std::string name) : name_(std::move(name)) {}
 
     /*!
-     * \brief Get the name of the mathematical function.
+     * \brief Get the name of the constant.
      *
-     * \return Name of the mathematical function.
+     * \return Name of the constant.
      */
     [[nodiscard]] const std::string& name() const noexcept { return name_; }
 
 private:
-    //! Name of the mathematical function.
+    //! Name of the constant.
     std::string name_;
 };
 

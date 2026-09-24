@@ -78,6 +78,13 @@ public:
     [[nodiscard]] const math::MathFunctionList& math_function_list()
         const noexcept;
 
+    /*!
+     * \brief Get the list of constants.
+     *
+     * \return List of constants.
+     */
+    [[nodiscard]] const math::ConstantList& constant_list() const noexcept;
+
 private:
     //! Parser of expressions.
     parser::ExpressionParser expression_parser_;
