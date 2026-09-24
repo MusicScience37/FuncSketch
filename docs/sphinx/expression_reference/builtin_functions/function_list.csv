@@ -8,6 +8,10 @@ Function,Short Description
 :funcsketch:func:`atan`, Arctangent function (:math:`\arctan(x)`).
 :funcsketch:func:`atan2`, "Arctangent function of two variables (:math:`\mathrm{atan2}(y, x)`)."
 :funcsketch:func:`atanh`, Hyperbolic arctangent function (:math:`\mathrm{atanh}(x)`).
+:funcsketch:func:`bessel_i`, (Cylindrical) modified Bessel function of the first kind (:math:`I_{\nu}(x)`).
+:funcsketch:func:`bessel_j`, (Cylindrical) Bessel function of the first kind (:math:`J_{\nu}(x)`).
+:funcsketch:func:`bessel_k`, (Cylindrical) modified Bessel function of the second kind (:math:`K_{\nu}(x)`).
+:funcsketch:func:`bessel_y`, (Cylindrical) Bessel function of the second kind (:math:`Y_{\nu}(x)`).
 :funcsketch:func:`cbrt`, Cube root function (:math:`\sqrt[3]{x}`).
 :funcsketch:func:`ceil`, Ceiling function (:math:`\lceil x \rceil`).
 :funcsketch:func:`conj`, Complex conjugate function (:math:`\mathrm{conj}(x)`).
@@ -20,7 +24,13 @@ Function,Short Description
 :funcsketch:func:`expm1`, Exponential-minus-one function (:math:`e^x - 1`).
 :funcsketch:func:`floor`, Floor function (:math:`\lfloor x \rfloor`).
 :funcsketch:func:`gamma`, Gamma function (:math:`\Gamma(x)`).
+:funcsketch:func:`hankel1`, (Cylindrical) Hankel function of the first kind (:math:`H_{\nu}^{(1)}(x)`).
+:funcsketch:func:`hankel2`, (Cylindrical) Hankel function of the second kind (:math:`H_{\nu}^{(2)}(x)`).
 :funcsketch:func:`imag`, Imaginary part function (:math:`\mathrm{imag}(x)`).
+:funcsketch:func:`kelvin_bei`, Kelvin function ``bei`` (:math:`\text{bei}_{\nu}(x)`).
+:funcsketch:func:`kelvin_ber`, Kelvin function ``ber`` (:math:`\text{ber}_{\nu}(x)`).
+:funcsketch:func:`kelvin_kei`, Kelvin function ``kei`` (:math:`\text{kei}_{\nu}(x)`).
+:funcsketch:func:`kelvin_ker`, Kelvin function ``ker`` (:math:`\text{ker}_{\nu}(x)`).
 :funcsketch:func:`lgamma`, Natural logarithm of the absolute value of the gamma function (:math:`\log{|\Gamma(x)|}`).
 :funcsketch:func:`log`, Natural logarithm function (:math:`\log(x)`).
 :funcsketch:func:`log1p`, Natural logarithm of one plus x function (:math:`\log(1+x)`).
@@ -31,6 +41,10 @@ Function,Short Description
 :funcsketch:func:`round`, Rounding function (:math:`\mathrm{round}(x)`).
 :funcsketch:func:`sin`, Sine function (:math:`\sin(x)`).
 :funcsketch:func:`sinh`, Hyperbolic sine function (:math:`\sinh(x)`).
+:funcsketch:func:`spherical_bessel_j`, Spherical Bessel function of the first kind (:math:`j_n(x)`).
+:funcsketch:func:`spherical_bessel_y`, Spherical Bessel function of the second kind (:math:`y_n(x)`).
+:funcsketch:func:`spherical_hankel1`, Spherical Hankel function of the first kind (:math:`h_n^{(1)}(x)`).
+:funcsketch:func:`spherical_hankel2`, Spherical Hankel function of the second kind (:math:`h_n^{(2)}(x)`).
 :funcsketch:func:`sqrt`, Square root function (:math:`\sqrt{x}`).
 :funcsketch:func:`tan`, Tangent function (:math:`\tan(x)`).
 :funcsketch:func:`tanh`, Hyperbolic tangent function (:math:`\tanh(x)`).
