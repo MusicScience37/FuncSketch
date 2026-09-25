@@ -14,6 +14,7 @@
 
 """Class of the view model of the text input of function expressions."""
 
+import logging
 import re
 
 import kivy.event
@@ -22,6 +23,8 @@ import kivy.properties
 from func_sketch._cpp import CurveSampler
 from func_sketch._gui.common.constants import NUM_EXPRESSION_TOKEN_CANDIDATES
 from func_sketch._impl.token_candidate_finder import TokenCandidateFinder
+
+LOGGER = logging.getLogger(__name__)
 
 _EXPRESSION_TOKEN_PATTERN = re.compile(r"[a-zA-Z_][a-zA-Z0-9_]*")
 
@@ -62,6 +65,29 @@ class ExpressionTextInputModel(kivy.event.EventDispatcher):
     token_candidates = kivy.properties.ObjectProperty(None, allownone=True)
     """List of token candidates based on the current token."""
 
+    def _get_cursor(self) -> tuple[int, int]:
+        """Get the current cursor position as a (col, row) tuple, as in Kivy's TextInput (row is always 0).
+
+        Returns:
+            A tuple of (col, row) representing the cursor position.
+        """
+        col = int(self.cursor_position)
+        row = 0
+        return col, row
+
+    def _set_cursor(self, value: tuple[int, int]) -> None:
+        """Set the current cursor position from a (col, row) tuple, as in Kivy's TextInput (row is ignored)."""
+        col, _ = value
+        self.cursor_position = col
+
+    cursor = kivy.properties.AliasProperty(
+        _get_cursor,
+        _set_cursor,
+        bind=("cursor_position",),
+        cache=True,
+    )
+    """Alias property for the cursor position as a (col, row) tuple, as in Kivy's TextInput. The row is always 0."""
+
     def __init__(self, curve_sampler: CurveSampler, **kwargs) -> None:
         super().__init__(**kwargs)
 
@@ -84,13 +110,37 @@ class ExpressionTextInputModel(kivy.event.EventDispatcher):
             Call this method after setting expression_text and cursor_position.
         """
         if not _is_identifier_char(key):
-            self.current_token_range = None
-            self.current_token_text = None
-            self.token_candidates = None
+            self.clear_current_token()
             return
 
         self._update_current_token()
         self._update_token_candidates()
+        self._log_current_token()
+
+    def on_backspace(self) -> None:
+        """Callback when the backspace key is pressed in the text input.
+
+        Note:
+            Call this method after setting expression_text and cursor_position.
+        """
+        self._update_current_token()
+        self._update_token_candidates()
+        self._log_current_token()
+
+    def clear_current_token(self) -> None:
+        """Clear the current token and the token candidates."""
+        self.current_token_range = None
+        self.current_token_text = None
+        self.token_candidates = None
+        self._log_current_token()
+
+    def _log_current_token(self) -> None:
+        """Log the current token and the token candidates."""
+        LOGGER.debug(
+            "ExpressionTextInputModel: Current token: %s, Token candidates: %s",
+            self.current_token_text,
+            self.token_candidates,
+        )
 
     def _update_current_token(self) -> None:
         """Update the current token at the current cursor position."""

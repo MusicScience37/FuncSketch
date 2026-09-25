@@ -17,8 +17,12 @@
 import kivy.event
 import kivy.properties
 
-from func_sketch._cpp import ExplicitCurveSpec, RGBColor
+from func_sketch._cpp import CurveSampler, ExplicitCurveSpec, RGBColor
 from func_sketch._gui.common.color_util import rgb_color_to_rgba
+from func_sketch._gui.common.sync_properties import sync_properties
+from func_sketch._gui.plot_2d.expression_text_input_model import (
+    ExpressionTextInputModel,
+)
 
 
 class CurveSpecWidgetModel(kivy.event.EventDispatcher):
@@ -38,6 +42,17 @@ class CurveSpecWidgetModel(kivy.event.EventDispatcher):
 
     error_message = kivy.properties.StringProperty("")
     """Error message related to the curve specification."""
+
+    def __init__(self, curve_sampler: CurveSampler, **kwargs) -> None:
+        """Constructor."""
+        self._curve_sampler = curve_sampler
+        self.expression_text_input_model = ExpressionTextInputModel(
+            curve_sampler=curve_sampler
+        )
+        super().__init__(**kwargs)
+        sync_properties(
+            self, "expression_text", self.expression_text_input_model, "expression_text"
+        )
 
     def _get_curve_spec(self) -> ExplicitCurveSpec:
         """Get the curve specification.

@@ -158,3 +158,82 @@ class TestExpressionTextInputModel:
         # Inputs are not changed here.
         assert model.expression_text == " あ"
         assert model.cursor_position == 2
+
+    def test_backspace_in_identifier(self) -> None:
+        """Test backspace in an identifier."""
+        model = _create_model()
+
+        model.expression_text = " +ex "
+        model.cursor_position = 4
+        model.on_backspace()
+
+        assert model.current_token_range == (2, 4)
+        assert model.current_token_text == "ex"
+        assert model.token_candidates is not None
+        assert len(model.token_candidates) > 0
+        assert model.token_candidates[0] == "exp"
+
+        # Inputs are not changed here.
+        assert model.expression_text == " +ex "
+        assert model.cursor_position == 4
+
+    def test_backspace_removing_whole_identifier(self) -> None:
+        """Test backspace removing the whole identifier."""
+        model = _create_model()
+
+        model.expression_text = " +e "
+        model.cursor_position = 3
+        model.on_key_type("e")
+        assert model.current_token_text == "e"
+
+        model.expression_text = " + "
+        model.cursor_position = 2
+        model.on_backspace()
+
+        assert model.current_token_range is None
+        assert model.current_token_text is None
+        assert model.token_candidates is None
+
+        # Inputs are not changed here.
+        assert model.expression_text == " + "
+        assert model.cursor_position == 2
+
+    def test_backspace_leaving_numeric_character(self) -> None:
+        """Test backspace leaving only a numeric character before the cursor."""
+        model = _create_model()
+
+        model.expression_text = " +2e "
+        model.cursor_position = 4
+        model.on_key_type("e")
+        assert model.current_token_text is None
+
+        model.expression_text = " +2 "
+        model.cursor_position = 3
+        model.on_backspace()
+
+        assert model.current_token_range is None
+        assert model.current_token_text is None
+        assert model.token_candidates is None
+
+        # Inputs are not changed here.
+        assert model.expression_text == " +2 "
+        assert model.cursor_position == 3
+
+    def test_clear_current_token(self) -> None:
+        """Test clearing the current token."""
+        model = _create_model()
+
+        model.expression_text = " +ex "
+        model.cursor_position = 4
+        model.on_key_type("x")
+        assert model.current_token_text == "ex"
+
+        model.clear_current_token()
+
+        assert model.current_token_range is None
+        assert model.current_token_text is None
+        assert model.token_candidates is None
+
+        # Inputs are not changed here.
+        assert model.expression_text == " +ex "
+        assert model.cursor_position == 4

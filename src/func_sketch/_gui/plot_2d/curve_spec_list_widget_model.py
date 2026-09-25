@@ -62,7 +62,7 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
             This method should be called after the shared state is set.
         """
         for i, curve in enumerate(self.shared_state.curve_specs):
-            curve_model = CurveSpecWidgetModel()
+            curve_model = CurveSpecWidgetModel(curve_sampler=self._curve_sampler)
             curve_model.default_curve_name = curve.name
             curve_model.curve_spec = curve
             curve_model.bind(

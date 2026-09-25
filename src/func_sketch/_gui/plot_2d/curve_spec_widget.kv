@@ -16,6 +16,7 @@
 #:import FONT_SIZE_TEXT func_sketch._gui.common.constants.FONT_SIZE_TEXT
 #:import SPACING_DEFAULT func_sketch._gui.common.constants.SPACING_DEFAULT
 #:import PlainTextInput func_sketch._gui.common.plain_text_input.PlainTextInput
+#:import ExpressionTextInput func_sketch._gui.plot_2d.expression_text_input.ExpressionTextInput
 
 #:include common/error_message_label.kv
 
@@ -58,8 +59,9 @@
             width: self.texture_size[0]
             font_size: FONT_SIZE_TEXT
             halign: "left"
-        PlainTextInput:
+        ExpressionTextInput:
             id: expression_text_input
+            model: root._model.expression_text_input_model
             multiline: False
             size_hint_y: None
             height: self.minimum_height
