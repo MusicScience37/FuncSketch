@@ -180,6 +180,11 @@ class ExpressionTextInput(PlainTextInput):
         super().__init__(**kwargs)
         self.multiline = False
         self._auto_complete_dropdown = AutoCompleteDropDown()
+        self._auto_complete_dropdown.bind(
+            on_select=lambda _instance, candidate: self.model.select_token_candidate(
+                candidate
+            )
+        )
 
     def on_kv_post(self, base_widget: object) -> None:
         """Callback after the kv rules of this widget are applied."""

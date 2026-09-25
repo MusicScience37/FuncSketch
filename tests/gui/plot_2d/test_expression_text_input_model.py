@@ -237,3 +237,39 @@ class TestExpressionTextInputModel:
         # Inputs are not changed here.
         assert model.expression_text == " +ex "
         assert model.cursor_position == 4
+
+    def test_select_token_candidate(self) -> None:
+        """Test selecting a token candidate."""
+        model = _create_model()
+
+        model.expression_text = " +exa "
+        model.cursor_position = 4
+        model.on_key_type("x")
+        assert model.current_token_range == (2, 4)
+
+        model.select_token_candidate("exp")
+
+        # Characters after the cursor are kept.
+        assert model.expression_text == " +expa "  # cspell: ignore expa
+        assert model.cursor_position == 5
+        assert model.current_token_range is None
+        assert model.current_token_text is None
+        assert model.token_candidates is None
+
+    def test_select_token_candidate_without_current_token(self) -> None:
+        """Test selecting a token candidate without the current token."""
+        model = _create_model()
+
+        model.expression_text = " +ex "
+        model.cursor_position = 2
+        model.on_key_type("+")
+        assert model.current_token_range is None
+
+        model.select_token_candidate("exp")
+
+        # Inputs are not changed here.
+        assert model.expression_text == " +ex "
+        assert model.cursor_position == 2
+        assert model.current_token_range is None
+        assert model.current_token_text is None
+        assert model.token_candidates is None

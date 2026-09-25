@@ -171,3 +171,18 @@ class ExpressionTextInputModel(kivy.event.EventDispatcher):
 
         candidate_info_list = self._token_candidate_finder.find(current_token)
         self.token_candidates = [info.name for info in candidate_info_list]
+
+    def select_token_candidate(self, candidate: str) -> None:
+        """Select a token candidate and replace the current token with it.
+
+        Args:
+            candidate: The selected token candidate.
+        """
+        if self.current_token_range is None:
+            return
+        start, end = self.current_token_range
+        self.expression_text = (
+            self.expression_text[:start] + candidate + self.expression_text[end:]
+        )
+        self.cursor_position = start + len(candidate)
+        self.clear_current_token()
