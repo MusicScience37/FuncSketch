@@ -31,7 +31,4 @@ class CurveSpecWidget(kivy.uix.boxlayout.BoxLayout):
     def on_kv_post(self, base_widget: object) -> None:
         """Callback after the kv rules of this widget are applied."""
         super().on_kv_post(base_widget)
-        sync_properties(
-            self._model, "expression_text", self.ids.expression_text_input, "text"
-        )
         sync_properties(self._model, "curve_name", self.ids.name_text_input, "text")

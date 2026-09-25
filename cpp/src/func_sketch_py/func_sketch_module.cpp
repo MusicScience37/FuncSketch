@@ -41,6 +41,10 @@
 #include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
+#include "func_sketch/math/constant_info.h"
+#include "func_sketch/math/constant_list.h"
+#include "func_sketch/math/math_function_info.h"
+#include "func_sketch/math/math_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/grid_config.h"
@@ -163,6 +167,35 @@ NB_MODULE(_cpp, m) {
         FUNC_SKETCH_VERSION_MINOR, FUNC_SKETCH_VERSION_PATCH);
     m.doc() = "C++ module for func_sketch";
 
+    using func_sketch::math::MathFunctionInfo;
+    nanobind::class_<MathFunctionInfo>(m, "MathFunctionInfo",
+        "Class to store information about a mathematical function.")
+        .def_prop_ro("name", &MathFunctionInfo::name,
+            "Name of the mathematical function.");
+
+    using func_sketch::math::MathFunctionList;
+    nanobind::class_<MathFunctionList>(
+        m, "MathFunctionList", "Class of lists of mathematical functions.")
+        // Currently only the create_function_info_list method is exposed to
+        // Python.
+        .def("create_function_info_list",
+            &MathFunctionList::create_function_info_list,
+            "Create a list of information of mathematical functions.");
+
+    using func_sketch::math::ConstantInfo;
+    nanobind::class_<ConstantInfo>(
+        m, "ConstantInfo", "Class to store information about a constant.")
+        .def_prop_ro("name", &ConstantInfo::name, "Name of the constant.");
+
+    using func_sketch::math::ConstantList;
+    nanobind::class_<ConstantList>(
+        m, "ConstantList", "Class of lists of constants.")
+        // Currently only the create_constant_info_list method is exposed to
+        // Python.
+        .def("create_constant_info_list",
+            &ConstantList::create_constant_info_list,
+            "Create a list of information of constants.");
+
     using func_sketch::expressions::ExpressionPtr;
     nanobind::class_<ExpressionPtr>(m, "Expression", "Class of expressions.")
         .def(
@@ -187,7 +220,13 @@ Objects of this class can be called with a string to parse it into an Expression
                 const std::string& expression_str) {
                 return self(expression_str);
             },
-            "expression_str"_a, "Parse a string into an Expression object.");
+            "expression_str"_a, "Parse a string into an Expression object.")
+        .def("math_function_list", &ExpressionParser::math_function_list,
+            nanobind::rv_policy::reference_internal,
+            "Get the list of mathematical functions.")
+        .def("constant_list", &ExpressionParser::constant_list,
+            nanobind::rv_policy::reference_internal,
+            "Get the list of constants.");
 
     using func_sketch::expressions::ExpressionEvaluator;
     nanobind::class_<ExpressionEvaluator>(
@@ -733,7 +772,13 @@ Note:
             [](const CurveSampler& self, const ExplicitCurveSpec& spec) {
                 return self(spec);
             },
-            "spec"_a, "Sample a curve and return a sampled curve.");
+            "spec"_a, "Sample a curve and return a sampled curve.")
+        .def("math_function_list", &CurveSampler::math_function_list,
+            nanobind::rv_policy::reference_internal,
+            "Get the list of mathematical functions.")
+        .def("constant_list", &CurveSampler::constant_list,
+            nanobind::rv_policy::reference_internal,
+            "Get the list of constants.");
 
     using func_sketch::plotter::Plotter;
     nanobind::class_<Plotter>(m, "Plotter", "Class for plotting.")

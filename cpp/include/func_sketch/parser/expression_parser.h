@@ -23,7 +23,9 @@
 #include <string>
 
 #include "func_sketch/expressions/expression_ptr.h"
+#include "func_sketch/math/constant_list.h"
 #include "func_sketch/math/functions/python_function_list.h"
+#include "func_sketch/math/math_function_list.h"
 
 namespace func_sketch::parser {
 
@@ -67,6 +69,21 @@ public:
      */
     [[nodiscard]] expressions::ExpressionPtr operator()(
         const std::string& expression_str) const;
+
+    /*!
+     * \brief Get the list of mathematical functions.
+     *
+     * \return List of mathematical functions.
+     */
+    [[nodiscard]] const math::MathFunctionList& math_function_list()
+        const noexcept;
+
+    /*!
+     * \brief Get the list of constants.
+     *
+     * \return List of constants.
+     */
+    [[nodiscard]] const math::ConstantList& constant_list() const noexcept;
 
 private:
     // Separate implementation to avoid including Boost.Spirit headers in this

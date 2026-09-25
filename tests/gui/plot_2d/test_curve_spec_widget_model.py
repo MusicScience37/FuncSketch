@@ -14,8 +14,17 @@
 
 """Test of CurveSpecWidgetModel."""
 
-from func_sketch._cpp import ExplicitCurveSpec, RGBColor
+from func_sketch._cpp import CurveSampler, ExplicitCurveSpec, RGBColor
+from func_sketch._gui.common.constants import (
+    DEFAULT_PLOT_CONFIG,
+    DEFAULT_PLOT_RANGE,
+)
 from func_sketch._gui.plot_2d.curve_spec_widget_model import CurveSpecWidgetModel
+
+
+def _create_model(**kwargs) -> CurveSpecWidgetModel:
+    curve_sampler = CurveSampler(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG.sampling)
+    return CurveSpecWidgetModel(curve_sampler=curve_sampler, **kwargs)
 
 
 class TestCurveSpecWidgetModelCurveSpecSync:
@@ -23,7 +32,7 @@ class TestCurveSpecWidgetModelCurveSpecSync:
 
     def test_curve_spec_reflects_expression_text_and_curve_color(self) -> None:
         """Test that curve_spec combines expression_text and curve_color."""
-        model = CurveSpecWidgetModel()
+        model = _create_model()
         color = RGBColor(10, 20, 30)
         model.expression_text = "x**2"
         model.curve_color = color
@@ -35,7 +44,7 @@ class TestCurveSpecWidgetModelCurveSpecSync:
 
     def test_curve_spec_is_cached_between_reads(self) -> None:
         """Test that curve_spec returns the same object while unchanged."""
-        model = CurveSpecWidgetModel(curve_color=RGBColor(0, 0, 0))
+        model = _create_model(curve_color=RGBColor(0, 0, 0))
 
         assert model.curve_spec is model.curve_spec
 
@@ -43,7 +52,7 @@ class TestCurveSpecWidgetModelCurveSpecSync:
         self,
     ) -> None:
         """Test that setting curve_spec updates curve_name, expression_text and curve_color."""
-        model = CurveSpecWidgetModel()
+        model = _create_model()
         color = RGBColor(1, 2, 3)
         new_curve_spec = ExplicitCurveSpec(
             name="Curve", function_expression_str="sin(x)", color=color
@@ -58,7 +67,7 @@ class TestCurveSpecWidgetModelCurveSpecSync:
     def test_curve_spec_changes_when_expression_text_changes(self) -> None:
         """Test that curve_spec is notified when expression_text changes."""
         color = RGBColor(0, 0, 0)
-        model = CurveSpecWidgetModel(curve_color=color)
+        model = _create_model(curve_color=color)
         on_curve_spec_changed = []
         model.bind(
             curve_spec=lambda _instance, value: on_curve_spec_changed.append(value)
@@ -72,7 +81,7 @@ class TestCurveSpecWidgetModelCurveSpecSync:
 
     def test_curve_spec_changes_when_curve_color_changes(self) -> None:
         """Test that curve_spec is notified when curve_color changes."""
-        model = CurveSpecWidgetModel(expression_text="x")
+        model = _create_model(expression_text="x")
         on_curve_spec_changed = []
         model.bind(
             curve_spec=lambda _instance, value: on_curve_spec_changed.append(value)
@@ -89,7 +98,7 @@ class TestCurveSpecWidgetModelCurveSpecSync:
         self,
     ) -> None:
         """Test that curve_spec uses default_curve_name when curve_name is empty."""
-        model = CurveSpecWidgetModel(
+        model = _create_model(
             curve_color=RGBColor(0, 0, 0), default_curve_name="Default"
         )
 

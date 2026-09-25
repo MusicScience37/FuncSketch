@@ -43,4 +43,13 @@ SampledCurve CurveSampler::operator()(const ExplicitCurveSpec& spec) const {
         .color = spec.color};
 }
 
+const math::MathFunctionList& CurveSampler::math_function_list()
+    const noexcept {
+    return expression_parser_.math_function_list();
+}
+
+const math::ConstantList& CurveSampler::constant_list() const noexcept {
+    return expression_parser_.constant_list();
+}
+
 }  // namespace func_sketch::curves

@@ -23,8 +23,10 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "func_sketch/math/math_function.h"
+#include "func_sketch/math/math_function_info.h"
 #include "func_sketch/math/math_function_type.h"
 
 namespace func_sketch::math {
@@ -64,6 +66,14 @@ public:
         }
         return std::nullopt;
     }
+
+    /*!
+     * \brief Create a list of information of mathematical functions.
+     *
+     * \return List of information of mathematical functions.
+     */
+    [[nodiscard]] std::vector<MathFunctionInfo> create_function_info_list()
+        const;
 
 private:
     //! List of mathematical functions.
