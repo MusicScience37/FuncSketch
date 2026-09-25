@@ -168,6 +168,11 @@ SWITCH_PADDING = 3
 ANIMATION_DURATION = 0.2
 """Duration for animations in seconds."""
 
+# Expressions
+
+NUM_EXPRESSION_TOKEN_CANDIDATES = 10
+"""Number of token candidates to display when typing an expression."""
+
 # Curves
 
 NUM_CURVES = len(CURVE_COLORS)
