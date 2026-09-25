@@ -163,6 +163,9 @@ MENU_DROP_DOWN_WIDTH = 150
 SWITCH_PADDING = 3
 """Padding for switch widgets."""
 
+PADDING_AUTO_COMPLETE_CANDIDATES = 3
+"""Padding for the auto-complete candidates."""
+
 # Animation duration
 
 ANIMATION_DURATION = 0.2
