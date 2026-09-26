@@ -167,6 +167,7 @@ def check_tests_for_condition(
             env=env,
         )
         if test_type in ["debug", "release", "coverage_cpp", "coverage_python"]:
+            # Unit tests.
             command = ["xvfb-run", "poetry", "run", "pytest", "tests", "-v"]
             if test_type == "coverage_python":
                 command = command + [
@@ -183,7 +184,26 @@ def check_tests_for_condition(
                 cwd=str(ROOT_DIR),
                 env=env,
             )
+
         if test_type in ["release"]:
+            # System tests.
+            time.sleep(5)  # Wait for a few seconds for xvfb.
+            execute_command(
+                [
+                    "xvfb-run",
+                    '--server-args="-screen 0 1300x800x24"',
+                    "poetry",
+                    "run",
+                    "pytest",
+                    "system_tests",
+                    "-v",
+                ],
+                cwd=str(ROOT_DIR),
+                env=env,
+            )
+
+        if test_type in ["release"]:
+            # Benchmarks.
             time.sleep(5)  # Wait for a few seconds for xvfb.
             execute_command(
                 [
