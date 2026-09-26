@@ -106,7 +106,8 @@ spell check:
       - $BUILD_DIR/temp_test
       - benchmark.json
       - bench_metrics.txt
-      - test # For outputs of ApprovalTest.
+      - tests # For outputs of ApprovalTest.
+      - system_tests/screenshots
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml
@@ -147,6 +148,8 @@ cpp coverage:
       - $BUILD_DIR/junit
       - $BUILD_DIR/temp_test
       - $BUILD_DIR/coverage
+      - tests # For outputs of ApprovalTest.
+      - system_tests/screenshots
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml
@@ -172,6 +175,8 @@ python coverage:
       - $BUILD_DIR/temp_test
       - coverage_python.xml
       - coverage_python
+      - tests # For outputs of ApprovalTest.
+      - system_tests/screenshots
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml
@@ -227,7 +232,8 @@ test msvc release:
       - $BUILD_DIR/temp_test
       - benchmark.json
       - bench_metrics.txt
-      - test # For outputs of ApprovalTest.
+      - tests # For outputs of ApprovalTest.
+      - system_tests/screenshots
       - dist_win
     reports:
       junit:
