@@ -75,6 +75,7 @@
                     height: self.minimum_height
                     # No spacing here. Padding is sufficient for the spacing.
                     CollapsibleBox:
+                        id: curves_collapsible_box
                         title: "Curves"
                         padding: PADDING_NAVIGATION
                         canvas:
@@ -86,6 +87,7 @@
                             id: curve_spec_list_widget
                             shared_state: root.shared_state
                     CollapsibleBox:
+                        id: range_collapsible_box
                         title: "Range"
                         collapsed: True
                         padding: PADDING_NAVIGATION
@@ -97,6 +99,7 @@
                         RangeConfigWidget:
                             shared_state: root.shared_state
                     CollapsibleBox:
+                        id: image_size_collapsible_box
                         title: "Image Size"
                         collapsed: True
                         padding: PADDING_NAVIGATION
@@ -106,8 +109,10 @@
                             Line:
                                 points: [self.x, self.y, self.x + self.width, self.y]
                         ImageSizeWidget:
+                            id: image_size_widget
                             shared_state: root.shared_state
                     CollapsibleBox:
+                        id: titles_collapsible_box
                         title: "Titles"
                         collapsed: True
                         padding: PADDING_NAVIGATION
