@@ -35,3 +35,4 @@ Important design documents:
 - See `scripts/run_pytest.sh` for the appropriate way to run pytest.
 - When testing plotting of functions with finite domain, specify the range with a larger domain than the function's domain to check that the function is not plotted outside its domain.
   Also, singularities of functions should be included in the range to check behavior of the function near singularities.
+- System tests are implemented in the `system_tests` directory separately from the regular tests, and can be run using `scripts/run_system_test.sh`, which has the required setup for running system tests.
