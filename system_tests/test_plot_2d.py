@@ -17,8 +17,9 @@
 import kivy.core.window
 import pytest
 
+from func_sketch._cpp import Point
 from func_sketch._gui.common.collapsible_box import CollapsibleBox
-from func_sketch._gui.common.constants import NUM_CURVES
+from func_sketch._gui.common.constants import DEFAULT_PLOT_RANGE, NUM_CURVES
 from func_sketch._gui.common.float_text_input import FloatTextInput
 from func_sketch._gui.common.plain_text_input import PlainTextInput
 from func_sketch._gui.common.switch_widget import SwitchWidget
@@ -30,6 +31,7 @@ from func_sketch._gui.plot_2d.expression_text_input_model import (
 )
 from func_sketch._gui.plot_2d.func_sketch_app import FuncSketchApp
 from func_sketch._gui.plot_2d.image_size_widget import ImageSizeWidget
+from func_sketch._gui.plot_2d.plot_widget import PlotWidget
 from func_sketch._gui.plot_2d.range_config_widget import RangeConfigWidget
 from func_sketch._gui.plot_2d.shared_state import SharedState
 from system_tests.screen_saver import ScreenshotSaver
@@ -244,7 +246,10 @@ def test_fix_image_size(
 def test_change_range(
     func_sketch_plot_2d_app: FuncSketchApp, screenshot_saver: ScreenshotSaver
 ) -> None:
-    """Test to change the range of the plot."""
+    """Test to change the range of the plot.
+
+    This includes interaction in plots.
+    """
     screenshot_saver.save("initial")
 
     curves_collapsible_box = func_sketch_plot_2d_app.root.ids.curves_collapsible_box
@@ -289,3 +294,175 @@ def test_change_range(
     assert plot_range.x_range[1] == pytest.approx(3.0)
     assert plot_range.y_range[0] == pytest.approx(-1.0)
     assert plot_range.y_range[1] == pytest.approx(4.0)
+
+    plot_widget = func_sketch_plot_2d_app.root.ids.plot_widget
+    assert isinstance(plot_widget, PlotWidget)
+    plot_widget_model = plot_widget._model
+
+    def plot_to_image(x: float, y: float) -> tuple[float, float]:
+        point_in_plot = Point(x, y)
+        point_in_image_int = (
+            plot_widget_model._plotter.point_converter.convert_plot_to_image(
+                point_in_plot
+            )
+        )
+        image_height = plot_widget_model._plotter.actual_size[0]
+        # y-coordinate in Kivy is inverted compared to the coordinate in the image.
+        return (
+            float(point_in_image_int[0]),
+            float(image_height - point_in_image_int[1]),
+        )
+
+    # Move mouse first.
+    mouse_pos_in_plot = (0.0, 1.0)
+    relative_mouse_position = plot_to_image(*mouse_pos_in_plot)
+    plot_widget_model.on_mouse_pos_in_widget(relative_mouse_position)
+    wait_window_change()
+    screenshot_saver.save("mouse_moved")
+    coordinate_tolerance = 0.05
+    assert shared_state.mouse_pos_in_plot.x == pytest.approx(
+        mouse_pos_in_plot[0], abs=coordinate_tolerance
+    )
+    assert shared_state.mouse_pos_in_plot.y == pytest.approx(
+        mouse_pos_in_plot[1], abs=coordinate_tolerance
+    )
+
+    # Zoom in.
+    plot_widget_model.on_mouse_scroll(is_scroll_down=True)
+    wait_window_change()
+    screenshot_saver.save("zoomed_in")
+    plot_range = shared_state.plot_range
+    assert plot_range.x_range[0] == pytest.approx(-1.0, abs=coordinate_tolerance)
+    assert plot_range.x_range[1] == pytest.approx(1.5, abs=coordinate_tolerance)
+    assert plot_range.y_range[0] == pytest.approx(0.0, abs=coordinate_tolerance)
+    assert plot_range.y_range[1] == pytest.approx(2.5, abs=coordinate_tolerance)
+    assert float(x_min_text_input.text) == pytest.approx(
+        plot_range.x_range[0], abs=coordinate_tolerance
+    )
+    assert float(x_max_text_input.text) == pytest.approx(
+        plot_range.x_range[1], abs=coordinate_tolerance
+    )
+    assert float(y_min_text_input.text) == pytest.approx(
+        plot_range.y_range[0], abs=coordinate_tolerance
+    )
+    assert float(y_max_text_input.text) == pytest.approx(
+        plot_range.y_range[1], abs=coordinate_tolerance
+    )
+
+    # Zoom out.
+    plot_widget_model.on_mouse_scroll(is_scroll_down=False)
+    wait_window_change()
+    screenshot_saver.save("zoomed_out")
+    plot_range = shared_state.plot_range
+    assert plot_range.x_range[0] == pytest.approx(-2.0, abs=coordinate_tolerance)
+    assert plot_range.x_range[1] == pytest.approx(3.0, abs=coordinate_tolerance)
+    assert plot_range.y_range[0] == pytest.approx(-1.0, abs=coordinate_tolerance)
+    assert plot_range.y_range[1] == pytest.approx(4.0, abs=coordinate_tolerance)
+    assert float(x_min_text_input.text) == pytest.approx(
+        plot_range.x_range[0], abs=coordinate_tolerance
+    )
+    assert float(x_max_text_input.text) == pytest.approx(
+        plot_range.x_range[1], abs=coordinate_tolerance
+    )
+    assert float(y_min_text_input.text) == pytest.approx(
+        plot_range.y_range[0], abs=coordinate_tolerance
+    )
+    assert float(y_max_text_input.text) == pytest.approx(
+        plot_range.y_range[1], abs=coordinate_tolerance
+    )
+
+    # Pan.
+    image_height = plot_widget_model._plotter.actual_size[0]
+    image_width = plot_widget_model._plotter.actual_size[1]
+    plot_widget_model.on_mouse_left_button_down(
+        relative_pos=relative_mouse_position, current_touch_modifiers=[]
+    )
+    relative_mouse_position = (
+        relative_mouse_position[0] + image_width * 0.1,
+        relative_mouse_position[1] + image_height * 0.1,
+    )
+    plot_widget_model.on_mouse_left_button_dragging(
+        relative_pos=relative_mouse_position
+    )
+    plot_widget_model.on_mouse_left_button_up(relative_pos=relative_mouse_position)
+    plot_widget_model.on_mouse_pos_in_widget(relative_mouse_position)
+    wait_window_change()
+    screenshot_saver.save("panned")
+    # Mouse position should remain consistent after panning.
+    assert shared_state.mouse_pos_in_plot.x == pytest.approx(
+        mouse_pos_in_plot[0], abs=coordinate_tolerance
+    )
+    assert shared_state.mouse_pos_in_plot.y == pytest.approx(
+        mouse_pos_in_plot[1], abs=coordinate_tolerance
+    )
+    plot_range = shared_state.plot_range
+    assert (plot_range.x_range[1] - plot_range.x_range[0]) == pytest.approx(
+        5.0, abs=coordinate_tolerance
+    )
+    assert (plot_range.y_range[1] - plot_range.y_range[0]) == pytest.approx(
+        5.0, abs=coordinate_tolerance
+    )
+    assert float(x_min_text_input.text) == pytest.approx(
+        plot_range.x_range[0], abs=coordinate_tolerance
+    )
+    assert float(x_max_text_input.text) == pytest.approx(
+        plot_range.x_range[1], abs=coordinate_tolerance
+    )
+    assert float(y_min_text_input.text) == pytest.approx(
+        plot_range.y_range[0], abs=coordinate_tolerance
+    )
+    assert float(y_max_text_input.text) == pytest.approx(
+        plot_range.y_range[1], abs=coordinate_tolerance
+    )
+
+    # Select another range.
+    mouse_pos_in_plot = (-1.0, 2.0)
+    relative_mouse_position = plot_to_image(*mouse_pos_in_plot)
+    plot_widget_model.on_mouse_pos_in_widget(relative_mouse_position)
+    plot_widget_model.on_mouse_left_button_down(
+        relative_pos=relative_mouse_position, current_touch_modifiers=["ctrl"]
+    )
+    mouse_pos_in_plot = (1.0, 0.0)
+    relative_mouse_position = plot_to_image(*mouse_pos_in_plot)
+    plot_widget_model.on_mouse_pos_in_widget(relative_mouse_position)
+    plot_widget_model.on_mouse_left_button_dragging(
+        relative_pos=relative_mouse_position
+    )
+    plot_widget_model.on_mouse_left_button_up(relative_pos=relative_mouse_position)
+    wait_window_change()
+    screenshot_saver.save("selected_range")
+    plot_range = shared_state.plot_range
+    assert plot_range.x_range[0] == pytest.approx(-1.0, abs=coordinate_tolerance)
+    assert plot_range.x_range[1] == pytest.approx(1.0, abs=coordinate_tolerance)
+    assert plot_range.y_range[0] == pytest.approx(0.0, abs=coordinate_tolerance)
+    assert plot_range.y_range[1] == pytest.approx(2.0, abs=coordinate_tolerance)
+    assert float(x_min_text_input.text) == pytest.approx(
+        plot_range.x_range[0], abs=coordinate_tolerance
+    )
+    assert float(x_max_text_input.text) == pytest.approx(
+        plot_range.x_range[1], abs=coordinate_tolerance
+    )
+    assert float(y_min_text_input.text) == pytest.approx(
+        plot_range.y_range[0], abs=coordinate_tolerance
+    )
+    assert float(y_max_text_input.text) == pytest.approx(
+        plot_range.y_range[1], abs=coordinate_tolerance
+    )
+
+    # Reset the range.
+    shared_state.update_plot_range(None, DEFAULT_PLOT_RANGE.copy())
+    wait_window_change()
+    screenshot_saver.save("reset_range")
+    plot_range = shared_state.plot_range
+    assert float(x_min_text_input.text) == pytest.approx(
+        plot_range.x_range[0], abs=coordinate_tolerance
+    )
+    assert float(x_max_text_input.text) == pytest.approx(
+        plot_range.x_range[1], abs=coordinate_tolerance
+    )
+    assert float(y_min_text_input.text) == pytest.approx(
+        plot_range.y_range[0], abs=coordinate_tolerance
+    )
+    assert float(y_max_text_input.text) == pytest.approx(
+        plot_range.y_range[1], abs=coordinate_tolerance
+    )
