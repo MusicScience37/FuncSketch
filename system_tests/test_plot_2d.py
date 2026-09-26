@@ -34,6 +34,7 @@ from func_sketch._gui.plot_2d.image_size_widget import ImageSizeWidget
 from func_sketch._gui.plot_2d.plot_widget import PlotWidget
 from func_sketch._gui.plot_2d.range_config_widget import RangeConfigWidget
 from func_sketch._gui.plot_2d.shared_state import SharedState
+from func_sketch._gui.plot_2d.titles_config_widget import TitlesConfigWidget
 from system_tests.screen_saver import ScreenshotSaver
 from system_tests.util import wait_window_change
 
@@ -466,3 +467,40 @@ def test_change_range(
     assert float(y_max_text_input.text) == pytest.approx(
         plot_range.y_range[1], abs=coordinate_tolerance
     )
+
+
+def test_add_title(
+    func_sketch_plot_2d_app: FuncSketchApp, screenshot_saver: ScreenshotSaver
+) -> None:
+    """Test to add a title."""
+    screenshot_saver.save("initial")
+
+    curves_collapsible_box = func_sketch_plot_2d_app.root.ids.curves_collapsible_box
+    assert isinstance(curves_collapsible_box, CollapsibleBox)
+    range_collapsible_box = func_sketch_plot_2d_app.root.ids.range_collapsible_box
+    assert isinstance(range_collapsible_box, CollapsibleBox)
+    image_size_collapsible_box = (
+        func_sketch_plot_2d_app.root.ids.image_size_collapsible_box
+    )
+    assert isinstance(image_size_collapsible_box, CollapsibleBox)
+    titles_collapsible_box = func_sketch_plot_2d_app.root.ids.titles_collapsible_box
+    assert isinstance(titles_collapsible_box, CollapsibleBox)
+
+    curves_collapsible_box.collapsed = True
+    range_collapsible_box.collapsed = True
+    image_size_collapsible_box.collapsed = True
+    titles_collapsible_box.collapsed = False
+    wait_window_change()
+    screenshot_saver.save("show_titles_section")
+
+    titles_config_widget = func_sketch_plot_2d_app.root.ids.titles_config_widget
+    assert isinstance(titles_config_widget, TitlesConfigWidget)
+    plot_title_text_input = titles_config_widget.ids.plot_title_text_input
+    assert isinstance(plot_title_text_input, PlainTextInput)
+    shared_state = func_sketch_plot_2d_app.root.shared_state
+    assert isinstance(shared_state, SharedState)
+
+    plot_title_text_input.text = "Test Plot"
+    wait_window_change()
+    screenshot_saver.save("added_title")
+    assert shared_state.plot_config.plot_title == "Test Plot"
