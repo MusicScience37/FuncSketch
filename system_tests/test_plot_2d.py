@@ -81,23 +81,22 @@ def test_writing_expression(
     add_character("e")
     wait_window_change()
     screenshot_saver.save("e")
+    screenshot_saver.save("e_auto_complete", auto_complete_dropdown)
     assert expression_text_input_model.token_candidates is not None
     assert expression_text_input_model.token_candidates[0] == "e"
-    screenshot_saver.save("e_auto_complete", auto_complete_dropdown)
 
     add_character("x")
     wait_window_change()
     screenshot_saver.save("ex")
+    screenshot_saver.save("ex_auto_complete", auto_complete_dropdown)
     assert expression_text_input_model.token_candidates is not None
     assert expression_text_input_model.token_candidates[0] == "exp"
-    screenshot_saver.save("ex_auto_complete", auto_complete_dropdown)
 
-    add_character("p")
+    auto_complete_dropdown.select("exp")
     wait_window_change()
     screenshot_saver.save("exp")
-    assert expression_text_input_model.token_candidates is not None
-    assert expression_text_input_model.token_candidates[0] == "exp"
-    screenshot_saver.save("exp_auto_complete", auto_complete_dropdown)
+    assert expression_text_input.text == "exp"
+    assert expression_text_input_model.token_candidates is None
 
     add_character("(")
     wait_window_change()
@@ -107,9 +106,9 @@ def test_writing_expression(
     add_character("x")
     wait_window_change()
     screenshot_saver.save("exp(x")
+    screenshot_saver.save("exp(x)_auto_complete", auto_complete_dropdown)
     assert expression_text_input_model.token_candidates is not None
     assert expression_text_input_model.token_candidates[0] == "x"
-    screenshot_saver.save("exp(x)_auto_complete", auto_complete_dropdown)
 
     add_character(")")
     wait_window_change()
