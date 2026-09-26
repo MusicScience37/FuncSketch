@@ -191,7 +191,7 @@ def check_tests_for_condition(
             execute_command(
                 [
                     "xvfb-run",
-                    '--server-args="-screen 0 1300x800x24"',
+                    "--server-args=-screen 0 1300x800x24",
                     "poetry",
                     "run",
                     "pytest",
