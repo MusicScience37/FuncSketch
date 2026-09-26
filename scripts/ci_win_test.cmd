@@ -39,6 +39,7 @@ ctest -V --build-config Release
 cd ..
 
 poetry run pytest tests -v
+poetry run pytest system_tests -v
 poetry run pytest bench -v --benchmark-json=benchmark.json
 poetry run python scripts/generate_benchmark_metrics.py benchmark.json bench_metrics.txt
 

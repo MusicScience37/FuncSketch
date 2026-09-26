@@ -671,5 +671,8 @@ FodyWeavers.xsd
 # Output of profiling
 /cpp/tests/profiling/results/
 
+# Output of system tests
+/system_tests/screenshots/
+
 # Temporary directory.
 /temp/
