@@ -172,6 +172,28 @@ def check_tests_for_condition(
             if test_type == "coverage_python":
                 command = command + [
                     "--cov=func_sketch",
+                ]
+            execute_command(
+                command,
+                cwd=str(ROOT_DIR),
+                env=env,
+            )
+
+            # System tests.
+            time.sleep(5)  # Wait for a few seconds for xvfb.
+            command = [
+                "xvfb-run",
+                "--server-args=-screen 0 1300x800x24",
+                "poetry",
+                "run",
+                "pytest",
+                "system_tests",
+                "-v",
+            ]
+            if test_type == "coverage_python":
+                command = command + [
+                    "--cov=func_sketch",
+                    "--cov-append",
                     "--cov-report",
                     "term",
                     "--cov-report",
@@ -181,23 +203,6 @@ def check_tests_for_condition(
                 ]
             execute_command(
                 command,
-                cwd=str(ROOT_DIR),
-                env=env,
-            )
-
-        if test_type in ["release"]:
-            # System tests.
-            time.sleep(5)  # Wait for a few seconds for xvfb.
-            execute_command(
-                [
-                    "xvfb-run",
-                    "--server-args=-screen 0 1300x800x24",
-                    "poetry",
-                    "run",
-                    "pytest",
-                    "system_tests",
-                    "-v",
-                ],
                 cwd=str(ROOT_DIR),
                 env=env,
             )
