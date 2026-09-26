@@ -25,7 +25,7 @@
 cd $(dirname $0)/..
 
 if [ "$#" -ge 1 ]; then
-    xvfb-run poetry run pytest "$@"
+    xvfb-run --server-args="-screen 0 1300x800x24" poetry run pytest "$@"
 else
-    xvfb-run poetry run pytest tests
+    xvfb-run --server-args="-screen 0 1300x800x24" poetry run pytest tests
 fi
