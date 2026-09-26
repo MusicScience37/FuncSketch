@@ -19,6 +19,7 @@ import pytest
 
 from func_sketch._gui.common.collapsible_box import CollapsibleBox
 from func_sketch._gui.common.constants import NUM_CURVES
+from func_sketch._gui.common.float_text_input import FloatTextInput
 from func_sketch._gui.common.plain_text_input import PlainTextInput
 from func_sketch._gui.common.switch_widget import SwitchWidget
 from func_sketch._gui.plot_2d.curve_spec_list_widget import CurveSpecListWidget
@@ -29,6 +30,7 @@ from func_sketch._gui.plot_2d.expression_text_input_model import (
 )
 from func_sketch._gui.plot_2d.func_sketch_app import FuncSketchApp
 from func_sketch._gui.plot_2d.image_size_widget import ImageSizeWidget
+from func_sketch._gui.plot_2d.range_config_widget import RangeConfigWidget
 from func_sketch._gui.plot_2d.shared_state import SharedState
 from system_tests.screen_saver import ScreenshotSaver
 from system_tests.util import wait_window_change
@@ -237,3 +239,53 @@ def test_fix_image_size(
     assert image_buffer is not None
     assert image_buffer.shape[0] != int(fixed_height_input.text)
     assert image_buffer.shape[1] != int(fixed_width_input.text)
+
+
+def test_change_range(
+    func_sketch_plot_2d_app: FuncSketchApp, screenshot_saver: ScreenshotSaver
+) -> None:
+    """Test to change the range of the plot."""
+    screenshot_saver.save("initial")
+
+    curves_collapsible_box = func_sketch_plot_2d_app.root.ids.curves_collapsible_box
+    assert isinstance(curves_collapsible_box, CollapsibleBox)
+    range_collapsible_box = func_sketch_plot_2d_app.root.ids.range_collapsible_box
+    assert isinstance(range_collapsible_box, CollapsibleBox)
+    image_size_collapsible_box = (
+        func_sketch_plot_2d_app.root.ids.image_size_collapsible_box
+    )
+    assert isinstance(image_size_collapsible_box, CollapsibleBox)
+    titles_collapsible_box = func_sketch_plot_2d_app.root.ids.titles_collapsible_box
+    assert isinstance(titles_collapsible_box, CollapsibleBox)
+
+    curves_collapsible_box.collapsed = True
+    range_collapsible_box.collapsed = False
+    image_size_collapsible_box.collapsed = True
+    titles_collapsible_box.collapsed = True
+    wait_window_change()
+    screenshot_saver.save("show_range_section")
+
+    range_config_widget = func_sketch_plot_2d_app.root.ids.range_config_widget
+    assert isinstance(range_config_widget, RangeConfigWidget)
+    x_min_text_input = range_config_widget.ids.x_min_text_input
+    assert isinstance(x_min_text_input, FloatTextInput)
+    x_max_text_input = range_config_widget.ids.x_max_text_input
+    assert isinstance(x_max_text_input, FloatTextInput)
+    y_min_text_input = range_config_widget.ids.y_min_text_input
+    assert isinstance(y_min_text_input, FloatTextInput)
+    y_max_text_input = range_config_widget.ids.y_max_text_input
+    assert isinstance(y_max_text_input, FloatTextInput)
+    shared_state = func_sketch_plot_2d_app.root.shared_state
+    assert isinstance(shared_state, SharedState)
+
+    x_min_text_input.text = "-2.0"
+    x_max_text_input.text = "3.0"
+    y_min_text_input.text = "-1.0"
+    y_max_text_input.text = "4.0"
+    wait_window_change()
+    screenshot_saver.save("range_changed")
+    plot_range = shared_state.plot_range
+    assert plot_range.x_range[0] == pytest.approx(-2.0)
+    assert plot_range.x_range[1] == pytest.approx(3.0)
+    assert plot_range.y_range[0] == pytest.approx(-1.0)
+    assert plot_range.y_range[1] == pytest.approx(4.0)
