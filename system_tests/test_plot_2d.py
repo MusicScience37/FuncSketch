@@ -18,6 +18,7 @@ import kivy.core.window
 import pytest
 
 from func_sketch._gui.common.constants import NUM_CURVES
+from func_sketch._gui.common.switch_widget import SwitchWidget
 from func_sketch._gui.plot_2d.curve_spec_list_widget import CurveSpecListWidget
 from func_sketch._gui.plot_2d.curve_spec_widget import CurveSpecWidget
 from func_sketch._gui.plot_2d.expression_text_input import ExpressionTextInput
@@ -127,9 +128,42 @@ def test_curves(
     curve_spec_widgets = curve_spec_list_widget.ids.curve_spec_list_layout.children
     assert len(curve_spec_widgets) == NUM_CURVES
 
+    show_legend_switch = curve_spec_list_widget.ids.show_legend_switch
+    assert isinstance(show_legend_switch, SwitchWidget)
+
     curve_spec_1_widget = curve_spec_widgets[NUM_CURVES - 1]
     assert isinstance(curve_spec_1_widget, CurveSpecWidget)
+    curve_spec_2_widget = curve_spec_widgets[NUM_CURVES - 2]
+    assert isinstance(curve_spec_2_widget, CurveSpecWidget)
+    curve_spec_3_widget = curve_spec_widgets[NUM_CURVES - 3]
+    assert isinstance(curve_spec_3_widget, CurveSpecWidget)
+    curve_spec_4_widget = curve_spec_widgets[NUM_CURVES - 4]
+    assert isinstance(curve_spec_4_widget, CurveSpecWidget)
+    curve_spec_5_widget = curve_spec_widgets[NUM_CURVES - 5]
+    assert isinstance(curve_spec_5_widget, CurveSpecWidget)
+
     curve_spec_1_widget.ids.expression_text_input.text = "gamma(x)"
     wait_window_change()
-
     screenshot_saver.save("curve1_set")
+
+    show_legend_switch.active = True
+    wait_window_change()
+    screenshot_saver.save("show_legend_enabled")
+
+    # Add other curves randomly.
+
+    curve_spec_4_widget.ids.expression_text_input.text = "gamma(x+0.5i)"
+    wait_window_change()
+    screenshot_saver.save("curve4_set")
+
+    curve_spec_2_widget.ids.expression_text_input.text = "-1/x"
+    wait_window_change()
+    screenshot_saver.save("curve2_set")
+
+    curve_spec_5_widget.ids.expression_text_input.text = "x**100"
+    wait_window_change()
+    screenshot_saver.save("curve5_set")
+
+    curve_spec_3_widget.ids.expression_text_input.text = "log10(x)"
+    wait_window_change()
+    screenshot_saver.save("curve3_set")
