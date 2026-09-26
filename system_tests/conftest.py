@@ -23,22 +23,7 @@ import pytest
 os.environ["KIVY_NO_ARGS"] = "1"
 
 
-class ScreenshotSaver:
-    """Class to save screenshots."""
-
-    def __init__(self, base_path: str) -> None:
-        """Constructor."""
-        self._base_path = base_path
-        self._counter = 0
-        pathlib.Path(base_path).parent.mkdir(parents=True, exist_ok=True)
-
-    def save(self, name: str) -> None:
-        """Save a screenshot."""
-        import kivy.app  # noqa: PLC0415
-
-        full_path = f"{self._base_path}_{self._counter:02}_{name}.png"
-        kivy.app.App.get_running_app().root.export_to_png(full_path)
-        self._counter += 1
+from system_tests.screen_saver import ScreenshotSaver  # noqa: PLC0415
 
 
 @pytest.fixture

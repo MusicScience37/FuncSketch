@@ -20,8 +20,12 @@ import pytest
 from func_sketch._gui.common.constants import NUM_CURVES
 from func_sketch._gui.plot_2d.curve_spec_list_widget import CurveSpecListWidget
 from func_sketch._gui.plot_2d.curve_spec_widget import CurveSpecWidget
+from func_sketch._gui.plot_2d.expression_text_input import ExpressionTextInput
+from func_sketch._gui.plot_2d.expression_text_input_model import (
+    ExpressionTextInputModel,
+)
 from func_sketch._gui.plot_2d.func_sketch_app import FuncSketchApp
-from system_tests.conftest import ScreenshotSaver
+from system_tests.screen_saver import ScreenshotSaver
 from system_tests.util import wait_window_change
 
 
@@ -42,6 +46,75 @@ def func_sketch_plot_2d_app():
     wait_window_change()
     yield app
     app.stop()
+
+
+def test_writing_expression(
+    func_sketch_plot_2d_app: FuncSketchApp, screenshot_saver: ScreenshotSaver
+) -> None:
+    """Test of writing function expressions."""
+    """Test of curves."""
+    screenshot_saver.save("initial")
+
+    curve_spec_list_widget = func_sketch_plot_2d_app.root.ids.curve_spec_list_widget
+    assert isinstance(curve_spec_list_widget, CurveSpecListWidget)
+    curve_spec_widgets = curve_spec_list_widget.ids.curve_spec_list_layout.children
+    assert len(curve_spec_widgets) == NUM_CURVES
+
+    curve_spec_1_widget = curve_spec_widgets[NUM_CURVES - 1]
+    assert isinstance(curve_spec_1_widget, CurveSpecWidget)
+
+    expression_text_input = curve_spec_1_widget.ids.expression_text_input
+    assert isinstance(expression_text_input, ExpressionTextInput)
+    expression_text_input_model = expression_text_input.model
+    assert isinstance(expression_text_input_model, ExpressionTextInputModel)
+    auto_complete_dropdown = expression_text_input._auto_complete_dropdown
+
+    def add_character(character: str) -> None:
+        expression_text_input.text = expression_text_input.text + character
+        expression_text_input.cursor = (
+            len(expression_text_input.text),
+            0,
+        )
+        expression_text_input_model.on_key_type(character)
+        expression_text_input._update_auto_completion()
+
+    add_character("e")
+    wait_window_change()
+    screenshot_saver.save("e")
+    assert expression_text_input_model.token_candidates is not None
+    assert expression_text_input_model.token_candidates[0] == "e"
+    screenshot_saver.save("e_auto_complete", auto_complete_dropdown)
+
+    add_character("x")
+    wait_window_change()
+    screenshot_saver.save("ex")
+    assert expression_text_input_model.token_candidates is not None
+    assert expression_text_input_model.token_candidates[0] == "exp"
+    screenshot_saver.save("ex_auto_complete", auto_complete_dropdown)
+
+    add_character("p")
+    wait_window_change()
+    screenshot_saver.save("exp")
+    assert expression_text_input_model.token_candidates is not None
+    assert expression_text_input_model.token_candidates[0] == "exp"
+    screenshot_saver.save("exp_auto_complete", auto_complete_dropdown)
+
+    add_character("(")
+    wait_window_change()
+    screenshot_saver.save("exp(")
+    assert expression_text_input_model.token_candidates is None
+
+    add_character("x")
+    wait_window_change()
+    screenshot_saver.save("exp(x")
+    assert expression_text_input_model.token_candidates is not None
+    assert expression_text_input_model.token_candidates[0] == "x"
+    screenshot_saver.save("exp(x)_auto_complete", auto_complete_dropdown)
+
+    add_character(")")
+    wait_window_change()
+    screenshot_saver.save("exp(x)")
+    assert expression_text_input_model.token_candidates is None
 
 
 def test_curves(
