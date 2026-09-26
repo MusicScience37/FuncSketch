@@ -62,7 +62,6 @@ def test_writing_expression(
     func_sketch_plot_2d_app: FuncSketchApp, screenshot_saver: ScreenshotSaver
 ) -> None:
     """Test of writing function expressions."""
-    """Test of curves."""
     screenshot_saver.save("initial")
 
     curve_spec_list_widget = func_sketch_plot_2d_app.root.ids.curve_spec_list_widget
