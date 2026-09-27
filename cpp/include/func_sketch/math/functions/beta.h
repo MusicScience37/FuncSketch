@@ -57,4 +57,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction ibetac_function();
 
+/*!
+ * \brief Create `ibeta_inv` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction ibeta_inv_function();
+
 }  // namespace func_sketch::math

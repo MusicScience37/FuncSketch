@@ -30,6 +30,7 @@ Function,Short Description
 :funcsketch:func:`hankel1`, (Cylindrical) Hankel function of the first kind (:math:`H_{\nu}^{(1)}(x)`).
 :funcsketch:func:`hankel2`, (Cylindrical) Hankel function of the second kind (:math:`H_{\nu}^{(2)}(x)`).
 :funcsketch:func:`ibeta`, "Regularized incomplete beta function (:math:`I_x(a, b)`)."
+:funcsketch:func:`ibeta_inv`, "Inverse of the regularized incomplete beta function (:math:`I^{-1}_p(a, b)`)."
 :funcsketch:func:`ibetac`, "Complement of the regularized incomplete beta function (:math:`1 - I_x(a, b)`)."
 :funcsketch:func:`imag`, Imaginary part function (:math:`\mathrm{imag}(x)`).
 :funcsketch:func:`kelvin_bei`, Kelvin function ``bei`` (:math:`\text{bei}_{\nu}(x)`).

@@ -83,3 +83,24 @@ class TestBeta:
             "ibetac(1.5, 2.5, x)", (0.0, 1.0), (-0.5, 1.5)
         )
         compare_vectors(y_values, scipy.special.betaincc(1.5, 2.5, x_values))
+
+    def test_sample_ibeta_inv_first_arg(self) -> None:
+        """Test of sampling ibeta_inv(x, 2.5, 0.3)."""
+        x_values, y_values = sample_function(
+            "ibeta_inv(x, 2.5, 0.3)", (0.1, 3.0), (-0.5, 1.5)
+        )
+        compare_vectors(y_values, scipy.special.betaincinv(x_values, 2.5, 0.3))
+
+    def test_sample_ibeta_inv_second_arg(self) -> None:
+        """Test of sampling ibeta_inv(1.5, x, 0.3)."""
+        x_values, y_values = sample_function(
+            "ibeta_inv(1.5, x, 0.3)", (0.1, 3.0), (-0.5, 1.5)
+        )
+        compare_vectors(y_values, scipy.special.betaincinv(1.5, x_values, 0.3))
+
+    def test_sample_ibeta_inv_third_arg(self) -> None:
+        """Test of sampling ibeta_inv(1.5, 2.5, x)."""
+        x_values, y_values = sample_function(
+            "ibeta_inv(1.5, 2.5, x)", (0.0, 1.0), (-0.5, 1.5)
+        )
+        compare_vectors(y_values, scipy.special.betaincinv(1.5, 2.5, x_values))

@@ -55,3 +55,12 @@ class TestBeta:
             (-0.5, 1.5),
         )
         image_approver.verify(image)
+
+    def test_plot_ibeta_inv(self, image_approver) -> None:
+        """Test of plotting ibeta_inv(a, b, p)."""
+        image = plot_function(
+            ["ibeta_inv(0.5, 0.5, x)", "ibeta_inv(2, 2, x)", "ibeta_inv(2, 5, x)"],
+            (-0.5, 1.5),
+            (-0.5, 1.5),
+        )
+        image_approver.verify(image)
