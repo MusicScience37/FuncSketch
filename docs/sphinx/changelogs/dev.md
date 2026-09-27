@@ -2,6 +2,10 @@
 
 ## Features
 
+- Added more built-in functions.
+  - Inverse error functions. (`erf_inv`, `erfc_inv`)
+  - Beta functions. (`beta`)
+
 ## Fixes
 
 ## Improvements
