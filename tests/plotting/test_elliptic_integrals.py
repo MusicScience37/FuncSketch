@@ -24,40 +24,40 @@ class TestEllipticIntegrals:
         """Test of plotting elliptic_f(phi, k)."""
         image = plot_function(
             [
-                "elliptic_f(x, 0)",
-                "elliptic_f(x, 0.5)",
-                "elliptic_f(x, 0.9)",
-                "elliptic_f(x, 1)",
-                "elliptic_f(x, 2)",
+                "elliptic_f(0.5, x)",
+                "elliptic_f(0.75, x)",
+                "elliptic_f(1.25, x)",
+                "elliptic_f(pi/2, x)",
+                "elliptic_f(2, x)",
             ],
-            (-5.0, 5.0),
-            (-5.0, 5.0),
+            (-3.0, 3.0),
+            (0.0, 5.0),
         )
         image_approver.verify(image)
 
     def test_plot_comp_elliptic_k(self, image_approver) -> None:
         """Test of plotting comp_elliptic_k(k)."""
-        image = plot_function(["comp_elliptic_k(x)"], (-1.5, 1.5), (-1.0, 5.0))
+        image = plot_function(["comp_elliptic_k(x)"], (-1.5, 1.5), (0.0, 5.0))
         image_approver.verify(image)
 
     def test_plot_elliptic_e(self, image_approver) -> None:
         """Test of plotting elliptic_e(phi, k)."""
         image = plot_function(
             [
-                "elliptic_e(x, 0)",
-                "elliptic_e(x, 0.5)",
-                "elliptic_e(x, 0.9)",
-                "elliptic_e(x, 1)",
-                "elliptic_e(x, 2)",
+                "elliptic_e(0.5, x)",
+                "elliptic_e(0.75, x)",
+                "elliptic_e(1.25, x)",
+                "elliptic_e(pi/2, x)",
+                "elliptic_e(2, x)",
             ],
-            (-5.0, 5.0),
-            (-5.0, 5.0),
+            (-3.0, 3.0),
+            (0.0, 3.0),
         )
         image_approver.verify(image)
 
     def test_plot_comp_elliptic_e(self, image_approver) -> None:
         """Test of plotting comp_elliptic_e(k)."""
-        image = plot_function(["comp_elliptic_e(x)"], (-1.5, 1.5), (-0.5, 2.0))
+        image = plot_function(["comp_elliptic_e(x)"], (-1.5, 1.5), (0.0, 2.0))
         image_approver.verify(image)
 
     def test_plot_elliptic_pi(self, image_approver) -> None:
@@ -66,10 +66,10 @@ class TestEllipticIntegrals:
             [
                 "elliptic_pi(0, 1.25, x)",
                 "elliptic_pi(0.5, 1.25, x)",
-                "elliptic_pi(0.25, 1.570796, x)",
-                "elliptic_pi(0.75, 1.570796, x)",
+                "elliptic_pi(0.25, pi/2, x)",
+                "elliptic_pi(0.75, pi/2, x)",
             ],
-            (-2.0, 2.0),
+            (-1.5, 1.5),
             (0.0, 5.0),
         )
         image_approver.verify(image)
@@ -80,10 +80,10 @@ class TestEllipticIntegrals:
             [
                 "comp_elliptic_pi(-2, x)",
                 "comp_elliptic_pi(0, x)",
-                "comp_elliptic_pi(0.5, x)",
-                "comp_elliptic_pi(0.9, x)",
+                "comp_elliptic_pi(0.25, x)",
+                "comp_elliptic_pi(0.75, x)",
             ],
             (-1.5, 1.5),
-            (-1.0, 10.0),
+            (0.0, 5.0),
         )
         image_approver.verify(image)

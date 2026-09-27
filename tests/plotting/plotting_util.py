@@ -49,7 +49,9 @@ def plot_function(
     width = 800
 
     if config is None:
-        config = DEFAULT_PLOT_CONFIG
+        config = DEFAULT_PLOT_CONFIG.copy()
+        if len(expression_str_list) > 1:
+            config.legend.visible = True
     range = PlotRange(x_range, y_range)
     sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)
