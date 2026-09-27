@@ -21,8 +21,6 @@ Candidate of implementation of special functions are as follows:
 | Gamma                | Polygamma function $\psi^{(n)}{(x)}$                             | (TODO)             | `boost::math::polygamma`          | `scipy.special.polygamma`        |
 | Gamma                | Upper incomplete gamma function $\Gamma{(a, x)}$                 | (TODO)             | `boost::math::tgamma`             | `scipy.special.gammaincc`        |
 | Gamma                | Lower incomplete gamma function $\gamma{(a, x)}$                 | (TODO)             | `boost::math::tgamma_lower`       | `scipy.special.gammainc`         |
-| Error function       | Inverse error function $\mathrm{erf}^{-1}{(x)}$                  | (TODO)             | `boost::math::erf_inv`            | `scipy.special.erfinv`           |
-| Error function       | Inverse complementary error function $\mathrm{erfc}^{-1}{(x)}$   | (TODO)             | `boost::math::erfc_inv`           | `scipy.special.erfcinv`          |
 | Hermite              | Hermite polynomial $H_n{(x)}$ (physicist's)                      | (TODO)             | `std::hermite`                    | `scipy.special.eval_hermite`     |
 | Chebyshev            | Chebyshev polynomial of the first kind $T_n{(x)}$                | (TODO)             | `boost::math::chebyshev_t`        | `scipy.special.eval_chebyt`      |
 | Chebyshev            | Chebyshev polynomial of the second kind $U_n{(x)}$               | (TODO)             | `boost::math::chebyshev_u`        | `scipy.special.eval_chebyu`      |

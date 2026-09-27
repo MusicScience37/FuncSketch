@@ -37,4 +37,18 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction erfc_function();
 
+/*!
+ * \brief Create `erf_inv` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction erf_inv_function();
+
+/*!
+ * \brief Create `erfc_inv` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction erfc_inv_function();
+
 }  // namespace func_sketch::math

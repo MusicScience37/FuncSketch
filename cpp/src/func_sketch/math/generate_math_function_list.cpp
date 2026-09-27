@@ -107,6 +107,8 @@ MathFunctionList generate_math_function_list(
     // In erf.h
     list.emplace(erf_function());
     list.emplace(erfc_function());
+    list.emplace(erf_inv_function());
+    list.emplace(erfc_inv_function());
 
     // In gamma.h
     list.emplace(gamma_function(python_functions.complex_gamma));

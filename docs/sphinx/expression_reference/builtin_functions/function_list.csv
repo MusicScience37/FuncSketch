@@ -18,7 +18,9 @@ Function,Short Description
 :funcsketch:func:`cos`, Cosine function (:math:`\cos(x)`).
 :funcsketch:func:`cosh`, Hyperbolic cosine function (:math:`\cosh(x)`).
 :funcsketch:func:`erf`, Error function (:math:`\mathrm{erf}(x)`).
+:funcsketch:func:`erf_inv`, Inverse error function (:math:`\mathrm{erf}^{-1}(x)`).
 :funcsketch:func:`erfc`, Complementary error function (:math:`\mathrm{erfc}(x)`).
+:funcsketch:func:`erfc_inv`, Inverse complementary error function (:math:`\mathrm{erfc}^{-1}(x)`).
 :funcsketch:func:`exp`, Exponential function (:math:`e^x`).
 :funcsketch:func:`exp2`, Base-2 exponential function (:math:`2^x`).
 :funcsketch:func:`expm1`, Exponential-minus-one function (:math:`e^x - 1`).
@@ -33,8 +35,8 @@ Function,Short Description
 :funcsketch:func:`kelvin_ker`, Kelvin function ``ker`` (:math:`\text{ker}_{\nu}(x)`).
 :funcsketch:func:`lgamma`, Natural logarithm of the absolute value of the gamma function (:math:`\log{|\Gamma(x)|}`).
 :funcsketch:func:`log`, Natural logarithm function (:math:`\log(x)`).
-:funcsketch:func:`log1p`, Natural logarithm of one plus x function (:math:`\log(1+x)`).
 :funcsketch:func:`log10`, Base-10 logarithm function (:math:`\log_{10}(x)`).
+:funcsketch:func:`log1p`, Natural logarithm of one plus x function (:math:`\log(1+x)`).
 :funcsketch:func:`log2`, Base-2 logarithm function (:math:`\log_{2}(x)`).
 :funcsketch:func:`pow`, Power function (:math:`\mathrm{base}^{\mathrm{exponent}}`).
 :funcsketch:func:`real`, Real part function (:math:`\mathrm{real}(x)`).

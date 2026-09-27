@@ -21,8 +21,11 @@
 
 #include <cmath>
 
+#include <boost/math/special_functions/erf.hpp>
+
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/acceptable_types.h"
+#include "func_sketch/math/functions/boost_math_policy.h"
 #include "func_sketch/math/general_math_function.h"
 #include "func_sketch/math/math_function.h"
 
@@ -38,6 +41,22 @@ MathFunction erfc_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
             "erfc", [](Real arg) { return std::erfc(arg); }));
+}
+
+MathFunction erf_inv_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "erf_inv", [](Real arg) {
+                return boost::math::erf_inv(arg, BoostMathPolicy());
+            }));
+}
+
+MathFunction erfc_inv_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "erfc_inv", [](Real arg) {
+                return boost::math::erfc_inv(arg, BoostMathPolicy());
+            }));
 }
 
 }  // namespace func_sketch::math

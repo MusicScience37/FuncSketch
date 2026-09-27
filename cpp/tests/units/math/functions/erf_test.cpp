@@ -65,3 +65,41 @@ TEST_CASE("func_sketch::math::erfc_function") {
         test_single_variate_function_errors<Real>(function_object);
     }
 }
+
+TEST_CASE("func_sketch::math::erf_inv_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::erf_inv_function;
+
+    const auto function_object = erf_inv_function();
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(function_object, 0, 0.0);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 0.5, 0.4769362762044699);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
+
+TEST_CASE("func_sketch::math::erfc_inv_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::erfc_inv_function;
+
+    const auto function_object = erfc_inv_function();
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(function_object, 1, 0.0);
+
+        test_single_variate_function<Real, Real>(
+            function_object, 0.5, 0.4769362762044699);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}
