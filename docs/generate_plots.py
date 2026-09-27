@@ -231,6 +231,13 @@ PLOT_LIST = [
         x_range=(-3.0, 5.0),
         y_range=(-0.5, 3.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/digamma.webp",
+        expression_strs=["digamma(x)"],
+        title="Digamma Function",
+        x_range=(-3.0, 5.0),
+        y_range=(-5.0, 5.0),
+    ),
     # For beta.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/beta.webp",

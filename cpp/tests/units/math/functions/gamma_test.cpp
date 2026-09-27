@@ -69,3 +69,23 @@ TEST_CASE("func_sketch::math::lgamma_function") {
         test_single_variate_function_errors<Real>(function_object);
     }
 }
+
+TEST_CASE("func_sketch::math::digamma_function") {
+    using func_sketch::Integer;
+    using func_sketch::Real;
+    using func_sketch::math::digamma_function;
+
+    const auto function_object = digamma_function();
+
+    SECTION("operate on numbers") {
+        test_single_variate_function<Integer, Real>(function_object, 1,
+            -0.5772156649015329);  // NOLINT(modernize-use-std-numbers)
+
+        test_single_variate_function<Real, Real>(
+            function_object, 0.5, -1.9635100260214235);
+    }
+
+    SECTION("check the number of arguments") {
+        test_single_variate_function_errors<Real>(function_object);
+    }
+}

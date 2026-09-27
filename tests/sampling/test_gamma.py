@@ -17,6 +17,7 @@
 import math
 
 import numpy
+import scipy.special
 
 from .sampling_util import compare_vectors, sample_function
 
@@ -43,3 +44,8 @@ class TestGamma:
         """Test of sampling lgamma(x)."""
         x_values, y_values = sample_function("lgamma(x)", (0.1, 5.0), (-1.0, 4.0))
         compare_vectors(y_values, numpy.array([math.lgamma(x) for x in x_values]))
+
+    def test_sample_digamma(self) -> None:
+        """Test of sampling digamma(x)."""
+        x_values, y_values = sample_function("digamma(x)", (0.1, 5.0), (-5.0, 5.0))
+        compare_vectors(y_values, scipy.special.digamma(x_values))

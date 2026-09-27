@@ -42,4 +42,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction lgamma_function();
 
+/*!
+ * \brief Create `digamma` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction digamma_function();
+
 }  // namespace func_sketch::math

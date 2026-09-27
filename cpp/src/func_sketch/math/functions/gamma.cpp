@@ -21,6 +21,7 @@
 
 #include <utility>
 
+#include <boost/math/special_functions/digamma.hpp>
 #include <boost/math/special_functions/gamma.hpp>
 
 #include "func_sketch/common_types.h"
@@ -49,6 +50,14 @@ MathFunction lgamma_function() {
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
             "lgamma", [](Real arg) {
                 return boost::math::lgamma(arg, BoostMathPolicy());
+            }));
+}
+
+MathFunction digamma_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "digamma", [](Real arg) {
+                return boost::math::digamma(arg, BoostMathPolicy());
             }));
 }
 

@@ -32,3 +32,17 @@ The gamma function is a special function extending the factorial to real numbers
     :rtype: Real
 
     .. image:: plots/lgamma.webp
+
+.. funcsketch:function:: digamma(x)
+
+    Digamma function.
+
+    :param x: The value to take the digamma function of.
+    :type x: Real
+    :definition: :math:`\psi(x) = \dfrac{d}{dx} \log{\Gamma(x)} = \dfrac{\Gamma'(x)}{\Gamma(x)}`
+    :domain: :math:`x \in \mathbb{R}`, excluding :math:`0, -1, -2, \ldots`
+    :range: :math:`(-\infty, \infty)`
+    :returns: The value of :math:`\psi(x)`.
+    :rtype: Real
+
+    .. image:: plots/digamma.webp

@@ -114,6 +114,7 @@ MathFunctionList generate_math_function_list(
     // In gamma.h
     list.emplace(gamma_function(python_functions.complex_gamma));
     list.emplace(lgamma_function());
+    list.emplace(digamma_function());
 
     // In beta.h
     list.emplace(beta_function());

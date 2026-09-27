@@ -34,3 +34,8 @@ class TestGamma:
         """Test of plotting lgamma(x)."""
         image = plot_function(["lgamma(x)"], (-3.0, 5.0), (-1.0, 4.0))
         image_approver.verify(image)
+
+    def test_plot_digamma(self, image_approver) -> None:
+        """Test of plotting digamma(x)."""
+        image = plot_function(["digamma(x)"], (-3.0, 5.0), (-5.0, 5.0))
+        image_approver.verify(image)
