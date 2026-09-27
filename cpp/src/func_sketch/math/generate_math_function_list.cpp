@@ -116,6 +116,7 @@ MathFunctionList generate_math_function_list(
     list.emplace(lgamma_function());
     list.emplace(digamma_function());
     list.emplace(trigamma_function());
+    list.emplace(polygamma_function());
 
     // In beta.h
     list.emplace(beta_function());

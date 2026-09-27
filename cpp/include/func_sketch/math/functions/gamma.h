@@ -56,4 +56,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction trigamma_function();
 
+/*!
+ * \brief Create `polygamma` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction polygamma_function();
+
 }  // namespace func_sketch::math

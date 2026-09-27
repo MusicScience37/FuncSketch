@@ -60,3 +60,19 @@ The gamma function is a special function extending the factorial to real numbers
     :rtype: Real
 
     .. image:: plots/trigamma.webp
+
+.. funcsketch:function:: polygamma(n, x)
+
+    Polygamma function.
+
+    :param n: The order of the polygamma function.
+    :type n: Integer
+    :param x: The value to take the polygamma function of.
+    :type x: Real
+    :definition: :math:`\psi^{(n)}(x) = \dfrac{d^{n+1}}{dx^{n+1}} \log{\Gamma(x)}`
+    :domain: :math:`n \in \{0, 1, 2, \ldots\}`, :math:`x \in \mathbb{R}`, excluding :math:`x \in \{0, -1, -2, \ldots\}`
+    :range: :math:`(-\infty, \infty)`
+    :returns: The value of :math:`\psi^{(n)}(x)`.
+    :rtype: Real
+
+    .. image:: plots/polygamma.webp

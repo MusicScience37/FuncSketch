@@ -19,10 +19,12 @@
  */
 #include "func_sketch/math/functions/gamma.h"
 
+#include <limits>
 #include <utility>
 
 #include <boost/math/special_functions/digamma.hpp>
 #include <boost/math/special_functions/gamma.hpp>
+#include <boost/math/special_functions/polygamma.hpp>
 #include <boost/math/special_functions/trigamma.hpp>
 
 #include "func_sketch/common_types.h"
@@ -68,6 +70,17 @@ MathFunction trigamma_function() {
             "trigamma", [](Real arg) {
                 return boost::math::trigamma(arg, BoostMathPolicy());
             }));
+}
+
+MathFunction polygamma_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real>>>(
+        "polygamma", [](Integer order, Real arg) {
+            if (order < 0) {
+                return std::numeric_limits<Real>::quiet_NaN();
+            }
+            return boost::math::polygamma(order, arg, BoostMathPolicy());
+        }));
 }
 
 }  // namespace func_sketch::math

@@ -15,7 +15,6 @@ Candidate of implementation of special functions are as follows:
 | :------------------- | :--------------------------------------------------------------- | :----------------- | :-------------------------------- | :------------------------------- |
 | Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$               | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |
 | Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$              | (TODO)             | `boost::math::airy_bi`            | `scipy.special.airy`             |
-| Gamma                | Polygamma function $\psi^{(n)}{(x)}$                             | `polygamma`        | `boost::math::polygamma`          | `scipy.special.polygamma`        |
 | Gamma                | Regularized upper incomplete gamma function                      | `igammac`          | `boost::math::gamma_q`            | `scipy.special.gammaincc`        |
 | Gamma                | Regularized lower incomplete gamma function                      | `igamma`           | `boost::math::gamma_p`            | `scipy.special.gammainc`         |
 | Gamma                | Inverse of the regularized upper incomplete gamma function       | `igammac_inv`      | `boost::math::gamma_q_inv`        | `scipy.special.gammaincc_inv`    |

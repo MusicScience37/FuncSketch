@@ -109,3 +109,64 @@ TEST_CASE("func_sketch::math::trigamma_function") {
         test_single_variate_function_errors<Real>(function_object);
     }
 }
+
+TEST_CASE("func_sketch::math::polygamma_function") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::polygamma_function;
+
+    const auto function_object = polygamma_function();
+
+    SECTION("operate on an integer order and a real argument") {
+        constexpr Integer order = 2;
+        constexpr Real argument = 0.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = -16.828796644234316;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on an integer order and an integer argument") {
+        constexpr Integer order = 2;
+        constexpr Integer argument = 1;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        constexpr Real expected = -2.404113806319188;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("try to operate on a negative order") {
+        constexpr Integer order = -1;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        function_object(std::vector<Number>{order, argument}, result);
+
+        CHECK(std::isnan(std::get<Real>(result)));
+    }
+
+    SECTION("try to operate on a real number order") {
+        constexpr Real order = 2.5;
+        constexpr Real argument = 1.5;
+
+        Number result;
+        CHECK_THROWS(
+            function_object(std::vector<Number>{order, argument}, result));
+    }
+
+    SECTION("check the number of arguments") {
+        Number result;
+        const Number arg = 1;
+        CHECK_THROWS(function_object(std::vector<Number>{}, result));
+        CHECK_THROWS(function_object(std::vector<Number>{arg}, result));
+        CHECK_THROWS(
+            function_object(std::vector<Number>{arg, arg, arg}, result));
+    }
+}

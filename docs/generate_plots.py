@@ -245,6 +245,13 @@ PLOT_LIST = [
         x_range=(-3.0, 5.0),
         y_range=(-1.0, 20.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/polygamma.webp",
+        expression_strs=["polygamma(1, x)", "polygamma(2, x)", "polygamma(3, x)"],
+        title="Polygamma Function",
+        x_range=(-3.0, 5.0),
+        y_range=(-20.0, 20.0),
+    ),
     # For beta.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/beta.webp",

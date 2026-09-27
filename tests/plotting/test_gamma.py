@@ -44,3 +44,17 @@ class TestGamma:
         """Test of plotting trigamma(x)."""
         image = plot_function(["trigamma(x)"], (-3.0, 5.0), (-1.0, 20.0))
         image_approver.verify(image)
+
+    def test_plot_polygamma(self, image_approver) -> None:
+        """Test of plotting polygamma(n, x)."""
+        image = plot_function(
+            [
+                "polygamma(0, x)",
+                "polygamma(1, x)",
+                "polygamma(2, x)",
+                "polygamma(3, x)",
+            ],
+            (-3.0, 5.0),
+            (-20.0, 20.0),
+        )
+        image_approver.verify(image)
