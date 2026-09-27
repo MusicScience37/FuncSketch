@@ -46,3 +46,12 @@ class TestBeta:
             (-0.5, 1.5),
         )
         image_approver.verify(image)
+
+    def test_plot_ibetac(self, image_approver) -> None:
+        """Test of plotting ibetac(a, b, x)."""
+        image = plot_function(
+            ["ibetac(0.5, 0.5, x)", "ibetac(2, 2, x)", "ibetac(2, 5, x)"],
+            (-0.5, 1.5),
+            (-0.5, 1.5),
+        )
+        image_approver.verify(image)

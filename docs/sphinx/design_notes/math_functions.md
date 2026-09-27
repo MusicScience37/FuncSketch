@@ -13,7 +13,6 @@ Candidate of implementation of special functions are as follows:
 
 | Type                 | Function                                                         | Name in FuncSketch | In C++                            | In Python                        |
 | :------------------- | :--------------------------------------------------------------- | :----------------- | :-------------------------------- | :------------------------------- |
-| Beta                 | Complement of the incomplete beta function                       | `ibetac`           | `boost::math::ibetac`             | `scipy.special.betaincc`         |
 | Beta                 | Inverse of the incomplete beta function                          | `ibeta_inv`        | `boost::math::ibeta_inv`          | `scipy.special.betaincinv`       |
 | Beta                 | Inverse of the complement of the incomplete beta function        | `ibetac_inv`       | `boost::math::ibetac_inv`         | `scipy.special.betainccinv`      |
 | Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$               | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |

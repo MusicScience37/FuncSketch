@@ -119,6 +119,7 @@ MathFunctionList generate_math_function_list(
     list.emplace(beta_function());
     list.emplace(lbeta_function(python_functions.real_lbeta));
     list.emplace(ibeta_function());
+    list.emplace(ibetac_function());
 
     return list;
 }

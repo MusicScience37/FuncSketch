@@ -50,4 +50,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction ibeta_function();
 
+/*!
+ * \brief Create `ibetac` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction ibetac_function();
+
 }  // namespace func_sketch::math

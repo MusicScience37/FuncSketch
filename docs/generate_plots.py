@@ -253,6 +253,13 @@ PLOT_LIST = [
         x_range=(-0.2, 1.2),
         y_range=(-0.2, 1.2),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/ibetac.webp",
+        expression_strs=["ibetac(0.5, 0.5, x)", "ibetac(2, 2, x)", "ibetac(2, 5, x)"],
+        title="Complement of Regularized Incomplete Beta Function",
+        x_range=(-0.2, 1.2),
+        y_range=(-0.2, 1.2),
+    ),
 ]
 
 

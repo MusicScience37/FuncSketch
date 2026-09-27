@@ -57,4 +57,14 @@ MathFunction ibeta_function() {
             }));
 }
 
+MathFunction ibetac_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>,
+            AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+            "ibetac", [](Real param_a, Real param_b, Real x) {
+                return boost::math::ibetac(
+                    param_a, param_b, x, BoostMathPolicy());
+            }));
+}
+
 }  // namespace func_sketch::math
