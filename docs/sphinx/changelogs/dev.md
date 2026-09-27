@@ -4,7 +4,7 @@
 
 - Added more built-in functions.
   - Inverse error functions. (`erf_inv`, `erfc_inv`)
-  - Beta functions. (`beta`, `lbeta`)
+  - Beta functions. (`beta`, `lbeta`, `ibeta`)
 
 ## Fixes
 

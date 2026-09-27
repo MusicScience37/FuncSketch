@@ -43,4 +43,11 @@ namespace func_sketch::math {
 [[nodiscard]] MathFunction lbeta_function(
     std::function<Real(Real, Real)> real_lbeta);
 
+/*!
+ * \brief Create `ibeta` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction ibeta_function();
+
 }  // namespace func_sketch::math

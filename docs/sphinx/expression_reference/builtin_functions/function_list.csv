@@ -29,6 +29,7 @@ Function,Short Description
 :funcsketch:func:`gamma`, Gamma function (:math:`\Gamma(x)`).
 :funcsketch:func:`hankel1`, (Cylindrical) Hankel function of the first kind (:math:`H_{\nu}^{(1)}(x)`).
 :funcsketch:func:`hankel2`, (Cylindrical) Hankel function of the second kind (:math:`H_{\nu}^{(2)}(x)`).
+:funcsketch:func:`ibeta`, "Regularized incomplete beta function (:math:`I_x(a, b)`)."
 :funcsketch:func:`imag`, Imaginary part function (:math:`\mathrm{imag}(x)`).
 :funcsketch:func:`kelvin_bei`, Kelvin function ``bei`` (:math:`\text{bei}_{\nu}(x)`).
 :funcsketch:func:`kelvin_ber`, Kelvin function ``ber`` (:math:`\text{ber}_{\nu}(x)`).

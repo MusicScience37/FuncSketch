@@ -27,12 +27,38 @@ class TestBeta:
         x_values, y_values = sample_function("beta(x, 2.5)", (0.1, 3.0), (-1.0, 5.0))
         compare_vectors(y_values, scipy.special.beta(x_values, 2.5))
 
-    def test_sample_lbeta(self) -> None:
+    def test_sample_beta_second_arg(self) -> None:
+        """Test of sampling beta(1.5, x)."""
+        x_values, y_values = sample_function("beta(1.5, x)", (0.1, 3.0), (-1.0, 5.0))
+        compare_vectors(y_values, scipy.special.beta(1.5, x_values))
+
+    def test_sample_lbeta_first_arg(self) -> None:
         """Test of sampling lbeta(x, 2.5)."""
         x_values, y_values = sample_function("lbeta(x, 2.5)", (0.1, 3.0), (-3.0, 5.0))
         compare_vectors(y_values, scipy.special.betaln(x_values, 2.5))
 
-    def test_sample_beta_second_arg(self) -> None:
-        """Test of sampling beta(1.5, y)."""
-        x_values, y_values = sample_function("beta(1.5, x)", (0.1, 3.0), (-1.0, 5.0))
-        compare_vectors(y_values, scipy.special.beta(1.5, x_values))
+    def test_sample_lbeta_second_arg(self) -> None:
+        """Test of sampling lbeta(1.5, x)."""
+        x_values, y_values = sample_function("lbeta(1.5, x)", (0.1, 3.0), (-3.0, 5.0))
+        compare_vectors(y_values, scipy.special.betaln(1.5, x_values))
+
+    def test_sample_ibeta_first_arg(self) -> None:
+        """Test of sampling ibeta(x, 2.5, 0.3)."""
+        x_values, y_values = sample_function(
+            "ibeta(x, 2.5, 0.3)", (0.1, 3.0), (-0.5, 1.5)
+        )
+        compare_vectors(y_values, scipy.special.betainc(x_values, 2.5, 0.3))
+
+    def test_sample_ibeta_second_arg(self) -> None:
+        """Test of sampling ibeta(1.5, x, 0.3)."""
+        x_values, y_values = sample_function(
+            "ibeta(1.5, x, 0.3)", (0.1, 3.0), (-0.5, 1.5)
+        )
+        compare_vectors(y_values, scipy.special.betainc(1.5, x_values, 0.3))
+
+    def test_sample_ibeta_third_arg(self) -> None:
+        """Test of sampling ibeta(1.5, 2.5, x)."""
+        x_values, y_values = sample_function(
+            "ibeta(1.5, 2.5, x)", (0.0, 1.0), (-0.5, 1.5)
+        )
+        compare_vectors(y_values, scipy.special.betainc(1.5, 2.5, x_values))

@@ -246,6 +246,13 @@ PLOT_LIST = [
         x_range=(-3.0, 3.0),
         y_range=(-3.0, 5.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/ibeta.webp",
+        expression_strs=["ibeta(0.5, 0.5, x)", "ibeta(2, 2, x)", "ibeta(2, 5, x)"],
+        title="Regularized Incomplete Beta Function",
+        x_range=(-0.2, 1.2),
+        y_range=(-0.2, 1.2),
+    ),
 ]
 
 

@@ -35,3 +35,21 @@ The beta function is a special function closely related to the gamma function.
     :rtype: Real
 
     .. image:: plots/lbeta.webp
+
+.. funcsketch:function:: ibeta(a, b, x)
+
+    Regularized incomplete beta function.
+
+    :param a: The first parameter of the beta function.
+    :type a: Real
+    :param b: The second parameter of the beta function.
+    :type b: Real
+    :param x: The upper limit of the integral.
+    :type x: Real
+    :definition: :math:`I_x(a, b) = \dfrac{1}{B(a, b)} \displaystyle\int_0^x t^{a-1} (1 - t)^{b-1} \, dt`
+    :domain: :math:`a > 0`, :math:`b > 0`, and :math:`0 \le x \le 1`
+    :range: :math:`[0, 1]`
+    :returns: The value of :math:`I_x(a, b)`.
+    :rtype: Real
+
+    .. image:: plots/ibeta.webp
