@@ -89,3 +89,21 @@ The beta function is a special function closely related to the gamma function.
     :rtype: Real
 
     .. image:: plots/ibeta_inv.webp
+
+.. funcsketch:function:: ibetac_inv(a, b, q)
+
+    Inverse of the complement of the regularized incomplete beta function.
+
+    :param a: The first parameter of the beta function.
+    :type a: Real
+    :param b: The second parameter of the beta function.
+    :type b: Real
+    :param q: The value of the complement of the regularized incomplete beta function.
+    :type q: Real
+    :definition: :math:`\mathrm{ibetac\_inv}(a, b, q)` is the value :math:`x` satisfying :math:`1 - I_x(a, b) = q`.
+    :domain: :math:`a > 0`, :math:`b > 0`, and :math:`0 \le q \le 1`
+    :range: :math:`[0, 1]`
+    :returns: The value :math:`x` satisfying :math:`1 - I_x(a, b) = q`.
+    :rtype: Real
+
+    .. image:: plots/ibetac_inv.webp

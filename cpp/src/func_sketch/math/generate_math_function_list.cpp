@@ -121,6 +121,7 @@ MathFunctionList generate_math_function_list(
     list.emplace(ibeta_function());
     list.emplace(ibetac_function());
     list.emplace(ibeta_inv_function());
+    list.emplace(ibetac_inv_function());
 
     return list;
 }

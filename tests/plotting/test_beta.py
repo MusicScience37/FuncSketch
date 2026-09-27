@@ -64,3 +64,12 @@ class TestBeta:
             (-0.5, 1.5),
         )
         image_approver.verify(image)
+
+    def test_plot_ibetac_inv(self, image_approver) -> None:
+        """Test of plotting ibetac_inv(a, b, q)."""
+        image = plot_function(
+            ["ibetac_inv(0.5, 0.5, x)", "ibetac_inv(2, 2, x)", "ibetac_inv(2, 5, x)"],
+            (-0.5, 1.5),
+            (-0.5, 1.5),
+        )
+        image_approver.verify(image)
