@@ -102,7 +102,9 @@ CheckOptions:
     value: expr-type
 
   - key: readability-identifier-length.IgnoredVariableNames
-    value: "^_$"
+    value: "^[_xy]$"
+  - key: readability-identifier-length.IgnoredParameterNames
+    value: "^[nxy]$"
 
   - key: modernize-use-trailing-return-type.TransformLambdas
     value: none

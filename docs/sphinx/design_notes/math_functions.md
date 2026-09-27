@@ -13,8 +13,6 @@ Candidate of implementation of special functions are as follows:
 
 | Type                 | Function                                                         | Name in FuncSketch | In C++                            | In Python                        |
 | :------------------- | :--------------------------------------------------------------- | :----------------- | :-------------------------------- | :------------------------------- |
-| Beta                 | Beta function $B{(x, y)}$                                        | (TODO)             | `std::beta`                       | `scipy.special.beta`             |
-| Beta                 | Incomplete beta function $B{(x; a, b)}$                          | (TODO)             | `boost::math::ibeta`              | `scipy.special.betainc`          |
 | Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$               | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |
 | Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$              | (TODO)             | `boost::math::airy_bi`            | `scipy.special.airy`             |
 | Gamma                | Digamma function $\psi{(x)}$                                     | (TODO)             | `boost::math::digamma`            | `scipy.special.digamma`          |

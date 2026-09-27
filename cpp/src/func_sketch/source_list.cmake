@@ -11,6 +11,7 @@ set(SOURCE_FILES
     expressions/unary_expression.cpp
     math/constant_list.cpp
     math/functions/bessel.cpp
+    math/functions/beta.cpp
     math/functions/complex.cpp
     math/functions/erf.cpp
     math/functions/exp.cpp

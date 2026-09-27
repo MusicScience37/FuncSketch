@@ -12,6 +12,7 @@ Function,Short Description
 :funcsketch:func:`bessel_j`, (Cylindrical) Bessel function of the first kind (:math:`J_{\nu}(x)`).
 :funcsketch:func:`bessel_k`, (Cylindrical) modified Bessel function of the second kind (:math:`K_{\nu}(x)`).
 :funcsketch:func:`bessel_y`, (Cylindrical) Bessel function of the second kind (Neumann function) (:math:`Y_{\nu}(x)`).
+:funcsketch:func:`beta`, "Beta function (:math:`B(x, y)`)."
 :funcsketch:func:`cbrt`, Cube root function (:math:`\sqrt[3]{x}`).
 :funcsketch:func:`ceil`, Ceiling function (:math:`\lceil x \rceil`).
 :funcsketch:func:`conj`, Complex conjugate function (:math:`\mathrm{conj}(x)`).
@@ -28,12 +29,17 @@ Function,Short Description
 :funcsketch:func:`gamma`, Gamma function (:math:`\Gamma(x)`).
 :funcsketch:func:`hankel1`, (Cylindrical) Hankel function of the first kind (:math:`H_{\nu}^{(1)}(x)`).
 :funcsketch:func:`hankel2`, (Cylindrical) Hankel function of the second kind (:math:`H_{\nu}^{(2)}(x)`).
+:funcsketch:func:`ibeta`, "Regularized incomplete beta function (:math:`I_x(a, b)`)."
+:funcsketch:func:`ibeta_inv`, "Inverse of the regularized incomplete beta function (:math:`I^{-1}_p(a, b)`)."
+:funcsketch:func:`ibetac`, "Complement of the regularized incomplete beta function (:math:`1 - I_x(a, b)`)."
+:funcsketch:func:`ibetac_inv`, "Inverse of the complement of the regularized incomplete beta function."
 :funcsketch:func:`imag`, Imaginary part function (:math:`\mathrm{imag}(x)`).
 :funcsketch:func:`kelvin_bei`, Kelvin function ``bei`` (:math:`\text{bei}_{\nu}(x)`).
 :funcsketch:func:`kelvin_ber`, Kelvin function ``ber`` (:math:`\text{ber}_{\nu}(x)`).
 :funcsketch:func:`kelvin_kei`, Kelvin function ``kei`` (:math:`\text{kei}_{\nu}(x)`).
 :funcsketch:func:`kelvin_ker`, Kelvin function ``ker`` (:math:`\text{ker}_{\nu}(x)`).
 :funcsketch:func:`lgamma`, Natural logarithm of the absolute value of the gamma function (:math:`\log{|\Gamma(x)|}`).
+:funcsketch:func:`lbeta`, "Natural logarithm of the absolute value of the beta function (:math:`\log{|B(x, y)|}`)."
 :funcsketch:func:`log`, Natural logarithm function (:math:`\log(x)`).
 :funcsketch:func:`log10`, Base-10 logarithm function (:math:`\log_{10}(x)`).
 :funcsketch:func:`log1p`, Natural logarithm of one plus x function (:math:`\log(1+x)`).

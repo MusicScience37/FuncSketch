@@ -231,6 +231,57 @@ PLOT_LIST = [
         x_range=(-3.0, 5.0),
         y_range=(-0.5, 3.0),
     ),
+    # For beta.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/beta.webp",
+        expression_strs=["beta(x, 0.5)", "beta(x, 1)", "beta(x, 2)"],
+        title="Beta Function",
+        x_range=(-0.2, 3.0),
+        y_range=(-0.5, 5.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/lbeta.webp",
+        expression_strs=["lbeta(x, 0.5)", "lbeta(x, 1)", "lbeta(x, 2)"],
+        title="Log Beta Function",
+        x_range=(-3.0, 3.0),
+        y_range=(-3.0, 5.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/ibeta.webp",
+        expression_strs=["ibeta(0.5, 0.5, x)", "ibeta(2, 2, x)", "ibeta(2, 5, x)"],
+        title="Regularized Incomplete Beta Function",
+        x_range=(-0.2, 1.2),
+        y_range=(-0.2, 1.2),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/ibetac.webp",
+        expression_strs=["ibetac(0.5, 0.5, x)", "ibetac(2, 2, x)", "ibetac(2, 5, x)"],
+        title="Complement of Regularized Incomplete Beta Function",
+        x_range=(-0.2, 1.2),
+        y_range=(-0.2, 1.2),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/ibeta_inv.webp",
+        expression_strs=[
+            "ibeta_inv(0.5, 0.5, x)",
+            "ibeta_inv(2, 2, x)",
+            "ibeta_inv(2, 5, x)",
+        ],
+        title="Inverse of Regularized Incomplete Beta Function",
+        x_range=(-0.2, 1.2),
+        y_range=(-0.2, 1.2),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/ibetac_inv.webp",
+        expression_strs=[
+            "ibetac_inv(0.5, 0.5, x)",
+            "ibetac_inv(2, 2, x)",
+            "ibetac_inv(2, 5, x)",
+        ],
+        title="Inverse of Complement of Regularized Incomplete Beta Function",
+        x_range=(-0.2, 1.2),
+        y_range=(-0.2, 1.2),
+    ),
 ]
 
 

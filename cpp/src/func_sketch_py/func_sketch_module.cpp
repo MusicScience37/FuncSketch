@@ -152,6 +152,8 @@ func_sketch::math::PythonFunctionList generate_python_function_list() {
         .complex_spherical_bessel_y =
             wrap_python_function<Complex, unsigned, Complex>(
                 scipy_special.attr("spherical_yn")),
+        .real_lbeta = wrap_python_function<Real, Real, Real>(
+            scipy_special.attr("betaln")),
     };
 }
 

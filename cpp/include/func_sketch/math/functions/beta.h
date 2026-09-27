@@ -1,0 +1,74 @@
+/*
+ * Copyright 2026 MusicScience37 (Kenta Kabashima)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*!
+ * \file
+ * \brief Declaration of functions to create beta functions.
+ */
+#pragma once
+
+#include <functional>
+
+#include "func_sketch/common_types.h"
+#include "func_sketch/math/math_function.h"
+
+namespace func_sketch::math {
+
+/*!
+ * \brief Create `beta` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction beta_function();
+
+/*!
+ * \brief Create `lbeta` function.
+ *
+ * \param[in] real_lbeta Natural logarithm of the absolute value of the beta
+ * function for real arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction lbeta_function(
+    std::function<Real(Real, Real)> real_lbeta);
+
+/*!
+ * \brief Create `ibeta` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction ibeta_function();
+
+/*!
+ * \brief Create `ibetac` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction ibetac_function();
+
+/*!
+ * \brief Create `ibeta_inv` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction ibeta_inv_function();
+
+/*!
+ * \brief Create `ibetac_inv` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction ibetac_inv_function();
+
+}  // namespace func_sketch::math

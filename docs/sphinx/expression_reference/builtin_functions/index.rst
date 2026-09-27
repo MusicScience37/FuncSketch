@@ -25,3 +25,4 @@ Following pages describe the built-in functions.
     bessel
     error
     gamma
+    beta
