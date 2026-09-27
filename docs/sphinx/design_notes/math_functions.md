@@ -15,10 +15,6 @@ Candidate of implementation of special functions are as follows:
 | :------------------- | :--------------------------------------------------------------- | :----------------- | :-------------------------------- | :------------------------------- |
 | Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$               | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |
 | Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$              | (TODO)             | `boost::math::airy_bi`            | `scipy.special.airy`             |
-| Gamma                | Digamma function $\psi{(x)}$                                     | (TODO)             | `boost::math::digamma`            | `scipy.special.digamma`          |
-| Gamma                | Polygamma function $\psi^{(n)}{(x)}$                             | (TODO)             | `boost::math::polygamma`          | `scipy.special.polygamma`        |
-| Gamma                | Upper incomplete gamma function $\Gamma{(a, x)}$                 | (TODO)             | `boost::math::tgamma`             | `scipy.special.gammaincc`        |
-| Gamma                | Lower incomplete gamma function $\gamma{(a, x)}$                 | (TODO)             | `boost::math::tgamma_lower`       | `scipy.special.gammainc`         |
 | Hermite              | Hermite polynomial $H_n{(x)}$ (physicist's)                      | (TODO)             | `std::hermite`                    | `scipy.special.eval_hermite`     |
 | Chebyshev            | Chebyshev polynomial of the first kind $T_n{(x)}$                | (TODO)             | `boost::math::chebyshev_t`        | `scipy.special.eval_chebyt`      |
 | Chebyshev            | Chebyshev polynomial of the second kind $U_n{(x)}$               | (TODO)             | `boost::math::chebyshev_u`        | `scipy.special.eval_chebyu`      |

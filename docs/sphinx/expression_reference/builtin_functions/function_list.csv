@@ -18,6 +18,7 @@ Function,Short Description
 :funcsketch:func:`conj`, Complex conjugate function (:math:`\mathrm{conj}(x)`).
 :funcsketch:func:`cos`, Cosine function (:math:`\cos(x)`).
 :funcsketch:func:`cosh`, Hyperbolic cosine function (:math:`\cosh(x)`).
+:funcsketch:func:`digamma`, Digamma function (:math:`\psi(x)`).
 :funcsketch:func:`erf`, Error function (:math:`\mathrm{erf}(x)`).
 :funcsketch:func:`erf_inv`, Inverse error function (:math:`\mathrm{erf}^{-1}(x)`).
 :funcsketch:func:`erfc`, Complementary error function (:math:`\mathrm{erfc}(x)`).
@@ -33,6 +34,10 @@ Function,Short Description
 :funcsketch:func:`ibeta_inv`, "Inverse of the regularized incomplete beta function (:math:`I^{-1}_p(a, b)`)."
 :funcsketch:func:`ibetac`, "Complement of the regularized incomplete beta function (:math:`1 - I_x(a, b)`)."
 :funcsketch:func:`ibetac_inv`, "Inverse of the complement of the regularized incomplete beta function."
+:funcsketch:func:`igamma`, "Regularized lower incomplete gamma function (:math:`P(a, x)`)."
+:funcsketch:func:`igamma_inv`, "Inverse of the regularized lower incomplete gamma function (:math:`P^{-1}(a, p)`)."
+:funcsketch:func:`igammac`, "Regularized upper incomplete gamma function (:math:`Q(a, x)`)."
+:funcsketch:func:`igammac_inv`, "Inverse of the regularized upper incomplete gamma function (:math:`Q^{-1}(a, q)`)."
 :funcsketch:func:`imag`, Imaginary part function (:math:`\mathrm{imag}(x)`).
 :funcsketch:func:`kelvin_bei`, Kelvin function ``bei`` (:math:`\text{bei}_{\nu}(x)`).
 :funcsketch:func:`kelvin_ber`, Kelvin function ``ber`` (:math:`\text{ber}_{\nu}(x)`).
@@ -44,6 +49,7 @@ Function,Short Description
 :funcsketch:func:`log10`, Base-10 logarithm function (:math:`\log_{10}(x)`).
 :funcsketch:func:`log1p`, Natural logarithm of one plus x function (:math:`\log(1+x)`).
 :funcsketch:func:`log2`, Base-2 logarithm function (:math:`\log_{2}(x)`).
+:funcsketch:func:`polygamma`, Polygamma function (:math:`\psi^{(n)}(x)`).
 :funcsketch:func:`pow`, Power function (:math:`\mathrm{base}^{\mathrm{exponent}}`).
 :funcsketch:func:`real`, Real part function (:math:`\mathrm{real}(x)`).
 :funcsketch:func:`round`, Rounding function (:math:`\mathrm{round}(x)`).
@@ -56,4 +62,5 @@ Function,Short Description
 :funcsketch:func:`sqrt`, Square root function (:math:`\sqrt{x}`).
 :funcsketch:func:`tan`, Tangent function (:math:`\tan(x)`).
 :funcsketch:func:`tanh`, Hyperbolic tangent function (:math:`\tanh(x)`).
+:funcsketch:func:`trigamma`, Trigamma function (:math:`\psi^{(1)}(x)`).
 :funcsketch:func:`trunc`, Truncation function (:math:`\mathrm{trunc}(x)`).

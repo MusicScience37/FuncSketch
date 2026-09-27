@@ -42,4 +42,53 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction lgamma_function();
 
+/*!
+ * \brief Create `digamma` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction digamma_function();
+
+/*!
+ * \brief Create `trigamma` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction trigamma_function();
+
+/*!
+ * \brief Create `polygamma` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction polygamma_function();
+
+/*!
+ * \brief Create `igamma` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction igamma_function();
+
+/*!
+ * \brief Create `igammac` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction igammac_function();
+
+/*!
+ * \brief Create `igamma_inv` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction igamma_inv_function();
+
+/*!
+ * \brief Create `igammac_inv` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction igammac_inv_function();
+
 }  // namespace func_sketch::math
