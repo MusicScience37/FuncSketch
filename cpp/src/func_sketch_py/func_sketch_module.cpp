@@ -870,7 +870,11 @@ The pixels of image are modified in place.)");
             auto image = to_image(raw_image);
             cv::Mat output;
             cv::cvtColor(image, output, cv::COLOR_RGB2BGR);
-            return cv::imwrite(file_path, output);
+            try {
+                return cv::imwrite(file_path, output);
+            } catch (const cv::Exception& /*exception*/) {
+                return false;
+            }
         },
         nanobind::call_guard<nanobind::gil_scoped_release>(), "image"_a,
         "file_path"_a, "Save an image to a file.");
