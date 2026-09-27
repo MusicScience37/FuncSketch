@@ -91,4 +91,12 @@ MathFunction igamma_function() {
         }));
 }
 
+MathFunction igammac_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "igammac", [](Real param_a, Real x) {
+            return boost::math::gamma_q(param_a, x, BoostMathPolicy());
+        }));
+}
+
 }  // namespace func_sketch::math

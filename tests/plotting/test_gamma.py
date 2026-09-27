@@ -67,3 +67,12 @@ class TestGamma:
             (-0.5, 1.5),
         )
         image_approver.verify(image)
+
+    def test_plot_igammac(self, image_approver) -> None:
+        """Test of plotting igammac(a, x)."""
+        image = plot_function(
+            ["igammac(0.5, x)", "igammac(1, x)", "igammac(3, x)"],
+            (-1.0, 8.0),
+            (-0.5, 1.5),
+        )
+        image_approver.verify(image)

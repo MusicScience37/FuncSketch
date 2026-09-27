@@ -211,3 +211,44 @@ TEST_CASE("func_sketch::math::igamma_function") {
             function_object(std::vector<Number>{arg, arg, arg}, result));
     }
 }
+
+TEST_CASE("func_sketch::math::igammac_function") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::igammac_function;
+
+    const auto function_object = igammac_function();
+
+    SECTION("operate on integers") {
+        constexpr Integer param_a = 2;
+        constexpr Integer x = 1;
+
+        Number result;
+        function_object(std::vector<Number>{param_a, x}, result);
+
+        constexpr Real expected = 0.7357588823428847;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers") {
+        constexpr Real param_a = 1.5;
+        constexpr Real x = 2.0;
+
+        Number result;
+        function_object(std::vector<Number>{param_a, x}, result);
+
+        constexpr Real expected = 0.26146412994911117;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("check the number of arguments") {
+        Number result;
+        const Number arg = 1;
+        CHECK_THROWS(function_object(std::vector<Number>{arg}, result));
+        CHECK_THROWS(
+            function_object(std::vector<Number>{arg, arg, arg}, result));
+    }
+}

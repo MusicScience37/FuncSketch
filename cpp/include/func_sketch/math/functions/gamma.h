@@ -70,4 +70,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction igamma_function();
 
+/*!
+ * \brief Create `igammac` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction igammac_function();
+
 }  // namespace func_sketch::math
