@@ -231,6 +231,14 @@ PLOT_LIST = [
         x_range=(-3.0, 5.0),
         y_range=(-0.5, 3.0),
     ),
+    # For beta.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/beta.webp",
+        expression_strs=["beta(x, 0.5)", "beta(x, 1)", "beta(x, 2)"],
+        title="Beta Function",
+        x_range=(-0.2, 3.0),
+        y_range=(-0.5, 5.0),
+    ),
 ]
 
 

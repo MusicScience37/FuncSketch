@@ -20,6 +20,7 @@
 #include "func_sketch/math/generate_math_function_list.h"
 
 #include "func_sketch/math/functions/bessel.h"
+#include "func_sketch/math/functions/beta.h"
 #include "func_sketch/math/functions/complex.h"
 #include "func_sketch/math/functions/erf.h"
 #include "func_sketch/math/functions/exp.h"
@@ -113,6 +114,9 @@ MathFunctionList generate_math_function_list(
     // In gamma.h
     list.emplace(gamma_function(python_functions.complex_gamma));
     list.emplace(lgamma_function());
+
+    // In beta.h
+    list.emplace(beta_function());
 
     return list;
 }

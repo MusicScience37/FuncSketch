@@ -13,7 +13,6 @@ Candidate of implementation of special functions are as follows:
 
 | Type                 | Function                                                         | Name in FuncSketch | In C++                            | In Python                        |
 | :------------------- | :--------------------------------------------------------------- | :----------------- | :-------------------------------- | :------------------------------- |
-| Beta                 | Beta function $B{(x, y)}$                                        | `beta`             | `boost::math::beta`               | `scipy.special.beta`             |
 | Beta                 | Natural logarithm of the beta function $\ln B{(x, y)}$           | `lbeta`            | (TODO)                            | `scipy.special.betaln`           |
 | Beta                 | Incomplete beta function $B{(x; a, b)}$                          | `ibeta`            | `boost::math::ibeta`              | `scipy.special.betainc`          |
 | Beta                 | Complement of the incomplete beta function                       | `ibetac`           | `boost::math::ibetac`             | `scipy.special.betaincc`         |
