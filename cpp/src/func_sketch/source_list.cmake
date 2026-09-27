@@ -13,6 +13,7 @@ set(SOURCE_FILES
     math/functions/bessel.cpp
     math/functions/beta.cpp
     math/functions/complex.cpp
+    math/functions/elliptic_integrals.cpp
     math/functions/erf.cpp
     math/functions/exp.cpp
     math/functions/gamma.cpp

@@ -24,7 +24,6 @@ Candidate of implementation of special functions are as follows:
 | Legendre             | Associated Legendre polynomial $P_n^m{(x)}$                        | (TODO)             | `std::assoc_legendre`             | `scipy.special.assoc_legendre_p` |
 | Legendre             | Spherical associated Legendre polynomial                           | (TODO)             | `std::sph_legendre`               | `scipy.special.sph_legendre_p`   |
 | Jacobi polynomial    | Jacobi polynomial $P_n^{(\alpha, \beta)}{(x)}$                     | (TODO)             | `boost::math::jacobi`             | `scipy.special.eval_jacobi`      |
-| Elliptic integral    | (Incomplete) elliptic integral of the first kind $F(\phi, k)$      | `elliptic_f`       | `boost::math::ellint_1`           | `scipy.special.ellipkinc`        |
 | Elliptic integral    | Complete elliptic integral of the first kind $K(k)$                | `comp_elliptic_k`  | `boost::math::ellint_1`           | `scipy.special.ellipk`           |
 | Elliptic integral    | (Incomplete) elliptic integral of the second kind $E(\phi, k)$     | `elliptic_e`       | `boost::math::ellint_2`           | `scipy.special.ellipeinc`        |
 | Elliptic integral    | Complete elliptic integral of the second kind $E(k)$               | `comp_elliptic_e`  | `boost::math::ellint_2`           | `scipy.special.ellipe`           |

@@ -22,6 +22,7 @@
 #include "func_sketch/math/functions/bessel.h"
 #include "func_sketch/math/functions/beta.h"
 #include "func_sketch/math/functions/complex.h"
+#include "func_sketch/math/functions/elliptic_integrals.h"
 #include "func_sketch/math/functions/erf.h"
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/functions/gamma.h"
@@ -133,6 +134,9 @@ MathFunctionList generate_math_function_list(
 
     // In orthogonal_polynomials.h
     list.emplace(hermite_function());
+
+    // In elliptic_integrals.h
+    list.emplace(elliptic_f_function());
 
     return list;
 }

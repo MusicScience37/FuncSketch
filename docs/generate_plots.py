@@ -353,6 +353,20 @@ PLOT_LIST = [
         x_range=(-2.5, 2.5),
         y_range=(-30.0, 30.0),
     ),
+    # For elliptic_integrals.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/elliptic_f.webp",
+        expression_strs=[
+            "elliptic_f(x, 0)",
+            "elliptic_f(x, 0.5)",
+            "elliptic_f(x, 0.9)",
+            "elliptic_f(x, 1)",
+            "elliptic_f(x, 2)",
+        ],
+        title="Elliptic Integral of the First Kind",
+        x_range=(-5.0, 5.0),
+        y_range=(-5.0, 5.0),
+    ),
 ]
 
 
