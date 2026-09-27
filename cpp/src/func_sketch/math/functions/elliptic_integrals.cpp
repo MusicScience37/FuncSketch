@@ -82,4 +82,13 @@ MathFunction elliptic_pi_function() {
             }));
 }
 
+MathFunction comp_elliptic_pi_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "comp_elliptic_pi", [](Real characteristic, Real modulus) {
+            return boost::math::ellint_3(
+                modulus, characteristic, BoostMathPolicy());
+        }));
+}
+
 }  // namespace func_sketch::math

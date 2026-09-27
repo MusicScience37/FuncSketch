@@ -406,6 +406,18 @@ PLOT_LIST = [
         x_range=(-1.5, 1.5),
         y_range=(0.0, 5.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/comp_elliptic_pi.webp",
+        expression_strs=[
+            "comp_elliptic_pi(-2, x)",
+            "comp_elliptic_pi(0, x)",
+            "comp_elliptic_pi(0.5, x)",
+            "comp_elliptic_pi(0.75, x)",
+        ],
+        title="Complete Elliptic Integral of the Third Kind",
+        x_range=(-1.2, 1.2),
+        y_range=(0.0, 6.0),
+    ),
 ]
 
 

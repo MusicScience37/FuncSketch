@@ -141,6 +141,7 @@ MathFunctionList generate_math_function_list(
     list.emplace(elliptic_e_function());
     list.emplace(comp_elliptic_e_function());
     list.emplace(elliptic_pi_function());
+    list.emplace(comp_elliptic_pi_function());
 
     return list;
 }

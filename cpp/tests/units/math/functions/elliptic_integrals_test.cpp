@@ -403,3 +403,77 @@ TEST_CASE("func_sketch::math::elliptic_pi_function") {
             function_object(std::vector<Number>{arg, arg, arg, arg}, result));
     }
 }
+
+TEST_CASE("func_sketch::math::comp_elliptic_pi_function") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::comp_elliptic_pi_function;
+
+    const auto function_object = comp_elliptic_pi_function();
+
+    SECTION("operate on integers") {
+        constexpr Integer characteristic = 0;
+        constexpr Integer modulus = 0;
+
+        Number result;
+        function_object(std::vector<Number>{characteristic, modulus}, result);
+
+        constexpr Real expected = 1.5707963267948966;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers") {
+        constexpr Real characteristic = 0.5;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(std::vector<Number>{characteristic, modulus}, result);
+
+        constexpr Real expected = 2.4136715042011945;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers with a negative characteristic") {
+        constexpr Real characteristic = -2.0;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(std::vector<Number>{characteristic, modulus}, result);
+
+        constexpr Real expected = 0.9547988196277867;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("try to operate on a characteristic larger than 1") {
+        constexpr Real characteristic = 2.0;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(std::vector<Number>{characteristic, modulus}, result);
+
+        CHECK(std::isnan(std::get<Real>(result)));
+    }
+
+    SECTION("try to operate on a modulus larger than 1") {
+        constexpr Real characteristic = 0.5;
+        constexpr Real modulus = 2.0;
+
+        Number result;
+        function_object(std::vector<Number>{characteristic, modulus}, result);
+
+        CHECK(std::isnan(std::get<Real>(result)));
+    }
+
+    SECTION("check the number of arguments") {
+        Number result;
+        const Number arg = 1;
+        CHECK_THROWS(function_object(std::vector<Number>{}, result));
+        CHECK_THROWS(function_object(std::vector<Number>{arg}, result));
+        CHECK_THROWS(
+            function_object(std::vector<Number>{arg, arg, arg}, result));
+    }
+}

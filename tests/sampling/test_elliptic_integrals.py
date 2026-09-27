@@ -36,6 +36,20 @@ def _elliptic_pi(n: float, phi: float, k: float) -> float:
     return float(mpmath.ellippi(n, phi, k**2))
 
 
+@numpy.vectorize
+def _comp_elliptic_pi(n: float, k: float) -> float:
+    """Calculate the complete elliptic integral of the third kind.
+
+    Args:
+        n (float): Characteristic.
+        k (float): Modulus.
+
+    Returns:
+        float: Value of the elliptic integral.
+    """
+    return float(mpmath.ellippi(n, k**2))
+
+
 class TestEllipticIntegrals:
     """Test of sampling of elliptic integrals."""
 
@@ -101,3 +115,17 @@ class TestEllipticIntegrals:
             "elliptic_pi(0.5, 0.8, x)", (-1.0, 1.0), (-5.0, 5.0)
         )
         compare_vectors(y_values, _elliptic_pi(0.5, 0.8, x_values))
+
+    def test_sample_comp_elliptic_pi_first_arg(self) -> None:
+        """Test of sampling comp_elliptic_pi(x, 0.5)."""
+        x_values, y_values = sample_function(
+            "comp_elliptic_pi(x, 0.5)", (-3.0, 0.99), (-1.0, 10.0)
+        )
+        compare_vectors(y_values, _comp_elliptic_pi(x_values, 0.5))
+
+    def test_sample_comp_elliptic_pi_second_arg(self) -> None:
+        """Test of sampling comp_elliptic_pi(0.5, x)."""
+        x_values, y_values = sample_function(
+            "comp_elliptic_pi(0.5, x)", (-0.99, 0.99), (-1.0, 10.0)
+        )
+        compare_vectors(y_values, _comp_elliptic_pi(0.5, x_values))

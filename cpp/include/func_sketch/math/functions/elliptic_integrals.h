@@ -58,4 +58,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction elliptic_pi_function();
 
+/*!
+ * \brief Create `comp_elliptic_pi` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction comp_elliptic_pi_function();
+
 }  // namespace func_sketch::math
