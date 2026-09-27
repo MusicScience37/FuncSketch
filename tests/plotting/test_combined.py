@@ -22,6 +22,11 @@ from .plotting_util import plot_function
 class TestCombined:
     """Test of plotting combined expressions."""
 
+    def test_e_pow_minus_x(self, image_approver) -> None:
+        """Test of plotting e^(-x)."""
+        image = plot_function(["e ** -x"], (-3.0, 3.0), (-1.0, 5.0))
+        image_approver.verify(image)
+
     def test_plot_two_curves(self, image_approver) -> None:
         """Test of plotting two curves."""
         image = plot_function(["x * x", "-x"], (-3.0, 3.0), (-3.0, 3.0))

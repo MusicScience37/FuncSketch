@@ -61,7 +61,11 @@ std::vector<std::string> parser_test_strings() {
         // Function calls.
         "exp(1.23)",
         // Nested expressions.
+        "1.23 ** -x",
+        "1.23 ** +x",
+        "-2 ** 2",
         "1.23 ** 4.56 ** 7.89",
+        "2 ** -3 ** 2",
         "exp(exp(1.23) + 4.56)",
         "1.23 * 3.45 / (6.78 - 9.01)",
         "+exp(1.23)",
@@ -96,8 +100,10 @@ std::vector<std::string> parser_test_strings() {
         "-",
         "+",
         "++1",
-        "--1",  // TODO Currently this is parsed as `-( -1 )`. This should be
-                // invalid.
+        "--1",
+        "+-1",
+        "-+1",
+        "1.23 ** --4.56",
         // Error at term expression.
         "1.23 *",
         "1.23 /",

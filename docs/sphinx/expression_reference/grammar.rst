@@ -49,6 +49,7 @@ The following operators are supported:
 .. csv-table::
     :header: "Operator", "Description"
 
+    "``+x``", "Unary plus (returns ``x`` as is)"
     "``-x``", "Negation"
     "``x + y``", "Addition"
     "``x - y``", "Subtraction"
@@ -61,11 +62,14 @@ The following operators are supported:
     ``2 ** (3 ** 4)``).
 
 .. note::
-    The right operand of ``**`` cannot be directly preceded by ``-``
-    unless it is a number literal (e.g. ``2 ** -3`` is valid).
-    To negate an identifier, a function call, or a parenthesized
-    expression, wrap it in parentheses
-    (e.g. ``2 ** (-x)`` instead of ``2 ** -x``).
+    The right operand of ``**`` can be preceded by ``+`` or ``-``
+    (e.g. ``2 ** -x``).
+    In this case, ``**`` in the right operand is evaluated first
+    (e.g. ``2 ** -3 ** 2`` is parsed as ``2 ** (-(3 ** 2))``).
+
+.. note::
+    Unary operators cannot be repeated (e.g. ``--1`` is invalid).
+    Use parentheses instead (e.g. ``-(-1)``).
 
 Operator Precedence
 ...........................
@@ -73,7 +77,7 @@ Operator Precedence
 Operators have the following precedence (from highest to lowest):
 
 1. ``**`` (power)
-2. ``-`` (negation)
+2. ``+``, ``-`` (unary plus, negation)
 3. ``*``, ``/`` (multiplication, division)
 4. ``+``, ``-`` (addition, subtraction)
 
