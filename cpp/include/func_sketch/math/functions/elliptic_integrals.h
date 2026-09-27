@@ -30,4 +30,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction elliptic_f_function();
 
+/*!
+ * \brief Create `comp_elliptic_k` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction comp_elliptic_k_function();
+
 }  // namespace func_sketch::math

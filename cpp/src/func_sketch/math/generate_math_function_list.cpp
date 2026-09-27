@@ -137,6 +137,7 @@ MathFunctionList generate_math_function_list(
 
     // In elliptic_integrals.h
     list.emplace(elliptic_f_function());
+    list.emplace(comp_elliptic_k_function());
 
     return list;
 }

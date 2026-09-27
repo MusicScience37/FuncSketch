@@ -35,3 +35,10 @@ class TestEllipticIntegrals:
             "elliptic_f(1.2, x)", (-1.0, 1.0), (-5.0, 5.0)
         )
         compare_vectors(y_values, scipy.special.ellipkinc(1.2, x_values**2))
+
+    def test_sample_comp_elliptic_k(self) -> None:
+        """Test of sampling comp_elliptic_k(x)."""
+        x_values, y_values = sample_function(
+            "comp_elliptic_k(x)", (-1.0, 1.0), (-1.0, 5.0)
+        )
+        compare_vectors(y_values, scipy.special.ellipk(x_values**2))

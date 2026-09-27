@@ -19,3 +19,17 @@ Elliptic integrals are integrals which arise in the calculation of the arc lengt
     :rtype: Real
 
     .. image:: plots/elliptic_f.webp
+
+.. funcsketch:function:: comp_elliptic_k(k)
+
+    Complete elliptic integral of the first kind.
+
+    :param k: The modulus.
+    :type k: Real
+    :definition: :math:`K(k) = F(\pi / 2, k) = \displaystyle\int_0^{\pi / 2} \frac{d\theta}{\sqrt{1 - k^2 \sin^2 \theta}}`
+    :domain: :math:`-1 < k < 1`
+    :range: :math:`[\pi / 2, \infty)`
+    :returns: The value of :math:`K(k)`.
+    :rtype: Real
+
+    .. image:: plots/comp_elliptic_k.webp
