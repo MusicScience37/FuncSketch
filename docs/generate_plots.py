@@ -252,6 +252,13 @@ PLOT_LIST = [
         x_range=(-3.0, 5.0),
         y_range=(-20.0, 20.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/igamma.webp",
+        expression_strs=["igamma(0.5, x)", "igamma(1, x)", "igamma(3, x)"],
+        title="Regularized Lower Incomplete Gamma Function",
+        x_range=(-1.0, 8.0),
+        y_range=(-0.2, 1.2),
+    ),
     # For beta.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/beta.webp",

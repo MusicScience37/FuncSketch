@@ -58,3 +58,12 @@ class TestGamma:
             (-20.0, 20.0),
         )
         image_approver.verify(image)
+
+    def test_plot_igamma(self, image_approver) -> None:
+        """Test of plotting igamma(a, x)."""
+        image = plot_function(
+            ["igamma(0.5, x)", "igamma(1, x)", "igamma(3, x)"],
+            (-1.0, 8.0),
+            (-0.5, 1.5),
+        )
+        image_approver.verify(image)

@@ -63,4 +63,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction polygamma_function();
 
+/*!
+ * \brief Create `igamma` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction igamma_function();
+
 }  // namespace func_sketch::math

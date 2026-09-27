@@ -68,3 +68,13 @@ class TestGamma:
             "polygamma(2, x)", (0.1, 5.0), (-20.0, 20.0)
         )
         compare_vectors(y_values, scipy.special.polygamma(2, x_values))
+
+    def test_sample_igamma_first_arg(self) -> None:
+        """Test of sampling igamma(x, 2.0)."""
+        x_values, y_values = sample_function("igamma(x, 2.0)", (0.1, 5.0), (-0.5, 1.5))
+        compare_vectors(y_values, scipy.special.gammainc(x_values, 2.0))
+
+    def test_sample_igamma_second_arg(self) -> None:
+        """Test of sampling igamma(1.5, x)."""
+        x_values, y_values = sample_function("igamma(1.5, x)", (0.0, 8.0), (-0.5, 1.5))
+        compare_vectors(y_values, scipy.special.gammainc(1.5, x_values))

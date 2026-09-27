@@ -76,3 +76,19 @@ The gamma function is a special function extending the factorial to real numbers
     :rtype: Real
 
     .. image:: plots/polygamma.webp
+
+.. funcsketch:function:: igamma(a, x)
+
+    Regularized lower incomplete gamma function.
+
+    :param a: The parameter of the gamma function.
+    :type a: Real
+    :param x: The upper limit of the integral.
+    :type x: Real
+    :definition: :math:`P(a, x) = \dfrac{1}{\Gamma(a)} \displaystyle\int_0^x t^{a-1} e^{-t} \, dt`
+    :domain: :math:`a > 0` and :math:`x \ge 0`
+    :range: :math:`[0, 1]`
+    :returns: The value of :math:`P(a, x)`.
+    :rtype: Real
+
+    .. image:: plots/igamma.webp

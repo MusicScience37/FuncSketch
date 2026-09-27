@@ -34,6 +34,7 @@ Function,Short Description
 :funcsketch:func:`ibeta_inv`, "Inverse of the regularized incomplete beta function (:math:`I^{-1}_p(a, b)`)."
 :funcsketch:func:`ibetac`, "Complement of the regularized incomplete beta function (:math:`1 - I_x(a, b)`)."
 :funcsketch:func:`ibetac_inv`, "Inverse of the complement of the regularized incomplete beta function."
+:funcsketch:func:`igamma`, "Regularized lower incomplete gamma function (:math:`P(a, x)`)."
 :funcsketch:func:`imag`, Imaginary part function (:math:`\mathrm{imag}(x)`).
 :funcsketch:func:`kelvin_bei`, Kelvin function ``bei`` (:math:`\text{bei}_{\nu}(x)`).
 :funcsketch:func:`kelvin_ber`, Kelvin function ``ber`` (:math:`\text{ber}_{\nu}(x)`).

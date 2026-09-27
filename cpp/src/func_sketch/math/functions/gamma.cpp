@@ -83,4 +83,12 @@ MathFunction polygamma_function() {
         }));
 }
 
+MathFunction igamma_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "igamma", [](Real param_a, Real x) {
+            return boost::math::gamma_p(param_a, x, BoostMathPolicy());
+        }));
+}
+
 }  // namespace func_sketch::math
