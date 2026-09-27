@@ -33,3 +33,20 @@ Elliptic integrals are integrals which arise in the calculation of the arc lengt
     :rtype: Real
 
     .. image:: plots/comp_elliptic_k.webp
+
+.. funcsketch:function:: elliptic_e(phi, k)
+
+    (Incomplete) elliptic integral of the second kind.
+
+    :param phi: The amplitude.
+    :type phi: Real
+    :param k: The modulus.
+    :type k: Real
+    :definition: :math:`E(\phi, k) = \displaystyle\int_0^{\phi} \sqrt{1 - k^2 \sin^2 \theta} \, d\theta`
+    :domain: :math:`\phi \in \mathbb{R}` and :math:`|k| \le 1`,
+        or :math:`|k| > 1` and :math:`|\phi| < \arcsin(1 / |k|)`
+    :range: :math:`(-\infty, \infty)`
+    :returns: The value of :math:`E(\phi, k)`.
+    :rtype: Real
+
+    .. image:: plots/elliptic_e.webp

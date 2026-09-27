@@ -42,3 +42,17 @@ class TestEllipticIntegrals:
             "comp_elliptic_k(x)", (-1.0, 1.0), (-1.0, 5.0)
         )
         compare_vectors(y_values, scipy.special.ellipk(x_values**2))
+
+    def test_sample_elliptic_e_first_arg(self) -> None:
+        """Test of sampling elliptic_e(x, 0.8)."""
+        x_values, y_values = sample_function(
+            "elliptic_e(x, 0.8)", (-5.0, 5.0), (-5.0, 5.0)
+        )
+        compare_vectors(y_values, scipy.special.ellipeinc(x_values, 0.8**2))
+
+    def test_sample_elliptic_e_second_arg(self) -> None:
+        """Test of sampling elliptic_e(1.2, x)."""
+        x_values, y_values = sample_function(
+            "elliptic_e(1.2, x)", (-1.0, 1.0), (-5.0, 5.0)
+        )
+        compare_vectors(y_values, scipy.special.ellipeinc(1.2, x_values**2))

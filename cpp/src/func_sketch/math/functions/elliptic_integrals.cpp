@@ -20,6 +20,7 @@
 #include "func_sketch/math/functions/elliptic_integrals.h"
 
 #include <boost/math/special_functions/ellint_1.hpp>
+#include <boost/math/special_functions/ellint_2.hpp>
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/acceptable_types.h"
@@ -43,6 +44,14 @@ MathFunction comp_elliptic_k_function() {
             "comp_elliptic_k", [](Real modulus) {
                 return boost::math::ellint_1(modulus, BoostMathPolicy());
             }));
+}
+
+MathFunction elliptic_e_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "elliptic_e", [](Real phi, Real modulus) {
+            return boost::math::ellint_2(modulus, phi, BoostMathPolicy());
+        }));
 }
 
 }  // namespace func_sketch::math

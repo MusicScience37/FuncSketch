@@ -374,6 +374,19 @@ PLOT_LIST = [
         x_range=(-1.2, 1.2),
         y_range=(0.0, 5.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/elliptic_e.webp",
+        expression_strs=[
+            "elliptic_e(x, 0)",
+            "elliptic_e(x, 0.5)",
+            "elliptic_e(x, 0.9)",
+            "elliptic_e(x, 1)",
+            "elliptic_e(x, 2)",
+        ],
+        title="Elliptic Integral of the Second Kind",
+        x_range=(-5.0, 5.0),
+        y_range=(-5.0, 5.0),
+    ),
 ]
 
 

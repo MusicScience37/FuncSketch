@@ -7,7 +7,7 @@
   - Gamma functions other than the basic gamma function. (`digamma`, `trigamma`, `polygamma`, `igamma`, `igammac`, `igamma_inv`, `igammac_inv`)
   - Beta functions. (`beta`, `lbeta`, `ibeta`, `ibetac`, `ibeta_inv`, `ibetac_inv`)
   - Orthogonal polynomials. (`hermite`)
-  - Elliptic integrals. (`elliptic_f`, `comp_elliptic_k`)
+  - Elliptic integrals. (`elliptic_f`, `comp_elliptic_k`, `elliptic_e`)
 
 ## Fixes
 
