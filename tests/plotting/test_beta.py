@@ -28,3 +28,12 @@ class TestBeta:
             (-1.0, 5.0),
         )
         image_approver.verify(image)
+
+    def test_plot_lbeta(self, image_approver) -> None:
+        """Test of plotting lbeta(x, y)."""
+        image = plot_function(
+            ["lbeta(x, 0.5)", "lbeta(x, 1)", "lbeta(x, 2)"],
+            (-3.0, 3.0),
+            (-3.0, 5.0),
+        )
+        image_approver.verify(image)

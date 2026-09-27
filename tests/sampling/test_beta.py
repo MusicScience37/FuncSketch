@@ -27,6 +27,11 @@ class TestBeta:
         x_values, y_values = sample_function("beta(x, 2.5)", (0.1, 3.0), (-1.0, 5.0))
         compare_vectors(y_values, scipy.special.beta(x_values, 2.5))
 
+    def test_sample_lbeta(self) -> None:
+        """Test of sampling lbeta(x, 2.5)."""
+        x_values, y_values = sample_function("lbeta(x, 2.5)", (0.1, 3.0), (-3.0, 5.0))
+        compare_vectors(y_values, scipy.special.betaln(x_values, 2.5))
+
     def test_sample_beta_second_arg(self) -> None:
         """Test of sampling beta(1.5, y)."""
         x_values, y_values = sample_function("beta(1.5, x)", (0.1, 3.0), (-1.0, 5.0))

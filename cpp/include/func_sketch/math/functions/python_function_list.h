@@ -59,6 +59,9 @@ struct PythonFunctionList {
 
     //! Spherical Bessel function of the second kind for complex arguments.
     std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y;
+
+    //! Natural logarithm of the absolute value of the beta function for real arguments.
+    std::function<Real(Real, Real)> real_lbeta;
 };
 
 }  // namespace func_sketch::math

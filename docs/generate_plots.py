@@ -239,6 +239,13 @@ PLOT_LIST = [
         x_range=(-0.2, 3.0),
         y_range=(-0.5, 5.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/lbeta.webp",
+        expression_strs=["lbeta(x, 0.5)", "lbeta(x, 1)", "lbeta(x, 2)"],
+        title="Log Beta Function",
+        x_range=(-3.0, 3.0),
+        y_range=(-3.0, 5.0),
+    ),
 ]
 
 

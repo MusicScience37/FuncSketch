@@ -66,3 +66,24 @@ TEST_CASE("func_sketch::math::beta_function") {
             function_object(std::vector<Number>{arg, arg, arg}, result));
     }
 }
+
+TEST_CASE("func_sketch::math::lbeta_function") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::lbeta_function;
+
+    // Actual function will be assigned in the binding code, so a dummy function
+    // is used here. Tests of values will be done in Python.
+    const auto dummy_real_lbeta =
+        lbeta_function([](Real x, Real y) { return x - (2.0 * y); });
+
+    SECTION("check the number of arguments") {
+        Number result;
+        const Number arg = 1;
+        CHECK_THROWS(dummy_real_lbeta(std::vector<Number>{}, result));
+        CHECK_THROWS(dummy_real_lbeta(std::vector<Number>{arg}, result));
+        CHECK_THROWS(
+            dummy_real_lbeta(std::vector<Number>{arg, arg, arg}, result));
+    }
+}

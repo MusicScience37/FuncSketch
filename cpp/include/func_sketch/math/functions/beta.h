@@ -19,6 +19,9 @@
  */
 #pragma once
 
+#include <functional>
+
+#include "func_sketch/common_types.h"
 #include "func_sketch/math/math_function.h"
 
 namespace func_sketch::math {
@@ -29,5 +32,15 @@ namespace func_sketch::math {
  * \return Function.
  */
 [[nodiscard]] MathFunction beta_function();
+
+/*!
+ * \brief Create `lbeta` function.
+ *
+ * \param[in] real_lbeta Natural logarithm of the absolute value of the beta
+ * function for real arguments.
+ * \return Function.
+ */
+[[nodiscard]] MathFunction lbeta_function(
+    std::function<Real(Real, Real)> real_lbeta);
 
 }  // namespace func_sketch::math

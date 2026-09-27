@@ -117,6 +117,7 @@ MathFunctionList generate_math_function_list(
 
     // In beta.h
     list.emplace(beta_function());
+    list.emplace(lbeta_function(python_functions.real_lbeta));
 
     return list;
 }

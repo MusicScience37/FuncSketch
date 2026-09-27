@@ -19,6 +19,8 @@
  */
 #include "func_sketch/math/functions/beta.h"
 
+#include <utility>
+
 #include <boost/math/special_functions/beta.hpp>
 
 #include "func_sketch/common_types.h"
@@ -34,6 +36,14 @@ MathFunction beta_function() {
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
         "beta", [](Real x, Real y) {
             return boost::math::beta(x, y, BoostMathPolicy());
+        }));
+}
+
+MathFunction lbeta_function(std::function<Real(Real, Real)> real_lbeta) {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "lbeta", [real_lbeta = std::move(real_lbeta)](Real x, Real y) {
+            return real_lbeta(x, y);
         }));
 }
 

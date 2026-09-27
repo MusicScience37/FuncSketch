@@ -168,6 +168,19 @@ class TestPythonFunctions:
         result = evaluator(expression, 0.0)
         assert result == pytest.approx(0.1673492032013481, abs=1e-10)
 
+    def test_lbeta(self) -> None:
+        """Test of natural logarithm of the absolute value of the beta function."""
+        parser = ExpressionParser()
+        evaluator = ExpressionEvaluator()
+
+        expression = parser("lbeta(1.5, 2.5)")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(-1.6278588363903812, abs=1e-10)
+
+        expression = parser("lbeta(-0.5, 2)")
+        result = evaluator(expression, 0.0)
+        assert result == pytest.approx(1.3862943611198906, abs=1e-10)
+
     def test_kelvin_ber(self) -> None:
         """Test of Kelvin function ber."""
         parser = ExpressionParser()
