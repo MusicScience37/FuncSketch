@@ -95,6 +95,7 @@
     "FuncSketch",
     "gammainc",
     "gammaincc",
+    "gammainccinv",
     "gammaincinv",
     "gegenbauer",
     "genlaguerre",

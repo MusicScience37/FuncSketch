@@ -84,4 +84,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction igamma_inv_function();
 
+/*!
+ * \brief Create `igammac_inv` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction igammac_inv_function();
+
 }  // namespace func_sketch::math

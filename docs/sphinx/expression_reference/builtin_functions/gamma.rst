@@ -124,3 +124,19 @@ The gamma function is a special function extending the factorial to real numbers
     :rtype: Real
 
     .. image:: plots/igamma_inv.webp
+
+.. funcsketch:function:: igammac_inv(a, q)
+
+    Inverse of the regularized upper incomplete gamma function.
+
+    :param a: The parameter of the gamma function.
+    :type a: Real
+    :param q: The value of the regularized upper incomplete gamma function.
+    :type q: Real
+    :definition: :math:`\mathrm{igammac\_inv}(a, q) = Q^{-1}(a, q)` is the value :math:`x` satisfying :math:`Q(a, x) = q`.
+    :domain: :math:`a > 0` and :math:`0 \le q \le 1`
+    :range: :math:`[0, \infty]`
+    :returns: The value of :math:`Q^{-1}(a, q)`.
+    :rtype: Real
+
+    .. image:: plots/igammac_inv.webp

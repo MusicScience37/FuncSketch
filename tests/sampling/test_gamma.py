@@ -102,3 +102,17 @@ class TestGamma:
             "igamma_inv(1.5, x)", (0.0, 0.99), (-1.0, 8.0)
         )
         compare_vectors(y_values, scipy.special.gammaincinv(1.5, x_values))
+
+    def test_sample_igammac_inv_first_arg(self) -> None:
+        """Test of sampling igammac_inv(x, 0.3)."""
+        x_values, y_values = sample_function(
+            "igammac_inv(x, 0.3)", (0.1, 5.0), (-1.0, 8.0)
+        )
+        compare_vectors(y_values, scipy.special.gammainccinv(x_values, 0.3))
+
+    def test_sample_igammac_inv_second_arg(self) -> None:
+        """Test of sampling igammac_inv(1.5, x)."""
+        x_values, y_values = sample_function(
+            "igammac_inv(1.5, x)", (0.01, 1.0), (-1.0, 8.0)
+        )
+        compare_vectors(y_values, scipy.special.gammainccinv(1.5, x_values))

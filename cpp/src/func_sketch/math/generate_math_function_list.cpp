@@ -120,6 +120,7 @@ MathFunctionList generate_math_function_list(
     list.emplace(igamma_function());
     list.emplace(igammac_function());
     list.emplace(igamma_inv_function());
+    list.emplace(igammac_inv_function());
 
     // In beta.h
     list.emplace(beta_function());

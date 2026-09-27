@@ -277,6 +277,17 @@ PLOT_LIST = [
         x_range=(-0.2, 1.2),
         y_range=(-0.5, 8.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/igammac_inv.webp",
+        expression_strs=[
+            "igammac_inv(0.5, x)",
+            "igammac_inv(1, x)",
+            "igammac_inv(3, x)",
+        ],
+        title="Inverse of Regularized Upper Incomplete Gamma Function",
+        x_range=(-0.2, 1.2),
+        y_range=(-0.5, 8.0),
+    ),
     # For beta.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/beta.webp",
