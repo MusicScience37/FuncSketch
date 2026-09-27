@@ -107,11 +107,16 @@ ExpressionGrammar::ExpressionGrammar()
     factor_expr_rule_ = value_expr_rule_[_val = _1] >
         -("**" > factor_expr_rule_[bind(handle_power, _val, _1)]);
 
+    const auto handle_unary_plus = [](ParsedExpression& result,
+                                       const ParsedExpression& operand) {
+        result = ParsedUnaryExpression{.operator_str = "+", .operand = operand};
+    };
     const auto handle_unary_minus = [](ParsedExpression& result,
                                         const ParsedExpression& operand) {
         result = ParsedUnaryExpression{.operator_str = "-", .operand = operand};
     };
     unary_expr_rule_ =
+        ('+' > factor_expr_rule_[bind(handle_unary_plus, _val, _1)]) |
         ('-' > factor_expr_rule_[bind(handle_unary_minus, _val, _1)]) |
         factor_expr_rule_[_val = _1];
 

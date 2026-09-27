@@ -37,6 +37,12 @@ Parsed: Identifier(x)
 Input: -x
 Parsed: Unary(-, Identifier(x))
 
+Input: +x
+Parsed: Unary(+, Identifier(x))
+
+Input: +1.23
+Parsed: Unary(+, Literal(1.230000e+00))
+
 Input: 1.23 + 4.56
 Parsed: Binary(+, Literal(1.230000e+00), Literal(4.560000e+00))
 
@@ -72,6 +78,9 @@ Parsed: FunctionCall(Identifier(exp), Binary(+, FunctionCall(Identifier(exp), Li
 
 Input: 1.23 * 3.45 / (6.78 - 9.01)
 Parsed: Binary(/, Binary(*, Literal(1.230000e+00), Literal(3.450000e+00)), Binary(-, Literal(6.780000e+00), Literal(9.010000e+00)))
+
+Input: +exp(1.23)
+Parsed: Unary(+, FunctionCall(Identifier(exp), Literal(1.230000e+00)))
 
 Input: -exp(1.23)
 Parsed: Unary(-, FunctionCall(Identifier(exp), Literal(1.230000e+00)))
@@ -116,7 +125,7 @@ Input: 1.23 * (
 Exception: Expected <expression> at position 8.
 
 Input: 1.23 * ( +
-Exception: Expected <expression> at position 8.
+Exception: Expected <expression> at position 10.
 
 Input: 1.23 * ()
 Exception: Expected <expression> at position 8.
@@ -126,6 +135,12 @@ Exception: Expected <expression> at position 7.
 
 Input: -
 Exception: Expected <expression> at position 1.
+
+Input: +
+Exception: Expected <expression> at position 1.
+
+Input: ++1
+Parsed: Unary(+, Literal(1))
 
 Input: --1
 Parsed: Unary(-, Literal(-1))
