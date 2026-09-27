@@ -16,7 +16,6 @@ Candidate of implementation of special functions are as follows:
 | Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$               | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |
 | Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$              | (TODO)             | `boost::math::airy_bi`            | `scipy.special.airy`             |
 | Gamma                | Inverse of the regularized upper incomplete gamma function       | `igammac_inv`      | `boost::math::gamma_q_inv`        | `scipy.special.gammaincc_inv`    |
-| Gamma                | Inverse of the regularized lower incomplete gamma function       | `igamma_inv`       | `boost::math::gamma_p_inv`        | `scipy.special.gammainc_inv`     |
 | Hermite              | Hermite polynomial $H_n{(x)}$ (physicist's)                      | (TODO)             | `std::hermite`                    | `scipy.special.eval_hermite`     |
 | Chebyshev            | Chebyshev polynomial of the first kind $T_n{(x)}$                | (TODO)             | `boost::math::chebyshev_t`        | `scipy.special.eval_chebyt`      |
 | Chebyshev            | Chebyshev polynomial of the second kind $U_n{(x)}$               | (TODO)             | `boost::math::chebyshev_u`        | `scipy.special.eval_chebyu`      |

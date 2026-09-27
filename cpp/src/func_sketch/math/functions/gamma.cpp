@@ -99,4 +99,13 @@ MathFunction igammac_function() {
         }));
 }
 
+MathFunction igamma_inv_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "igamma_inv", [](Real param_a, Real probability) {
+            return boost::math::gamma_p_inv(
+                param_a, probability, BoostMathPolicy());
+        }));
+}
+
 }  // namespace func_sketch::math

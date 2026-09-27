@@ -88,3 +88,17 @@ class TestGamma:
         """Test of sampling igammac(1.5, x)."""
         x_values, y_values = sample_function("igammac(1.5, x)", (0.0, 8.0), (-0.5, 1.5))
         compare_vectors(y_values, scipy.special.gammaincc(1.5, x_values))
+
+    def test_sample_igamma_inv_first_arg(self) -> None:
+        """Test of sampling igamma_inv(x, 0.3)."""
+        x_values, y_values = sample_function(
+            "igamma_inv(x, 0.3)", (0.1, 5.0), (-1.0, 8.0)
+        )
+        compare_vectors(y_values, scipy.special.gammaincinv(x_values, 0.3))
+
+    def test_sample_igamma_inv_second_arg(self) -> None:
+        """Test of sampling igamma_inv(1.5, x)."""
+        x_values, y_values = sample_function(
+            "igamma_inv(1.5, x)", (0.0, 0.99), (-1.0, 8.0)
+        )
+        compare_vectors(y_values, scipy.special.gammaincinv(1.5, x_values))
