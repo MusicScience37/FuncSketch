@@ -16,6 +16,7 @@ set(SOURCE_FILES
     math/functions/bessel_test.cpp
     math/functions/beta_test.cpp
     math/functions/complex_test.cpp
+    math/functions/elliptic_integrals_test.cpp
     math/functions/erf_test.cpp
     math/functions/exp_test.cpp
     math/functions/gamma_test.cpp

@@ -27,3 +27,4 @@ Following pages describe the built-in functions.
     gamma
     beta
     orthogonal_polynomials
+    elliptic_integrals

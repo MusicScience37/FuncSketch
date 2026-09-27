@@ -353,6 +353,71 @@ PLOT_LIST = [
         x_range=(-2.5, 2.5),
         y_range=(-30.0, 30.0),
     ),
+    # For elliptic_integrals.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/elliptic_f.webp",
+        expression_strs=[
+            "elliptic_f(x, 0)",
+            "elliptic_f(x, 0.5)",
+            "elliptic_f(x, 0.9)",
+            "elliptic_f(x, 1)",
+            "elliptic_f(x, 2)",
+        ],
+        title="Elliptic Integral of the First Kind",
+        x_range=(-5.0, 5.0),
+        y_range=(-5.0, 5.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/comp_elliptic_k.webp",
+        expression_strs=["comp_elliptic_k(x)"],
+        title="Complete Elliptic Integral of the First Kind",
+        x_range=(-1.2, 1.2),
+        y_range=(0.0, 5.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/elliptic_e.webp",
+        expression_strs=[
+            "elliptic_e(x, 0)",
+            "elliptic_e(x, 0.5)",
+            "elliptic_e(x, 0.9)",
+            "elliptic_e(x, 1)",
+            "elliptic_e(x, 2)",
+        ],
+        title="Elliptic Integral of the Second Kind",
+        x_range=(-5.0, 5.0),
+        y_range=(-5.0, 5.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/comp_elliptic_e.webp",
+        expression_strs=["comp_elliptic_e(x)"],
+        title="Complete Elliptic Integral of the Second Kind",
+        x_range=(-1.2, 1.2),
+        y_range=(0.0, 2.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/elliptic_pi.webp",
+        expression_strs=[
+            "elliptic_pi(0, 1.25, x)",
+            "elliptic_pi(0.5, 1.25, x)",
+            "elliptic_pi(0.25, 1.570796, x)",
+            "elliptic_pi(0.75, 1.570796, x)",
+        ],
+        title="Elliptic Integral of the Third Kind",
+        x_range=(-1.5, 1.5),
+        y_range=(0.0, 5.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/comp_elliptic_pi.webp",
+        expression_strs=[
+            "comp_elliptic_pi(-2, x)",
+            "comp_elliptic_pi(0, x)",
+            "comp_elliptic_pi(0.5, x)",
+            "comp_elliptic_pi(0.75, x)",
+        ],
+        title="Complete Elliptic Integral of the Third Kind",
+        x_range=(-1.2, 1.2),
+        y_range=(0.0, 6.0),
+    ),
 ]
 
 

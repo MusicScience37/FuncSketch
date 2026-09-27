@@ -15,10 +15,16 @@ Function,Short Description
 :funcsketch:func:`beta`, "Beta function (:math:`B(x, y)`)."
 :funcsketch:func:`cbrt`, Cube root function (:math:`\sqrt[3]{x}`).
 :funcsketch:func:`ceil`, Ceiling function (:math:`\lceil x \rceil`).
+:funcsketch:func:`comp_elliptic_e`, Complete elliptic integral of the second kind (:math:`E(k)`).
+:funcsketch:func:`comp_elliptic_k`, Complete elliptic integral of the first kind (:math:`K(k)`).
+:funcsketch:func:`comp_elliptic_pi`, "Complete elliptic integral of the third kind (:math:`\Pi(n, k)`)."
 :funcsketch:func:`conj`, Complex conjugate function (:math:`\mathrm{conj}(x)`).
 :funcsketch:func:`cos`, Cosine function (:math:`\cos(x)`).
 :funcsketch:func:`cosh`, Hyperbolic cosine function (:math:`\cosh(x)`).
 :funcsketch:func:`digamma`, Digamma function (:math:`\psi(x)`).
+:funcsketch:func:`elliptic_e`, "(Incomplete) elliptic integral of the second kind (:math:`E(\phi, k)`)."
+:funcsketch:func:`elliptic_f`, "(Incomplete) elliptic integral of the first kind (:math:`F(\phi, k)`)."
+:funcsketch:func:`elliptic_pi`, "(Incomplete) elliptic integral of the third kind (:math:`\Pi(n, \phi, k)`)."
 :funcsketch:func:`erf`, Error function (:math:`\mathrm{erf}(x)`).
 :funcsketch:func:`erf_inv`, Inverse error function (:math:`\mathrm{erf}^{-1}(x)`).
 :funcsketch:func:`erfc`, Complementary error function (:math:`\mathrm{erfc}(x)`).
