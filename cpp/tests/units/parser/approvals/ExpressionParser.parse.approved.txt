@@ -37,6 +37,12 @@ Parsed: x
 Input: -x
 Parsed: negate(x)
 
+Input: +x
+Parsed: identity(x)
+
+Input: +1.23
+Parsed: identity(1.23)
+
 Input: 1.23 + 4.56
 Parsed: add(1.23, 4.56)
 
@@ -53,10 +59,10 @@ Input: 1.23 ** 4.56
 Parsed: pow(1.23, 4.56)
 
 Input: 1.23 ** -4.56
-Parsed: pow(1.23, -4.56)
+Parsed: pow(1.23, negate(4.56))
 
 Input: -1.23 ** -4.56
-Parsed: negate(pow(1.23, -4.56))
+Parsed: negate(pow(1.23, negate(4.56)))
 
 Input: 1.23 * (4.56 + 7.89)
 Parsed: mul(1.23, add(4.56, 7.89))
@@ -64,14 +70,29 @@ Parsed: mul(1.23, add(4.56, 7.89))
 Input: exp(1.23)
 Parsed: exp(1.23)
 
+Input: 1.23 ** -x
+Parsed: pow(1.23, negate(x))
+
+Input: 1.23 ** +x
+Parsed: pow(1.23, identity(x))
+
+Input: -2 ** 2
+Parsed: negate(pow(2, 2))
+
 Input: 1.23 ** 4.56 ** 7.89
 Parsed: pow(1.23, pow(4.56, 7.89))
+
+Input: 2 ** -3 ** 2
+Parsed: pow(2, negate(pow(3, 2)))
 
 Input: exp(exp(1.23) + 4.56)
 Parsed: exp(add(exp(1.23), 4.56))
 
 Input: 1.23 * 3.45 / (6.78 - 9.01)
 Parsed: div(mul(1.23, 3.45), sub(6.78, 9.01))
+
+Input: +exp(1.23)
+Parsed: identity(exp(1.23))
 
 Input: -exp(1.23)
 Parsed: negate(exp(1.23))
@@ -116,7 +137,7 @@ Input: 1.23 * (
 Exception: Expected <expression> at position 8.
 
 Input: 1.23 * ( +
-Exception: Expected <expression> at position 8.
+Exception: Expected <expression> at position 10.
 
 Input: 1.23 * ()
 Exception: Expected <expression> at position 8.
@@ -127,8 +148,23 @@ Exception: Expected <expression> at position 7.
 Input: -
 Exception: Expected <expression> at position 1.
 
+Input: +
+Exception: Expected <expression> at position 1.
+
+Input: ++1
+Exception: Expected <expression> at position 1.
+
 Input: --1
-Parsed: negate(-1)
+Exception: Expected <expression> at position 1.
+
+Input: +-1
+Exception: Expected <expression> at position 1.
+
+Input: -+1
+Exception: Expected <expression> at position 1.
+
+Input: 1.23 ** --4.56
+Exception: Expected <expression> at position 9.
 
 Input: 1.23 *
 Exception: Expected <expression> at position 6.

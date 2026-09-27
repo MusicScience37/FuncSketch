@@ -52,13 +52,13 @@ ExpressionGrammar::ExpressionGrammar()
     using boost::spirit::qi::alpha;
     using boost::spirit::qi::char_;
     using boost::spirit::qi::digit;
-    using boost::spirit::qi::double_;
     using boost::spirit::qi::fail;
-    using boost::spirit::qi::int_;
     using boost::spirit::qi::lexeme;
     using boost::spirit::qi::on_error;
     using boost::spirit::qi::real_parser;
-    using boost::spirit::qi::strict_real_policies;
+    using boost::spirit::qi::strict_ureal_policies;
+    using boost::spirit::qi::uint_parser;
+    using boost::spirit::qi::ureal_policies;
     using boost::spirit::qi::labels::_1;
     using boost::spirit::qi::labels::_2;
     using boost::spirit::qi::labels::_3;
@@ -76,16 +76,23 @@ ExpressionGrammar::ExpressionGrammar()
     // Only function call expression rule has (>>) to allow parsing both
     // "exp(1.23)" (function call expression) and "x" (identifier only).
 
+    // Literals are parsed without signs, because signs are parsed as unary
+    // operators.
+    const real_parser<double, ureal_policies<double>> unsigned_double;
+    const real_parser<double, strict_ureal_policies<double>>
+        strict_unsigned_double;
+    const uint_parser<Integer> unsigned_integer;
+
     const auto handle_imaginary_number = [](Complex& result,
                                              const Real& value) {
         result = Complex{0.0, value};
     };
     imaginary_number_rule_ =
-        lexeme[double_[bind(handle_imaginary_number, _val, _1)] >> 'i'];
+        lexeme[unsigned_double[bind(handle_imaginary_number, _val, _1)] >> 'i'];
 
-    const real_parser<double, strict_real_policies<double>> strict_double;
     literal_rule_ = imaginary_number_rule_[at_c<0>(_val) = _1] |
-        strict_double[at_c<0>(_val) = _1] | int_[at_c<0>(_val) = _1];
+        strict_unsigned_double[at_c<0>(_val) = _1] |
+        unsigned_integer[at_c<0>(_val) = _1];
 
     identifier_rule_ = lexeme[(alpha | char_('_'))[at_c<0>(_val) += _1] >
         *(alpha | char_('_') | digit)[at_c<0>(_val) += _1]];
@@ -105,13 +112,18 @@ ExpressionGrammar::ExpressionGrammar()
             .operator_str = "**", .left_operand = left, .right_operand = right};
     };
     factor_expr_rule_ = value_expr_rule_[_val = _1] >
-        -("**" > factor_expr_rule_[bind(handle_power, _val, _1)]);
+        -("**" > unary_expr_rule_[bind(handle_power, _val, _1)]);
 
+    const auto handle_unary_plus = [](ParsedExpression& result,
+                                       const ParsedExpression& operand) {
+        result = ParsedUnaryExpression{.operator_str = "+", .operand = operand};
+    };
     const auto handle_unary_minus = [](ParsedExpression& result,
                                         const ParsedExpression& operand) {
         result = ParsedUnaryExpression{.operator_str = "-", .operand = operand};
     };
     unary_expr_rule_ =
+        ('+' > factor_expr_rule_[bind(handle_unary_plus, _val, _1)]) |
         ('-' > factor_expr_rule_[bind(handle_unary_minus, _val, _1)]) |
         factor_expr_rule_[_val = _1];
 
