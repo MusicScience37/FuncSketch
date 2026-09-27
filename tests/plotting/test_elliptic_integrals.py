@@ -54,3 +54,8 @@ class TestEllipticIntegrals:
             (-5.0, 5.0),
         )
         image_approver.verify(image)
+
+    def test_plot_comp_elliptic_e(self, image_approver) -> None:
+        """Test of plotting comp_elliptic_e(k)."""
+        image = plot_function(["comp_elliptic_e(x)"], (-1.5, 1.5), (-0.5, 2.0))
+        image_approver.verify(image)

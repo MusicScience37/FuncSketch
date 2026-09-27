@@ -54,4 +54,12 @@ MathFunction elliptic_e_function() {
         }));
 }
 
+MathFunction comp_elliptic_e_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "comp_elliptic_e", [](Real modulus) {
+                return boost::math::ellint_2(modulus, BoostMathPolicy());
+            }));
+}
+
 }  // namespace func_sketch::math

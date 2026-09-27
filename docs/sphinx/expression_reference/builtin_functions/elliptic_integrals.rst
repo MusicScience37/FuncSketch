@@ -50,3 +50,17 @@ Elliptic integrals are integrals which arise in the calculation of the arc lengt
     :rtype: Real
 
     .. image:: plots/elliptic_e.webp
+
+.. funcsketch:function:: comp_elliptic_e(k)
+
+    Complete elliptic integral of the second kind.
+
+    :param k: The modulus.
+    :type k: Real
+    :definition: :math:`E(k) = E(\pi / 2, k) = \displaystyle\int_0^{\pi / 2} \sqrt{1 - k^2 \sin^2 \theta} \, d\theta`
+    :domain: :math:`-1 \le k \le 1`
+    :range: :math:`[1, \pi / 2]`
+    :returns: The value of :math:`E(k)`.
+    :rtype: Real
+
+    .. image:: plots/comp_elliptic_e.webp

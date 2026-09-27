@@ -139,6 +139,7 @@ MathFunctionList generate_math_function_list(
     list.emplace(elliptic_f_function());
     list.emplace(comp_elliptic_k_function());
     list.emplace(elliptic_e_function());
+    list.emplace(comp_elliptic_e_function());
 
     return list;
 }
