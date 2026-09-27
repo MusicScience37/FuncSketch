@@ -17,6 +17,7 @@
 import math
 
 import numpy
+import scipy.special
 
 from .sampling_util import compare_vectors, sample_function
 
@@ -33,3 +34,13 @@ class TestErf:
         """Test of sampling erfc(x)."""
         x_values, y_values = sample_function("erfc(x)", (-3.0, 3.0), (-0.5, 2.5))
         compare_vectors(y_values, numpy.array([math.erfc(x) for x in x_values]))
+
+    def test_sample_erf_inv(self) -> None:
+        """Test of sampling erf_inv(x)."""
+        x_values, y_values = sample_function("erf_inv(x)", (-1.0, 1.0), (-3.0, 3.0))
+        compare_vectors(y_values, scipy.special.erfinv(x_values))
+
+    def test_sample_erfc_inv(self) -> None:
+        """Test of sampling erfc_inv(x)."""
+        x_values, y_values = sample_function("erfc_inv(x)", (0.0, 2.0), (-3.0, 3.0))
+        compare_vectors(y_values, scipy.special.erfcinv(x_values))

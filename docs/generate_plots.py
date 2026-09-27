@@ -202,6 +202,20 @@ PLOT_LIST = [
         x_range=(-3.0, 3.0),
         y_range=(-0.2, 2.2),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/erf_inv.webp",
+        expression_strs=["erf_inv(x)"],
+        title="Inverse Error Function",
+        x_range=(-1.2, 1.2),
+        y_range=(-3.0, 3.0),
+    ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/erfc_inv.webp",
+        expression_strs=["erfc_inv(x)"],
+        title="Inverse Complementary Error Function",
+        x_range=(-0.2, 2.2),
+        y_range=(-3.0, 3.0),
+    ),
     # For gamma.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/gamma.webp",
