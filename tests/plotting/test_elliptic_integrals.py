@@ -59,3 +59,17 @@ class TestEllipticIntegrals:
         """Test of plotting comp_elliptic_e(k)."""
         image = plot_function(["comp_elliptic_e(x)"], (-1.5, 1.5), (-0.5, 2.0))
         image_approver.verify(image)
+
+    def test_plot_elliptic_pi(self, image_approver) -> None:
+        """Test of plotting elliptic_pi(n, phi, k)."""
+        image = plot_function(
+            [
+                "elliptic_pi(0, 1.25, x)",
+                "elliptic_pi(0.5, 1.25, x)",
+                "elliptic_pi(0.25, 1.570796, x)",
+                "elliptic_pi(0.75, 1.570796, x)",
+            ],
+            (-2.0, 2.0),
+            (0.0, 5.0),
+        )
+        image_approver.verify(image)

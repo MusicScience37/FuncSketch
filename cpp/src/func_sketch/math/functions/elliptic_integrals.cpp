@@ -19,8 +19,13 @@
  */
 #include "func_sketch/math/functions/elliptic_integrals.h"
 
+#include <cmath>
+#include <limits>
+#include <numbers>
+
 #include <boost/math/special_functions/ellint_1.hpp>
 #include <boost/math/special_functions/ellint_2.hpp>
+#include <boost/math/special_functions/ellint_3.hpp>
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/acceptable_types.h"
@@ -59,6 +64,21 @@ MathFunction comp_elliptic_e_function() {
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
             "comp_elliptic_e", [](Real modulus) {
                 return boost::math::ellint_2(modulus, BoostMathPolicy());
+            }));
+}
+
+MathFunction elliptic_pi_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>,
+            AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+            "elliptic_pi", [](Real characteristic, Real phi, Real modulus) {
+                // Limit to the range where no pole exists.
+                if (characteristic >= 1.0 &&
+                    std::abs(phi) > 0.5 * std::numbers::pi) {
+                    return std::numeric_limits<Real>::quiet_NaN();
+                }
+                return boost::math::ellint_3(
+                    modulus, characteristic, phi, BoostMathPolicy());
             }));
 }
 

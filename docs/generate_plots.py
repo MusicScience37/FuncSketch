@@ -394,6 +394,18 @@ PLOT_LIST = [
         x_range=(-1.2, 1.2),
         y_range=(0.0, 2.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/elliptic_pi.webp",
+        expression_strs=[
+            "elliptic_pi(0, 1.25, x)",
+            "elliptic_pi(0.5, 1.25, x)",
+            "elliptic_pi(0.25, 1.570796, x)",
+            "elliptic_pi(0.75, 1.570796, x)",
+        ],
+        title="Elliptic Integral of the Third Kind",
+        x_range=(-1.5, 1.5),
+        y_range=(0.0, 5.0),
+    ),
 ]
 
 

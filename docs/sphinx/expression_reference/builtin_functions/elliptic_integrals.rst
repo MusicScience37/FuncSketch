@@ -64,3 +64,22 @@ Elliptic integrals are integrals which arise in the calculation of the arc lengt
     :rtype: Real
 
     .. image:: plots/comp_elliptic_e.webp
+
+.. funcsketch:function:: elliptic_pi(n, phi, k)
+
+    (Incomplete) elliptic integral of the third kind.
+
+    :param n: The characteristic.
+    :type n: Real
+    :param phi: The amplitude.
+    :type phi: Real
+    :param k: The modulus.
+    :type k: Real
+    :definition: :math:`\Pi(n, \phi, k) = \displaystyle\int_0^{\phi} \frac{d\theta}{(1 - n \sin^2 \theta) \sqrt{1 - k^2 \sin^2 \theta}}`
+    :domain: :math:`\phi \in \mathbb{R}`, :math:`n < 1`, and :math:`|k| < 1`,
+        or :math:`|\phi| < \pi / 2`, :math:`n \sin^2 \phi < 1`, and :math:`k^2 \sin^2 \phi < 1`
+    :range: :math:`(-\infty, \infty)`
+    :returns: The value of :math:`\Pi(n, \phi, k)`.
+    :rtype: Real
+
+    .. image:: plots/elliptic_pi.webp

@@ -104,6 +104,7 @@ test = [
     "pytest-cov (>=7.1.0,<8.0.0)",
     "pytest-benchmark (>=5.3.0,<6.0.0)",
     "pytest-mock (>=3.15.1,<4.0.0)",
+    "mpmath (>=1.4.1,<2.0.0)",
 ]
 
 [tool.ruff.lint]

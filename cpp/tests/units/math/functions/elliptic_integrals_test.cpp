@@ -280,3 +280,126 @@ TEST_CASE("func_sketch::math::comp_elliptic_e_function") {
         CHECK_THROWS(function_object(std::vector<Number>{arg, arg}, result));
     }
 }
+
+TEST_CASE("func_sketch::math::elliptic_pi_function") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::elliptic_pi_function;
+
+    const auto function_object = elliptic_pi_function();
+
+    SECTION("operate on integers") {
+        constexpr Integer characteristic = 0;
+        constexpr Integer phi = 1;
+        constexpr Integer modulus = 0;
+
+        Number result;
+        function_object(
+            std::vector<Number>{characteristic, phi, modulus}, result);
+
+        constexpr Real expected = 1.0;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers") {
+        constexpr Real characteristic = 0.5;
+        constexpr Real phi = 0.8;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(
+            std::vector<Number>{characteristic, phi, modulus}, result);
+
+        constexpr Real expected = 0.9140029423777822;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers with phi larger than pi / 2") {
+        constexpr Real characteristic = 0.5;
+        constexpr Real phi = 3.0;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(
+            std::vector<Number>{characteristic, phi, modulus}, result);
+
+        constexpr Real expected = 4.685157506763253;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers with a negative characteristic") {
+        constexpr Real characteristic = -2.0;
+        constexpr Real phi = 0.8;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(
+            std::vector<Number>{characteristic, phi, modulus}, result);
+
+        constexpr Real expected = 0.6243182588678945;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers with a characteristic larger than 1") {
+        constexpr Real characteristic = 2.0;
+        constexpr Real phi = 0.5;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(
+            std::vector<Number>{characteristic, phi, modulus}, result);
+
+        constexpr Real expected = 0.6203696923884856;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("try to operate on arguments with n sin^2(phi) > 1") {
+        constexpr Real characteristic = 2.0;
+        constexpr Real phi = 1.0;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(
+            std::vector<Number>{characteristic, phi, modulus}, result);
+
+        CHECK(std::isnan(std::get<Real>(result)));
+    }
+
+    SECTION("try to operate on arguments with n > 1 and phi > pi / 2") {
+        constexpr Real characteristic = 2.0;
+        constexpr Real phi = 3.0;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(
+            std::vector<Number>{characteristic, phi, modulus}, result);
+
+        CHECK(std::isnan(std::get<Real>(result)));
+    }
+
+    SECTION("try to operate on arguments with k^2 sin^2(phi) > 1") {
+        constexpr Real characteristic = 0.5;
+        constexpr Real phi = 1.0;
+        constexpr Real modulus = 2.0;
+
+        Number result;
+        function_object(
+            std::vector<Number>{characteristic, phi, modulus}, result);
+
+        CHECK(std::isnan(std::get<Real>(result)));
+    }
+
+    SECTION("check the number of arguments") {
+        Number result;
+        const Number arg = 1;
+        CHECK_THROWS(function_object(std::vector<Number>{arg, arg}, result));
+        CHECK_THROWS(
+            function_object(std::vector<Number>{arg, arg, arg, arg}, result));
+    }
+}
