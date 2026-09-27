@@ -28,6 +28,7 @@
 #include "func_sketch/math/functions/hyperbolic.h"
 #include "func_sketch/math/functions/log.h"
 #include "func_sketch/math/functions/misc_float_operations.h"
+#include "func_sketch/math/functions/orthogonal_polynomials.h"
 #include "func_sketch/math/functions/pow.h"
 #include "func_sketch/math/functions/trigonometric.h"
 
@@ -129,6 +130,9 @@ MathFunctionList generate_math_function_list(
     list.emplace(ibetac_function());
     list.emplace(ibeta_inv_function());
     list.emplace(ibetac_inv_function());
+
+    // In orthogonal_polynomials.h
+    list.emplace(hermite_function());
 
     return list;
 }

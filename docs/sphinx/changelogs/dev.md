@@ -6,6 +6,7 @@
   - Inverse error functions. (`erf_inv`, `erfc_inv`)
   - Gamma functions other than the basic gamma function. (`digamma`, `trigamma`, `polygamma`, `igamma`, `igammac`, `igamma_inv`, `igammac_inv`)
   - Beta functions. (`beta`, `lbeta`, `ibeta`, `ibetac`, `ibeta_inv`, `ibetac_inv`)
+  - Orthogonal polynomials. (`hermite`)
 
 ## Fixes
 

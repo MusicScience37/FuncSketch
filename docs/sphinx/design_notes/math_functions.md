@@ -15,7 +15,6 @@ Candidate of implementation of special functions are as follows:
 | :------------------- | :--------------------------------------------------------------- | :----------------- | :-------------------------------- | :------------------------------- |
 | Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$               | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |
 | Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$              | (TODO)             | `boost::math::airy_bi`            | `scipy.special.airy`             |
-| Hermite              | Hermite polynomial $H_n{(x)}$ (physicist's)                      | (TODO)             | `std::hermite`                    | `scipy.special.eval_hermite`     |
 | Chebyshev            | Chebyshev polynomial of the first kind $T_n{(x)}$                | (TODO)             | `boost::math::chebyshev_t`        | `scipy.special.eval_chebyt`      |
 | Chebyshev            | Chebyshev polynomial of the second kind $U_n{(x)}$               | (TODO)             | `boost::math::chebyshev_u`        | `scipy.special.eval_chebyu`      |
 | Gegenbauer           | Gegenbauer polynomial $C_n^{(\lambda)}{(x)}$                     | (TODO)             | `boost::math::gegenbauer`         | `scipy.special.eval_gegenbauer`  |

@@ -339,6 +339,20 @@ PLOT_LIST = [
         x_range=(-0.2, 1.2),
         y_range=(-0.2, 1.2),
     ),
+    # For orthogonal_polynomials.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/hermite.webp",
+        expression_strs=[
+            "hermite(0, x)",
+            "hermite(1, x)",
+            "hermite(2, x)",
+            "hermite(3, x)",
+            "hermite(4, x)",
+        ],
+        title="Hermite Polynomials",
+        x_range=(-2.5, 2.5),
+        y_range=(-30.0, 30.0),
+    ),
 ]
 
 

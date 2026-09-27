@@ -30,6 +30,7 @@ Function,Short Description
 :funcsketch:func:`gamma`, Gamma function (:math:`\Gamma(x)`).
 :funcsketch:func:`hankel1`, (Cylindrical) Hankel function of the first kind (:math:`H_{\nu}^{(1)}(x)`).
 :funcsketch:func:`hankel2`, (Cylindrical) Hankel function of the second kind (:math:`H_{\nu}^{(2)}(x)`).
+:funcsketch:func:`hermite`, Hermite polynomial (physicist's) (:math:`H_n(x)`).
 :funcsketch:func:`ibeta`, "Regularized incomplete beta function (:math:`I_x(a, b)`)."
 :funcsketch:func:`ibeta_inv`, "Inverse of the regularized incomplete beta function (:math:`I^{-1}_p(a, b)`)."
 :funcsketch:func:`ibetac`, "Complement of the regularized incomplete beta function (:math:`1 - I_x(a, b)`)."

@@ -26,3 +26,4 @@ Following pages describe the built-in functions.
     error
     gamma
     beta
+    orthogonal_polynomials
