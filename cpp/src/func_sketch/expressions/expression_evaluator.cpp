@@ -27,6 +27,7 @@
 #include <fmt/format.h>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/constants.h"
 #include "func_sketch/exceptions.h"
 
 namespace func_sketch::expressions {
@@ -83,7 +84,8 @@ void ExpressionEvaluator::evaluate(
 
 void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
     Number parameter, Number& result) {
-    constexpr std::size_t max_num_args = 8;
+    constexpr std::size_t max_num_args =
+        func_sketch::max_num_function_arguments;
     if (expression.arguments.size() > max_num_args) {
         throw InvalidExpressionException(
             fmt::format("Too many function arguments. max: {}, actual: {}.",

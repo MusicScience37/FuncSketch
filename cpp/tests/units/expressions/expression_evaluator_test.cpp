@@ -22,8 +22,11 @@
 #include <cmath>
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
+#include <catch2/matchers/catch_matchers_string.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/constants.h"
 #include "func_sketch/expressions/expression.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
 #include "func_sketch/math/binary_operators.h"
@@ -121,6 +124,26 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         evaluator(*expression, parameter, result);
 
         CHECK(result == std::exp(parameter));
+
+        pool.destroy(expression);
+    }
+
+    SECTION("evaluate a function call expression with too many arguments") {
+        std::vector<Expression*> arguments;
+        arguments.reserve(func_sketch::max_num_function_arguments + 1);
+        for (std::size_t i = 0; i < func_sketch::max_num_function_arguments + 1;
+            ++i) {
+            auto* argument = pool.create<ParameterExpression>();
+            arguments.push_back(argument);
+        }
+        auto* expression =
+            pool.create<FunctionCallExpression>(arguments, exp_function());
+
+        constexpr Real parameter = 4.56;
+        Real result = 0.0;
+
+        CHECK_THROWS_WITH(evaluator(*expression, parameter, result),
+            Catch::Matchers::ContainsSubstring("Too many function arguments"));
 
         pool.destroy(expression);
     }

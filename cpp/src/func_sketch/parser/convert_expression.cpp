@@ -19,6 +19,9 @@
  */
 #include "func_sketch/parser/convert_expression.h"
 
+#include <fmt/format.h>
+
+#include "func_sketch/constants.h"
 #include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/binary_expression.h"
 #include "func_sketch/expressions/constant_expression.h"
@@ -103,18 +106,28 @@ namespace func_sketch::parser {
     const math::MathFunctionList& math_function_list,
     const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
+    if (parsed_expression.arguments.size() >
+        func_sketch::max_num_function_arguments) {
+        throw InvalidExpressionException(
+            fmt::format("Too many function arguments. max: {}, actual: {}.",
+                func_sketch::max_num_function_arguments,
+                parsed_expression.arguments.size()));
+    }
+
     auto function =
         math_function_list.get(parsed_expression.function_name.name);
     if (!function) {
         throw InvalidExpressionException(
             "Unknown function: " + parsed_expression.function_name.name);
     }
+
     std::vector<expressions::Expression*> arguments;
     arguments.reserve(parsed_expression.arguments.size());
     for (const auto& argument : parsed_expression.arguments) {
         arguments.push_back(convert_expression(
             argument, math_function_list, constant_list, pool));
     }
+
     return pool.create<expressions::FunctionCallExpression>(
         std::move(arguments), std::move(*function));
 }

@@ -89,6 +89,7 @@ std::vector<std::string> parser_test_strings() {
         "exp(1.23,",
         "exp(",
         "invalid(x)",
+        "many(x, x, x, x, x, x, x, x, x)",
         // Error at parentheses in value expression.
         "1.23 * (4.56 + 7.89",
         "1.23 * (",

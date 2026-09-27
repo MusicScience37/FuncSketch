@@ -74,3 +74,25 @@ def test_save_image(suffix: str) -> None:
     read_image = cv2.imread(str(output_path), cv2.IMREAD_UNCHANGED)
     assert read_image is not None
     assert read_image.shape == (600, 800, 3)
+
+
+@pytest.mark.parametrize(
+    "file_name",
+    [
+        "test_invalid_image",
+        "test_invalid_image.",
+        "test_invalid_image.txt",
+        "non_existing_dir/test_invalid_image.png",
+    ],
+)
+def test_save_image_failure(file_name: str) -> None:
+    """Test of save_image function with invalid file paths."""
+    image = _create_test_image()
+    output_path = THIS_DIR / "outputs" / file_name
+    if output_path.exists():
+        output_path.unlink()
+
+    wrote = save_image(image, str(output_path))
+
+    assert not wrote
+    assert not output_path.exists()
