@@ -49,4 +49,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction digamma_function();
 
+/*!
+ * \brief Create `trigamma` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction trigamma_function();
+
 }  // namespace func_sketch::math

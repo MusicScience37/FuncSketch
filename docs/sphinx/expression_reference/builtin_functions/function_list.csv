@@ -57,4 +57,5 @@ Function,Short Description
 :funcsketch:func:`sqrt`, Square root function (:math:`\sqrt{x}`).
 :funcsketch:func:`tan`, Tangent function (:math:`\tan(x)`).
 :funcsketch:func:`tanh`, Hyperbolic tangent function (:math:`\tanh(x)`).
+:funcsketch:func:`trigamma`, Trigamma function (:math:`\psi^{(1)}(x)`).
 :funcsketch:func:`trunc`, Truncation function (:math:`\mathrm{trunc}(x)`).

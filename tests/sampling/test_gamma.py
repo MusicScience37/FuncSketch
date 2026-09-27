@@ -49,3 +49,8 @@ class TestGamma:
         """Test of sampling digamma(x)."""
         x_values, y_values = sample_function("digamma(x)", (0.1, 5.0), (-5.0, 5.0))
         compare_vectors(y_values, scipy.special.digamma(x_values))
+
+    def test_sample_trigamma(self) -> None:
+        """Test of sampling trigamma(x)."""
+        x_values, y_values = sample_function("trigamma(x)", (0.1, 5.0), (-1.0, 20.0))
+        compare_vectors(y_values, scipy.special.polygamma(1, x_values))

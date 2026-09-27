@@ -238,6 +238,13 @@ PLOT_LIST = [
         x_range=(-3.0, 5.0),
         y_range=(-5.0, 5.0),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/trigamma.webp",
+        expression_strs=["trigamma(x)"],
+        title="Trigamma Function",
+        x_range=(-3.0, 5.0),
+        y_range=(-1.0, 20.0),
+    ),
     # For beta.rst.
     PlotInfo(
         file_path="sphinx/expression_reference/builtin_functions/plots/beta.webp",

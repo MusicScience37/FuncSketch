@@ -23,6 +23,7 @@
 
 #include <boost/math/special_functions/digamma.hpp>
 #include <boost/math/special_functions/gamma.hpp>
+#include <boost/math/special_functions/trigamma.hpp>
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/math/acceptable_types.h"
@@ -58,6 +59,14 @@ MathFunction digamma_function() {
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
             "digamma", [](Real arg) {
                 return boost::math::digamma(arg, BoostMathPolicy());
+            }));
+}
+
+MathFunction trigamma_function() {
+    return MathFunction(
+        make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
+            "trigamma", [](Real arg) {
+                return boost::math::trigamma(arg, BoostMathPolicy());
             }));
 }
 
