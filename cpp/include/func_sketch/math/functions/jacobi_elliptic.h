@@ -30,4 +30,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction jacobi_sn_function();
 
+/*!
+ * \brief Create `jacobi_cn` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction jacobi_cn_function();
+
 }  // namespace func_sketch::math

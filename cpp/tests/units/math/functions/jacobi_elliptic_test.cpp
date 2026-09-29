@@ -114,3 +114,93 @@ TEST_CASE("func_sketch::math::jacobi_sn_function") {
             function_object(std::vector<Number>{arg, arg, arg}, result));
     }
 }
+
+TEST_CASE("func_sketch::math::jacobi_cn_function") {
+    using func_sketch::Integer;
+    using func_sketch::Number;
+    using func_sketch::Real;
+    using func_sketch::math::jacobi_cn_function;
+
+    const auto function_object = jacobi_cn_function();
+
+    SECTION("operate on integers") {
+        constexpr Integer argument = 1;
+        constexpr Integer modulus = 0;
+
+        Number result;
+        function_object(std::vector<Number>{argument, modulus}, result);
+
+        constexpr Real expected = 0.5403023058681398;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers") {
+        constexpr Real argument = 0.8;
+        constexpr Real modulus = 0.5;
+
+        Number result;
+        function_object(std::vector<Number>{argument, modulus}, result);
+
+        constexpr Real expected = 0.7099896194294337;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers with a large argument") {
+        constexpr Real argument = 3.0;
+        constexpr Real modulus = 0.9;
+
+        Number result;
+        function_object(std::vector<Number>{argument, modulus}, result);
+
+        constexpr Real expected = -0.3292446211045241;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers with a negative modulus") {
+        constexpr Real argument = 0.8;
+        constexpr Real modulus = -0.5;
+
+        Number result;
+        function_object(std::vector<Number>{argument, modulus}, result);
+
+        constexpr Real expected = 0.7099896194294337;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers with modulus 1") {
+        constexpr Real argument = 1.5;
+        constexpr Real modulus = 1.0;
+
+        Number result;
+        function_object(std::vector<Number>{argument, modulus}, result);
+
+        constexpr Real expected = 0.4250960349422805;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("operate on real numbers with a modulus larger than 1") {
+        constexpr Real argument = 0.8;
+        constexpr Real modulus = 2.0;
+
+        Number result;
+        function_object(std::vector<Number>{argument, modulus}, result);
+
+        constexpr Real expected = 0.866820061504712;
+        CHECK_THAT(
+            std::get<Real>(result), Catch::Matchers::WithinRel(expected));
+    }
+
+    SECTION("check the number of arguments") {
+        Number result;
+        const Number arg = 1;
+        CHECK_THROWS(function_object(std::vector<Number>{}, result));
+        CHECK_THROWS(function_object(std::vector<Number>{arg}, result));
+        CHECK_THROWS(
+            function_object(std::vector<Number>{arg, arg, arg}, result));
+    }
+}

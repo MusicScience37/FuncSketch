@@ -431,6 +431,18 @@ PLOT_LIST = [
         x_range=(-6.0, 6.0),
         y_range=(-1.5, 1.5),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/jacobi_cn.webp",
+        expression_strs=[
+            "jacobi_cn(x, 0)",
+            "jacobi_cn(x, 0.5)",
+            "jacobi_cn(x, 0.9)",
+            "jacobi_cn(x, 1)",
+        ],
+        title="Jacobi Elliptic Function cn",
+        x_range=(-6.0, 6.0),
+        y_range=(-1.5, 1.5),
+    ),
 ]
 
 
