@@ -11,34 +11,34 @@ All basic functions in `<cmath>` header in C++11 have been implemented.
 
 Candidate of implementation of special functions are as follows:
 
-| Type                 | Function                                                           | Name in FuncSketch | In C++                            | In Python                        |
-| :------------------- | :----------------------------------------------------------------- | :----------------- | :-------------------------------- | :------------------------------- |
-| Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$                 | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |
-| Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$                | (TODO)             | `boost::math::airy_bi`            | `scipy.special.airy`             |
-| Chebyshev            | Chebyshev polynomial of the first kind $T_n{(x)}$                  | (TODO)             | `boost::math::chebyshev_t`        | `scipy.special.eval_chebyt`      |
-| Chebyshev            | Chebyshev polynomial of the second kind $U_n{(x)}$                 | (TODO)             | `boost::math::chebyshev_u`        | `scipy.special.eval_chebyu`      |
-| Gegenbauer           | Gegenbauer polynomial $C_n^{(\lambda)}{(x)}$                       | (TODO)             | `boost::math::gegenbauer`         | `scipy.special.eval_gegenbauer`  |
-| Laguerre             | Laguerre polynomial $L_n{(x)}$                                     | (TODO)             | `std::laguerre`                   | `scipy.special.eval_laguerre`    |
-| Laguerre             | Associated Laguerre polynomial $L_n^{(\alpha)}{(x)}$               | (TODO)             | `std::assoc_laguerre`             | `scipy.special.eval_genlaguerre` |
-| Legendre             | Legendre polynomial $P_n{(x)}$                                     | (TODO)             | `std::legendre`                   | `scipy.special.eval_legendre`    |
-| Legendre             | Associated Legendre polynomial $P_n^m{(x)}$                        | (TODO)             | `std::assoc_legendre`             | `scipy.special.assoc_legendre_p` |
-| Legendre             | Spherical associated Legendre polynomial                           | (TODO)             | `std::sph_legendre`               | `scipy.special.sph_legendre_p`   |
-| Jacobi polynomial    | Jacobi polynomial $P_n^{(\alpha, \beta)}{(x)}$                     | (TODO)             | `boost::math::jacobi`             | `scipy.special.eval_jacobi`      |
-| Jacobi elliptic      | Jacobi elliptic function $\mathrm{sn}{(u, k)}$                     | (TODO)             | `boost::math::jacobi_sn`          | `scipy.special.ellipj`           |
-| Jacobi elliptic      | Jacobi elliptic function $\mathrm{cn}{(u, k)}$                     | (TODO)             | `boost::math::jacobi_cn`          | `scipy.special.ellipj`           |
-| Jacobi elliptic      | Jacobi elliptic function $\mathrm{dn}{(u, k)}$                     | (TODO)             | `boost::math::jacobi_dn`          | `scipy.special.ellipj`           |
-| Exponential integral | Exponential integral $Ei(x)$                                       | (TODO)             | `std::expint`                     | `scipy.special.expi`             |
-| Other integrals      | Dawson integral $F{(x)}$                                           | (TODO)             | (TODO)                            | `scipy.special.dawsn`            |
-| Other integrals      | Sine integral $\mathrm{Si}{(x)}$                                   | (TODO)             | (TODO)                            | `scipy.special.sici`             |
-| Other integrals      | Cosine integral $\mathrm{Ci}{(x)}$                                 | (TODO)             | (TODO)                            | `scipy.special.sici`             |
-| Hypergeometric       | Confluent hypergeometric function (Kummer's M) $M{(a, b, x)}$      | (TODO)             | `boost::math::hypergeometric_1F1` | `scipy.special.hyp1f1`           |
-| Hypergeometric       | Confluent hypergeometric function (Kummer's U) $U{(a, b, x)}$      | (TODO)             | (TODO)                            | `scipy.special.hyperu`           |
-| Hypergeometric       | Gauss hypergeometric function ${}_2F_1{(a, b; c; x)}$              | (TODO)             | (TODO)                            | `scipy.special.hyp2f1`           |
-| Zeta                 | Riemann zeta function $\zeta{(x)}$                                 | (TODO)             | `std::riemann_zeta`               | `scipy.special.zeta`             |
-| Zeta                 | Hurwitz zeta function $\zeta{(x, q)}$                              | (TODO)             | (TODO)                            | `scipy.special.zeta`             |
-| Lambert W            | Lambert W function (principal branch) $W_0{(x)}$                   | (TODO)             | `boost::math::lambert_w0`         | `scipy.special.lambertw`         |
-| Lambert W            | Lambert W function (secondary branch) $W_{-1}{(x)}$                | (TODO)             | `boost::math::lambert_wm1`        | `scipy.special.lambertw`         |
-| Owen                 | Owen's T function $T{(h, a)}$                                      | (TODO)             | `boost::math::owens_t`            | `scipy.special.owens_t`          |
+| Type                 | Function                                                      | Name in FuncSketch | In C++                            | In Python                        |
+| :------------------- | :------------------------------------------------------------ | :----------------- | :-------------------------------- | :------------------------------- |
+| Airy                 | Airy function of the first kind $\mathrm{Ai}{(x)}$            | (TODO)             | `boost::math::airy_ai`            | `scipy.special.airy`             |
+| Airy                 | Airy function of the second kind $\mathrm{Bi}{(x)}$           | (TODO)             | `boost::math::airy_bi`            | `scipy.special.airy`             |
+| Chebyshev            | Chebyshev polynomial of the first kind $T_n{(x)}$             | (TODO)             | `boost::math::chebyshev_t`        | `scipy.special.eval_chebyt`      |
+| Chebyshev            | Chebyshev polynomial of the second kind $U_n{(x)}$            | (TODO)             | `boost::math::chebyshev_u`        | `scipy.special.eval_chebyu`      |
+| Gegenbauer           | Gegenbauer polynomial $C_n^{(\lambda)}{(x)}$                  | (TODO)             | `boost::math::gegenbauer`         | `scipy.special.eval_gegenbauer`  |
+| Laguerre             | Laguerre polynomial $L_n{(x)}$                                | (TODO)             | `std::laguerre`                   | `scipy.special.eval_laguerre`    |
+| Laguerre             | Associated Laguerre polynomial $L_n^{(\alpha)}{(x)}$          | (TODO)             | `std::assoc_laguerre`             | `scipy.special.eval_genlaguerre` |
+| Legendre             | Legendre polynomial $P_n{(x)}$                                | (TODO)             | `std::legendre`                   | `scipy.special.eval_legendre`    |
+| Legendre             | Associated Legendre polynomial $P_n^m{(x)}$                   | (TODO)             | `std::assoc_legendre`             | `scipy.special.assoc_legendre_p` |
+| Legendre             | Spherical associated Legendre polynomial                      | (TODO)             | `std::sph_legendre`               | `scipy.special.sph_legendre_p`   |
+| Jacobi polynomial    | Jacobi polynomial $P_n^{(\alpha, \beta)}{(x)}$                | (TODO)             | `boost::math::jacobi`             | `scipy.special.eval_jacobi`      |
+| Jacobi elliptic      | Jacobi elliptic function $\mathrm{sn}{(u, k)}$                | `jacobi_sn`        | `boost::math::jacobi_sn`          | `scipy.special.ellipj`           |
+| Jacobi elliptic      | Jacobi elliptic function $\mathrm{cn}{(u, k)}$                | `jacobi_cn`        | `boost::math::jacobi_cn`          | `scipy.special.ellipj`           |
+| Jacobi elliptic      | Jacobi elliptic function $\mathrm{dn}{(u, k)}$                | `jacobi_dn`        | `boost::math::jacobi_dn`          | `scipy.special.ellipj`           |
+| Exponential integral | Exponential integral $Ei(x)$                                  | (TODO)             | `std::expint`                     | `scipy.special.expi`             |
+| Other integrals      | Dawson integral $F{(x)}$                                      | (TODO)             | (TODO)                            | `scipy.special.dawsn`            |
+| Other integrals      | Sine integral $\mathrm{Si}{(x)}$                              | (TODO)             | (TODO)                            | `scipy.special.sici`             |
+| Other integrals      | Cosine integral $\mathrm{Ci}{(x)}$                            | (TODO)             | (TODO)                            | `scipy.special.sici`             |
+| Hypergeometric       | Confluent hypergeometric function (Kummer's M) $M{(a, b, x)}$ | (TODO)             | `boost::math::hypergeometric_1F1` | `scipy.special.hyp1f1`           |
+| Hypergeometric       | Confluent hypergeometric function (Kummer's U) $U{(a, b, x)}$ | (TODO)             | (TODO)                            | `scipy.special.hyperu`           |
+| Hypergeometric       | Gauss hypergeometric function ${}_2F_1{(a, b; c; x)}$         | (TODO)             | (TODO)                            | `scipy.special.hyp2f1`           |
+| Zeta                 | Riemann zeta function $\zeta{(x)}$                            | (TODO)             | `std::riemann_zeta`               | `scipy.special.zeta`             |
+| Zeta                 | Hurwitz zeta function $\zeta{(x, q)}$                         | (TODO)             | (TODO)                            | `scipy.special.zeta`             |
+| Lambert W            | Lambert W function (principal branch) $W_0{(x)}$              | (TODO)             | `boost::math::lambert_w0`         | `scipy.special.lambertw`         |
+| Lambert W            | Lambert W function (secondary branch) $W_{-1}{(x)}$           | (TODO)             | `boost::math::lambert_wm1`        | `scipy.special.lambertw`         |
+| Owen                 | Owen's T function $T{(h, a)}$                                 | (TODO)             | `boost::math::owens_t`            | `scipy.special.owens_t`          |
 
 - TODO: Names of functions in FuncSketch are not decided yet.
 - TODO: Some functions have several different definitions, so we need to determine the definitions to be used in FuncSketch.
