@@ -24,7 +24,6 @@ Candidate of implementation of special functions are as follows:
 | Legendre             | Associated Legendre polynomial $P_n^m{(x)}$                   | (TODO)             | `std::assoc_legendre`             | `scipy.special.assoc_legendre_p` |
 | Legendre             | Spherical associated Legendre polynomial                      | (TODO)             | `std::sph_legendre`               | `scipy.special.sph_legendre_p`   |
 | Jacobi polynomial    | Jacobi polynomial $P_n^{(\alpha, \beta)}{(x)}$                | (TODO)             | `boost::math::jacobi`             | `scipy.special.eval_jacobi`      |
-| Jacobi elliptic      | Jacobi elliptic function $\mathrm{sn}{(u, k)}$                | `jacobi_sn`        | `boost::math::jacobi_sn`          | `scipy.special.ellipj`           |
 | Jacobi elliptic      | Jacobi elliptic function $\mathrm{cn}{(u, k)}$                | `jacobi_cn`        | `boost::math::jacobi_cn`          | `scipy.special.ellipj`           |
 | Jacobi elliptic      | Jacobi elliptic function $\mathrm{dn}{(u, k)}$                | `jacobi_dn`        | `boost::math::jacobi_dn`          | `scipy.special.ellipj`           |
 | Exponential integral | Exponential integral $Ei(x)$                                  | (TODO)             | `std::expint`                     | `scipy.special.expi`             |

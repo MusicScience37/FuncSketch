@@ -27,6 +27,7 @@
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/functions/gamma.h"
 #include "func_sketch/math/functions/hyperbolic.h"
+#include "func_sketch/math/functions/jacobi_elliptic.h"
 #include "func_sketch/math/functions/log.h"
 #include "func_sketch/math/functions/misc_float_operations.h"
 #include "func_sketch/math/functions/orthogonal_polynomials.h"
@@ -142,6 +143,9 @@ MathFunctionList generate_math_function_list(
     list.emplace(comp_elliptic_e_function());
     list.emplace(elliptic_pi_function());
     list.emplace(comp_elliptic_pi_function());
+
+    // In jacobi_elliptic.h
+    list.emplace(jacobi_sn_function());
 
     return list;
 }

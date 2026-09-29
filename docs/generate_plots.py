@@ -418,6 +418,19 @@ PLOT_LIST = [
         x_range=(-1.2, 1.2),
         y_range=(0.0, 6.0),
     ),
+    # For jacobi_elliptic.rst.
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/jacobi_sn.webp",
+        expression_strs=[
+            "jacobi_sn(x, 0)",
+            "jacobi_sn(x, 0.5)",
+            "jacobi_sn(x, 0.9)",
+            "jacobi_sn(x, 1)",
+        ],
+        title="Jacobi Elliptic Function sn",
+        x_range=(-6.0, 6.0),
+        y_range=(-1.5, 1.5),
+    ),
 ]
 
 

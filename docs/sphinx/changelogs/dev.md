@@ -8,6 +8,7 @@
   - Beta functions. (`beta`, `lbeta`, `ibeta`, `ibetac`, `ibeta_inv`, `ibetac_inv`)
   - Orthogonal polynomials. (`hermite`)
   - Elliptic integrals. (`elliptic_f`, `comp_elliptic_k`, `elliptic_e`, `comp_elliptic_e`, `elliptic_pi`, `comp_elliptic_pi`)
+  - Jacobi elliptic functions. (`jacobi_sn`)
 
 ## Fixes
 

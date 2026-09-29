@@ -46,6 +46,7 @@ Function,Short Description
 :funcsketch:func:`igammac`, "Regularized upper incomplete gamma function (:math:`Q(a, x)`)."
 :funcsketch:func:`igammac_inv`, "Inverse of the regularized upper incomplete gamma function (:math:`Q^{-1}(a, q)`)."
 :funcsketch:func:`imag`, Imaginary part function (:math:`\mathrm{imag}(x)`).
+:funcsketch:func:`jacobi_sn`, "Jacobi elliptic function ``sn`` (:math:`\mathrm{sn}(u, k)`)."
 :funcsketch:func:`kelvin_bei`, Kelvin function ``bei`` (:math:`\text{bei}_{\nu}(x)`).
 :funcsketch:func:`kelvin_ber`, Kelvin function ``ber`` (:math:`\text{ber}_{\nu}(x)`).
 :funcsketch:func:`kelvin_kei`, Kelvin function ``kei`` (:math:`\text{kei}_{\nu}(x)`).

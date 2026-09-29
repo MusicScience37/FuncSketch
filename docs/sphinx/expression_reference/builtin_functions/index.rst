@@ -28,3 +28,4 @@ Following pages describe the built-in functions.
     beta
     orthogonal_polynomials
     elliptic_integrals
+    jacobi_elliptic
