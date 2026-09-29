@@ -49,3 +49,18 @@ class TestJacobiElliptic:
             (-1.5, 1.5),
         )
         image_approver.verify(image)
+
+    def test_plot_jacobi_dn(self, image_approver) -> None:
+        """Test of plotting jacobi_dn(u, k)."""
+        image = plot_function(
+            [
+                "jacobi_dn(x, 0)",
+                "jacobi_dn(x, 0.5)",
+                "jacobi_dn(x, 0.9)",
+                "jacobi_dn(x, 1)",
+                "jacobi_dn(x, 2)",
+            ],
+            (-8.0, 8.0),
+            (-1.5, 1.5),
+        )
+        image_approver.verify(image)

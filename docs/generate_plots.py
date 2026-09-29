@@ -443,6 +443,18 @@ PLOT_LIST = [
         x_range=(-6.0, 6.0),
         y_range=(-1.5, 1.5),
     ),
+    PlotInfo(
+        file_path="sphinx/expression_reference/builtin_functions/plots/jacobi_dn.webp",
+        expression_strs=[
+            "jacobi_dn(x, 0)",
+            "jacobi_dn(x, 0.5)",
+            "jacobi_dn(x, 0.9)",
+            "jacobi_dn(x, 1)",
+        ],
+        title="Jacobi Elliptic Function dn",
+        x_range=(-6.0, 6.0),
+        y_range=(-1.5, 1.5),
+    ),
 ]
 
 

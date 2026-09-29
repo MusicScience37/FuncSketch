@@ -48,6 +48,20 @@ def _jacobi_cn(u: float, k: float) -> float:
     return float(mpmath.re(mpmath.ellipfun("cn", u, m=k**2)))
 
 
+@numpy.vectorize
+def _jacobi_dn(u: float, k: float) -> float:
+    """Calculate the Jacobi elliptic function dn.
+
+    Args:
+        u (float): Argument.
+        k (float): Modulus.
+
+    Returns:
+        float: Value of the Jacobi elliptic function dn.
+    """
+    return float(mpmath.re(mpmath.ellipfun("dn", u, m=k**2)))
+
+
 class TestJacobiElliptic:
     """Test of sampling of Jacobi elliptic functions."""
 
@@ -78,3 +92,17 @@ class TestJacobiElliptic:
             "jacobi_cn(1.5, x)", (-3.0, 3.0), (-1.5, 1.5)
         )
         compare_vectors(y_values, _jacobi_cn(1.5, x_values))
+
+    def test_sample_jacobi_dn_first_arg(self) -> None:
+        """Test of sampling jacobi_dn(x, 0.8)."""
+        x_values, y_values = sample_function(
+            "jacobi_dn(x, 0.8)", (-8.0, 8.0), (-1.5, 1.5)
+        )
+        compare_vectors(y_values, _jacobi_dn(x_values, 0.8))
+
+    def test_sample_jacobi_dn_second_arg(self) -> None:
+        """Test of sampling jacobi_dn(1.5, x)."""
+        x_values, y_values = sample_function(
+            "jacobi_dn(1.5, x)", (-3.0, 3.0), (-1.5, 1.5)
+        )
+        compare_vectors(y_values, _jacobi_dn(1.5, x_values))

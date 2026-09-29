@@ -37,4 +37,11 @@ namespace func_sketch::math {
  */
 [[nodiscard]] MathFunction jacobi_cn_function();
 
+/*!
+ * \brief Create `jacobi_dn` function.
+ *
+ * \return Function.
+ */
+[[nodiscard]] MathFunction jacobi_dn_function();
+
 }  // namespace func_sketch::math

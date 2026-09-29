@@ -52,4 +52,13 @@ MathFunction jacobi_cn_function() {
         }));
 }
 
+MathFunction jacobi_dn_function() {
+    return MathFunction(make_general_math_function<
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        "jacobi_dn", [](Real argument, Real modulus) {
+            return boost::math::jacobi_dn(
+                std::abs(modulus), argument, BoostMathPolicy());
+        }));
+}
+
 }  // namespace func_sketch::math

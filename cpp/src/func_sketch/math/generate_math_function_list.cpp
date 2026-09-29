@@ -147,6 +147,7 @@ MathFunctionList generate_math_function_list(
     // In jacobi_elliptic.h
     list.emplace(jacobi_sn_function());
     list.emplace(jacobi_cn_function());
+    list.emplace(jacobi_dn_function());
 
     return list;
 }
