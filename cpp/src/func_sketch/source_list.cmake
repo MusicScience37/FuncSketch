@@ -18,6 +18,7 @@ set(SOURCE_FILES
     math/functions/exp.cpp
     math/functions/gamma.cpp
     math/functions/hyperbolic.cpp
+    math/functions/jacobi_elliptic.cpp
     math/functions/log.cpp
     math/functions/misc_float_operations.cpp
     math/functions/orthogonal_polynomials.cpp

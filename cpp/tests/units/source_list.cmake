@@ -21,6 +21,7 @@ set(SOURCE_FILES
     math/functions/exp_test.cpp
     math/functions/gamma_test.cpp
     math/functions/hyperbolic_test.cpp
+    math/functions/jacobi_elliptic_test.cpp
     math/functions/log_test.cpp
     math/functions/misc_float_operations_test.cpp
     math/functions/orthogonal_polynomials_test.cpp
