@@ -39,7 +39,7 @@ constexpr double default_max_coordinate_change_rate = 0.01;
 constexpr double default_slope_change_threshold = 0.1;
 
 //! Default maximum change of the angle between consecutive segments in adaptive sampling in degrees.
-constexpr double default_max_angle_change_degrees = 30.0;
+constexpr double default_max_angle_change_degrees = 10.0;
 
 //! Default minimum rate of parameter change in adaptive sampling.
 constexpr double default_min_param_change_rate = 1e-4;
