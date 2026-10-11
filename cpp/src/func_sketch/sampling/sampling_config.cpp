@@ -59,15 +59,6 @@ SamplingConfig& SamplingConfig::max_coordinate_change_rate(double value) {
     return *this;
 }
 
-SamplingConfig& SamplingConfig::slope_change_threshold(double value) {
-    if (value <= 0.0) {
-        throw InvalidArgumentException(
-            "Slope change threshold must be positive.");
-    }
-    slope_change_threshold_ = value;
-    return *this;
-}
-
 SamplingConfig& SamplingConfig::max_angle_change_degrees(double value) {
     if (!std::isfinite(value) || 0.0 >= value || value >= 180.0) {
         throw InvalidArgumentException(
@@ -97,10 +88,6 @@ std::size_t SamplingConfig::max_num_sample_points() const noexcept {
 
 double SamplingConfig::max_coordinate_change_rate() const noexcept {
     return max_coordinate_change_rate_;
-}
-
-double SamplingConfig::slope_change_threshold() const noexcept {
-    return slope_change_threshold_;
 }
 
 double SamplingConfig::max_angle_change_degrees() const noexcept {

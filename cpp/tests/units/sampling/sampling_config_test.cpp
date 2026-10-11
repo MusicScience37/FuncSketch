@@ -93,22 +93,6 @@ TEST_CASE("func_sketch::sampling::SamplingConfig") {
         CHECK(config.max_coordinate_change_rate() == 0.05);
     }
 
-    SECTION("set and get slope change threshold") {
-        SamplingConfig config;
-
-        CHECK(config.slope_change_threshold() ==
-            func_sketch::sampling::default_slope_change_threshold);
-
-        CHECK_NOTHROW(config.slope_change_threshold(0.5));
-        CHECK(config.slope_change_threshold() == 0.5);
-
-        CHECK_THROWS(config.slope_change_threshold(0.0));
-        CHECK(config.slope_change_threshold() == 0.5);
-
-        CHECK_THROWS(config.slope_change_threshold(-0.1));
-        CHECK(config.slope_change_threshold() == 0.5);
-    }
-
     SECTION("set and get maximum angle change") {
         SamplingConfig config;
 

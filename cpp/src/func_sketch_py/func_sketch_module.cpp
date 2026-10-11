@@ -536,16 +536,6 @@ Note:
             "Threshold of the change in coordinates of sample points "
             "relative to the plot range in adaptive sampling.")
         .def_prop_rw(
-            "slope_change_threshold",
-            [](const SamplingConfig& self) -> double {
-                return self.slope_change_threshold();
-            },
-            [](SamplingConfig& self, double value) {
-                self.slope_change_threshold(value);
-            },
-            "Threshold of the change in slope normalized by the plot range "
-            "in adaptive sampling.")
-        .def_prop_rw(
             "max_angle_change_degrees",
             [](const SamplingConfig& self) -> double {
                 return self.max_angle_change_degrees();

@@ -35,9 +35,6 @@ constexpr std::size_t max_max_num_sample_points = 100000;
 //! Default threshold of the change in coordinates of sample points relative to the plot range in adaptive sampling.
 constexpr double default_max_coordinate_change_rate = 0.01;
 
-//! Default threshold of the change in slope normalized by the plot range in adaptive sampling.
-constexpr double default_slope_change_threshold = 0.1;
-
 //! Default maximum change of the angle between consecutive segments in adaptive sampling in degrees.
 constexpr double default_max_angle_change_degrees = 10.0;
 
@@ -93,16 +90,6 @@ public:
     SamplingConfig& max_coordinate_change_rate(double value);
 
     /*!
-     * \brief Set the threshold of the change in slope normalized by the plot
-     * range in adaptive sampling.
-     *
-     * \param[in] value Threshold of the change in slope normalized by the
-     * plot range in adaptive sampling.
-     * \return Reference to this object.
-     */
-    SamplingConfig& slope_change_threshold(double value);
-
-    /*!
      * \brief Set the maximum change of the angle between consecutive segments
      * in adaptive sampling in degrees.
      *
@@ -152,15 +139,6 @@ public:
     [[nodiscard]] double max_coordinate_change_rate() const noexcept;
 
     /*!
-     * \brief Get the threshold of the change in slope normalized by the plot
-     * range in adaptive sampling.
-     *
-     * \return Threshold of the change in slope normalized by the plot range
-     * in adaptive sampling.
-     */
-    [[nodiscard]] double slope_change_threshold() const noexcept;
-
-    /*!
      * \brief Get the maximum change of the angle between consecutive segments
      * in adaptive sampling in degrees.
      *
@@ -186,10 +164,6 @@ private:
     //! Threshold of the change in coordinates of sample points relative to
     //! the plot range in adaptive sampling.
     double max_coordinate_change_rate_{default_max_coordinate_change_rate};
-
-    //! Threshold of the change in slope normalized by the plot range in
-    //! adaptive sampling.
-    double slope_change_threshold_{default_slope_change_threshold};
 
     //! Maximum change of the angle between consecutive segments in adaptive
     //! sampling in degrees.
