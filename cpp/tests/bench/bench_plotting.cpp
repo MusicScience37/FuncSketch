@@ -18,6 +18,7 @@
  * \brief Benchmark of plotting.
  */
 #include <array>
+#include <cstddef>
 #include <string_view>
 
 #include <benchmark/benchmark.h>
@@ -58,13 +59,16 @@ public:
      */
     void benchmark_sampling(
         benchmark::State& state, const std::string& expression_str) {
+        std::size_t num_samples = 0;
         for (auto _ : state) {
             auto expression = parser_(expression_str);
             auto samples = sampler_(*expression);
             benchmark::DoNotOptimize(expression);
             benchmark::DoNotOptimize(samples);
             benchmark::ClobberMemory();
+            num_samples = samples.size();
         }
+        state.counters["samples"] = static_cast<double>(num_samples);
     }
 
     /*!
