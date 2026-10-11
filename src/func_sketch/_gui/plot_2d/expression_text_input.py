@@ -26,12 +26,17 @@ import kivy.uix.label
 import kivy.uix.scrollview
 import kivy.uix.widget
 
+from func_sketch._cpp import (
+    ConstantInfo,
+    MathFunctionInfo,
+)
 from func_sketch._gui.common.constants import (
     PADDING_AUTO_COMPLETE_CANDIDATES,
     TEXT_INPUT_NORMAL_BORDER_COLOR,
 )
 from func_sketch._gui.common.plain_text_input import PlainTextInput
 from func_sketch._gui.common.sync_properties import sync_properties
+from func_sketch._impl.token_candidate_finder import ParameterInfo
 
 LOGGER = logging.getLogger(__name__)
 
@@ -54,9 +59,18 @@ class AutoCompleteCandidate(
 ):
     """Class of candidates in the auto-complete dropdown."""
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(
+        self, candidate_info: MathFunctionInfo | ConstantInfo | ParameterInfo, **kwargs
+    ) -> None:
         super().__init__(**kwargs)
 
+        self.candidate_info = candidate_info
+        if isinstance(candidate_info, MathFunctionInfo):
+            self.text = (
+                f"{candidate_info.name}({', '.join(candidate_info.argument_names)})"
+            )
+        else:
+            self.text = candidate_info.name
         self.padding = PADDING_AUTO_COMPLETE_CANDIDATES
         self.size_hint_y = None
         self.height = self.texture_size[1]
@@ -157,15 +171,19 @@ class AutoCompleteDropDown(kivy.uix.dropdown.DropDown):
         """Callback when an ancestor scroll view is scrolled or its contents are resized."""
         self._reposition_trigger()
 
-    def on_token_candidates(self, _instance: object, value: list[str] | None) -> None:
+    def on_token_candidates(
+        self,
+        _instance: object,
+        value: list[MathFunctionInfo | ConstantInfo | ParameterInfo] | None,
+    ) -> None:
         """Callback when the token candidates are updated."""
         self.clear_widgets()
         if value is None:
             return
-        for candidate in value:
-            candidate_widget = AutoCompleteCandidate(text=candidate)
+        for candidate_info in value:
+            candidate_widget = AutoCompleteCandidate(candidate_info=candidate_info)
             candidate_widget.bind(
-                on_release=lambda _instance, candidate=candidate: self.select(candidate)
+                on_release=lambda instance: self.select(instance.candidate_info.name)
             )
             self.add_widget(candidate_widget)
 

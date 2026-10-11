@@ -20,6 +20,8 @@
 #include "func_sketch/math/math_function.h"
 
 #include <cmath>
+#include <string>
+#include <vector>
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
@@ -38,6 +40,9 @@ TEST_CASE("func_sketch::math::MathFunction") {
         MathFunction function_object(exp_function());
 
         CHECK(function_object.name() == "exp");
+        CHECK(function_object.info().name() == "exp");
+        CHECK(function_object.info().argument_names() ==
+            std::vector<std::string>{"x"});
 
         const auto args = std::vector<Number>{1.0};
         Number result = 0.0;

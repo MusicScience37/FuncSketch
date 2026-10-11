@@ -34,7 +34,7 @@ namespace func_sketch::math {
 MathFunction hermite_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real>>>(
-        "hermite", [](Integer order, Real arg) {
+        {"hermite", {"n", "x"}}, [](Integer order, Real arg) {
             if (order < 0) {
                 return std::numeric_limits<Real>::quiet_NaN();
             }

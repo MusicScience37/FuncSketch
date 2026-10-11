@@ -19,8 +19,10 @@
  */
 #include "func_sketch/math/general_math_function.h"
 
+#include <string>
 #include <tuple>
 #include <type_traits>
+#include <vector>
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -39,16 +41,27 @@ TEST_CASE("func_sketch::math::GeneralMathFunction") {
     SECTION("get the name") {
         const auto function =
             make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-                "test_function", [](Real arg) { return arg * 2; });
+                {"test_function", {"arg"}}, [](Real arg) { return arg * 2; });
         STATIC_REQUIRE(MathFunctionType<std::decay_t<decltype(function)>>);
 
         CHECK(function.name() == "test_function");
     }
 
+    SECTION("get the information") {
+        const auto function = make_general_math_function<
+            std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+            {"test_function", {"arg1", "arg2"}},
+            [](Real arg1, Real arg2) { return arg1 + arg2; });
+
+        CHECK(function.info().name() == "test_function");
+        CHECK(function.info().argument_names() ==
+            std::vector<std::string>{"arg1", "arg2"});
+    }
+
     SECTION("call a function with one argument") {
         const auto function =
             make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-                "test_function", [](Real arg) { return arg * 2; });
+                {"test_function", {"arg"}}, [](Real arg) { return arg * 2; });
         STATIC_REQUIRE(MathFunctionType<std::decay_t<decltype(function)>>);
 
         constexpr Integer arg = 3;
@@ -64,7 +77,8 @@ TEST_CASE("func_sketch::math::GeneralMathFunction") {
     SECTION("call a function with two arguments") {
         const auto function = make_general_math_function<
             std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-            "test_function", [](Real arg1, Real arg2) { return arg1 + arg2; });
+            {"test_function", {"arg1", "arg2"}},
+            [](Real arg1, Real arg2) { return arg1 + arg2; });
         STATIC_REQUIRE(MathFunctionType<std::decay_t<decltype(function)>>);
 
         constexpr Integer arg1 = 3;
@@ -82,7 +96,8 @@ TEST_CASE("func_sketch::math::GeneralMathFunction") {
         const auto function =
             make_general_math_function<std::tuple<AcceptableTypes<Integer>,
                 AcceptableTypes<Integer, Real>, AcceptableTypes<Real>>>(
-                "test_function", [](Integer arg1, auto arg2, Real arg3) {
+                {"test_function", {"arg1", "arg2", "arg3"}},
+                [](Integer arg1, auto arg2, Real arg3) {
                     return static_cast<Real>(arg1) + static_cast<Real>(arg2) +
                         arg3;
                 });
@@ -105,7 +120,8 @@ TEST_CASE("func_sketch::math::GeneralMathFunction") {
         const auto function =
             make_general_math_function<std::tuple<AcceptableTypes<Integer>,
                 AcceptableTypes<Integer, Real>, AcceptableTypes<Real>>>(
-                "test_function", [](Integer arg1, auto arg2, Real arg3) {
+                {"test_function", {"arg1", "arg2", "arg3"}},
+                [](Integer arg1, auto arg2, Real arg3) {
                     return static_cast<Real>(arg1) + static_cast<Real>(arg2) +
                         arg3;
                 });
@@ -133,7 +149,8 @@ TEST_CASE("func_sketch::math::GeneralMathFunction") {
         const auto function =
             make_general_math_function<std::tuple<AcceptableTypes<Integer>,
                 AcceptableTypes<Integer, Real>, AcceptableTypes<Real>>>(
-                "test_function", [](Integer arg1, auto arg2, Real arg3) {
+                {"test_function", {"arg1", "arg2", "arg3"}},
+                [](Integer arg1, auto arg2, Real arg3) {
                     return static_cast<Real>(arg1) + static_cast<Real>(arg2) +
                         arg3;
                 });

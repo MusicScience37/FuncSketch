@@ -24,6 +24,7 @@
 #include <utility>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/math/math_function_info.h"
 #include "func_sketch/math/math_function_type.h"
 #include "func_sketch/utilities/any.h"
 
@@ -43,8 +44,8 @@ public:
     template <MathFunctionType T>
     explicit MathFunction(T function)
         : function_(std::move(function)),
-          get_name_([](const utilities::Any& obj) -> std::string_view {
-              return obj.get<T>().name();
+          get_info_([](const utilities::Any& obj) -> const MathFunctionInfo& {
+              return obj.get<T>().info();
           }),
           scalar_operator_(
               [](const utilities::Any& obj, std::span<const Number> args,
@@ -55,7 +56,18 @@ public:
      *
      * \return Name of the function.
      */
-    [[nodiscard]] std::string_view name() const { return get_name_(function_); }
+    [[nodiscard]] std::string_view name() const {
+        return get_info_(function_).name();
+    }
+
+    /*!
+     * \brief Get the information about the mathematical function.
+     *
+     * \return Information about the mathematical function.
+     */
+    [[nodiscard]] const MathFunctionInfo& info() const {
+        return get_info_(function_);
+    }
 
     /*!
      * \brief Operate on scalars.
@@ -68,8 +80,8 @@ public:
     }
 
 private:
-    //! Signature of function to get the name of the function.
-    using GetNameSignature = std::string_view(
+    //! Signature of function to get the information about the function.
+    using GetInfoSignature = const MathFunctionInfo&(
         const utilities::Any& /*function_object*/);
 
     //! Signature of function to operate on scalars.
@@ -80,8 +92,8 @@ private:
     //! Function object.
     utilities::Any function_;
 
-    //! Function to get the name of the function.
-    GetNameSignature* get_name_;
+    //! Function to get the information about the function.
+    GetInfoSignature* get_info_;
 
     //! Function to operate on scalars.
     ScalarOperatorSignature* scalar_operator_;

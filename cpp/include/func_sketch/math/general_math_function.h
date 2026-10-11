@@ -33,6 +33,7 @@
 #include "func_sketch/common_types.h"
 #include "func_sketch/exceptions.h"
 #include "func_sketch/math/acceptable_types.h"
+#include "func_sketch/math/math_function_info.h"
 #include "func_sketch/math/number_type_name.h"
 
 namespace func_sketch::math {
@@ -52,12 +53,12 @@ public:
      * \brief Constructor.
      *
      * \tparam InputFunctionType Type of the function object to compute numbers.
-     * \param[in] name Name of the function.
+     * \param[in] info Information about the mathematical function.
      * \param[in] function Function object to compute numbers.
      */
     template <typename InputFunctionType>
-    GeneralMathFunction(std::string name, InputFunctionType&& function)
-        : name_(std::move(name)),
+    GeneralMathFunction(MathFunctionInfo info, InputFunctionType&& function)
+        : info_(std::move(info)),
           function_(std::forward<InputFunctionType>(function)) {}
 
     /*!
@@ -65,7 +66,18 @@ public:
      *
      * \return Name of the function.
      */
-    [[nodiscard]] std::string_view name() const noexcept { return name_; }
+    [[nodiscard]] std::string_view name() const noexcept {
+        return info_.name();
+    }
+
+    /*!
+     * \brief Get the information about the mathematical function.
+     *
+     * \return Information about the mathematical function.
+     */
+    [[nodiscard]] const MathFunctionInfo& info() const noexcept {
+        return info_;
+    }
 
     /*!
      * \brief Operate on scalars.
@@ -77,8 +89,8 @@ public:
         constexpr std::size_t num_args = sizeof...(AcceptableTypesPerArgument);
         if (args.size() != num_args) {
             throw InvalidExpressionException(fmt::format(
-                "{} function requires exactly {} arguments. Actual: {}.", name_,
-                num_args, args.size()));
+                "{} function requires exactly {} arguments. Actual: {}.",
+                info_.name(), num_args, args.size()));
         }
         operate_impl(args, result, std::make_index_sequence<num_args>{});
     }
@@ -117,7 +129,7 @@ private:
                             std::forward_as_tuple(actual_args...)))>;
                     throw InvalidExpressionException(fmt::format(
                         "{} function can not accept {} for the {}-th argument.",
-                        name_, number_type_name<FirstUnacceptableType>,
+                        info_.name(), number_type_name<FirstUnacceptableType>,
                         first_unacceptable_index + 1));
                 }
             },
@@ -187,8 +199,8 @@ private:
      */
     [[nodiscard]] static constexpr std::size_t get_first_false() { return 0; }
 
-    //! Function name.
-    std::string name_;
+    //! Information about the mathematical function.
+    MathFunctionInfo info_;
 
     //! Function object to compute numbers.
     [[no_unique_address]] FunctionType function_;
@@ -230,17 +242,17 @@ concept AcceptableTypesTupleType = IsAcceptableTypesTuple<Type>::value;
  * types for each argument.
  * \tparam FunctionType Type of the function object to compute numbers.
  * \tparam Indices Indices of arguments.
- * \param[in] name Name of the function.
+ * \param[in] info Information about the mathematical function.
  * \param[in] function Function object to compute numbers.
  * \return Created general mathematical function.
  */
 template <details::AcceptableTypesTupleType AcceptableTypesTuple,
     typename FunctionType, std::size_t... Indices>
-[[nodiscard]] auto make_general_math_function_impl(std::string name,
+[[nodiscard]] auto make_general_math_function_impl(MathFunctionInfo info,
     FunctionType&& function, std::index_sequence<Indices...> /*indices*/) {
     return GeneralMathFunction<std::decay_t<FunctionType>,
         std::tuple_element_t<Indices, AcceptableTypesTuple>...>(
-        std::move(name), std::forward<FunctionType>(function));
+        std::move(info), std::forward<FunctionType>(function));
 }
 
 }  // namespace details
@@ -251,16 +263,16 @@ template <details::AcceptableTypesTupleType AcceptableTypesTuple,
  * \tparam AcceptableTypesTuple Tuple of \ref func_sketch::math::AcceptableTypes
  * types for each argument.
  * \tparam FunctionType Type of the function object to compute numbers.
- * \param[in] name Name of the function.
+ * \param[in] info Information about the mathematical function.
  * \param[in] function Function object to compute numbers.
  * \return Created general mathematical function.
  */
 template <details::AcceptableTypesTupleType AcceptableTypesTuple,
     typename FunctionType>
 [[nodiscard]] auto make_general_math_function(
-    std::string name, FunctionType&& function) {
+    MathFunctionInfo info, FunctionType&& function) {
     return details::make_general_math_function_impl<AcceptableTypesTuple>(
-        std::move(name), std::forward<FunctionType>(function),
+        std::move(info), std::forward<FunctionType>(function),
         std::make_index_sequence<std::tuple_size_v<AcceptableTypesTuple>>{});
 }
 

@@ -31,25 +31,25 @@ namespace func_sketch::math {
 MathFunction log_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "log", [](auto arg) { return std::log(arg); }));
+            {"log", {"x"}}, [](auto arg) { return std::log(arg); }));
 }
 
 MathFunction log1p_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "log1p", [](Real arg) { return std::log1p(arg); }));
+            {"log1p", {"x"}}, [](Real arg) { return std::log1p(arg); }));
 }
 
 MathFunction log10_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "log10", [](auto arg) { return std::log10(arg); }));
+            {"log10", {"x"}}, [](auto arg) { return std::log10(arg); }));
 }
 
 MathFunction log2_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "log2", [](Real arg) { return std::log2(arg); }));
+            {"log2", {"x"}}, [](Real arg) { return std::log2(arg); }));
 }
 
 }  // namespace func_sketch::math

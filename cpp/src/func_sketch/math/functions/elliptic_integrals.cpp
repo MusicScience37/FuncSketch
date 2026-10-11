@@ -38,7 +38,7 @@ namespace func_sketch::math {
 MathFunction elliptic_f_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "elliptic_f", [](Real phi, Real modulus) {
+        {"elliptic_f", {"phi", "k"}}, [](Real phi, Real modulus) {
             return boost::math::ellint_1(modulus, phi, BoostMathPolicy());
         }));
 }
@@ -46,7 +46,7 @@ MathFunction elliptic_f_function() {
 MathFunction comp_elliptic_k_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "comp_elliptic_k", [](Real modulus) {
+            {"comp_elliptic_k", {"k"}}, [](Real modulus) {
                 return boost::math::ellint_1(modulus, BoostMathPolicy());
             }));
 }
@@ -54,7 +54,7 @@ MathFunction comp_elliptic_k_function() {
 MathFunction elliptic_e_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "elliptic_e", [](Real phi, Real modulus) {
+        {"elliptic_e", {"phi", "k"}}, [](Real phi, Real modulus) {
             return boost::math::ellint_2(modulus, phi, BoostMathPolicy());
         }));
 }
@@ -62,7 +62,7 @@ MathFunction elliptic_e_function() {
 MathFunction comp_elliptic_e_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "comp_elliptic_e", [](Real modulus) {
+            {"comp_elliptic_e", {"k"}}, [](Real modulus) {
                 return boost::math::ellint_2(modulus, BoostMathPolicy());
             }));
 }
@@ -71,7 +71,8 @@ MathFunction elliptic_pi_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>,
             AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-            "elliptic_pi", [](Real characteristic, Real phi, Real modulus) {
+            {"elliptic_pi", {"n", "phi", "k"}},
+            [](Real characteristic, Real phi, Real modulus) {
                 // Limit to the range where no pole exists.
                 if (characteristic >= 1.0 &&
                     std::abs(phi) > 0.5 * std::numbers::pi) {
@@ -85,7 +86,8 @@ MathFunction elliptic_pi_function() {
 MathFunction comp_elliptic_pi_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "comp_elliptic_pi", [](Real characteristic, Real modulus) {
+        {"comp_elliptic_pi", {"n", "k"}},
+        [](Real characteristic, Real modulus) {
             return boost::math::ellint_3(
                 modulus, characteristic, BoostMathPolicy());
         }));

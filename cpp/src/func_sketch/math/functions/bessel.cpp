@@ -39,7 +39,7 @@ MathFunction bessel_j_function(
     std::function<Complex(Real, Complex)> complex_bessel_j) {
     return MathFunction(make_general_math_function<std::tuple<
             AcceptableTypes<Integer, Real>, AcceptableTypes<Real, Complex>>>(
-        "bessel_j",
+        {"bessel_j", {"v", "x"}},
         [complex_bessel_j = std::move(complex_bessel_j)](auto order, auto arg) {
             using ArgType = std::decay_t<decltype(arg)>;
             if constexpr (std::is_same_v<ArgType, Complex>) {
@@ -54,7 +54,7 @@ MathFunction bessel_y_function(
     std::function<Complex(Real, Complex)> complex_bessel_y) {
     return MathFunction(make_general_math_function<std::tuple<
             AcceptableTypes<Integer, Real>, AcceptableTypes<Real, Complex>>>(
-        "bessel_y",
+        {"bessel_y", {"v", "x"}},
         [complex_bessel_y = std::move(complex_bessel_y)](auto order, auto arg) {
             using ArgType = std::decay_t<decltype(arg)>;
             if constexpr (std::is_same_v<ArgType, Complex>) {
@@ -69,7 +69,7 @@ MathFunction bessel_i_function(
     std::function<Complex(Real, Complex)> complex_bessel_i) {
     return MathFunction(make_general_math_function<std::tuple<
             AcceptableTypes<Integer, Real>, AcceptableTypes<Real, Complex>>>(
-        "bessel_i",
+        {"bessel_i", {"v", "x"}},
         [complex_bessel_i = std::move(complex_bessel_i)](auto order, auto arg) {
             using ArgType = std::decay_t<decltype(arg)>;
             if constexpr (std::is_same_v<ArgType, Complex>) {
@@ -84,7 +84,7 @@ MathFunction bessel_k_function(
     std::function<Complex(Real, Complex)> complex_bessel_k) {
     return MathFunction(make_general_math_function<std::tuple<
             AcceptableTypes<Integer, Real>, AcceptableTypes<Real, Complex>>>(
-        "bessel_k",
+        {"bessel_k", {"v", "x"}},
         [complex_bessel_k = std::move(complex_bessel_k)](auto order, auto arg) {
             using ArgType = std::decay_t<decltype(arg)>;
             if constexpr (std::is_same_v<ArgType, Complex>) {
@@ -99,7 +99,7 @@ MathFunction hankel1_function(
     std::function<Complex(Real, Complex)> complex_hankel1) {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Integer, Real>,
-            AcceptableTypes<Real, Complex>>>("hankel1",
+            AcceptableTypes<Real, Complex>>>({"hankel1", {"v", "x"}},
             [complex_hankel1 = std::move(complex_hankel1)](
                 auto order, auto arg) -> Complex {
                 using ArgType = std::decay_t<decltype(arg)>;
@@ -116,7 +116,7 @@ MathFunction hankel2_function(
     std::function<Complex(Real, Complex)> complex_hankel2) {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Integer, Real>,
-            AcceptableTypes<Real, Complex>>>("hankel2",
+            AcceptableTypes<Real, Complex>>>({"hankel2", {"v", "x"}},
             [complex_hankel2 = std::move(complex_hankel2)](
                 auto order, auto arg) -> Complex {
                 using ArgType = std::decay_t<decltype(arg)>;
@@ -133,7 +133,7 @@ MathFunction spherical_bessel_j_function(
     std::function<Complex(unsigned, Complex)> complex_spherical_bessel_j) {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real, Complex>>>(
-        "spherical_bessel_j",
+        {"spherical_bessel_j", {"n", "x"}},
         [complex_spherical_bessel_j = std::move(complex_spherical_bessel_j)](
             Integer order, auto arg) {
             using ArgType = std::decay_t<decltype(arg)>;
@@ -155,7 +155,7 @@ MathFunction spherical_bessel_y_function(
     std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y) {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real, Complex>>>(
-        "spherical_bessel_y",
+        {"spherical_bessel_y", {"n", "x"}},
         [complex_spherical_bessel_y = std::move(complex_spherical_bessel_y)](
             Integer order, auto arg) {
             using ArgType = std::decay_t<decltype(arg)>;
@@ -178,7 +178,7 @@ MathFunction spherical_hankel1_function(
     std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y) {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real, Complex>>>(
-        "spherical_hankel1",
+        {"spherical_hankel1", {"n", "x"}},
         [complex_spherical_bessel_j = std::move(complex_spherical_bessel_j),
             complex_spherical_bessel_y = std::move(complex_spherical_bessel_y)](
             auto order, auto arg) -> Complex {
@@ -204,7 +204,7 @@ MathFunction spherical_hankel2_function(
     std::function<Complex(unsigned, Complex)> complex_spherical_bessel_y) {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real, Complex>>>(
-        "spherical_hankel2",
+        {"spherical_hankel2", {"n", "x"}},
         [complex_spherical_bessel_j = std::move(complex_spherical_bessel_j),
             complex_spherical_bessel_y = std::move(complex_spherical_bessel_y)](
             auto order, auto arg) -> Complex {
@@ -228,7 +228,8 @@ MathFunction kelvin_ber_function(
     std::function<Complex(Real, Complex)> complex_bessel_j) {
     const Complex arg_coeff = std::exp(Complex(0.0, std::numbers::pi * 0.75));
     return MathFunction(make_general_math_function<
-        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>("kelvin_ber",
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        {"kelvin_ber", {"v", "x"}},
         [complex_bessel_j = std::move(complex_bessel_j), arg_coeff](
             Real order, Real arg) -> Real {
             return complex_bessel_j(order, arg * arg_coeff).real();
@@ -239,7 +240,8 @@ MathFunction kelvin_bei_function(
     std::function<Complex(Real, Complex)> complex_bessel_j) {
     const Complex arg_coeff = std::exp(Complex(0.0, std::numbers::pi * 0.75));
     return MathFunction(make_general_math_function<
-        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>("kelvin_bei",
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        {"kelvin_bei", {"v", "x"}},
         [complex_bessel_j = std::move(complex_bessel_j), arg_coeff](
             Real order, Real arg) -> Real {
             return complex_bessel_j(order, arg * arg_coeff).imag();
@@ -250,7 +252,8 @@ MathFunction kelvin_ker_function(
     std::function<Complex(Real, Complex)> complex_bessel_k) {
     const Complex arg_coeff = std::exp(Complex(0.0, std::numbers::pi * 0.25));
     return MathFunction(make_general_math_function<
-        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>("kelvin_ker",
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        {"kelvin_ker", {"v", "x"}},
         [complex_bessel_k = std::move(complex_bessel_k), arg_coeff](
             Real order, Real arg) -> Real {
             const Complex result_coeff =
@@ -264,7 +267,8 @@ MathFunction kelvin_kei_function(
     std::function<Complex(Real, Complex)> complex_bessel_k) {
     const Complex arg_coeff = std::exp(Complex(0.0, std::numbers::pi * 0.25));
     return MathFunction(make_general_math_function<
-        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>("kelvin_kei",
+        std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+        {"kelvin_kei", {"v", "x"}},
         [complex_bessel_k = std::move(complex_bessel_k), arg_coeff](
             Real order, Real arg) -> Real {
             const Complex result_coeff =

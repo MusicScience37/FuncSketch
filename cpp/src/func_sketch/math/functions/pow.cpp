@@ -32,20 +32,21 @@ namespace func_sketch::math {
 MathFunction pow_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Integer, Real, Complex>,
-            AcceptableTypes<Integer, Real, Complex>>>("pow",
+            AcceptableTypes<Integer, Real, Complex>>>(
+        {"pow", {"base", "exponent"}},
         [](auto base, auto exponent) { return pow_number(base, exponent); }));
 }
 
 MathFunction sqrt_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "sqrt", [](auto arg) { return std::sqrt(arg); }));
+            {"sqrt", {"x"}}, [](auto arg) { return std::sqrt(arg); }));
 }
 
 MathFunction cbrt_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "cbrt", [](Real arg) { return std::cbrt(arg); }));
+            {"cbrt", {"x"}}, [](Real arg) { return std::cbrt(arg); }));
 }
 
 }  // namespace func_sketch::math

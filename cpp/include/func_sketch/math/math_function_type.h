@@ -24,6 +24,7 @@
 #include <string_view>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/math/math_function_info.h"
 
 namespace func_sketch::math {
 
@@ -36,6 +37,10 @@ template <typename T>
 concept MathFunctionType = requires() {
     requires requires(const T& function_object) {
         { function_object.name() } -> std::convertible_to<std::string_view>;
+    };
+
+    requires requires(const T& function_object) {
+        { function_object.info() } -> std::same_as<const MathFunctionInfo&>;
     };
 
     requires requires(const T& function_object, std::span<const Number> args,

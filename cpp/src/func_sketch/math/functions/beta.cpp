@@ -34,7 +34,7 @@ namespace func_sketch::math {
 MathFunction beta_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "beta", [](Real x, Real y) {
+        {"beta", {"x", "y"}}, [](Real x, Real y) {
             return boost::math::beta(x, y, BoostMathPolicy());
         }));
 }
@@ -42,16 +42,16 @@ MathFunction beta_function() {
 MathFunction lbeta_function(std::function<Real(Real, Real)> real_lbeta) {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "lbeta", [real_lbeta = std::move(real_lbeta)](Real x, Real y) {
-            return real_lbeta(x, y);
-        }));
+        {"lbeta", {"x", "y"}},
+        [real_lbeta = std::move(real_lbeta)](
+            Real x, Real y) { return real_lbeta(x, y); }));
 }
 
 MathFunction ibeta_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>,
             AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-            "ibeta", [](Real param_a, Real param_b, Real x) {
+            {"ibeta", {"a", "b", "x"}}, [](Real param_a, Real param_b, Real x) {
                 return boost::math::ibeta(
                     param_a, param_b, x, BoostMathPolicy());
             }));
@@ -61,7 +61,8 @@ MathFunction ibetac_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>,
             AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-            "ibetac", [](Real param_a, Real param_b, Real x) {
+            {"ibetac", {"a", "b", "x"}},
+            [](Real param_a, Real param_b, Real x) {
                 return boost::math::ibetac(
                     param_a, param_b, x, BoostMathPolicy());
             }));
@@ -71,7 +72,8 @@ MathFunction ibeta_inv_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>,
             AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-            "ibeta_inv", [](Real param_a, Real param_b, Real probability) {
+            {"ibeta_inv", {"a", "b", "p"}},
+            [](Real param_a, Real param_b, Real probability) {
                 return boost::math::ibeta_inv(
                     param_a, param_b, probability, BoostMathPolicy());
             }));
@@ -80,7 +82,8 @@ MathFunction ibeta_inv_function() {
 MathFunction ibetac_inv_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>,
-            AcceptableTypes<Real>, AcceptableTypes<Real>>>("ibetac_inv",
+            AcceptableTypes<Real>, AcceptableTypes<Real>>>(
+            {"ibetac_inv", {"a", "b", "q"}},
             [](Real param_a, Real param_b, Real complement_probability) {
                 return boost::math::ibetac_inv(param_a, param_b,
                     complement_probability, BoostMathPolicy());
