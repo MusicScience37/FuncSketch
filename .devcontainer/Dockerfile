@@ -6,6 +6,10 @@ RUN sudo apt-get update && \
     libmtdev1 \
     # For running tests without GUI.
     xvfb \
+    # Fonts of TeX Live.
+    texlive-fonts-extra \
+    # LuaLaTeX for generating the icon.
+    texlive-luatex \
     && \
     sudo apt-get autoremove -y && \
     sudo apt-get autoclean && \
