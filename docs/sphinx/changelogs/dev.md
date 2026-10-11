@@ -26,4 +26,5 @@
 
 ## Miscellaneous
 
+- Changed the icon of this project.
 - Updated dependencies.
