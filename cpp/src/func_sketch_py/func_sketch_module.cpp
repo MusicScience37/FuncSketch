@@ -544,6 +544,18 @@ Note:
             "Threshold of the change in slope normalized by the plot range "
             "in adaptive sampling.")
         .def_prop_rw(
+            "max_angle_change_degrees",
+            [](const SamplingConfig& self) -> double {
+                return self.max_angle_change_degrees();
+            },
+            [](SamplingConfig& self, double value) {
+                self.max_angle_change_degrees(value);
+            },
+            R"(Maximum change of the angle between consecutive segments in adaptive sampling in degrees.
+
+Note:
+    This value must be in the range (0, 180).)")
+        .def_prop_rw(
             "min_param_change_rate",
             [](const SamplingConfig& self) -> double {
                 return self.min_param_change_rate();

@@ -38,6 +38,9 @@ constexpr double default_max_coordinate_change_rate = 0.01;
 //! Default threshold of the change in slope normalized by the plot range in adaptive sampling.
 constexpr double default_slope_change_threshold = 0.1;
 
+//! Default maximum change of the angle between consecutive segments in adaptive sampling in degrees.
+constexpr double default_max_angle_change_degrees = 30.0;
+
 //! Default minimum rate of parameter change in adaptive sampling.
 constexpr double default_min_param_change_rate = 1e-4;
 
@@ -100,6 +103,18 @@ public:
     SamplingConfig& slope_change_threshold(double value);
 
     /*!
+     * \brief Set the maximum change of the angle between consecutive segments
+     * in adaptive sampling in degrees.
+     *
+     * \param[in] value Maximum change of the angle between consecutive
+     * segments in adaptive sampling in degrees.
+     * \return Reference to this object.
+     *
+     * \note This value must be in the range (0, 180).
+     */
+    SamplingConfig& max_angle_change_degrees(double value);
+
+    /*!
      * \brief Set the minimum rate of parameter change in adaptive sampling.
      *
      * \param[in] value Minimum rate of parameter change in adaptive
@@ -146,6 +161,15 @@ public:
     [[nodiscard]] double slope_change_threshold() const noexcept;
 
     /*!
+     * \brief Get the maximum change of the angle between consecutive segments
+     * in adaptive sampling in degrees.
+     *
+     * \return Maximum change of the angle between consecutive segments in
+     * adaptive sampling in degrees.
+     */
+    [[nodiscard]] double max_angle_change_degrees() const noexcept;
+
+    /*!
      * \brief Get the minimum rate of parameter change in adaptive sampling.
      *
      * \return Minimum rate of parameter change in adaptive sampling.
@@ -166,6 +190,10 @@ private:
     //! Threshold of the change in slope normalized by the plot range in
     //! adaptive sampling.
     double slope_change_threshold_{default_slope_change_threshold};
+
+    //! Maximum change of the angle between consecutive segments in adaptive
+    //! sampling in degrees.
+    double max_angle_change_degrees_{default_max_angle_change_degrees};
 
     //! Minimum rate of parameter change in adaptive sampling.
     double min_param_change_rate_{default_min_param_change_rate};

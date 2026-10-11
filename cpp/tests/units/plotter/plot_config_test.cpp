@@ -318,6 +318,8 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
             func_sketch::sampling::default_max_coordinate_change_rate);
         CHECK(config.sampling().slope_change_threshold() ==
             func_sketch::sampling::default_slope_change_threshold);
+        CHECK(config.sampling().max_angle_change_degrees() ==
+            func_sketch::sampling::default_max_angle_change_degrees);
         CHECK(config.sampling().min_param_change_rate() ==
             func_sketch::sampling::default_min_param_change_rate);
 
@@ -326,12 +328,14 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
             .max_num_sample_points(3000)
             .max_coordinate_change_rate(0.05)
             .slope_change_threshold(0.5)
+            .max_angle_change_degrees(45.0)
             .min_param_change_rate(0.01);
 
         CHECK(config.sampling().initial_num_sample_points() == 200);
         CHECK(config.sampling().max_num_sample_points() == 3000);
         CHECK(config.sampling().max_coordinate_change_rate() == 0.05);
         CHECK(config.sampling().slope_change_threshold() == 0.5);
+        CHECK(config.sampling().max_angle_change_degrees() == 45.0);
         CHECK(config.sampling().min_param_change_rate() == 0.01);
 
         const PlotConfig& const_config = config;
@@ -339,6 +343,7 @@ TEST_CASE("func_sketch::plotter::PlotConfig") {
         CHECK(const_config.sampling().max_num_sample_points() == 3000);
         CHECK(const_config.sampling().max_coordinate_change_rate() == 0.05);
         CHECK(const_config.sampling().slope_change_threshold() == 0.5);
+        CHECK(const_config.sampling().max_angle_change_degrees() == 45.0);
         CHECK(const_config.sampling().min_param_change_rate() == 0.01);
     }
 }

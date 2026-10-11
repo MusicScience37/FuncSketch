@@ -27,6 +27,7 @@
 #include <forward_list>
 #include <iterator>
 #include <memory_resource>
+#include <numbers>
 #include <utility>
 
 #include "func_sketch/exceptions.h"
@@ -134,6 +135,8 @@ void sample_initial_points(const std::function<Point(Real)>& function,
  * \param[in] param_diff_min Minimum difference in parameter.
  * \param[in] x_normalization_coeff Normalization coefficient for x-coordinate.
  * \param[in] y_normalization_coeff Normalization coefficient for y-coordinate.
+ * \param[in] angle_change_cos_threshold Threshold of the cosine of the angle
+ * change between the left and right segments.
  * \return A pair of booleans indicating whether to divide the left and right
  * segments, respectively.
  */
@@ -141,11 +144,8 @@ void sample_initial_points(const std::function<Point(Real)>& function,
     Real left_param_diff, Real right_param_diff, const Point& left_point_diff,
     const Point& right_point_diff, bool is_left_point_in_range,
     bool is_center_point_in_range, bool is_right_point_in_range,
-    Real param_diff_min, Real x_normalization_coeff,
-    Real y_normalization_coeff) {
-    constexpr Real angle_change_cos_threshold =
-        0.8660254038;  // TODO Move to configuration.
-
+    Real param_diff_min, Real x_normalization_coeff, Real y_normalization_coeff,
+    Real angle_change_cos_threshold) {
     if (!std::isfinite(left_point_diff.x) ||
         !std::isfinite(left_point_diff.y) ||
         !std::isfinite(right_point_diff.x) ||
@@ -245,6 +245,8 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
     const Real y_diff_max = y_range_size * config.max_coordinate_change_rate();
     const Real x_normalization_coeff = 1.0 / x_range_size;
     const Real y_normalization_coeff = 1.0 / y_range_size;
+    const Real angle_change_cos_threshold = std::cos(
+        config.max_angle_change_degrees() * (std::numbers::pi / 180.0));
 
     // std::forward_list does not have a size() method, so manual calculation is
     // required.
@@ -282,7 +284,8 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
                         extra_param_diff, cur_next_point_diff, extra_point_diff,
                         is_cur_point_in_range, is_next_point_in_range,
                         is_next_next_point_in_range, param_diff_min,
-                        x_normalization_coeff, y_normalization_coeff);
+                        x_normalization_coeff, y_normalization_coeff,
+                        angle_change_cos_threshold);
                 if (should_divide_left) {
                     divide_segment(
                         samples, cur_iter, cur_param, next_param, function);
