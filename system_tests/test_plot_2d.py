@@ -92,14 +92,14 @@ def test_writing_expression(
     screenshot_saver.save("e")
     screenshot_saver.save("e_auto_complete", auto_complete_dropdown)
     assert expression_text_input_model.token_candidates is not None
-    assert expression_text_input_model.token_candidates[0] == "e"
+    assert expression_text_input_model.token_candidates[0].name == "e"
 
     add_character("x")
     wait_window_change()
     screenshot_saver.save("ex")
     screenshot_saver.save("ex_auto_complete", auto_complete_dropdown)
     assert expression_text_input_model.token_candidates is not None
-    assert expression_text_input_model.token_candidates[0] == "exp"
+    assert expression_text_input_model.token_candidates[0].name == "exp"
 
     auto_complete_dropdown.select("exp")
     wait_window_change()
@@ -117,7 +117,7 @@ def test_writing_expression(
     screenshot_saver.save("exp(x")
     screenshot_saver.save("exp(x)_auto_complete", auto_complete_dropdown)
     assert expression_text_input_model.token_candidates is not None
-    assert expression_text_input_model.token_candidates[0] == "x"
+    assert expression_text_input_model.token_candidates[0].name == "x"
 
     add_character(")")
     wait_window_change()

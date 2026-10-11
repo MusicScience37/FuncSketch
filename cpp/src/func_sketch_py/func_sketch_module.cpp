@@ -175,7 +175,9 @@ NB_MODULE(_cpp, m) {
     nanobind::class_<MathFunctionInfo>(m, "MathFunctionInfo",
         "Class to store information about a mathematical function.")
         .def_prop_ro("name", &MathFunctionInfo::name,
-            "Name of the mathematical function.");
+            "Name of the mathematical function.")
+        .def_prop_ro("argument_names", &MathFunctionInfo::argument_names,
+            "Argument names of the mathematical function.");
 
     using func_sketch::math::MathFunctionList;
     nanobind::class_<MathFunctionList>(

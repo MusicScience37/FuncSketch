@@ -55,7 +55,7 @@ class TestExpressionTextInputModel:
         assert model.current_token_text == "ex"
         assert model.token_candidates is not None
         assert len(model.token_candidates) > 0
-        assert model.token_candidates[0] == "exp"
+        assert model.token_candidates[0].name == "exp"
 
         # Inputs are not changed here.
         assert model.expression_text == " +exa "
@@ -73,7 +73,7 @@ class TestExpressionTextInputModel:
         assert model.current_token_text == "ex"
         assert model.token_candidates is not None
         assert len(model.token_candidates) > 0
-        assert model.token_candidates[0] == "exp"
+        assert model.token_candidates[0].name == "exp"
 
         # Inputs are not changed here.
         assert model.expression_text == "ex"
@@ -171,7 +171,7 @@ class TestExpressionTextInputModel:
         assert model.current_token_text == "ex"
         assert model.token_candidates is not None
         assert len(model.token_candidates) > 0
-        assert model.token_candidates[0] == "exp"
+        assert model.token_candidates[0].name == "exp"
 
         # Inputs are not changed here.
         assert model.expression_text == " +ex "
