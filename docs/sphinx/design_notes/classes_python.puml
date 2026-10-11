@@ -32,17 +32,6 @@ package func_sketch {
 
         class PlotConfig
 
-        class FunctionSampler {
-            + __init__(range: PlotRange, config: PlotConfig)
-            + range : PlotRange
-            + config : PlotConfig
-            + __call__(function: Expression) : PointList
-        }
-        FunctionSampler o-- PlotRange
-        FunctionSampler o-- PlotConfig
-        FunctionSampler ..> Expression
-        FunctionSampler ..> PointList
-
         class ExplicitCurveSpec {
             + name : str
             + function_expression_str : str
@@ -65,7 +54,6 @@ package func_sketch {
             + __call__(spec: ExplicitCurveSpec) : SampledCurve
         }
         CurveSampler o-- ExpressionParser
-        CurveSampler o-- FunctionSampler
         CurveSampler ..> ExplicitCurveSpec
         CurveSampler ..> SampledCurve
 

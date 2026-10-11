@@ -19,27 +19,39 @@
  */
 #include "func_sketch/curves/curve_sampler.h"
 
+#include "func_sketch/common_types.h"
+#include "func_sketch/point.h"
+
 namespace func_sketch::curves {
 
 CurveSampler::CurveSampler(const plotter::PlotRange& range,
     const sampling::SamplingConfig& config,
     const math::PythonFunctionList& python_functions)
-    : expression_parser_(python_functions), function_sampler_(range, config) {}
+    : expression_parser_(python_functions),
+      range_(range),
+      point_sampler_(range, config) {}
 
 CurveSampler& CurveSampler::range(const plotter::PlotRange& value) {
-    function_sampler_.range(value);
+    range_ = value;
+    point_sampler_.range(value);
     return *this;
 }
 
 CurveSampler& CurveSampler::config(const sampling::SamplingConfig& value) {
-    function_sampler_.config(value);
+    point_sampler_.config(value);
     return *this;
 }
 
 SampledCurve CurveSampler::operator()(const ExplicitCurveSpec& spec) const {
+    const auto expression = expression_parser_(spec.function_expression_str);
     return SampledCurve{.name = spec.name,
-        .points = function_sampler_(
-            *expression_parser_(spec.function_expression_str)),
+        .points = point_sampler_(
+            [&expression, this](Real parameter) {
+                Real value;
+                evaluator_(*expression, parameter, value);
+                return Point{.x = parameter, .y = value};
+            },
+            range_.x_range()),
         .color = spec.color};
 }
 

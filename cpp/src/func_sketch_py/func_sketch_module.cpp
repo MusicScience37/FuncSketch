@@ -57,7 +57,6 @@
 #include "func_sketch/plotter/point_converter.h"
 #include "func_sketch/plotter/rgb_color.h"
 #include "func_sketch/point.h"
-#include "func_sketch/sampling/function_sampler.h"
 #include "func_sketch/sampling/sampling_config.h"
 #include "func_sketch/version.h"
 
@@ -168,6 +167,9 @@ NB_MODULE(_cpp, m) {
     m.attr("__version__") = fmt::format("{}.{}.{}", FUNC_SKETCH_VERSION_MAJOR,
         FUNC_SKETCH_VERSION_MINOR, FUNC_SKETCH_VERSION_PATCH);
     m.doc() = "C++ module for func_sketch";
+
+    // Making the getter nullptr causes an error in mypy, so we must
+    // write a getter that throws an exception instead.
 
     using func_sketch::math::MathFunctionInfo;
     nanobind::class_<MathFunctionInfo>(m, "MathFunctionInfo",
@@ -668,40 +670,6 @@ Note:
         .def(
             "copy", [](const PlotConfig& self) { return self; },
             "Create an independent copy of this configuration.");
-
-    using func_sketch::sampling::FunctionSampler;
-    nanobind::class_<FunctionSampler>(
-        m, "FunctionSampler", "Class to sample functions for plotting.")
-        .def(nanobind::init<PlotRange, SamplingConfig>(), "range"_a, "config"_a,
-            "Constructor.")
-        .def_prop_rw(
-            "range",
-            // Making the getter nullptr causes an error in mypy, so we must
-            // write a getter that throws an exception instead.
-            [](FunctionSampler& self) -> PlotRange {
-                throw func_sketch::PermissionErrorException(
-                    "Property 'range' is write-only.");
-            },
-            [](FunctionSampler& self, const PlotRange& value) {
-                self.range(value);
-            },
-            "Range of plots. (write-only)")
-        .def_prop_rw(
-            "config",
-            [](FunctionSampler& self) -> SamplingConfig {
-                throw func_sketch::PermissionErrorException(
-                    "Property 'config' is write-only.");
-            },
-            [](FunctionSampler& self, const SamplingConfig& value) {
-                self.config(value);
-            },
-            "Configuration of sampling. (write-only)")
-        .def(
-            "__call__",
-            [](const FunctionSampler& self, const ExpressionPtr& function) {
-                return PointList{self(*function)};
-            },
-            "function"_a, "Sample a function and return a list of points.");
 
     using func_sketch::plotter::PointConverter;
     nanobind::class_<PointConverter>(m, "PointConverter",

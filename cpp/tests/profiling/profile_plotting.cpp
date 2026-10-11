@@ -23,10 +23,13 @@
 #include <gperftools/profiler.h>
 #include <opencv2/core.hpp>
 
+#include "func_sketch/common_types.h"
+#include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/plotter.h"
-#include "func_sketch/sampling/function_sampler.h"
+#include "func_sketch/point.h"
+#include "func_sketch/sampling/point_sampler.h"
 
 constexpr int image_width = 800;
 constexpr int image_height = 600;
@@ -51,7 +54,8 @@ int main(int argc, char** argv) {
 
     const auto python_function_list = func_sketch::math::PythonFunctionList{};
     func_sketch::parser::ExpressionParser parser{python_function_list};
-    func_sketch::sampling::FunctionSampler sampler{range, sampling_config};
+    func_sketch::expressions::ExpressionEvaluator evaluator;
+    func_sketch::sampling::PointSampler sampler{range, sampling_config};
     func_sketch::plotter::Plotter plotter{range, plot_config};
 
     cv::Mat image(image_height, image_width, CV_8UC3);
@@ -59,7 +63,13 @@ int main(int argc, char** argv) {
     ProfilerStart("profile_plotting.prof");
     for (std::size_t i = 0; i < num_repetitions; ++i) {
         const auto expression = parser(expression_str);
-        const auto samples = sampler(*expression);
+        const auto samples = sampler(
+            [&expression, &evaluator](func_sketch::Real parameter) {
+                func_sketch::Real value;
+                evaluator(*expression, parameter, value);
+                return func_sketch::Point{.x = parameter, .y = value};
+            },
+            range.x_range());
         plotter.write_background(image);
         plotter.write_curve(samples, curve_color, image);
     }

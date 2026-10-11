@@ -131,14 +131,13 @@ package func_sketch {
     package sampling {
         class SamplingConfig
 
-        class FunctionSampler {
+        class PointSampler {
             + range(value : PlotRange)
             + config(value : SamplingConfig)
-            + operator()(function : ExpressionPtr) : std::vector<Point>
+            + operator()(function : std::function<Point(Real)>, parameter_range : std::pair<Real, Real>) : std::vector<Point>
         }
-        FunctionSampler o-- SamplingConfig
-        FunctionSampler ...> ExpressionPtr
-        FunctionSampler ..> Point
+        PointSampler o-- SamplingConfig
+        PointSampler ..> Point
     }
 
     package plotter {
@@ -156,7 +155,7 @@ package func_sketch {
             + x_range() : std::pair<Real, Real>
             + y_range() : std::pair<Real, Real>
         }
-        FunctionSampler o-- PlotRange
+        PointSampler o-- PlotRange
 
         struct PlotConfig
 
@@ -196,7 +195,7 @@ package func_sketch {
             + operator()(spec : ExplicitCurveSpec) : SampledCurve
         }
         CurveSampler o-- ExpressionParser
-        CurveSampler o-- FunctionSampler
+        CurveSampler o-- PointSampler
         CurveSampler ..> ExplicitCurveSpec
         CurveSampler ..> SampledCurve
     }

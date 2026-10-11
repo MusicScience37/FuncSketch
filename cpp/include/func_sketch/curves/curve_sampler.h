@@ -21,11 +21,12 @@
 
 #include "func_sketch/curves/explicit_curve_spec.h"
 #include "func_sketch/curves/sampled_curve.h"
+#include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/math/math_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/plot_range.h"
-#include "func_sketch/sampling/function_sampler.h"
+#include "func_sketch/sampling/point_sampler.h"
 #include "func_sketch/sampling/sampling_config.h"
 
 namespace func_sketch::curves {
@@ -89,8 +90,14 @@ private:
     //! Parser of expressions.
     parser::ExpressionParser expression_parser_;
 
-    //! Sampler of functions.
-    sampling::FunctionSampler function_sampler_;
+    //! Range of plots.
+    plotter::PlotRange range_;
+
+    //! Evaluator of expressions.
+    expressions::ExpressionEvaluator evaluator_;
+
+    //! Sampler of points.
+    sampling::PointSampler point_sampler_;
 };
 
 }  // namespace func_sketch::curves
