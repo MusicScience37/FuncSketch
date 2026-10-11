@@ -47,6 +47,6 @@ set(SOURCE_FILES
     plotter/text_renderer.cpp
     plotter/title_writer.cpp
     point.cpp
-    sampling/function_sampler.cpp
+    sampling/point_sampler.cpp
     sampling/sampling_config.cpp
 )

@@ -18,15 +18,19 @@
  * \brief Benchmark of plotting.
  */
 #include <array>
+#include <cstddef>
 #include <string_view>
 
 #include <benchmark/benchmark.h>
 #include <opencv2/core.hpp>
 
+#include "func_sketch/common_types.h"
+#include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/plotter.h"
-#include "func_sketch/sampling/function_sampler.h"
+#include "func_sketch/point.h"
+#include "func_sketch/sampling/point_sampler.h"
 
 constexpr int image_width = 800;
 constexpr int image_height = 600;
@@ -58,13 +62,22 @@ public:
      */
     void benchmark_sampling(
         benchmark::State& state, const std::string& expression_str) {
+        std::size_t num_samples = 0;
         for (auto _ : state) {
             auto expression = parser_(expression_str);
-            auto samples = sampler_(*expression);
+            auto samples = sampler_(
+                [&expression, this](func_sketch::Real parameter) {
+                    func_sketch::Real value;
+                    evaluator_(*expression, parameter, value);
+                    return func_sketch::Point{.x = parameter, .y = value};
+                },
+                {-1.0, 1.0});
             benchmark::DoNotOptimize(expression);
             benchmark::DoNotOptimize(samples);
             benchmark::ClobberMemory();
+            num_samples = samples.size();
         }
+        state.counters["samples"] = static_cast<double>(num_samples);
     }
 
     /*!
@@ -76,7 +89,13 @@ public:
     void benchmark_plotting(
         benchmark::State& state, const std::string& expression_str) {
         const auto expression = parser_(expression_str);
-        const auto samples = sampler_(*expression);
+        auto samples = sampler_(
+            [&expression, this](func_sketch::Real parameter) {
+                func_sketch::Real value;
+                evaluator_(*expression, parameter, value);
+                return func_sketch::Point{.x = parameter, .y = value};
+            },
+            {-1.0, 1.0});
         for (auto _ : state) {
             plotter_.write_background(image_);
             plotter_.write_curve(samples, curve_color, image_);
@@ -90,8 +109,11 @@ private:
     func_sketch::parser::ExpressionParser parser_{
         func_sketch::math::PythonFunctionList{}};
 
+    //! Expression evaluator.
+    func_sketch::expressions::ExpressionEvaluator evaluator_;
+
     //! Sampler.
-    func_sketch::sampling::FunctionSampler sampler_{
+    func_sketch::sampling::PointSampler sampler_{
         func_sketch::plotter::PlotRange({-1.0, 1.0}, {-1.0, 1.0}),
         func_sketch::sampling::SamplingConfig()};
 

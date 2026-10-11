@@ -35,8 +35,8 @@ constexpr std::size_t max_max_num_sample_points = 100000;
 //! Default threshold of the change in coordinates of sample points relative to the plot range in adaptive sampling.
 constexpr double default_max_coordinate_change_rate = 0.01;
 
-//! Default threshold of the change in slope normalized by the plot range in adaptive sampling.
-constexpr double default_slope_change_threshold = 0.1;
+//! Default maximum change of the angle between consecutive segments in adaptive sampling in degrees.
+constexpr double default_max_angle_change_degrees = 10.0;
 
 //! Default minimum rate of parameter change in adaptive sampling.
 constexpr double default_min_param_change_rate = 1e-4;
@@ -90,14 +90,16 @@ public:
     SamplingConfig& max_coordinate_change_rate(double value);
 
     /*!
-     * \brief Set the threshold of the change in slope normalized by the plot
-     * range in adaptive sampling.
+     * \brief Set the maximum change of the angle between consecutive segments
+     * in adaptive sampling in degrees.
      *
-     * \param[in] value Threshold of the change in slope normalized by the
-     * plot range in adaptive sampling.
+     * \param[in] value Maximum change of the angle between consecutive
+     * segments in adaptive sampling in degrees.
      * \return Reference to this object.
+     *
+     * \note This value must be in the range (0, 180).
      */
-    SamplingConfig& slope_change_threshold(double value);
+    SamplingConfig& max_angle_change_degrees(double value);
 
     /*!
      * \brief Set the minimum rate of parameter change in adaptive sampling.
@@ -137,13 +139,13 @@ public:
     [[nodiscard]] double max_coordinate_change_rate() const noexcept;
 
     /*!
-     * \brief Get the threshold of the change in slope normalized by the plot
-     * range in adaptive sampling.
+     * \brief Get the maximum change of the angle between consecutive segments
+     * in adaptive sampling in degrees.
      *
-     * \return Threshold of the change in slope normalized by the plot range
-     * in adaptive sampling.
+     * \return Maximum change of the angle between consecutive segments in
+     * adaptive sampling in degrees.
      */
-    [[nodiscard]] double slope_change_threshold() const noexcept;
+    [[nodiscard]] double max_angle_change_degrees() const noexcept;
 
     /*!
      * \brief Get the minimum rate of parameter change in adaptive sampling.
@@ -163,9 +165,9 @@ private:
     //! the plot range in adaptive sampling.
     double max_coordinate_change_rate_{default_max_coordinate_change_rate};
 
-    //! Threshold of the change in slope normalized by the plot range in
-    //! adaptive sampling.
-    double slope_change_threshold_{default_slope_change_threshold};
+    //! Maximum change of the angle between consecutive segments in adaptive
+    //! sampling in degrees.
+    double max_angle_change_degrees_{default_max_angle_change_degrees};
 
     //! Minimum rate of parameter change in adaptive sampling.
     double min_param_change_rate_{default_min_param_change_rate};

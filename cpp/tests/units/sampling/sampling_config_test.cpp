@@ -19,6 +19,8 @@
  */
 #include "func_sketch/sampling/sampling_config.h"
 
+#include <limits>
+
 #include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("func_sketch::sampling::SamplingConfig") {
@@ -91,20 +93,30 @@ TEST_CASE("func_sketch::sampling::SamplingConfig") {
         CHECK(config.max_coordinate_change_rate() == 0.05);
     }
 
-    SECTION("set and get slope change threshold") {
+    SECTION("set and get maximum angle change") {
         SamplingConfig config;
 
-        CHECK(config.slope_change_threshold() ==
-            func_sketch::sampling::default_slope_change_threshold);
+        CHECK(config.max_angle_change_degrees() ==
+            func_sketch::sampling::default_max_angle_change_degrees);
 
-        CHECK_NOTHROW(config.slope_change_threshold(0.5));
-        CHECK(config.slope_change_threshold() == 0.5);
+        CHECK_NOTHROW(config.max_angle_change_degrees(45.0));
+        CHECK(config.max_angle_change_degrees() == 45.0);
 
-        CHECK_THROWS(config.slope_change_threshold(0.0));
-        CHECK(config.slope_change_threshold() == 0.5);
+        CHECK_NOTHROW(config.max_angle_change_degrees(179.0));
+        CHECK(config.max_angle_change_degrees() == 179.0);
 
-        CHECK_THROWS(config.slope_change_threshold(-0.1));
-        CHECK(config.slope_change_threshold() == 0.5);
+        CHECK_THROWS(config.max_angle_change_degrees(0.0));
+        CHECK(config.max_angle_change_degrees() == 179.0);
+
+        CHECK_THROWS(config.max_angle_change_degrees(-1.0));
+        CHECK(config.max_angle_change_degrees() == 179.0);
+
+        CHECK_THROWS(config.max_angle_change_degrees(180.0));
+        CHECK(config.max_angle_change_degrees() == 179.0);
+
+        CHECK_THROWS(config.max_angle_change_degrees(
+            std::numeric_limits<double>::quiet_NaN()));
+        CHECK(config.max_angle_change_degrees() == 179.0);
     }
 
     SECTION("set and get minimum parameter change rate") {

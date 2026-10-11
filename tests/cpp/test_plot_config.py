@@ -173,11 +173,11 @@ class TestPlotConfig:
         config.sampling.initial_num_sample_points = 200
         config.sampling.max_num_sample_points = 3000
         config.sampling.max_coordinate_change_rate = 0.05
-        config.sampling.slope_change_threshold = 0.5
+        config.sampling.max_angle_change_degrees = 45.0
         config.sampling.min_param_change_rate = 0.01
 
         assert config.sampling.initial_num_sample_points == 200
         assert config.sampling.max_num_sample_points == 3000
         assert config.sampling.max_coordinate_change_rate == 0.05
-        assert config.sampling.slope_change_threshold == 0.5
+        assert config.sampling.max_angle_change_degrees == 45.0
         assert config.sampling.min_param_change_rate == 0.01

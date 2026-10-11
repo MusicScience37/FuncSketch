@@ -46,7 +46,7 @@ set(SOURCE_FILES
     plotter/point_converter_test.cpp
     plotter/rgb_color_test.cpp
     point_test.cpp
-    sampling/function_sampler_test.cpp
+    sampling/point_sampler_test.cpp
     sampling/sampling_config_test.cpp
     test_main.cpp
     utilities/any_test.cpp

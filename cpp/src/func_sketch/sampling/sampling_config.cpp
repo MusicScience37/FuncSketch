@@ -19,6 +19,8 @@
  */
 #include "func_sketch/sampling/sampling_config.h"
 
+#include <cmath>
+
 #include <fmt/format.h>
 
 #include "func_sketch/exceptions.h"
@@ -57,12 +59,12 @@ SamplingConfig& SamplingConfig::max_coordinate_change_rate(double value) {
     return *this;
 }
 
-SamplingConfig& SamplingConfig::slope_change_threshold(double value) {
-    if (value <= 0.0) {
+SamplingConfig& SamplingConfig::max_angle_change_degrees(double value) {
+    if (!std::isfinite(value) || 0.0 >= value || value >= 180.0) {
         throw InvalidArgumentException(
-            "Slope change threshold must be positive.");
+            "Maximum angle change must be in the range (0, 180) degrees.");
     }
-    slope_change_threshold_ = value;
+    max_angle_change_degrees_ = value;
     return *this;
 }
 
@@ -88,8 +90,8 @@ double SamplingConfig::max_coordinate_change_rate() const noexcept {
     return max_coordinate_change_rate_;
 }
 
-double SamplingConfig::slope_change_threshold() const noexcept {
-    return slope_change_threshold_;
+double SamplingConfig::max_angle_change_degrees() const noexcept {
+    return max_angle_change_degrees_;
 }
 
 double SamplingConfig::min_param_change_rate() const noexcept {
