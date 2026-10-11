@@ -113,6 +113,83 @@ void sample_initial_points(const std::function<Point(Real)>& function,
 }
 
 /*!
+ * \brief Determine whether to divide a segment between three points.
+ *
+ * \param[in] left_param_diff Difference in parameter between the left and
+ * center points.
+ * \param[in] right_param_diff Difference in parameter between the center and
+ * right points.
+ * \param[in] left_point_diff Difference in point coordinates between the left
+ * and center points.
+ * \param[in] right_point_diff Difference in point coordinates between the
+ * center and right points.
+ * \param[in] is_left_point_in_range Whether the left point is within the range.
+ * \param[in] is_center_point_in_range Whether the center point is within the
+ * range.
+ * \param[in] is_right_point_in_range Whether the right point is within the
+ * range.
+ * \param[in] param_diff_min Minimum difference in parameter.
+ * \param[in] x_normalization_coeff Normalization coefficient for x-coordinate.
+ * \param[in] y_normalization_coeff Normalization coefficient for y-coordinate.
+ * \return A pair of booleans indicating whether to divide the left and right
+ * segments, respectively.
+ */
+[[nodiscard]] std::pair<bool, bool> should_divide_three_points(
+    Real left_param_diff, Real right_param_diff, const Point& left_point_diff,
+    const Point& right_point_diff, bool is_left_point_in_range,
+    bool is_center_point_in_range, bool is_right_point_in_range,
+    Real param_diff_min, Real x_normalization_coeff,
+    Real y_normalization_coeff) {
+    constexpr Real angle_change_cos_threshold =
+        0.8;  // TODO Move to configuration.
+
+    const Point left_normalized_diff{
+        .x = left_point_diff.x * x_normalization_coeff,
+        .y = left_point_diff.y * y_normalization_coeff};
+    const Point right_normalized_diff{
+        .x = right_point_diff.x * x_normalization_coeff,
+        .y = right_point_diff.y * y_normalization_coeff};
+    const Real left_squared_distance =
+        left_normalized_diff.x * left_normalized_diff.x +
+        left_normalized_diff.y * left_normalized_diff.y;
+    const Real right_squared_distance =
+        right_normalized_diff.x * right_normalized_diff.x +
+        right_normalized_diff.y * right_normalized_diff.y;
+    const Real diff_dot_product =
+        left_normalized_diff.x * right_normalized_diff.x +
+        left_normalized_diff.y * right_normalized_diff.y;
+    const bool has_large_angle_change = diff_dot_product * diff_dot_product <
+        left_squared_distance * right_squared_distance *
+            angle_change_cos_threshold * angle_change_cos_threshold;
+
+    bool should_divide_left = has_large_angle_change;
+    if (left_param_diff < param_diff_min) {
+        // The change in the parameter is already small enough, this segment may
+        // contain a discontinuity or a singularity.
+        should_divide_left = false;
+    }
+    if (!is_left_point_in_range && !is_center_point_in_range) {
+        // Both points are outside the range, so this segment may outside the
+        // range or has a singularity.
+        should_divide_left = false;
+    }
+
+    bool should_divide_right = has_large_angle_change;
+    if (right_param_diff < param_diff_min) {
+        // The change in the parameter is already small enough, this segment may
+        // contain a discontinuity or a singularity.
+        should_divide_right = false;
+    }
+    if (!is_center_point_in_range && !is_right_point_in_range) {
+        // Both points are outside the range, so this segment may outside the
+        // range or has a singularity.
+        should_divide_right = false;
+    }
+
+    return {should_divide_left, should_divide_right};
+}
+
+/*!
  * \brief Divide a segment.
  *
  * \param[in,out] samples List of sampled parameter and corresponding points.
@@ -154,6 +231,8 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
         param_range_size * config.min_param_change_rate();
     const Real x_diff_max = x_range_size * config.max_coordinate_change_rate();
     const Real y_diff_max = y_range_size * config.max_coordinate_change_rate();
+    const Real x_normalization_coeff = 1.0 / x_range_size;
+    const Real y_normalization_coeff = 1.0 / y_range_size;
 
     // std::forward_list does not have size() method, so manual calculation is
     // required.
@@ -178,7 +257,36 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
             divide_segment(samples, cur_iter, cur_param, next_param, function);
             ++num_points;
         } else {
-            ++cur_iter;
+            const auto next_next_iter = std::next(next_iter);
+            if (next_next_iter != samples.end()) {
+                const auto& [next_next_param, next_next_point] =
+                    *next_next_iter;
+                const Real extra_param_diff = next_next_param - next_param;
+                const Point extra_point_diff = next_next_point - next_point;
+                const bool is_next_next_point_in_range =
+                    range.contains(next_next_point);
+                const auto [should_divide_left, should_divide_right] =
+                    should_divide_three_points(cur_next_param_diff,
+                        extra_param_diff, cur_next_point_diff, extra_point_diff,
+                        is_cur_point_in_range, is_next_point_in_range,
+                        is_next_next_point_in_range, param_diff_min, x_diff_max,
+                        y_diff_max);
+                if (should_divide_left) {
+                    divide_segment(
+                        samples, cur_iter, cur_param, next_param, function);
+                    ++num_points;
+                }
+                if (should_divide_right) {
+                    divide_segment(samples, next_iter, next_param,
+                        next_next_param, function);
+                    ++num_points;
+                }
+                if (!should_divide_left && !should_divide_right) {
+                    ++cur_iter;
+                }
+            } else {
+                ++cur_iter;
+            }
         }
     }
 
