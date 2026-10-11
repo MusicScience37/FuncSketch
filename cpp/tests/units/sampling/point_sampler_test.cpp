@@ -19,6 +19,7 @@
  */
 #include "func_sketch/sampling/point_sampler.h"
 
+#include <cmath>
 #include <cstdlib>
 #include <limits>
 
@@ -53,5 +54,22 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
             INFO("i = " << i);
             CHECK(points[i].x < points[i + 1].x);
         }
+    }
+
+    SECTION("throw an exception for invalid parameter ranges") {
+        const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
+        const auto config = SamplingConfig();
+        auto sampler = PointSampler(range, config);
+
+        const auto func = [](Real param) {
+            return Point{.x = param, .y = param};
+        };
+        constexpr Real inf = std::numeric_limits<Real>::infinity();
+        constexpr Real nan = std::numeric_limits<Real>::quiet_NaN();
+        CHECK_THROWS((void)sampler(func, {1.0, -1.0}));
+        CHECK_THROWS((void)sampler(func, {1.0, 1.0}));
+        CHECK_THROWS((void)sampler(func, {-inf, 1.0}));
+        CHECK_THROWS((void)sampler(func, {-1.0, inf}));
+        CHECK_THROWS((void)sampler(func, {nan, 1.0}));
     }
 }

@@ -21,12 +21,15 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <forward_list>
+#include <iterator>
 #include <memory_resource>
 #include <utility>
 
+#include "func_sketch/exceptions.h"
 #include "func_sketch/plotter/plot_range.h"
 
 namespace func_sketch::sampling {
@@ -55,7 +58,7 @@ namespace {
  * This function calculates a point for a parameter value.
  * \param[in] parameter_range Range of the parameter.
  * \param[in] num_points Number of points.
- * \param[out] samples List of sampled parameter and corresponding points.
+ * \param[out] samples List of sampled parameters and corresponding points.
  */
 void sample_initial_points(const std::function<Point(Real)>& function,
     const std::pair<Real, Real>& parameter_range, std::size_t num_points,
@@ -92,13 +95,13 @@ void sample_initial_points(const std::function<Point(Real)>& function,
     bool is_next_point_in_range, Real param_diff_min, Real x_diff_max,
     Real y_diff_max) {
     if (cur_next_param_diff < param_diff_min) {
-        // The change in the parameter is already small enough, this segment may
-        // contain a discontinuity or a singularity.
+        // The change in the parameter is already small enough, so this segment
+        // may contain a discontinuity or a singularity.
         return false;
     }
     if (!is_cur_point_in_range && !is_next_point_in_range) {
-        // Both points are outside the range, so this segment may outside the
-        // range or has a singularity.
+        // Both points are outside the range, so this segment may be outside the
+        // range or may contain a singularity.
         return false;
     }
 
@@ -113,7 +116,7 @@ void sample_initial_points(const std::function<Point(Real)>& function,
 }
 
 /*!
- * \brief Determine whether to divide a segment between three points.
+ * \brief Determine whether to divide the segments between three points.
  *
  * \param[in] left_param_diff Difference in parameter between the left and
  * center points.
@@ -141,7 +144,15 @@ void sample_initial_points(const std::function<Point(Real)>& function,
     Real param_diff_min, Real x_normalization_coeff,
     Real y_normalization_coeff) {
     constexpr Real angle_change_cos_threshold =
-        0.8;  // TODO Move to configuration.
+        0.8660254038;  // TODO Move to configuration.
+
+    if (!std::isfinite(left_point_diff.x) ||
+        !std::isfinite(left_point_diff.y) ||
+        !std::isfinite(right_point_diff.x) ||
+        !std::isfinite(right_point_diff.y)) {
+        // In this case, skip the check of angle changes.
+        return {false, false};
+    }
 
     const Point left_normalized_diff{
         .x = left_point_diff.x * x_normalization_coeff,
@@ -158,31 +169,31 @@ void sample_initial_points(const std::function<Point(Real)>& function,
     const Real diff_dot_product =
         left_normalized_diff.x * right_normalized_diff.x +
         left_normalized_diff.y * right_normalized_diff.y;
-    const bool has_large_angle_change = diff_dot_product * diff_dot_product <
-        left_squared_distance * right_squared_distance *
-            angle_change_cos_threshold * angle_change_cos_threshold;
+    const bool has_large_angle_change =
+        diff_dot_product < angle_change_cos_threshold *
+            std::sqrt(left_squared_distance * right_squared_distance);
 
     bool should_divide_left = has_large_angle_change;
     if (left_param_diff < param_diff_min) {
-        // The change in the parameter is already small enough, this segment may
-        // contain a discontinuity or a singularity.
+        // The change in the parameter is already small enough, so this segment
+        // may contain a discontinuity or a singularity.
         should_divide_left = false;
     }
     if (!is_left_point_in_range && !is_center_point_in_range) {
-        // Both points are outside the range, so this segment may outside the
-        // range or has a singularity.
+        // Both points are outside the range, so this segment may be outside the
+        // range or may contain a singularity.
         should_divide_left = false;
     }
 
     bool should_divide_right = has_large_angle_change;
     if (right_param_diff < param_diff_min) {
-        // The change in the parameter is already small enough, this segment may
-        // contain a discontinuity or a singularity.
+        // The change in the parameter is already small enough, so this segment
+        // may contain a discontinuity or a singularity.
         should_divide_right = false;
     }
     if (!is_center_point_in_range && !is_right_point_in_range) {
-        // Both points are outside the range, so this segment may outside the
-        // range or has a singularity.
+        // Both points are outside the range, so this segment may be outside the
+        // range or may contain a singularity.
         should_divide_right = false;
     }
 
@@ -192,7 +203,7 @@ void sample_initial_points(const std::function<Point(Real)>& function,
 /*!
  * \brief Divide a segment.
  *
- * \param[in,out] samples List of sampled parameter and corresponding points.
+ * \param[in,out] samples List of sampled parameters and corresponding points.
  * \param[in] left_iter Iterator to the left point of the segment.
  * \param[in] left_param Parameter value of the left point.
  * \param[in] right_param Parameter value of the right point.
@@ -214,8 +225,9 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
  * \param[in] function Function to sample.
  * This function calculates a point for a parameter value.
  * \param[in] config Configuration of sampling.
+ * \param[in] parameter_range Range of the parameter.
  * \param[in] range Range of the plot.
- * \param[in,out] samples List of sampled parameter and corresponding points.
+ * \param[in,out] samples List of sampled parameters and corresponding points.
  * \return Number of points after adaptive addition.
  */
 [[nodiscard]] std::size_t add_points_adaptively(
@@ -234,7 +246,7 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
     const Real x_normalization_coeff = 1.0 / x_range_size;
     const Real y_normalization_coeff = 1.0 / y_range_size;
 
-    // std::forward_list does not have size() method, so manual calculation is
+    // std::forward_list does not have a size() method, so manual calculation is
     // required.
     std::size_t num_points = config.initial_num_sample_points();
     auto cur_iter = samples.begin();
@@ -269,8 +281,8 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
                     should_divide_three_points(cur_next_param_diff,
                         extra_param_diff, cur_next_point_diff, extra_point_diff,
                         is_cur_point_in_range, is_next_point_in_range,
-                        is_next_next_point_in_range, param_diff_min, x_diff_max,
-                        y_diff_max);
+                        is_next_next_point_in_range, param_diff_min,
+                        x_normalization_coeff, y_normalization_coeff);
                 if (should_divide_left) {
                     divide_segment(
                         samples, cur_iter, cur_param, next_param, function);
@@ -298,6 +310,14 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
 std::vector<Point> PointSampler::operator()(
     const std::function<Point(Real)>& function,
     const std::pair<Real, Real>& parameter_range) const {
+    if (!std::isfinite(parameter_range.first) ||
+        !std::isfinite(parameter_range.second)) {
+        throw InvalidArgumentException("Invalid parameter range: not finite");
+    }
+    if (parameter_range.first >= parameter_range.second) {
+        throw InvalidArgumentException("Invalid parameter range: min >= max");
+    }
+
     constexpr std::size_t static_buffer_size = 65536;
     // NOLINTNEXTLINE(*-member-init): Raw buffer is sufficient here.
     std::array<char, static_buffer_size> static_buffer;

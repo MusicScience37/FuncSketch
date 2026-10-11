@@ -38,15 +38,15 @@ public:
     /*!
      * \brief Constructor.
      *
-     * \param[in] range Range of plots.
+     * \param[in] range Range of the plot.
      * \param[in] config Configuration of sampling.
      */
     PointSampler(const plotter::PlotRange& range, const SamplingConfig& config);
 
     /*!
-     * \brief Set the range of plots.
+     * \brief Set the range of the plot.
      *
-     * \param[in] value Range of plots.
+     * \param[in] value Range of the plot.
      * \return Reference to this object.
      */
     PointSampler& range(const plotter::PlotRange& value);
@@ -66,13 +66,15 @@ public:
      * This function calculates a point for a parameter value.
      * \param[in] parameter_range Range of the parameter.
      * \return Sampled points.
+     *
+     * \throw InvalidArgumentException If the range of the parameter is invalid.
      */
     [[nodiscard]] std::vector<Point> operator()(
         const std::function<Point(Real)>& function,
         const std::pair<Real, Real>& parameter_range) const;
 
 private:
-    //! Range of plots.
+    //! Range of the plot.
     plotter::PlotRange range_;
 
     //! Configuration of sampling.
