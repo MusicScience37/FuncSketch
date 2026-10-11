@@ -62,5 +62,61 @@ TEST_CASE("func_sketch::math::ConstantList") {
             CHECK_THAT(std::get<Real>(e_value.value()),
                 Catch::Matchers::WithinRel(2.71828182845904523536));
         }
+
+        SECTION("euler_mascheroni") {
+            const auto value = list.get("euler_mascheroni");
+            REQUIRE(value.has_value());
+            CHECK_THAT(std::get<Real>(value.value()),
+                Catch::Matchers::WithinRel(0.57721566490153286061));
+        }
+
+        SECTION("golden_ratio") {
+            const auto value = list.get("golden_ratio");
+            REQUIRE(value.has_value());
+            CHECK_THAT(std::get<Real>(value.value()),
+                Catch::Matchers::WithinRel(1.61803398874989484820));
+        }
+
+        SECTION("avogadro_constant") {
+            const auto value = list.get("avogadro_constant");
+            REQUIRE(value.has_value());
+            CHECK_THAT(std::get<Real>(value.value()),
+                Catch::Matchers::WithinRel(6.02214076e23));
+        }
+
+        SECTION("boltzmann_constant") {
+            const auto value = list.get("boltzmann_constant");
+            REQUIRE(value.has_value());
+            CHECK_THAT(std::get<Real>(value.value()),
+                Catch::Matchers::WithinRel(1.380649e-23));
+        }
+
+        SECTION("elementary_charge") {
+            const auto value = list.get("elementary_charge");
+            REQUIRE(value.has_value());
+            CHECK_THAT(std::get<Real>(value.value()),
+                Catch::Matchers::WithinRel(1.602176634e-19));
+        }
+
+        SECTION("gravitational_constant") {
+            const auto value = list.get("gravitational_constant");
+            REQUIRE(value.has_value());
+            CHECK_THAT(std::get<Real>(value.value()),
+                Catch::Matchers::WithinRel(6.67430e-11));
+        }
+
+        SECTION("planck_constant") {
+            const auto value = list.get("planck_constant");
+            REQUIRE(value.has_value());
+            CHECK_THAT(std::get<Real>(value.value()),
+                Catch::Matchers::WithinRel(6.62607015e-34));
+        }
+
+        SECTION("speed_of_light") {
+            const auto value = list.get("speed_of_light");
+            REQUIRE(value.has_value());
+            CHECK_THAT(std::get<Real>(value.value()),
+                Catch::Matchers::WithinRel(299792458.0));
+        }
     }
 }

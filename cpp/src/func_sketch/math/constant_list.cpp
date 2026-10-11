@@ -27,9 +27,19 @@ ConstantList generate_constant_list() {
     ConstantList list;
 
     // Mathematical constants
-    list.emplace("pi", Number(std::numbers::pi));
     list.emplace("e", Number(std::numbers::e));
+    list.emplace("euler_mascheroni", Number(std::numbers::egamma));
+    list.emplace("golden_ratio", Number(std::numbers::phi));
     list.emplace("i", Number(Complex(0.0, 1.0)));
+    list.emplace("pi", Number(std::numbers::pi));
+
+    // Physical constants
+    list.emplace("avogadro_constant", Number(6.02214076e23));
+    list.emplace("boltzmann_constant", Number(1.380649e-23));
+    list.emplace("elementary_charge", Number(1.602176634e-19));
+    list.emplace("gravitational_constant", Number(6.67430e-11));
+    list.emplace("planck_constant", Number(6.62607015e-34));
+    list.emplace("speed_of_light", Number(299792458.0));
 
     return list;
 }
