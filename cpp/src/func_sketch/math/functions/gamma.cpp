@@ -38,7 +38,8 @@ namespace func_sketch::math {
 MathFunction gamma_function(std::function<Complex(Complex)> complex_gamma) {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "gamma", [complex_gamma = std::move(complex_gamma)](auto arg) {
+            {"gamma", {"x"}},
+            [complex_gamma = std::move(complex_gamma)](auto arg) {
                 using ArgType = std::decay_t<decltype(arg)>;
                 if constexpr (std::is_same_v<ArgType, Complex>) {
                     return complex_gamma(arg);
@@ -51,7 +52,7 @@ MathFunction gamma_function(std::function<Complex(Complex)> complex_gamma) {
 MathFunction lgamma_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "lgamma", [](Real arg) {
+            {"lgamma", {"x"}}, [](Real arg) {
                 return boost::math::lgamma(arg, BoostMathPolicy());
             }));
 }
@@ -59,7 +60,7 @@ MathFunction lgamma_function() {
 MathFunction digamma_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "digamma", [](Real arg) {
+            {"digamma", {"x"}}, [](Real arg) {
                 return boost::math::digamma(arg, BoostMathPolicy());
             }));
 }
@@ -67,7 +68,7 @@ MathFunction digamma_function() {
 MathFunction trigamma_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "trigamma", [](Real arg) {
+            {"trigamma", {"x"}}, [](Real arg) {
                 return boost::math::trigamma(arg, BoostMathPolicy());
             }));
 }
@@ -75,7 +76,7 @@ MathFunction trigamma_function() {
 MathFunction polygamma_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Integer>, AcceptableTypes<Real>>>(
-        "polygamma", [](Integer order, Real arg) {
+        {"polygamma", {"n", "x"}}, [](Integer order, Real arg) {
             if (order < 0) {
                 return std::numeric_limits<Real>::quiet_NaN();
             }
@@ -86,7 +87,7 @@ MathFunction polygamma_function() {
 MathFunction igamma_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "igamma", [](Real param_a, Real x) {
+        {"igamma", {"a", "x"}}, [](Real param_a, Real x) {
             return boost::math::gamma_p(param_a, x, BoostMathPolicy());
         }));
 }
@@ -94,7 +95,7 @@ MathFunction igamma_function() {
 MathFunction igammac_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "igammac", [](Real param_a, Real x) {
+        {"igammac", {"a", "x"}}, [](Real param_a, Real x) {
             return boost::math::gamma_q(param_a, x, BoostMathPolicy());
         }));
 }
@@ -102,7 +103,7 @@ MathFunction igammac_function() {
 MathFunction igamma_inv_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "igamma_inv", [](Real param_a, Real probability) {
+        {"igamma_inv", {"a", "p"}}, [](Real param_a, Real probability) {
             return boost::math::gamma_p_inv(
                 param_a, probability, BoostMathPolicy());
         }));
@@ -111,7 +112,7 @@ MathFunction igamma_inv_function() {
 MathFunction igammac_inv_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "igammac_inv", [](Real param_a, Real probability) {
+        {"igammac_inv", {"a", "q"}}, [](Real param_a, Real probability) {
             return boost::math::gamma_q_inv(
                 param_a, probability, BoostMathPolicy());
         }));

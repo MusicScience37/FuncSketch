@@ -34,7 +34,7 @@ namespace func_sketch::math {
 MathFunction jacobi_sn_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "jacobi_sn", [](Real argument, Real modulus) {
+        {"jacobi_sn", {"u", "k"}}, [](Real argument, Real modulus) {
             // Boost.Math does not accept negative moduli,
             // but Jacobi elliptic functions depend only on the square of the
             // modulus.
@@ -46,7 +46,7 @@ MathFunction jacobi_sn_function() {
 MathFunction jacobi_cn_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "jacobi_cn", [](Real argument, Real modulus) {
+        {"jacobi_cn", {"u", "k"}}, [](Real argument, Real modulus) {
             return boost::math::jacobi_cn(
                 std::abs(modulus), argument, BoostMathPolicy());
         }));
@@ -55,7 +55,7 @@ MathFunction jacobi_cn_function() {
 MathFunction jacobi_dn_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "jacobi_dn", [](Real argument, Real modulus) {
+        {"jacobi_dn", {"u", "k"}}, [](Real argument, Real modulus) {
             return boost::math::jacobi_dn(
                 std::abs(modulus), argument, BoostMathPolicy());
         }));

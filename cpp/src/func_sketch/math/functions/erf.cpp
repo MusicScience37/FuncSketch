@@ -34,19 +34,19 @@ namespace func_sketch::math {
 MathFunction erf_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "erf", [](Real arg) { return std::erf(arg); }));
+            {"erf", {"x"}}, [](Real arg) { return std::erf(arg); }));
 }
 
 MathFunction erfc_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "erfc", [](Real arg) { return std::erfc(arg); }));
+            {"erfc", {"x"}}, [](Real arg) { return std::erfc(arg); }));
 }
 
 MathFunction erf_inv_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "erf_inv", [](Real arg) {
+            {"erf_inv", {"x"}}, [](Real arg) {
                 return boost::math::erf_inv(arg, BoostMathPolicy());
             }));
 }
@@ -54,7 +54,7 @@ MathFunction erf_inv_function() {
 MathFunction erfc_inv_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "erfc_inv", [](Real arg) {
+            {"erfc_inv", {"x"}}, [](Real arg) {
                 return boost::math::erfc_inv(arg, BoostMathPolicy());
             }));
 }

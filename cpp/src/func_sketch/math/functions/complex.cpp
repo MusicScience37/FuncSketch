@@ -29,25 +29,25 @@ namespace func_sketch::math {
 MathFunction real_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Complex>>>(
-            "real", [](Complex arg) { return std::real(arg); }));
+            {"real", {"x"}}, [](Complex arg) { return std::real(arg); }));
 }
 
 MathFunction imag_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Complex>>>(
-            "imag", [](Complex arg) { return std::imag(arg); }));
+            {"imag", {"x"}}, [](Complex arg) { return std::imag(arg); }));
 }
 
 MathFunction arg_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Complex>>>(
-            "arg", [](Complex arg) { return std::arg(arg); }));
+            {"arg", {"x"}}, [](Complex arg) { return std::arg(arg); }));
 }
 
 MathFunction conj_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Complex>>>(
-            "conj", [](Complex arg) { return std::conj(arg); }));
+            {"conj", {"x"}}, [](Complex arg) { return std::conj(arg); }));
 }
 
 }  // namespace func_sketch::math

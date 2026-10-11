@@ -31,43 +31,43 @@ namespace func_sketch::math {
 MathFunction sin_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "sin", [](auto arg) { return std::sin(arg); }));
+            {"sin", {"x"}}, [](auto arg) { return std::sin(arg); }));
 }
 
 MathFunction cos_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "cos", [](auto arg) { return std::cos(arg); }));
+            {"cos", {"x"}}, [](auto arg) { return std::cos(arg); }));
 }
 
 MathFunction tan_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "tan", [](auto arg) { return std::tan(arg); }));
+            {"tan", {"x"}}, [](auto arg) { return std::tan(arg); }));
 }
 
 MathFunction asin_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "asin", [](auto arg) { return std::asin(arg); }));
+            {"asin", {"x"}}, [](auto arg) { return std::asin(arg); }));
 }
 
 MathFunction acos_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "acos", [](auto arg) { return std::acos(arg); }));
+            {"acos", {"x"}}, [](auto arg) { return std::acos(arg); }));
 }
 
 MathFunction atan_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "atan", [](auto arg) { return std::atan(arg); }));
+            {"atan", {"x"}}, [](auto arg) { return std::atan(arg); }));
 }
 
 MathFunction atan2_function() {
     return MathFunction(make_general_math_function<
         std::tuple<AcceptableTypes<Real>, AcceptableTypes<Real>>>(
-        "atan2", [](Real y_value, Real x_value) {
+        {"atan2", {"y", "x"}}, [](Real y_value, Real x_value) {
             return std::atan2(y_value, x_value);
         }));
 }

@@ -31,37 +31,37 @@ namespace func_sketch::math {
 MathFunction sinh_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "sinh", [](auto arg) { return std::sinh(arg); }));
+            {"sinh", {"x"}}, [](auto arg) { return std::sinh(arg); }));
 }
 
 MathFunction cosh_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "cosh", [](auto arg) { return std::cosh(arg); }));
+            {"cosh", {"x"}}, [](auto arg) { return std::cosh(arg); }));
 }
 
 MathFunction tanh_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "tanh", [](auto arg) { return std::tanh(arg); }));
+            {"tanh", {"x"}}, [](auto arg) { return std::tanh(arg); }));
 }
 
 MathFunction asinh_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "asinh", [](auto arg) { return std::asinh(arg); }));
+            {"asinh", {"x"}}, [](auto arg) { return std::asinh(arg); }));
 }
 
 MathFunction acosh_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "acosh", [](auto arg) { return std::acosh(arg); }));
+            {"acosh", {"x"}}, [](auto arg) { return std::acosh(arg); }));
 }
 
 MathFunction atanh_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "atanh", [](auto arg) { return std::atanh(arg); }));
+            {"atanh", {"x"}}, [](auto arg) { return std::atanh(arg); }));
 }
 
 }  // namespace func_sketch::math

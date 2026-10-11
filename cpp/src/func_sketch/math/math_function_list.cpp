@@ -26,7 +26,7 @@ std::vector<MathFunctionInfo> MathFunctionList::create_function_info_list()
     std::vector<MathFunctionInfo> info_list;
     info_list.reserve(functions_.size());
     for (const auto& [name, function] : functions_) {
-        info_list.emplace_back(name);
+        info_list.push_back(function.info());
     }
     return info_list;
 }

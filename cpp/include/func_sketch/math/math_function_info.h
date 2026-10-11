@@ -21,14 +21,14 @@
 
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace func_sketch::math {
 
 /*!
  * \brief Class to store information about a mathematical function.
  *
- * \note Future implementation may include additional information about the
- * mathematical function.
+ * \note Argument names should be same as the names in documentation.
  */
 class MathFunctionInfo {
 public:
@@ -36,8 +36,11 @@ public:
      * \brief Constructor.
      *
      * \param[in] name Name of the mathematical function.
+     * \param[in] argument_names Names of the arguments of the mathematical
+     * function.
      */
-    explicit MathFunctionInfo(std::string name) : name_(std::move(name)) {}
+    MathFunctionInfo(std::string name, std::vector<std::string> argument_names)
+        : name_(std::move(name)), argument_names_(std::move(argument_names)) {}
 
     /*!
      * \brief Get the name of the mathematical function.
@@ -46,9 +49,22 @@ public:
      */
     [[nodiscard]] const std::string& name() const noexcept { return name_; }
 
+    /*!
+     * \brief Get the argument names of the mathematical function.
+     *
+     * \return Argument names of the mathematical function.
+     */
+    [[nodiscard]] const std::vector<std::string>& argument_names()
+        const noexcept {
+        return argument_names_;
+    }
+
 private:
     //! Name of the mathematical function.
     std::string name_;
+
+    //! Argument names.
+    std::vector<std::string> argument_names_;
 };
 
 }  // namespace func_sketch::math

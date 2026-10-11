@@ -31,19 +31,19 @@ namespace func_sketch::math {
 MathFunction exp_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "exp", [](auto arg) { return std::exp(arg); }));
+            {"exp", {"x"}}, [](auto arg) { return std::exp(arg); }));
 }
 
 MathFunction exp2_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "exp2", [](Real arg) { return std::exp2(arg); }));
+            {"exp2", {"x"}}, [](Real arg) { return std::exp2(arg); }));
 }
 
 MathFunction expm1_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "expm1", [](Real arg) { return std::expm1(arg); }));
+            {"expm1", {"x"}}, [](Real arg) { return std::expm1(arg); }));
 }
 
 }  // namespace func_sketch::math

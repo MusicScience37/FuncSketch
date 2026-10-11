@@ -32,31 +32,31 @@ namespace func_sketch::math {
 MathFunction abs_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real, Complex>>>(
-            "abs", [](auto arg) { return std::abs(arg); }));
+            {"abs", {"x"}}, [](auto arg) { return std::abs(arg); }));
 }
 
 MathFunction ceil_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "ceil", [](Real arg) { return std::ceil(arg); }));
+            {"ceil", {"x"}}, [](Real arg) { return std::ceil(arg); }));
 }
 
 MathFunction floor_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "floor", [](Real arg) { return std::floor(arg); }));
+            {"floor", {"x"}}, [](Real arg) { return std::floor(arg); }));
 }
 
 MathFunction trunc_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "trunc", [](Real arg) { return std::trunc(arg); }));
+            {"trunc", {"x"}}, [](Real arg) { return std::trunc(arg); }));
 }
 
 MathFunction round_function() {
     return MathFunction(
         make_general_math_function<std::tuple<AcceptableTypes<Real>>>(
-            "round", [](Real arg) { return std::round(arg); }));
+            {"round", {"x"}}, [](Real arg) { return std::round(arg); }));
 }
 
 }  // namespace func_sketch::math
