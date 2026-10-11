@@ -9,14 +9,21 @@
   - Orthogonal polynomials. (`hermite`)
   - Elliptic integrals. (`elliptic_f`, `comp_elliptic_k`, `elliptic_e`, `comp_elliptic_e`, `elliptic_pi`, `comp_elliptic_pi`)
   - Jacobi elliptic functions. (`jacobi_sn`, `jacobi_cn`, `jacobi_dn`)
+- Added more built-in constants.
+  - More mathematical constants. (`euler_mascheroni`, `golden_ratio`)
+  - Physical constants. (`avogadro_constant`, `boltzmann_constant`, `elementary_charge`, `gravitational_constant`, `planck_constant`, `speed_of_light`)
 
 ## Fixes
 
 ## Improvements
 
+- Refactored implementation of sampling for faster sampling and future implementation of parameterized curves.
 - Updated the grammar of function expressions.
   - Unary plus can be handled now. For example, `+x` is valid.
   - Multiple unary operators are prohibited. For example, `++x` and `--x` are invalid.
   - The power operator now correctly handles negative exponents. For example, `2 ** -x` is valid.
+- Added function arguments in auto completion of function expressions.
 
 ## Miscellaneous
+
+- Updated dependencies.
