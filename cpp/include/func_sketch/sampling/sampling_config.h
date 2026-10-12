@@ -24,16 +24,19 @@
 namespace func_sketch::sampling {
 
 //! Default number of points to sample initially in adaptive sampling.
-constexpr std::size_t default_initial_num_sample_points = 110;
+constexpr std::size_t default_initial_num_sample_points = 210;
 
 //! Default maximum number of points to sample in adaptive sampling.
-constexpr std::size_t default_max_num_sample_points = 20000;
+constexpr std::size_t default_max_num_sample_points = 30000;
 
 //! Maximum value of the maximum number of points to sample in adaptive sampling for safety limit of memory usage.
 constexpr std::size_t max_max_num_sample_points = 100000;
 
 //! Default threshold of the change in coordinates of sample points relative to the plot range in adaptive sampling.
-constexpr double default_max_coordinate_change_rate = 0.01;
+constexpr double default_max_coordinate_change_rate = 0.005;
+
+static_assert(default_initial_num_sample_points >
+    1.0 / default_max_coordinate_change_rate);
 
 //! Default maximum change of the angle between consecutive segments in adaptive sampling in degrees.
 constexpr double default_max_angle_change_degrees = 5.0;
