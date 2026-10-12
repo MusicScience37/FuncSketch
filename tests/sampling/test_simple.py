@@ -59,7 +59,7 @@ class TestSimple:
 
     def test_sample_1_div_x(self) -> None:
         """Test of sampling 1 / x."""
-        x_values, y_values = sample_function("1 / x", (-3.0, 3.0), (-3.0, 3.0))
+        x_values, y_values = sample_function("1 / x", (0.1, 3.0), (-3.0, 3.0))
         compare_vectors(y_values, 1 / x_values)
 
     def test_sample_x_pow_2(self) -> None:

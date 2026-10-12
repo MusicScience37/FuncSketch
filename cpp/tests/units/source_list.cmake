@@ -50,4 +50,5 @@ set(SOURCE_FILES
     sampling/sampling_config_test.cpp
     test_main.cpp
     utilities/any_test.cpp
+    utilities/validate_bounds_test.cpp
 )

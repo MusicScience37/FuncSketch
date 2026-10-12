@@ -20,28 +20,20 @@
 #include "func_sketch/plotter/plot_range.h"
 
 #include <cmath>
+#include <utility>
 
 #include <fmt/format.h>
 
 #include "func_sketch/exceptions.h"
+#include "func_sketch/utilities/validate_bounds.h"
 
 namespace func_sketch::plotter {
 
 PlotRange::PlotRange(const std::pair<double, double>& x_range,
     const std::pair<double, double>& y_range)
     : x_range_(x_range), y_range_(y_range) {
-    if (!std::isfinite(x_range.first) || !std::isfinite(x_range.second)) {
-        throw InvalidArgumentException("Invalid X range: not finite");
-    }
-    if (!std::isfinite(y_range.first) || !std::isfinite(y_range.second)) {
-        throw InvalidArgumentException("Invalid Y range: not finite");
-    }
-    if (x_range.first >= x_range.second) {
-        throw InvalidArgumentException("Invalid X range: min >= max");
-    }
-    if (y_range.first >= y_range.second) {
-        throw InvalidArgumentException("Invalid Y range: min >= max");
-    }
+    utilities::validate_bounds(x_range, "X");
+    utilities::validate_bounds(y_range, "Y");
 }
 
 void PlotRange::zoom(const Point& center, double factor) {
@@ -50,10 +42,16 @@ void PlotRange::zoom(const Point& center, double factor) {
             "Invalid factor for zooming: must be a finite positive number");
     }
 
-    x_range_.first = center.x + (x_range_.first - center.x) / factor;
-    x_range_.second = center.x + (x_range_.second - center.x) / factor;
-    y_range_.first = center.y + (y_range_.first - center.y) / factor;
-    y_range_.second = center.y + (y_range_.second - center.y) / factor;
+    const std::pair<double, double> new_x_range{
+        center.x + (x_range_.first - center.x) / factor,
+        center.x + (x_range_.second - center.x) / factor};
+    const std::pair<double, double> new_y_range{
+        center.y + (y_range_.first - center.y) / factor,
+        center.y + (y_range_.second - center.y) / factor};
+    utilities::validate_bounds(new_x_range, "X");
+    utilities::validate_bounds(new_y_range, "Y");
+    x_range_ = new_x_range;
+    y_range_ = new_y_range;
 }
 
 void PlotRange::pan(const Point& diff) {
@@ -62,10 +60,14 @@ void PlotRange::pan(const Point& diff) {
             "Invalid difference for panning: must be a finite number");
     }
 
-    x_range_.first += diff.x;
-    x_range_.second += diff.x;
-    y_range_.first += diff.y;
-    y_range_.second += diff.y;
+    const std::pair<double, double> new_x_range{
+        x_range_.first + diff.x, x_range_.second + diff.x};
+    const std::pair<double, double> new_y_range{
+        y_range_.first + diff.y, y_range_.second + diff.y};
+    utilities::validate_bounds(new_x_range, "X");
+    utilities::validate_bounds(new_y_range, "Y");
+    x_range_ = new_x_range;
+    y_range_ = new_y_range;
 }
 
 }  // namespace func_sketch::plotter

@@ -19,6 +19,8 @@
  */
 #include "func_sketch/plotter/plot_range.h"
 
+#include <utility>
+
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
 
@@ -34,12 +36,22 @@ TEST_CASE("func_sketch::plotter::PlotRange") {
         CHECK_THROWS(PlotRange({0.0, NAN}, {2.0, 3.0}));
         CHECK_THROWS(PlotRange({0.0, 0.0}, {2.0, 3.0}));
         CHECK_THROWS(PlotRange({0.0, -1.0}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({-1e+308, 1e+308}, {2.0, 3.0}));
+        CHECK_NOTHROW(PlotRange({0.0, 1.01e-300}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, 0.99e-300}, {2.0, 3.0}));
+        CHECK_NOTHROW(PlotRange({1e+15, 1e+15 + 1.01e+3}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({1e+15, 1e+15 + 0.99e+3}, {2.0, 3.0}));
 
         // Wrong y-range
         CHECK_THROWS(PlotRange({0.0, 1.0}, {NAN, 3.0}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, NAN}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, 2.0}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {3.0, 2.0}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {-1e+308, 1e+308}));
+        CHECK_NOTHROW(PlotRange({0.0, 1.0}, {0.0, 1.01e-300}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {0.0, 0.99e-300}));
+        CHECK_NOTHROW(PlotRange({0.0, 1.0}, {1e+15, 1e+15 + 1.01e+3}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {1e+15, 1e+15 + 0.99e+3}));
     }
 
     SECTION("zoom in") {
@@ -72,6 +84,50 @@ TEST_CASE("func_sketch::plotter::PlotRange") {
         CHECK_THROWS(range.zoom(center, 0.0));
         CHECK_THROWS(range.zoom(center, -1.0));
         CHECK_THROWS(range.zoom(center, NAN));
+    }
+
+    SECTION("check ranges in zoom") {
+        PlotRange range{{-1.0, 1.0}, {-1.0, 1.0}};
+        const Point center{.x = 0.5, .y = 0.5};
+
+        // Too large range.
+        CHECK_THROWS(range.zoom(center, 1e-308));
+        // Too small range.
+        CHECK_THROWS(range.zoom(center, 1e+308));
+
+        // The range is not changed when an exception is thrown.
+        CHECK(range.x_range() == std::make_pair(-1.0, 1.0));
+        CHECK(range.y_range() == std::make_pair(-1.0, 1.0));
+    }
+
+    SECTION("pan") {
+        PlotRange range{{0.0, 4.0}, {0.0, 8.0}};
+
+        range.pan(Point{.x = 1.0, .y = -2.0});
+
+        CHECK(range.x_range().first == 1.0);
+        CHECK(range.x_range().second == 5.0);
+        CHECK(range.y_range().first == -2.0);
+        CHECK(range.y_range().second == 6.0);
+    }
+
+    SECTION("check ranges in pan") {
+        PlotRange range{{0.0, 1e+308}, {0.0, 1e+308}};
+
+        CHECK_THROWS(range.pan(Point{.x = NAN, .y = 0.0}));
+        CHECK_THROWS(range.pan(Point{.x = 0.0, .y = NAN}));
+        // Overflow.
+        CHECK_THROWS(range.pan(Point{.x = 1e+308, .y = 0.0}));
+        CHECK_THROWS(range.pan(Point{.x = 0.0, .y = 1e+308}));
+
+        // The range is not changed when an exception is thrown.
+        CHECK(range.x_range() == std::make_pair(0.0, 1e+308));
+        CHECK(range.y_range() == std::make_pair(0.0, 1e+308));
+
+        // Loss of precision.
+        PlotRange small_range{{0.0, 1.0}, {0.0, 1.0}};
+        CHECK_THROWS(small_range.pan(Point{.x = 1e+20, .y = 0.0}));
+        CHECK_THROWS(small_range.pan(Point{.x = 0.0, .y = 1e+20}));
     }
 
     SECTION("format") {

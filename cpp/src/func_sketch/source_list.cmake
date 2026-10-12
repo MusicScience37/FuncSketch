@@ -49,4 +49,5 @@ set(SOURCE_FILES
     point.cpp
     sampling/point_sampler.cpp
     sampling/sampling_config.cpp
+    utilities/validate_bounds.cpp
 )

@@ -178,7 +178,11 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
         is_zoom_in = is_scroll_down
         factor = 2.0 if is_zoom_in else 0.5
         plot_range = self.shared_state.plot_range  # type: PlotRange
-        plot_range.zoom(center=mouse_pos_in_plot, factor=factor)
+        try:
+            plot_range.zoom(center=mouse_pos_in_plot, factor=factor)
+        except RuntimeError as e:
+            LOGGER.warning("Failed to zoom the plot range: %s", e)
+            return
         self.shared_state.update_plot_range(self, plot_range)
 
     def on_mouse_left_button_down(
@@ -218,7 +222,11 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
             diff_plot = Point(x=-dx_pixel * x_coeff, y=-dy_pixel * y_coeff)
 
             plot_range = self.shared_state.plot_range
-            plot_range.pan(diff_plot)
+            try:
+                plot_range.pan(diff_plot)
+            except RuntimeError as e:
+                LOGGER.warning("Failed to pan the plot range: %s", e)
+                return
             self.shared_state.update_plot_range(self, plot_range)
 
             self._last_mouse_pos_in_pixel = relative_pos
@@ -242,10 +250,14 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
                 x_max = max(first_pos_in_plot.x, second_pos_in_plot.x)
                 y_min = min(first_pos_in_plot.y, second_pos_in_plot.y)
                 y_max = max(first_pos_in_plot.y, second_pos_in_plot.y)
-                self.shared_state.update_plot_range(
-                    self,
-                    PlotRange(x_range=(x_min, x_max), y_range=(y_min, y_max)),
-                )
+                try:
+                    plot_range = PlotRange(
+                        x_range=(x_min, x_max), y_range=(y_min, y_max)
+                    )
+                except RuntimeError as e:
+                    LOGGER.warning("Failed to select the plot range: %s", e)
+                else:
+                    self.shared_state.update_plot_range(self, plot_range)
         self._last_mouse_pos_in_pixel = None
         self._current_touch_modifiers = []
 
