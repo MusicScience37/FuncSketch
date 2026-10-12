@@ -30,6 +30,7 @@
 #include "func_sketch/common_types.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/point.h"
+#include "func_sketch/sampling/sampling_config.h"
 
 TEST_CASE("func_sketch::sampling::PointSampler") {
     using func_sketch::Point;
@@ -163,6 +164,35 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
                 INFO("i = " << i);
                 CHECK(points[i].x < points[i + 1].x);
             }
+        }
+    }
+
+    SECTION(
+        "sample with a narrow range with many initial sample points "
+        "configured") {
+        const auto range =
+            PlotRange({1.0e11, 1.0e11 + 1.0}, {1.0e11, 1.0e11 + 1.0});
+        const auto config =
+            SamplingConfig()
+                .initial_num_sample_points(
+                    func_sketch::sampling::max_max_num_sample_points)
+                .max_num_sample_points(
+                    func_sketch::sampling::max_max_num_sample_points);
+        auto sampler = PointSampler(range, config);
+
+        const auto func = [](Real param) {
+            return Point{.x = param, .y = param};
+        };
+        const auto points = sampler(func, range.x_range());
+
+        // Check the order of sampled points.
+        // The number of points can be smaller than the configured initial
+        // number of sample points due to the precision of parameters.
+        REQUIRE(points.size() >= 2);
+        CHECK(points.size() <= config.max_num_sample_points() + 1);
+        for (std::size_t i = 0; i < points.size() - 1; ++i) {
+            INFO("i = " << i);
+            CHECK(points[i].x < points[i + 1].x);
         }
     }
 
