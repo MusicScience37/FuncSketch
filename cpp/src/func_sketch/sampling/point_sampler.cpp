@@ -23,6 +23,7 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <forward_list>
 #include <iterator>
@@ -53,26 +54,100 @@ PointSampler& PointSampler::config(const SamplingConfig& value) {
 namespace {
 
 /*!
+ * \brief Determine the interval of initial sampling.
+ *
+ * \param[in] parameter_range Range of the parameter.
+ * \param[in] num_points Number of points.
+ * \return A pair of the mantissa and the exponent of the interval.
+ */
+[[nodiscard]] std::pair<Real, int> determine_initial_sample_interval(
+    const std::pair<Real, Real>& parameter_range, std::size_t num_points) {
+    const Real range_size = parameter_range.second - parameter_range.first;
+    const Real approx_interval = range_size / static_cast<Real>(num_points - 1);
+    auto interval_digits =
+        static_cast<int>(std::floor(std::log10(approx_interval)));
+    Real interval_number = approx_interval / std::pow(10.0, interval_digits);
+    // Round down the interval to "nice numbers" (1, 2, 5, 10, ...).
+    if (interval_number < 1.0) {
+        interval_number = 5.0;
+        --interval_digits;
+    } else if (interval_number < 2.0) {
+        interval_number = 1.0;
+    } else if (interval_number < 5.0) {
+        interval_number = 2.0;
+    } else if (interval_number < 10.0) {
+        interval_number = 5.0;
+    } else {
+        interval_number = 1.0;
+        ++interval_digits;
+    }
+    return std::make_pair(interval_number, interval_digits);
+}
+
+/*!
  * \brief Sample initial points.
  *
  * \param[in] function Function to sample.
  * This function calculates a point for a parameter value.
  * \param[in] parameter_range Range of the parameter.
- * \param[in] num_points Number of points.
+ * \param[in] num_points Approximate number of points.
+ * \param[in] min_param_change_rate Minimum rate of parameter change.
  * \param[out] samples List of sampled parameters and corresponding points.
+ * \return Number of sampled points.
  */
-void sample_initial_points(const std::function<Point(Real)>& function,
+[[nodiscard]] std::size_t sample_initial_points(
+    const std::function<Point(Real)>& function,
     const std::pair<Real, Real>& parameter_range, std::size_t num_points,
+    Real min_param_change_rate,
     std::pmr::forward_list<std::pair<Real, Point>>& samples) {
+    const auto [interval_number, interval_digits] =
+        determine_initial_sample_interval(parameter_range, num_points);
+    const Real interval_order = std::pow(10.0, interval_digits);
+
+    // Exclude points too close to the end points
+    // to prevent sampling the same point or points too close to each other.
+    const Real min_param_change = min_param_change_rate *
+        (parameter_range.second - parameter_range.first);
+    using IndexType =
+        std::int64_t;  // Prevent overflow in conversions from double.
+    const auto min_intermediate_param_index =
+        static_cast<IndexType>(
+            std::floor((parameter_range.first + min_param_change) /
+                interval_order / interval_number)) +
+        1;
+    const auto max_intermediate_param_index =
+        static_cast<IndexType>(
+            std::ceil((parameter_range.second - min_param_change) /
+                interval_order / interval_number)) -
+        1;
+
+    std::size_t num_sampled_points = 0;
     auto iter = samples.before_begin();
-    for (std::size_t i = 0; i < num_points; ++i) {
-        const Real ratio =
-            static_cast<Real>(i) / static_cast<Real>(num_points - 1);
-        const Real parameter = parameter_range.first +
-            ratio * (parameter_range.second - parameter_range.first);
+    // Minimum parameter.
+    {
+        const Real parameter = parameter_range.first;
         iter = samples.insert_after(
             iter, std::make_pair(parameter, function(parameter)));
+        ++num_sampled_points;
     }
+    // Intermediate parameters.
+    for (IndexType index = min_intermediate_param_index;
+        index <= max_intermediate_param_index; ++index) {
+        const Real parameter =
+            static_cast<Real>(index) * interval_number * interval_order;
+        iter = samples.insert_after(
+            iter, std::make_pair(parameter, function(parameter)));
+        ++num_sampled_points;
+    }
+    // Maximum parameter.
+    {
+        const Real parameter = parameter_range.second;
+        iter = samples.insert_after(
+            iter, std::make_pair(parameter, function(parameter)));
+        ++num_sampled_points;
+    }
+
+    return num_sampled_points;
 }
 
 /*!
@@ -227,13 +302,14 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
  * \param[in] config Configuration of sampling.
  * \param[in] parameter_range Range of the parameter.
  * \param[in] range Range of the plot.
+ * \param[in] initial_num_points Number of initially sampled points.
  * \param[in,out] samples List of sampled parameters and corresponding points.
  * \return Number of points after adaptive addition.
  */
 [[nodiscard]] std::size_t add_points_adaptively(
     const std::function<Point(Real)>& function, const SamplingConfig& config,
     const std::pair<Real, Real>& parameter_range,
-    const plotter::PlotRange& range,
+    const plotter::PlotRange& range, std::size_t initial_num_points,
     std::pmr::forward_list<std::pair<Real, Point>>& samples) {
     const Real param_range_size =
         parameter_range.second - parameter_range.first;
@@ -250,7 +326,7 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
 
     // std::forward_list does not have a size() method, so manual calculation is
     // required.
-    std::size_t num_points = config.initial_num_sample_points();
+    std::size_t num_points = initial_num_points;
     auto cur_iter = samples.begin();
     while (cur_iter != samples.end() &&
         num_points <= config.max_num_sample_points()) {
@@ -328,11 +404,14 @@ std::vector<Point> PointSampler::operator()(
         static_buffer.data(), static_buffer.size());
     std::pmr::forward_list<std::pair<Real, Point>> samples(&resource);
 
-    sample_initial_points(function, parameter_range,
-        config_.initial_num_sample_points(), samples);
+    const std::size_t initial_num_samples =
+        sample_initial_points(function, parameter_range,
+            std::min(config_.initial_num_sample_points(),
+                config_.max_num_sample_points()),
+            config_.min_param_change_rate(), samples);
 
-    const std::size_t num_samples = add_points_adaptively(
-        function, config_, parameter_range, range_, samples);
+    const std::size_t num_samples = add_points_adaptively(function, config_,
+        parameter_range, range_, initial_num_samples, samples);
 
     std::vector<Point> result;
     result.reserve(num_samples);
