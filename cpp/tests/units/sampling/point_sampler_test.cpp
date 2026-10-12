@@ -19,9 +19,11 @@
  */
 #include "func_sketch/sampling/point_sampler.h"
 
+#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <limits>
+#include <utility>
 
 #include <catch2/catch_test_macros.hpp>
 
@@ -130,24 +132,37 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
         }
     }
 
-    SECTION("sample with a narrow range far from the origin") {
-        const auto range =
-            PlotRange({1.0e15, 1.0e15 + 1.0}, {1.0e15, 1.0e15 + 1.0});
+    SECTION("sample with extreme ranges allowed in PlotRange") {
+        constexpr std::array<std::pair<Real, Real>, 7> ranges{{
+            {0.0, 1.01e-300},
+            {-1.01e-300, 0.0},
+            {1e-288, 1e-288 + 1.01e-300},
+            {1e+15, 1e+15 + 1.01e+3},
+            {-1e+15 - 1.01e+3, -1e+15},
+            {1e+300, 1.00000000000101e+300},
+            {-8e+307, 8e+307},
+        }};
         const auto config = SamplingConfig();
-        auto sampler = PointSampler(range, config);
-
         const auto func = [](Real param) {
             return Point{.x = param, .y = param};
         };
-        const auto points = sampler(func, range.x_range());
 
-        // Check the order of sampled points.
-        // In this case, the number of points can be smaller than the configured
-        // initial number of sample points.
-        REQUIRE(points.size() > 0);
-        for (std::size_t i = 0; i < points.size() - 1; ++i) {
-            INFO("i = " << i);
-            CHECK(points[i].x < points[i + 1].x);
+        for (const auto& x_range : ranges) {
+            INFO("range = (" << x_range.first << ", " << x_range.second << ")");
+            const auto range = PlotRange(x_range, x_range);
+            auto sampler = PointSampler(range, config);
+
+            const auto points = sampler(func, range.x_range());
+
+            // Check the order of sampled points.
+            // The number of points can be smaller than the configured initial
+            // number of sample points due to the precision of parameters.
+            REQUIRE(points.size() >= 2);
+            CHECK(points.size() <= config.max_num_sample_points() + 1);
+            for (std::size_t i = 0; i < points.size() - 1; ++i) {
+                INFO("i = " << i);
+                CHECK(points[i].x < points[i + 1].x);
+            }
         }
     }
 

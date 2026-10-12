@@ -19,7 +19,9 @@
  */
 #include "func_sketch/plotter/plot_range.h"
 
+#include <algorithm>
 #include <cmath>
+#include <limits>
 #include <string_view>
 #include <utility>
 
@@ -47,9 +49,27 @@ void validate_range(
         throw InvalidArgumentException(
             fmt::format("Invalid {} range: min >= max", axis_name));
     }
-    if (!std::isfinite(range.second - range.first)) {
+    const double range_size = range.second - range.first;
+    if (!std::isfinite(range_size)) {
         throw InvalidArgumentException(
             fmt::format("Invalid {} range: size not finite", axis_name));
+    }
+    // Too small ranges cause loss of precision in plotting.
+    constexpr double min_range_size = 1e-300;
+    constexpr double min_relative_range_size = 1e-12;
+    static_assert(min_range_size > std::numeric_limits<double>::min());
+    static_assert(
+        min_relative_range_size > std::numeric_limits<double>::epsilon());
+    if (range_size < min_range_size) {
+        throw InvalidArgumentException(
+            fmt::format("Invalid {} range: size too small", axis_name));
+    }
+    const double max_abs_bound =
+        std::max(std::abs(range.first), std::abs(range.second));
+    if (range_size < max_abs_bound * min_relative_range_size) {
+        throw InvalidArgumentException(fmt::format(
+            "Invalid {} range: size too small relative to the bounds",
+            axis_name));
     }
 }
 

@@ -161,8 +161,9 @@ namespace {
     // Indices with large absolute values cause overflow in conversions to
     // integers and loss of precision in calculation of parameters.
     constexpr Real max_abs_index = 1e+10;
-    if (std::abs(min_intermediate_param_index_real) > max_abs_index ||
-        std::abs(max_intermediate_param_index_real) > max_abs_index) {
+    // Negated comparisons are used to handle NaN values.
+    if (!(std::abs(min_intermediate_param_index_real) <= max_abs_index) ||
+        !(std::abs(max_intermediate_param_index_real) <= max_abs_index)) {
         return sample_initial_points_fallback(
             function, parameter_range, num_points, samples);
     }

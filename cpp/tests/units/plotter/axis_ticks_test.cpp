@@ -19,9 +19,15 @@
  */
 #include "func_sketch/plotter/axis_ticks.h"
 
+#include <array>
+#include <cstddef>
+#include <utility>
+
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
+
+#include "func_sketch/plotter/plot_range.h"
 
 TEST_CASE("func_sketch::plotter::AxisTicks") {
     using func_sketch::plotter::AxisTicks;
@@ -155,5 +161,39 @@ TEST_CASE("func_sketch::plotter::AxisTicks") {
         CHECK(ticks.values.size() >= 2);
         CHECK_NOTHROW(generate_axis_ticks(range, 4, ticks));
         CHECK(ticks.values.size() >= 2);
+    }
+
+    SECTION("generate ticks for extreme ranges allowed in PlotRange") {
+        constexpr std::array<std::pair<double, double>, 7> ranges{{
+            {0.0, 1.01e-300},
+            {-1.01e-300, 0.0},
+            {1e-288, 1e-288 + 1.01e-300},
+            {1e+15, 1e+15 + 1.01e+3},
+            {-1e+15 - 1.01e+3, -1e+15},
+            {1e+300, 1.00000000000101e+300},
+            {-8e+307, 8e+307},
+        }};
+        constexpr std::size_t approx_num_ticks = 10;
+
+        for (const auto& range : ranges) {
+            INFO("range = (" << range.first << ", " << range.second << ")");
+            REQUIRE_NOTHROW(func_sketch::plotter::PlotRange(range, range));
+
+            AxisTicks ticks;
+            generate_axis_ticks(range, approx_num_ticks, ticks);
+
+            REQUIRE(ticks.values.size() >= 2);
+            REQUIRE(ticks.strings.size() == ticks.values.size());
+            for (std::size_t i = 0; i < ticks.values.size(); ++i) {
+                INFO("i = " << i);
+                CHECK(range.first <= ticks.values[i]);
+                CHECK(ticks.values[i] <= range.second);
+            }
+            for (std::size_t i = 0; i < ticks.values.size() - 1; ++i) {
+                INFO("i = " << i);
+                CHECK(ticks.values[i] < ticks.values[i + 1]);
+                CHECK(ticks.strings[i] != ticks.strings[i + 1]);
+            }
+        }
     }
 }

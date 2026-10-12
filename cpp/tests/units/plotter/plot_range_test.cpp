@@ -37,6 +37,10 @@ TEST_CASE("func_sketch::plotter::PlotRange") {
         CHECK_THROWS(PlotRange({0.0, 0.0}, {2.0, 3.0}));
         CHECK_THROWS(PlotRange({0.0, -1.0}, {2.0, 3.0}));
         CHECK_THROWS(PlotRange({-1e+308, 1e+308}, {2.0, 3.0}));
+        CHECK_NOTHROW(PlotRange({0.0, 1.01e-300}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({0.0, 0.99e-300}, {2.0, 3.0}));
+        CHECK_NOTHROW(PlotRange({1e+15, 1e+15 + 1.01e+3}, {2.0, 3.0}));
+        CHECK_THROWS(PlotRange({1e+15, 1e+15 + 0.99e+3}, {2.0, 3.0}));
 
         // Wrong y-range
         CHECK_THROWS(PlotRange({0.0, 1.0}, {NAN, 3.0}));
@@ -44,6 +48,10 @@ TEST_CASE("func_sketch::plotter::PlotRange") {
         CHECK_THROWS(PlotRange({0.0, 1.0}, {2.0, 2.0}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {3.0, 2.0}));
         CHECK_THROWS(PlotRange({0.0, 1.0}, {-1e+308, 1e+308}));
+        CHECK_NOTHROW(PlotRange({0.0, 1.0}, {0.0, 1.01e-300}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {0.0, 0.99e-300}));
+        CHECK_NOTHROW(PlotRange({0.0, 1.0}, {1e+15, 1e+15 + 1.01e+3}));
+        CHECK_THROWS(PlotRange({0.0, 1.0}, {1e+15, 1e+15 + 0.99e+3}));
     }
 
     SECTION("zoom in") {
