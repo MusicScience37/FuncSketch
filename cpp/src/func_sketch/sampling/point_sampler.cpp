@@ -32,8 +32,8 @@
 #include <numbers>
 #include <utility>
 
-#include "func_sketch/exceptions.h"
 #include "func_sketch/plotter/plot_range.h"
+#include "func_sketch/utilities/validate_bounds.h"
 
 namespace func_sketch::sampling {
 
@@ -453,13 +453,7 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
 std::vector<Point> PointSampler::operator()(
     const std::function<Point(Real)>& function,
     const std::pair<Real, Real>& parameter_range) const {
-    if (!std::isfinite(parameter_range.first) ||
-        !std::isfinite(parameter_range.second)) {
-        throw InvalidArgumentException("Invalid parameter range: not finite");
-    }
-    if (parameter_range.first >= parameter_range.second) {
-        throw InvalidArgumentException("Invalid parameter range: min >= max");
-    }
+    utilities::validate_bounds(parameter_range, "parameter");
 
     constexpr std::size_t static_buffer_size = 65536;
     // NOLINTNEXTLINE(*-member-init): Raw buffer is sufficient here.

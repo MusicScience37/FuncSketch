@@ -250,10 +250,14 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
                 x_max = max(first_pos_in_plot.x, second_pos_in_plot.x)
                 y_min = min(first_pos_in_plot.y, second_pos_in_plot.y)
                 y_max = max(first_pos_in_plot.y, second_pos_in_plot.y)
-                self.shared_state.update_plot_range(
-                    self,
-                    PlotRange(x_range=(x_min, x_max), y_range=(y_min, y_max)),
-                )
+                try:
+                    plot_range = PlotRange(
+                        x_range=(x_min, x_max), y_range=(y_min, y_max)
+                    )
+                except RuntimeError as e:
+                    LOGGER.warning("Failed to select the plot range: %s", e)
+                else:
+                    self.shared_state.update_plot_range(self, plot_range)
         self._last_mouse_pos_in_pixel = None
         self._current_touch_modifiers = []
 

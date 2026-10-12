@@ -19,67 +19,21 @@
  */
 #include "func_sketch/plotter/plot_range.h"
 
-#include <algorithm>
 #include <cmath>
-#include <limits>
-#include <string_view>
 #include <utility>
 
 #include <fmt/format.h>
 
 #include "func_sketch/exceptions.h"
+#include "func_sketch/utilities/validate_bounds.h"
 
 namespace func_sketch::plotter {
-
-namespace {
-
-/*!
- * \brief Validate a range.
- *
- * \param[in] range Range to validate.
- * \param[in] axis_name Name of the axis for error messages.
- */
-void validate_range(
-    const std::pair<double, double>& range, std::string_view axis_name) {
-    if (!std::isfinite(range.first) || !std::isfinite(range.second)) {
-        throw InvalidArgumentException(
-            fmt::format("Invalid {} range: not finite", axis_name));
-    }
-    if (range.first >= range.second) {
-        throw InvalidArgumentException(
-            fmt::format("Invalid {} range: min >= max", axis_name));
-    }
-    const double range_size = range.second - range.first;
-    if (!std::isfinite(range_size)) {
-        throw InvalidArgumentException(
-            fmt::format("Invalid {} range: size not finite", axis_name));
-    }
-    // Too small ranges cause loss of precision in plotting.
-    constexpr double min_range_size = 1e-300;
-    constexpr double min_relative_range_size = 1e-12;
-    static_assert(min_range_size > std::numeric_limits<double>::min());
-    static_assert(
-        min_relative_range_size > std::numeric_limits<double>::epsilon());
-    if (range_size < min_range_size) {
-        throw InvalidArgumentException(
-            fmt::format("Invalid {} range: size too small", axis_name));
-    }
-    const double max_abs_bound =
-        std::max(std::abs(range.first), std::abs(range.second));
-    if (range_size < max_abs_bound * min_relative_range_size) {
-        throw InvalidArgumentException(fmt::format(
-            "Invalid {} range: size too small relative to the bounds",
-            axis_name));
-    }
-}
-
-}  // namespace
 
 PlotRange::PlotRange(const std::pair<double, double>& x_range,
     const std::pair<double, double>& y_range)
     : x_range_(x_range), y_range_(y_range) {
-    validate_range(x_range, "X");
-    validate_range(y_range, "Y");
+    utilities::validate_bounds(x_range, "X");
+    utilities::validate_bounds(y_range, "Y");
 }
 
 void PlotRange::zoom(const Point& center, double factor) {
@@ -94,8 +48,8 @@ void PlotRange::zoom(const Point& center, double factor) {
     const std::pair<double, double> new_y_range{
         center.y + (y_range_.first - center.y) / factor,
         center.y + (y_range_.second - center.y) / factor};
-    validate_range(new_x_range, "X");
-    validate_range(new_y_range, "Y");
+    utilities::validate_bounds(new_x_range, "X");
+    utilities::validate_bounds(new_y_range, "Y");
     x_range_ = new_x_range;
     y_range_ = new_y_range;
 }
@@ -110,8 +64,8 @@ void PlotRange::pan(const Point& diff) {
         x_range_.first + diff.x, x_range_.second + diff.x};
     const std::pair<double, double> new_y_range{
         y_range_.first + diff.y, y_range_.second + diff.y};
-    validate_range(new_x_range, "X");
-    validate_range(new_y_range, "Y");
+    utilities::validate_bounds(new_x_range, "X");
+    utilities::validate_bounds(new_y_range, "Y");
     x_range_ = new_x_range;
     y_range_ = new_y_range;
 }

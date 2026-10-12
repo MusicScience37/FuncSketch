@@ -181,5 +181,8 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
         CHECK_THROWS((void)sampler(func, {-inf, 1.0}));
         CHECK_THROWS((void)sampler(func, {-1.0, inf}));
         CHECK_THROWS((void)sampler(func, {nan, 1.0}));
+        CHECK_THROWS((void)sampler(func, {-1e+308, 1e+308}));
+        CHECK_THROWS((void)sampler(func, {0.0, 0.99e-300}));
+        CHECK_THROWS((void)sampler(func, {1e+15, 1e+15 + 0.99e+3}));
     }
 }
