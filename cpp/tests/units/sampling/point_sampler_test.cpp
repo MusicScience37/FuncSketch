@@ -36,7 +36,64 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
     using func_sketch::sampling::PointSampler;
     using func_sketch::sampling::SamplingConfig;
 
-    SECTION("sample points in the order of the parameter") {
+    SECTION("sample a simple function") {
+        const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
+        const auto config = SamplingConfig();
+        auto sampler = PointSampler(range, config);
+
+        const auto func = [](Real param) {
+            if (std::abs(param) < std::numeric_limits<Real>::epsilon()) {
+                return Point{.x = param, .y = param};
+            }
+            return Point{.x = param, .y = std::sin(1.0 / param)};
+        };
+        const auto points = sampler(func, range.x_range());
+
+        // Check the order of sampled points.
+        REQUIRE(points.size() >= config.initial_num_sample_points());
+        for (std::size_t i = 0; i < points.size() - 1; ++i) {
+            INFO("i = " << i);
+            CHECK(points[i].x < points[i + 1].x);
+        }
+    }
+
+    SECTION("sample a function with singularity") {
+        const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
+        const auto config = SamplingConfig();
+        auto sampler = PointSampler(range, config);
+
+        const auto func = [](Real param) {
+            return Point{.x = param, .y = 1.0 / param};
+        };
+        const auto points = sampler(func, range.x_range());
+
+        // Check the order of sampled points.
+        REQUIRE(points.size() >= config.initial_num_sample_points());
+        for (std::size_t i = 0; i < points.size() - 1; ++i) {
+            INFO("i = " << i);
+            CHECK(points[i].x < points[i + 1].x);
+        }
+    }
+
+    SECTION("sample a function with discontinuity") {
+        const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
+        const auto config = SamplingConfig();
+        auto sampler = PointSampler(range, config);
+
+        const auto func = [](Real param) {
+            return Point{.x = param, .y = 0.5 * std::round(param)};
+        };
+        const auto points = sampler(func, range.x_range());
+
+        // Check the order of sampled points.
+        REQUIRE(points.size() >= config.initial_num_sample_points());
+        for (std::size_t i = 0; i < points.size() - 1; ++i) {
+            INFO("i = " << i);
+            CHECK(points[i].x < points[i + 1].x);
+        }
+    }
+
+    SECTION("sample a function with infinite oscillation") {
         const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
         const auto config = SamplingConfig();
         auto sampler = PointSampler(range, config);
@@ -49,6 +106,7 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
         };
         const auto points = sampler(func, range.x_range());
 
+        // Check the order of sampled points.
         REQUIRE(points.size() >= config.initial_num_sample_points());
         for (std::size_t i = 0; i < points.size() - 1; ++i) {
             INFO("i = " << i);
