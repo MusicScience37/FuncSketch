@@ -27,6 +27,7 @@
 #include <cstdlib>
 #include <forward_list>
 #include <iterator>
+#include <limits>
 #include <memory_resource>
 #include <numbers>
 #include <utility>
@@ -85,6 +86,46 @@ namespace {
 }
 
 /*!
+ * \brief Fallback implementation for sampling initial points.
+ *
+ * \param[in] function Function to sample.
+ * \param[in] parameter_range Range of the parameter.
+ * \param[in] num_points Approximate number of points.
+ * \param[out] samples List of sampled parameters and corresponding points.
+ * \return Number of sampled points.
+ */
+[[nodiscard]] std::size_t sample_initial_points_fallback(
+    const std::function<Point(Real)>& function,
+    const std::pair<Real, Real>& parameter_range, std::size_t num_points,
+    std::pmr::forward_list<std::pair<Real, Point>>& samples) {
+    std::size_t actual_num_points = 0;
+    auto iter = samples.before_begin();
+    {
+        // First point.
+        const Real parameter = parameter_range.first;
+        iter = samples.insert_after(
+            iter, std::make_pair(parameter, function(parameter)));
+        ++actual_num_points;
+    }
+    Real prev_parameter = parameter_range.first;
+    for (std::size_t i = 1; i < num_points; ++i) {
+        const Real ratio =
+            static_cast<Real>(i) / static_cast<Real>(num_points - 1);
+        const Real parameter = parameter_range.first +
+            ratio * (parameter_range.second - parameter_range.first);
+        if (parameter == prev_parameter) {
+            // Skip the parameter if it exactly duplicates the previous one.
+            continue;
+        }
+        iter = samples.insert_after(
+            iter, std::make_pair(parameter, function(parameter)));
+        prev_parameter = parameter;
+        ++actual_num_points;
+    }
+    return actual_num_points;
+}
+
+/*!
  * \brief Sample initial points.
  *
  * \param[in] function Function to sample.
@@ -108,18 +149,29 @@ namespace {
     // to prevent sampling the same point or points too close to each other.
     const Real min_param_change = min_param_change_rate *
         (parameter_range.second - parameter_range.first);
-    using IndexType =
-        std::int64_t;  // Prevent overflow in conversions from double.
+    const Real min_intermediate_param_index_real =
+        std::floor((parameter_range.first + min_param_change) / interval_order /
+            interval_number) +
+        1.0;
+    const Real max_intermediate_param_index_real =
+        std::ceil((parameter_range.second - min_param_change) / interval_order /
+            interval_number) -
+        1.0;
+
+    // Indices with large absolute values cause overflow in conversions to
+    // integers and loss of precision in calculation of parameters.
+    constexpr Real max_abs_index = 1e+10;
+    if (std::abs(min_intermediate_param_index_real) > max_abs_index ||
+        std::abs(max_intermediate_param_index_real) > max_abs_index) {
+        return sample_initial_points_fallback(
+            function, parameter_range, num_points, samples);
+    }
+
+    using IndexType = std::int64_t;
     const auto min_intermediate_param_index =
-        static_cast<IndexType>(
-            std::floor((parameter_range.first + min_param_change) /
-                interval_order / interval_number)) +
-        1;
+        static_cast<IndexType>(min_intermediate_param_index_real);
     const auto max_intermediate_param_index =
-        static_cast<IndexType>(
-            std::ceil((parameter_range.second - min_param_change) /
-                interval_order / interval_number)) -
-        1;
+        static_cast<IndexType>(max_intermediate_param_index_real);
 
     std::size_t num_sampled_points = 0;
     auto iter = samples.before_begin();
@@ -315,12 +367,23 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
         parameter_range.second - parameter_range.first;
     const Real x_range_size = range.x_range().second - range.x_range().first;
     const Real y_range_size = range.y_range().second - range.y_range().first;
-    const Real param_diff_min =
+
+    const Real param_diff_min_from_change_rate =
         param_range_size * config.min_param_change_rate();
+    constexpr Real weak_epsilon = 100 * std::numeric_limits<Real>::epsilon();
+    const Real param_diff_min_from_weak_epsilon =
+        std::max(
+            std::abs(parameter_range.first), std::abs(parameter_range.second)) *
+        weak_epsilon;
+    const Real param_diff_min = std::max(
+        param_diff_min_from_change_rate, param_diff_min_from_weak_epsilon);
+
     const Real x_diff_max = x_range_size * config.max_coordinate_change_rate();
     const Real y_diff_max = y_range_size * config.max_coordinate_change_rate();
+
     const Real x_normalization_coeff = 1.0 / x_range_size;
     const Real y_normalization_coeff = 1.0 / y_range_size;
+
     const Real angle_change_cos_threshold = std::cos(
         config.max_angle_change_degrees() * (std::numbers::pi / 180.0));
 
