@@ -25,6 +25,8 @@
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/expressions/expression_evaluator.h"
+#include "func_sketch/expressions/parameter_expression.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/plotter.h"
@@ -64,10 +66,14 @@ int main(int argc, char** argv) {
     ProfilerStart("profile_plotting.prof");
     for (std::size_t i = 0; i < num_repetitions; ++i) {
         const auto expression = parser(expression_str);
+        func_sketch::expressions::ParameterValueDict parameters;
         const auto samples = sampler(
-            [&expression, &evaluator](func_sketch::Real parameter) {
+            [&expression, &evaluator, &parameters](
+                func_sketch::Real parameter) {
+                parameters[func_sketch::expressions::ParameterType::x] =
+                    parameter;
                 func_sketch::Real value;
-                evaluator(*expression, parameter, value);
+                evaluator(*expression, parameters, value);
                 return func_sketch::Point{.x = parameter, .y = value};
             },
             range.x_range());

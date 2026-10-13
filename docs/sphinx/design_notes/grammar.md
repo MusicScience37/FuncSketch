@@ -44,7 +44,7 @@ Literals are parsed as follows (signs are not included in literals):
 ## Identifiers
 
 - Identifiers are used in followings:
-  - Parameter names when used in `atomic_value_expr`. Currently only `x` is allowed.
+  - Parameter names when used in `atomic_value_expr`. Currently `x` and `t` are allowed.
   - Constant names when used in `atomic_value_expr`.
     - A parameter name and a constant name cannot have the same identifier.
   - Function names when used in `function_call_expr`.

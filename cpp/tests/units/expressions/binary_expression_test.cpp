@@ -33,6 +33,7 @@ TEST_CASE("func_sketch::expressions::BinaryExpression") {
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::ParameterExpression;
+    using func_sketch::expressions::ParameterType;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
 
@@ -40,7 +41,7 @@ TEST_CASE("func_sketch::expressions::BinaryExpression") {
         ExpressionMemoryPool pool;
         constexpr double left_value = 1.23;
         Expression* left = pool.create<ConstantExpression>(left_value);
-        Expression* right = pool.create<ParameterExpression>();
+        Expression* right = pool.create<ParameterExpression>(ParameterType::x);
         Expression* binary_expression = pool.create<BinaryExpression>(
             left, right, BinaryOperator(AdditionOperator{}));
 

@@ -82,7 +82,12 @@ namespace func_sketch::parser {
     const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
     if (parsed_expression.name == "x") {
-        return pool.create<expressions::ParameterExpression>();
+        return pool.create<expressions::ParameterExpression>(
+            expressions::ParameterType::x);
+    }
+    if (parsed_expression.name == "t") {
+        return pool.create<expressions::ParameterExpression>(
+            expressions::ParameterType::t);
     }
     const auto constant = constant_list.get(parsed_expression.name);
     if (constant) {

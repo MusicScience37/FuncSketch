@@ -32,11 +32,10 @@
 
 namespace func_sketch::expressions {
 
-void ExpressionEvaluator::operator()(
-    const Expression& expression, Real parameter, Real& result) {
-    const Number parameter_as_number = parameter;
+void ExpressionEvaluator::operator()(const Expression& expression,
+    const ParameterValueDict& parameters, Real& result) {
     Number result_as_number;
-    evaluate(expression, parameter_as_number, result_as_number);
+    evaluate(expression, parameters, result_as_number);
     std::visit(
         [&result](const auto& value) {
             using ValueType = std::decay_t<decltype(value)>;
@@ -49,41 +48,46 @@ void ExpressionEvaluator::operator()(
         result_as_number);
 }
 
-void ExpressionEvaluator::evaluate(
-    const Expression& expression, Number parameter, Number& result) {
-    std::visit([&parameter, &result](
-                   const auto& expr) { evaluate(expr, parameter, result); },
+void ExpressionEvaluator::evaluate(const Expression& expression,
+    const ParameterValueDict& parameters, Number& result) {
+    std::visit([&parameters, &result](
+                   const auto& expr) { evaluate(expr, parameters, result); },
         expression.as_variant());
 }
 
 void ExpressionEvaluator::evaluate(const ConstantExpression& expression,
-    Number /*parameter*/, Number& result) {
+    const ParameterValueDict& /*parameters*/, Number& result) {
     result = expression.value;
 }
 
-void ExpressionEvaluator::evaluate(const ParameterExpression& /*expression*/,
-    Number parameter, Number& result) {
-    result = parameter;
+void ExpressionEvaluator::evaluate(const ParameterExpression& expression,
+    const ParameterValueDict& parameters, Number& result) {
+    const auto& value = parameters[expression.type];
+    if (!value) {
+        throw InvalidExpressionException(
+            fmt::format("Parameter {} cannot be used here.", expression));
+    }
+    result = *value;
 }
 
-void ExpressionEvaluator::evaluate(
-    const UnaryExpression& expression, Number parameter, Number& result) {
+void ExpressionEvaluator::evaluate(const UnaryExpression& expression,
+    const ParameterValueDict& parameters, Number& result) {
     Number target_value;
-    evaluate(*expression.target, parameter, target_value);
+    evaluate(*expression.target, parameters, target_value);
     expression.operator_object(target_value, result);
 }
 
-void ExpressionEvaluator::evaluate(
-    const BinaryExpression& expression, Number parameter, Number& result) {
+void ExpressionEvaluator::evaluate(const BinaryExpression& expression,
+    const ParameterValueDict& parameters, Number& result) {
     Number left_value;
-    evaluate(*expression.left, parameter, left_value);
+    evaluate(*expression.left, parameters, left_value);
     Number right_value;
-    evaluate(*expression.right, parameter, right_value);
+    evaluate(*expression.right, parameters, right_value);
     expression.operator_object(left_value, right_value, result);
 }
 
 void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
-    Number parameter, Number& result) {
+    const ParameterValueDict& parameters, Number& result) {
     constexpr std::size_t max_num_args =
         func_sketch::max_num_function_arguments;
     if (expression.arguments.size() > max_num_args) {
@@ -94,7 +98,7 @@ void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
     boost::container::static_vector<Number, max_num_args> argument_values;
     for (const auto& argument : expression.arguments) {
         Number argument_value;
-        evaluate(*argument, parameter, argument_value);
+        evaluate(*argument, parameters, argument_value);
         argument_values.push_back(argument_value);
     }
     expression.function(argument_values, result);

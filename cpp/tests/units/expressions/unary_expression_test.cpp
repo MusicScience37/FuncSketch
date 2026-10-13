@@ -33,13 +33,14 @@ TEST_CASE("func_sketch::expressions::UnaryExpression") {
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::ParameterExpression;
+    using func_sketch::expressions::ParameterType;
     using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::UnaryMinusOperator;
     using func_sketch::math::UnaryOperator;
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        Expression* target = pool.create<ParameterExpression>();
+        Expression* target = pool.create<ParameterExpression>(ParameterType::x);
         Expression* unary_expression = pool.create<UnaryExpression>(
             target, UnaryOperator(UnaryMinusOperator{}));
 

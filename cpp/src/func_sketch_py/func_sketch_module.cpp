@@ -43,6 +43,8 @@
 #include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
+#include "func_sketch/expressions/parameter_expression.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/constant_info.h"
 #include "func_sketch/math/constant_list.h"
 #include "func_sketch/math/math_function_info.h"
@@ -245,8 +247,11 @@ Objects of this class can be called with a string to parse it into an Expression
             "__call__",
             [](const ExpressionEvaluator& self, const ExpressionPtr& expression,
                 func_sketch::Real parameter) {
+                func_sketch::expressions::ParameterValueDict parameters;
+                parameters[func_sketch::expressions::ParameterType::x] =
+                    parameter;
                 func_sketch::Real result;
-                self(*expression, parameter, result);
+                self(*expression, parameters, result);
                 return result;
             },
             "expression"_a, "parameter"_a,

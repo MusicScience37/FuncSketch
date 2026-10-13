@@ -7,6 +7,7 @@ set(SOURCE_FILES
     expressions/expression_ptr_test.cpp
     expressions/function_call_expression_test.cpp
     expressions/parameter_expression_test.cpp
+    expressions/parameter_value_dict_test.cpp
     expressions/unary_expression_test.cpp
     math/acceptable_types_test.cpp
     math/binary_operator_test.cpp

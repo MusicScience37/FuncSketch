@@ -20,6 +20,8 @@
 #include "func_sketch/curves/curve_sampler.h"
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/expressions/parameter_expression.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/point.h"
 
 namespace func_sketch::curves {
@@ -48,11 +50,13 @@ CurveSampler& CurveSampler::config(const sampling::SamplingConfig& value) {
 SampledExplicitCurve CurveSampler::operator()(
     const ExplicitCurveSpec& spec) const {
     const auto expression = expression_parser_(spec.function_expression_str);
+    expressions::ParameterValueDict parameters;
     return SampledExplicitCurve{.name = spec.name,
         .points = point_sampler_(
-            [&expression, this](Real parameter) {
+            [&expression, &parameters, this](Real parameter) {
+                parameters[expressions::ParameterType::x] = parameter;
                 Real value;
-                evaluator_(*expression, parameter, value);
+                evaluator_(*expression, parameters, value);
                 return Point{.x = parameter, .y = value};
             },
             range_.x_range()),
@@ -63,13 +67,15 @@ SampledParameterizedCurve CurveSampler::operator()(
     const ParameterizedCurveSpec& spec) const {
     const auto x_expression = expression_parser_(spec.x_expression_str);
     const auto y_expression = expression_parser_(spec.y_expression_str);
+    expressions::ParameterValueDict parameters;
     return SampledParameterizedCurve{.name = spec.name,
         .points = parameterized_point_sampler_(
-            [&x_expression, &y_expression, this](Real parameter) {
+            [&x_expression, &y_expression, &parameters, this](Real parameter) {
+                parameters[expressions::ParameterType::t] = parameter;
                 Real x_value;
                 Real y_value;
-                evaluator_(*x_expression, parameter, x_value);
-                evaluator_(*y_expression, parameter, y_value);
+                evaluator_(*x_expression, parameters, x_value);
+                evaluator_(*y_expression, parameters, y_value);
                 return ParameterizedPoint{
                     .t = parameter, .x = x_value, .y = y_value};
             },

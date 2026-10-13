@@ -32,12 +32,14 @@ TEST_CASE("func_sketch::expressions::FunctionCallExpression") {
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::FunctionCallExpression;
     using func_sketch::expressions::ParameterExpression;
+    using func_sketch::expressions::ParameterType;
     using func_sketch::math::exp_function;
     using func_sketch::math::MathFunction;
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        Expression* argument = pool.create<ParameterExpression>();
+        Expression* argument =
+            pool.create<ParameterExpression>(ParameterType::x);
         auto function = exp_function();
         Expression* function_call_expression =
             pool.create<FunctionCallExpression>(

@@ -21,6 +21,8 @@
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/expressions/expression.h"
+#include "func_sketch/expressions/parameter_expression.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
 
 namespace func_sketch::expressions {
 
@@ -33,22 +35,22 @@ public:
      * \brief Evaluate an expression.
      *
      * \param[in] expression Expression.
-     * \param[in] parameter Parameter.
+     * \param[in] parameters Values of parameters.
      * \param[out] result Result.
      */
-    static void operator()(
-        const Expression& expression, Real parameter, Real& result);
+    static void operator()(const Expression& expression,
+        const ParameterValueDict& parameters, Real& result);
 
 private:
     /*!
      * \brief Evaluate an expression.
      *
      * \param[in] expression Expression.
-     * \param[in] parameter Parameter.
+     * \param[in] parameters Values of parameters.
      * \param[out] result Result.
      */
-    static void evaluate(
-        const Expression& expression, Number parameter, Number& result);
+    static void evaluate(const Expression& expression,
+        const ParameterValueDict& parameters, Number& result);
 
     /*!
      * \brief Evaluate an expression.
@@ -57,46 +59,47 @@ private:
      * \param[out] result Result.
      */
     static void evaluate(const ConstantExpression& expression,
-        Number /*parameter*/, Number& result);
-
-    /*!
-     * \brief Evaluate an expression.
-     *
-     * \param[in] parameter Parameter.
-     * \param[out] result Result.
-     */
-    static void evaluate(const ParameterExpression& /*expression*/,
-        Number parameter, Number& result);
+        const ParameterValueDict& /*parameters*/, Number& result);
 
     /*!
      * \brief Evaluate an expression.
      *
      * \param[in] expression Expression.
-     * \param[in] parameter Parameter.
+     * \param[in] parameters Values of parameters.
      * \param[out] result Result.
      */
-    static void evaluate(
-        const UnaryExpression& expression, Number parameter, Number& result);
+    static void evaluate(const ParameterExpression& expression,
+        const ParameterValueDict& parameters, Number& result);
 
     /*!
      * \brief Evaluate an expression.
      *
      * \param[in] expression Expression.
-     * \param[in] parameter Parameter.
+     * \param[in] parameters Values of parameters.
      * \param[out] result Result.
      */
-    static void evaluate(
-        const BinaryExpression& expression, Number parameter, Number& result);
+    static void evaluate(const UnaryExpression& expression,
+        const ParameterValueDict& parameters, Number& result);
 
     /*!
      * \brief Evaluate an expression.
      *
      * \param[in] expression Expression.
-     * \param[in] parameter Parameter.
+     * \param[in] parameters Values of parameters.
+     * \param[out] result Result.
+     */
+    static void evaluate(const BinaryExpression& expression,
+        const ParameterValueDict& parameters, Number& result);
+
+    /*!
+     * \brief Evaluate an expression.
+     *
+     * \param[in] expression Expression.
+     * \param[in] parameters Values of parameters.
      * \param[out] result Result.
      */
     static void evaluate(const FunctionCallExpression& expression,
-        Number parameter, Number& result);
+        const ParameterValueDict& parameters, Number& result);
 };
 
 }  // namespace func_sketch::expressions
