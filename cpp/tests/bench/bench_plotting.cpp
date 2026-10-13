@@ -26,7 +26,9 @@
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/expressions/expression_evaluator.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/functions/python_function_list.h"
+#include "func_sketch/parameter_type.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/plotter.h"
 #include "func_sketch/point.h"
@@ -65,10 +67,12 @@ public:
         std::size_t num_samples = 0;
         for (auto _ : state) {
             auto expression = parser_(expression_str);
+            func_sketch::expressions::ParameterValueDict parameters;
             auto samples = sampler_(
-                [&expression, this](func_sketch::Real parameter) {
+                [&expression, &parameters, this](func_sketch::Real parameter) {
+                    parameters[func_sketch::ParameterType::x] = parameter;
                     func_sketch::Real value;
-                    evaluator_(*expression, parameter, value);
+                    evaluator_(*expression, parameters, value);
                     return func_sketch::Point{.x = parameter, .y = value};
                 },
                 {-1.0, 1.0});
@@ -89,10 +93,12 @@ public:
     void benchmark_plotting(
         benchmark::State& state, const std::string& expression_str) {
         const auto expression = parser_(expression_str);
+        func_sketch::expressions::ParameterValueDict parameters;
         auto samples = sampler_(
-            [&expression, this](func_sketch::Real parameter) {
+            [&expression, &parameters, this](func_sketch::Real parameter) {
+                parameters[func_sketch::ParameterType::x] = parameter;
                 func_sketch::Real value;
-                evaluator_(*expression, parameter, value);
+                evaluator_(*expression, parameters, value);
                 return func_sketch::Point{.x = parameter, .y = value};
             },
             {-1.0, 1.0});
@@ -113,7 +119,7 @@ private:
     func_sketch::expressions::ExpressionEvaluator evaluator_;
 
     //! Sampler.
-    func_sketch::sampling::PointSampler sampler_{
+    func_sketch::sampling::PointSampler<func_sketch::Point> sampler_{
         func_sketch::plotter::PlotRange({-1.0, 1.0}, {-1.0, 1.0}),
         func_sketch::sampling::SamplingConfig()};
 

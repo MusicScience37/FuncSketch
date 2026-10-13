@@ -37,14 +37,19 @@
 #include "func_sketch/common_types.h"
 #include "func_sketch/curves/curve_sampler.h"
 #include "func_sketch/curves/explicit_curve_spec.h"
-#include "func_sketch/curves/sampled_curve.h"
+#include "func_sketch/curves/parameterized_curve_spec.h"
+#include "func_sketch/curves/sampled_explicit_curve.h"
+#include "func_sketch/curves/sampled_parameterized_curve.h"
 #include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/constant_info.h"
 #include "func_sketch/math/constant_list.h"
 #include "func_sketch/math/math_function_info.h"
 #include "func_sketch/math/math_function_list.h"
+#include "func_sketch/parameter_type.h"
+#include "func_sketch/parameterized_point.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/axes_config.h"
 #include "func_sketch/plotter/grid_config.h"
@@ -242,8 +247,10 @@ Objects of this class can be called with a string to parse it into an Expression
             "__call__",
             [](const ExpressionEvaluator& self, const ExpressionPtr& expression,
                 func_sketch::Real parameter) {
+                func_sketch::expressions::ParameterValueDict parameters;
+                parameters[func_sketch::ParameterType::x] = parameter;
                 func_sketch::Real result;
-                self(*expression, parameter, result);
+                self(*expression, parameters, result);
                 return result;
             },
             "expression"_a, "parameter"_a,
@@ -264,6 +271,18 @@ Objects of this class can be called with a string to parse it into an Expression
         .def(nanobind::init<double, double>(), "x"_a, "y"_a, "Constructor.")
         .def_rw("x", &Point::x, "X coordinate.")
         .def_rw("y", &Point::y, "Y coordinate.")
+        .def(nanobind::self + nanobind::self, "Add two points.")
+        .def(nanobind::self - nanobind::self,
+            "Subtract a point from another point.");
+
+    using func_sketch::ParameterizedPoint;
+    nanobind::class_<ParameterizedPoint>(
+        m, "ParameterizedPoint", "Class of points with parameters.")
+        .def(nanobind::init<double, double, double>(), "t"_a, "x"_a, "y"_a,
+            "Constructor.")
+        .def_rw("t", &ParameterizedPoint::t, "Parameter.")
+        .def_rw("x", &ParameterizedPoint::x, "X coordinate.")
+        .def_rw("y", &ParameterizedPoint::y, "Y coordinate.")
         .def(nanobind::self + nanobind::self, "Add two points.")
         .def(nanobind::self - nanobind::self,
             "Subtract a point from another point.");
@@ -698,17 +717,54 @@ Note:
             "String of the function expression.")
         .def_rw("color", &ExplicitCurveSpec::color, "Color.");
 
-    using func_sketch::curves::SampledCurve;
-    nanobind::class_<SampledCurve>(
-        m, "SampledCurve", "Struct of sampled curves.")
+    using func_sketch::curves::SampledExplicitCurve;
+    nanobind::class_<SampledExplicitCurve>(
+        m, "SampledExplicitCurve", "Struct of sampled explicit curves.")
         .def(nanobind::init<std::string, std::vector<Point>, RGBColor>(),
             "name"_a, "points"_a, "color"_a, "Constructor.")
-        .def_rw("name", &SampledCurve::name, "Name of the curve.")
-        .def_rw("points", &SampledCurve::points, "Sampled points of the curve.")
-        .def_rw("color", &SampledCurve::color, "Color of the curve.")
+        .def_rw("name", &SampledExplicitCurve::name, "Name of the curve.")
+        .def_rw("points", &SampledExplicitCurve::points,
+            "Sampled points of the curve.")
+        .def_rw("color", &SampledExplicitCurve::color, "Color of the curve.")
         .def(
             "empty",
-            [](const SampledCurve& self) { return self.points.empty(); },
+            [](const SampledExplicitCurve& self) {
+                return self.points.empty();
+            },
+            "Check if the sampled curve is empty.");
+
+    using func_sketch::curves::ParameterizedCurveSpec;
+    nanobind::class_<ParameterizedCurveSpec>(m, "ParameterizedCurveSpec",
+        "Struct of specifications of parameterized curves.")
+        .def(nanobind::init<std::string, std::string, std::string,
+                 std::pair<func_sketch::Real, func_sketch::Real>, RGBColor>(),
+            "name"_a, "x_expression_str"_a, "y_expression_str"_a,
+            "parameter_range"_a, "color"_a, "Constructor.")
+        .def_rw("name", &ParameterizedCurveSpec::name, "Name of the curve.")
+        .def_rw("x_expression_str", &ParameterizedCurveSpec::x_expression_str,
+            "String of the function expression for the x coordinate.")
+        .def_rw("y_expression_str", &ParameterizedCurveSpec::y_expression_str,
+            "String of the function expression for the y coordinate.")
+        .def_rw("parameter_range", &ParameterizedCurveSpec::parameter_range,
+            "Range of the parameter.")
+        .def_rw("color", &ParameterizedCurveSpec::color, "Color.");
+
+    using func_sketch::curves::SampledParameterizedCurve;
+    nanobind::class_<SampledParameterizedCurve>(m, "SampledParameterizedCurve",
+        "Struct of sampled parameterized curves.")
+        .def(nanobind::init<std::string, std::vector<ParameterizedPoint>,
+                 RGBColor>(),
+            "name"_a, "points"_a, "color"_a, "Constructor.")
+        .def_rw("name", &SampledParameterizedCurve::name, "Name of the curve.")
+        .def_rw("points", &SampledParameterizedCurve::points,
+            "Sampled points of the curve.")
+        .def_rw(
+            "color", &SampledParameterizedCurve::color, "Color of the curve.")
+        .def(
+            "empty",
+            [](const SampledParameterizedCurve& self) {
+                return self.points.empty();
+            },
             "Check if the sampled curve is empty.");
 
     using func_sketch::curves::CurveSampler;
@@ -744,6 +800,12 @@ Note:
         .def(
             "__call__",
             [](const CurveSampler& self, const ExplicitCurveSpec& spec) {
+                return self(spec);
+            },
+            "spec"_a, "Sample a curve and return a sampled curve.")
+        .def(
+            "__call__",
+            [](const CurveSampler& self, const ParameterizedCurveSpec& spec) {
                 return self(spec);
             },
             "spec"_a, "Sample a curve and return a sampled curve.")
@@ -823,7 +885,7 @@ The pixels of image are modified in place.)")
         .def(
             "write",
             [](Plotter& self,
-                const std::vector<func_sketch::curves::SampledCurve>&
+                const std::vector<func_sketch::curves::SampledExplicitCurve>&
                     sampled_curves,
                 const RawImage& raw_image) {
                 auto image = to_image(raw_image);

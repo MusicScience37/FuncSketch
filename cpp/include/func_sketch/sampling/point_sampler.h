@@ -24,6 +24,7 @@
 #include <vector>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/parameterized_point.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/point.h"
 #include "func_sketch/sampling/sampling_config.h"
@@ -32,7 +33,10 @@ namespace func_sketch::sampling {
 
 /*!
  * \brief Class to sample points.
+ *
+ * \tparam PointType Type of the point.
  */
+template <typename PointType>
 class PointSampler {
 public:
     /*!
@@ -41,7 +45,8 @@ public:
      * \param[in] range Range of the plot.
      * \param[in] config Configuration of sampling.
      */
-    PointSampler(const plotter::PlotRange& range, const SamplingConfig& config);
+    PointSampler(  // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
+        const plotter::PlotRange& range, const SamplingConfig& config);
 
     /*!
      * \brief Set the range of the plot.
@@ -69,8 +74,8 @@ public:
      *
      * \throw InvalidArgumentException If the range of the parameter is invalid.
      */
-    [[nodiscard]] std::vector<Point> operator()(
-        const std::function<Point(Real)>& function,
+    [[nodiscard]] std::vector<PointType> operator()(
+        const std::function<PointType(Real)>& function,
         const std::pair<Real, Real>& parameter_range) const;
 
 private:
@@ -80,5 +85,8 @@ private:
     //! Configuration of sampling.
     SamplingConfig config_;
 };
+
+extern template class PointSampler<func_sketch::Point>;
+extern template class PointSampler<func_sketch::ParameterizedPoint>;
 
 }  // namespace func_sketch::sampling

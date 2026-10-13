@@ -2,6 +2,7 @@
 set(SOURCE_FILES
     curves/curve_sampler.cpp
     curves/explicit_curve_spec.cpp
+    curves/parameterized_curve_spec.cpp
     expressions/binary_expression.cpp
     expressions/constant_expression.cpp
     expressions/expression.cpp
@@ -26,6 +27,7 @@ set(SOURCE_FILES
     math/functions/trigonometric.cpp
     math/generate_math_function_list.cpp
     math/math_function_list.cpp
+    parameterized_point.cpp
     parser/convert_expression.cpp
     parser/expression_grammar.cpp
     parser/expression_parser.cpp

@@ -34,6 +34,9 @@ Parsed: Identifier(e)
 Input: x
 Parsed: Identifier(x)
 
+Input: t
+Parsed: Identifier(t)
+
 Input: -x
 Parsed: Unary(-, Identifier(x))
 

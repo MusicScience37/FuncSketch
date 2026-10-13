@@ -26,8 +26,10 @@
 #include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/math_function.h"
+#include "func_sketch/parameter_type.h"
 
 TEST_CASE("func_sketch::expressions::FunctionCallExpression") {
+    using func_sketch::ParameterType;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::FunctionCallExpression;
@@ -37,7 +39,8 @@ TEST_CASE("func_sketch::expressions::FunctionCallExpression") {
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        Expression* argument = pool.create<ParameterExpression>();
+        Expression* argument =
+            pool.create<ParameterExpression>(ParameterType::x);
         auto function = exp_function();
         Expression* function_call_expression =
             pool.create<FunctionCallExpression>(

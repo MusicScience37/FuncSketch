@@ -20,6 +20,8 @@
 #include "func_sketch/curves/curve_sampler.h"
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
+#include "func_sketch/parameter_type.h"
 #include "func_sketch/point.h"
 
 namespace func_sketch::curves {
@@ -29,29 +31,55 @@ CurveSampler::CurveSampler(const plotter::PlotRange& range,
     const math::PythonFunctionList& python_functions)
     : expression_parser_(python_functions),
       range_(range),
-      point_sampler_(range, config) {}
+      point_sampler_(range, config),
+      parameterized_point_sampler_(range, config) {}
 
 CurveSampler& CurveSampler::range(const plotter::PlotRange& value) {
     range_ = value;
     point_sampler_.range(value);
+    parameterized_point_sampler_.range(value);
     return *this;
 }
 
 CurveSampler& CurveSampler::config(const sampling::SamplingConfig& value) {
     point_sampler_.config(value);
+    parameterized_point_sampler_.config(value);
     return *this;
 }
 
-SampledCurve CurveSampler::operator()(const ExplicitCurveSpec& spec) const {
+SampledExplicitCurve CurveSampler::operator()(
+    const ExplicitCurveSpec& spec) const {
     const auto expression = expression_parser_(spec.function_expression_str);
-    return SampledCurve{.name = spec.name,
+    expressions::ParameterValueDict parameters;
+    return SampledExplicitCurve{.name = spec.name,
         .points = point_sampler_(
-            [&expression, this](Real parameter) {
+            [&expression, &parameters, this](Real parameter) {
+                parameters[ParameterType::x] = parameter;
                 Real value;
-                evaluator_(*expression, parameter, value);
+                evaluator_(*expression, parameters, value);
                 return Point{.x = parameter, .y = value};
             },
             range_.x_range()),
+        .color = spec.color};
+}
+
+SampledParameterizedCurve CurveSampler::operator()(
+    const ParameterizedCurveSpec& spec) const {
+    const auto x_expression = expression_parser_(spec.x_expression_str);
+    const auto y_expression = expression_parser_(spec.y_expression_str);
+    expressions::ParameterValueDict parameters;
+    return SampledParameterizedCurve{.name = spec.name,
+        .points = parameterized_point_sampler_(
+            [&x_expression, &y_expression, &parameters, this](Real parameter) {
+                parameters[ParameterType::t] = parameter;
+                Real x_value;
+                Real y_value;
+                evaluator_(*x_expression, parameters, x_value);
+                evaluator_(*y_expression, parameters, y_value);
+                return ParameterizedPoint{
+                    .t = parameter, .x = x_value, .y = y_value};
+            },
+            spec.parameter_range),
         .color = spec.color};
 }
 

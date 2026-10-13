@@ -26,8 +26,10 @@
 #include "func_sketch/expressions/expression_memory_pool.h"
 #include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/math/binary_operators.h"
+#include "func_sketch/parameter_type.h"
 
 TEST_CASE("func_sketch::expressions::BinaryExpression") {
+    using func_sketch::ParameterType;
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
@@ -40,7 +42,7 @@ TEST_CASE("func_sketch::expressions::BinaryExpression") {
         ExpressionMemoryPool pool;
         constexpr double left_value = 1.23;
         Expression* left = pool.create<ConstantExpression>(left_value);
-        Expression* right = pool.create<ParameterExpression>();
+        Expression* right = pool.create<ParameterExpression>(ParameterType::x);
         Expression* binary_expression = pool.create<BinaryExpression>(
             left, right, BinaryOperator(AdditionOperator{}));
 

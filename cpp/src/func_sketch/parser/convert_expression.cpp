@@ -33,6 +33,7 @@
 #include "func_sketch/math/binary_operators.h"
 #include "func_sketch/math/math_function_list.h"
 #include "func_sketch/math/unary_operators.h"
+#include "func_sketch/parameter_type.h"
 #include "func_sketch/parser/parsed_expression.h"
 
 namespace func_sketch::parser {
@@ -82,7 +83,10 @@ namespace func_sketch::parser {
     const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
     if (parsed_expression.name == "x") {
-        return pool.create<expressions::ParameterExpression>();
+        return pool.create<expressions::ParameterExpression>(ParameterType::x);
+    }
+    if (parsed_expression.name == "t") {
+        return pool.create<expressions::ParameterExpression>(ParameterType::t);
     }
     const auto constant = constant_list.get(parsed_expression.name);
     if (constant) {

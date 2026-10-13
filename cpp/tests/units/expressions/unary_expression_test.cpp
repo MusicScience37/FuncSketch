@@ -27,8 +27,10 @@
 #include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/math/unary_operator.h"
 #include "func_sketch/math/unary_operators.h"
+#include "func_sketch/parameter_type.h"
 
 TEST_CASE("func_sketch::expressions::UnaryExpression") {
+    using func_sketch::ParameterType;
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
@@ -39,7 +41,7 @@ TEST_CASE("func_sketch::expressions::UnaryExpression") {
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        Expression* target = pool.create<ParameterExpression>();
+        Expression* target = pool.create<ParameterExpression>(ParameterType::x);
         Expression* unary_expression = pool.create<UnaryExpression>(
             target, UnaryOperator(UnaryMinusOperator{}));
 

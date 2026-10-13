@@ -17,12 +17,18 @@ package func_sketch {
         using Number = std::variant<Integer, Real, Complex>
     }
 
-    enum ParameterType <<future-implementation>> {
+    enum ParameterType {
         x
         t
     }
 
     struct Point {
+        + x : Real
+        + y : Real
+    }
+
+    struct ParameterizedPoint {
+        + t : Real
         + x : Real
         + y : Real
     }
@@ -110,9 +116,16 @@ package func_sketch {
         }
         ExpressionMemoryPool ..> Expression
 
-        class ExpressionEvaluator {
-            + operator()(expression : const Expression&, parameter : Real, result : Real&)
+        class ParameterValueDict {
+            + operator[](type : ParameterType) : MutableParameterProxy
+            + operator[](type : ParameterType) const : const std::optional<Number>&
         }
+        ParameterValueDict ..> ParameterType
+
+        class ExpressionEvaluator {
+            + operator()(expression : const Expression&, parameters : const ParameterValueDict&, result : Real&)
+        }
+        ExpressionEvaluator ..> ParameterValueDict
 
         class ExpressionPtr
         ExpressionPtr o-- Expression
@@ -131,13 +144,14 @@ package func_sketch {
     package sampling {
         class SamplingConfig
 
-        class PointSampler {
+        class PointSampler<PointType> {
             + range(value : PlotRange)
             + config(value : SamplingConfig)
-            + operator()(function : std::function<Point(Real)>, parameter_range : std::pair<Real, Real>) : std::vector<Point>
+            + operator()(function : std::function<PointType(Real)>, parameter_range : std::pair<Real, Real>) : std::vector<PointType>
         }
         PointSampler o-- SamplingConfig
         PointSampler ..> Point
+        PointSampler ..> ParameterizedPoint
     }
 
     package plotter {
@@ -164,7 +178,7 @@ package func_sketch {
             + config(value : PlotConfig)
             + write_background(image : Image&)
             + write_curve(samples : std::vector<Point>, color : RGBColor, image : Image&)
-            + write(sampled_curves : std::vector<SampledCurve>, image : Image&)
+            + write(sampled_curves : std::vector<SampledExplicitCurve>, image : Image&)
         }
         Plotter o-- PlotRange
         Plotter o-- PlotConfig
@@ -181,25 +195,46 @@ package func_sketch {
         }
         ExplicitCurveSpec o-- RGBColor
 
-        struct SampledCurve {
+        struct SampledExplicitCurve {
             + name : std::string
             + points : std::vector<Point>
             + color : RGBColor
         }
-        SampledCurve ..> Point
-        SampledCurve o-- RGBColor
+        SampledExplicitCurve ..> Point
+        SampledExplicitCurve o-- RGBColor
+
+        struct ParameterizedCurveSpec {
+            + name : std::string
+            + x_expression_str : std::string
+            + y_expression_str : std::string
+            + parameter_range : std::pair<Real, Real>
+            + color : RGBColor
+        }
+        ParameterizedCurveSpec o-- RGBColor
+
+        struct SampledParameterizedCurve {
+            + name : std::string
+            + points : std::vector<ParameterizedPoint>
+            + color : RGBColor
+        }
+        SampledParameterizedCurve ..> ParameterizedPoint
+        SampledParameterizedCurve o-- RGBColor
 
         class CurveSampler {
             + range(value : PlotRange)
             + config(value : PlotConfig)
-            + operator()(spec : ExplicitCurveSpec) : SampledCurve
+            + operator()(spec : ExplicitCurveSpec) : SampledExplicitCurve
+            + operator()(spec : ParameterizedCurveSpec) : SampledParameterizedCurve
         }
         CurveSampler o-- ExpressionParser
+        CurveSampler o-- ExpressionEvaluator
         CurveSampler o-- PointSampler
         CurveSampler ..> ExplicitCurveSpec
-        CurveSampler ..> SampledCurve
+        CurveSampler ..> SampledExplicitCurve
+        CurveSampler ..> ParameterizedCurveSpec
+        CurveSampler ..> SampledParameterizedCurve
     }
-    Plotter ..> SampledCurve
+    Plotter ..> SampledExplicitCurve
 }
 
 @enduml

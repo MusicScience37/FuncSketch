@@ -20,7 +20,7 @@ import time
 import kivy.event
 import kivy.properties
 
-from func_sketch._cpp import CurveSampler, PlotConfig, PlotRange, SampledCurve
+from func_sketch._cpp import CurveSampler, PlotConfig, PlotRange, SampledExplicitCurve
 from func_sketch._gui.common.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
@@ -120,19 +120,21 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
         ]
         self.shared_state.update_sampled_curve_all(self, sampled_curves)
 
-    def _resample_one_curve_without_event(self, index: int) -> SampledCurve:
+    def _resample_one_curve_without_event(self, index: int) -> SampledExplicitCurve:
         """Resample a curve without event dispatching.
 
         Args:
             index: Index of the curve to resample.
 
         Returns:
-            SampledCurve: The resampled curve.
+            SampledExplicitCurve: The resampled curve.
         """
         curve_spec = self.shared_state.curve_specs[index]
         if not curve_spec.function_expression_str:
             self._curve_models[index].error_message = ""
-            return SampledCurve(name=curve_spec.name, points=[], color=curve_spec.color)
+            return SampledExplicitCurve(
+                name=curve_spec.name, points=[], color=curve_spec.color
+            )
         try:
             start_time = time.perf_counter()
             sampled_curve = self._curve_sampler(curve_spec)
@@ -144,7 +146,7 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
             )
         except RuntimeError as e:
             self._curve_models[index].error_message = str(e)
-            sampled_curve = SampledCurve(
+            sampled_curve = SampledExplicitCurve(
                 name=curve_spec.name, points=[], color=curve_spec.color
             )
         else:

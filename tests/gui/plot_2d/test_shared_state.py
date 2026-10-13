@@ -19,7 +19,7 @@ from func_sketch._cpp import (
     PlotConfig,
     PlotRange,
     RGBColor,
-    SampledCurve,
+    SampledExplicitCurve,
 )
 from func_sketch._gui.common.constants import (
     DEFAULT_PLOT_CONFIG,
@@ -136,7 +136,7 @@ class TestSharedState:
 
         source = "test"
         index = 1
-        new_sampled_curve = SampledCurve(
+        new_sampled_curve = SampledExplicitCurve(
             name="Curve", points=[], color=RGBColor(1, 2, 3)
         )
         state.update_sampled_curve(source, index, new_sampled_curve)

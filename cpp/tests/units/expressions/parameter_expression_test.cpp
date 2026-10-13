@@ -22,10 +22,21 @@
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
 
+#include "func_sketch/parameter_type.h"
+
 TEST_CASE("ParameterExpression") {
-    SECTION("format") {
-        func_sketch::expressions::ParameterExpression expr;
+    using func_sketch::ParameterType;
+    using func_sketch::expressions::ParameterExpression;
+
+    SECTION("format x") {
+        const ParameterExpression expr{ParameterType::x};
 
         CHECK(fmt::format("{}", expr) == "x");
+    }
+
+    SECTION("format t") {
+        const ParameterExpression expr{ParameterType::t};
+
+        CHECK(fmt::format("{}", expr) == "t");
     }
 }

@@ -29,11 +29,15 @@
 #include "func_sketch/constants.h"
 #include "func_sketch/expressions/expression.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
+#include "func_sketch/expressions/parameter_expression.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/binary_operators.h"
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/unary_operators.h"
+#include "func_sketch/parameter_type.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
+    using func_sketch::ParameterType;
     using func_sketch::Real;
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ConstantExpression;
@@ -42,6 +46,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::FunctionCallExpression;
     using func_sketch::expressions::ParameterExpression;
+    using func_sketch::expressions::ParameterValueDict;
     using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
@@ -58,9 +63,11 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         auto* expression = pool.create<ConstantExpression>(value);
 
         constexpr Real parameter = 4.56;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = parameter;
         Real result = 0.0;
 
-        evaluator(*expression, parameter, result);
+        evaluator(*expression, parameters, result);
 
         CHECK(result == value);
 
@@ -68,14 +75,48 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     }
 
     SECTION("evaluate a parameter") {
-        auto* expression = pool.create<ParameterExpression>();
+        auto* expression = pool.create<ParameterExpression>(ParameterType::x);
 
         constexpr Real parameter = 4.56;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = parameter;
         Real result = 0.0;
 
-        evaluator(*expression, parameter, result);
+        evaluator(*expression, parameters, result);
 
         CHECK(result == parameter);
+
+        pool.destroy(expression);
+    }
+
+    SECTION("evaluate a parameter t") {
+        auto* expression = pool.create<ParameterExpression>(ParameterType::t);
+
+        constexpr Real x_value = 1.23;
+        constexpr Real t_value = 4.56;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = x_value;
+        parameters[ParameterType::t] = t_value;
+        Real result = 0.0;
+
+        evaluator(*expression, parameters, result);
+
+        CHECK(result == t_value);
+
+        pool.destroy(expression);
+    }
+
+    SECTION("evaluate a parameter without its value") {
+        auto* expression = pool.create<ParameterExpression>(ParameterType::t);
+
+        constexpr Real parameter = 4.56;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = parameter;
+        Real result = 0.0;
+
+        CHECK_THROWS_WITH(evaluator(*expression, parameters, result),
+            Catch::Matchers::ContainsSubstring(
+                "Parameter t cannot be used here"));
 
         pool.destroy(expression);
     }
@@ -87,9 +128,11 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
             target_expression, UnaryOperator(UnaryMinusOperator{}));
 
         constexpr Real parameter = 4.56;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = parameter;
         Real result = 0.0;
 
-        evaluator(*expression, parameter, result);
+        evaluator(*expression, parameters, result);
 
         CHECK(result == -value);
 
@@ -99,14 +142,17 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     SECTION("evaluate a binary expression") {
         constexpr Real left_value = 1.23;
         auto* left_expression = pool.create<ConstantExpression>(left_value);
-        auto* right_expression = pool.create<ParameterExpression>();
+        auto* right_expression =
+            pool.create<ParameterExpression>(ParameterType::x);
         auto* expression = pool.create<BinaryExpression>(left_expression,
             right_expression, BinaryOperator(AdditionOperator{}));
 
         constexpr Real parameter = 4.56;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = parameter;
         Real result = 0.0;
 
-        evaluator(*expression, parameter, result);
+        evaluator(*expression, parameters, result);
 
         CHECK(result == left_value + parameter);
 
@@ -114,14 +160,16 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     }
 
     SECTION("evaluate a function call expression") {
-        auto* argument = pool.create<ParameterExpression>();
+        auto* argument = pool.create<ParameterExpression>(ParameterType::x);
         auto* expression = pool.create<FunctionCallExpression>(
             std::vector<Expression*>{argument}, exp_function());
 
         constexpr Real parameter = 4.56;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = parameter;
         Real result = 0.0;
 
-        evaluator(*expression, parameter, result);
+        evaluator(*expression, parameters, result);
 
         CHECK(result == std::exp(parameter));
 
@@ -133,16 +181,18 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         arguments.reserve(func_sketch::max_num_function_arguments + 1);
         for (std::size_t i = 0; i < func_sketch::max_num_function_arguments + 1;
             ++i) {
-            auto* argument = pool.create<ParameterExpression>();
+            auto* argument = pool.create<ParameterExpression>(ParameterType::x);
             arguments.push_back(argument);
         }
         auto* expression =
             pool.create<FunctionCallExpression>(arguments, exp_function());
 
         constexpr Real parameter = 4.56;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = parameter;
         Real result = 0.0;
 
-        CHECK_THROWS_WITH(evaluator(*expression, parameter, result),
+        CHECK_THROWS_WITH(evaluator(*expression, parameters, result),
             Catch::Matchers::ContainsSubstring("Too many function arguments"));
 
         pool.destroy(expression);

@@ -20,6 +20,12 @@ package func_sketch {
             + y : float
         }
 
+        class ParameterizedPoint {
+            + t : float
+            + x : float
+            + y : float
+        }
+
         class PointList {
             + points : List[Point]
         }
@@ -39,23 +45,43 @@ package func_sketch {
         }
         ExplicitCurveSpec o-- RGBColor
 
-        class SampledCurve {
+        class SampledExplicitCurve {
             + name : str
             + points : List[Point]
             + color : RGBColor
         }
-        SampledCurve ..> Point
-        SampledCurve o-- RGBColor
+        SampledExplicitCurve ..> Point
+        SampledExplicitCurve o-- RGBColor
+
+        class ParameterizedCurveSpec {
+            + name : str
+            + x_expression_str : str
+            + y_expression_str : str
+            + parameter_range : tuple[float, float]
+            + color : RGBColor
+        }
+        ParameterizedCurveSpec o-- RGBColor
+
+        class SampledParameterizedCurve {
+            + name : str
+            + points : List[ParameterizedPoint]
+            + color : RGBColor
+        }
+        SampledParameterizedCurve ..> ParameterizedPoint
+        SampledParameterizedCurve o-- RGBColor
 
         class CurveSampler {
             + __init__(range: PlotRange, config: PlotConfig)
             + range : PlotRange
             + config : PlotConfig
-            + __call__(spec: ExplicitCurveSpec) : SampledCurve
+            + __call__(spec: ExplicitCurveSpec) : SampledExplicitCurve
+            + __call__(spec: ParameterizedCurveSpec) : SampledParameterizedCurve
         }
         CurveSampler o-- ExpressionParser
         CurveSampler ..> ExplicitCurveSpec
-        CurveSampler ..> SampledCurve
+        CurveSampler ..> SampledExplicitCurve
+        CurveSampler ..> ParameterizedCurveSpec
+        CurveSampler ..> SampledParameterizedCurve
 
         class Plotter {
             + __init__(range: PlotRange, config: PlotConfig)
@@ -63,12 +89,12 @@ package func_sketch {
             + config : PlotConfig
             + write_background(image: numpy.ndarray)
             + write_curve(samples: PointList, color: RGBColor, image: numpy.ndarray)
-            + write(sampled_curves: list[SampledCurve], image: numpy.ndarray)
+            + write(sampled_curves: list[SampledExplicitCurve], image: numpy.ndarray)
         }
         Plotter o-- PlotRange
         Plotter o-- PlotConfig
         Plotter ..> PointList
-        Plotter ..> SampledCurve
+        Plotter ..> SampledExplicitCurve
         Plotter ..> RGBColor
     }
 }

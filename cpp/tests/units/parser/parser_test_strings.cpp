@@ -39,6 +39,7 @@ std::vector<std::string> parser_test_strings() {
         "e",
         // Parameters.
         "x",
+        "t",
         // Unary minus.
         "-x",
         // Unary plus.

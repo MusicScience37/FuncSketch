@@ -1,0 +1,36 @@
+/*
+ * Copyright 2026 MusicScience37 (Kenta Kabashima)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*!
+ * \file
+ * \brief Implementation of ParameterizedCurveSpec struct.
+ */
+#include "func_sketch/curves/parameterized_curve_spec.h"
+
+#include <fmt/format.h>
+
+// NOLINTNEXTLINE(*-static): API of an external library.
+auto fmt::formatter<func_sketch::curves::ParameterizedCurveSpec>::format(
+    const func_sketch::curves::ParameterizedCurveSpec& value,
+    format_context& context) const -> format_context::iterator {
+    return fmt::formatter<string_view>::format(
+        fmt::format("ParameterizedCurveSpec{{name=\"{}\", "
+                    "x_expression_str=\"{}\", y_expression_str=\"{}\", "
+                    "parameter_range=({}, {}), color={}}}",
+            value.name, value.x_expression_str, value.y_expression_str,
+            value.parameter_range.first, value.parameter_range.second,
+            value.color),
+        context);
+}

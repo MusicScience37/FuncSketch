@@ -34,6 +34,9 @@ Parsed: 2.718281828459045
 Input: x
 Parsed: x
 
+Input: t
+Parsed: t
+
 Input: -x
 Parsed: negate(x)
 

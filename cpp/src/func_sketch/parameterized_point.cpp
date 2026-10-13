@@ -15,30 +15,16 @@
  */
 /*!
  * \file
- * \brief Definition of SampledCurve struct.
+ * \brief Implementation of ParameterizedPoint struct.
  */
-#pragma once
+#include "func_sketch/parameterized_point.h"
 
-#include <string>
-#include <vector>
+#include <fmt/format.h>
 
-#include "func_sketch/plotter/rgb_color.h"
-#include "func_sketch/point.h"
-
-namespace func_sketch::curves {
-
-/*!
- * \brief Struct of sampled curves.
- */
-struct SampledCurve {
-    //! Name of the curve.
-    std::string name;
-
-    //! Sampled points of the curve.
-    std::vector<Point> points;
-
-    //! Color of the curve.
-    plotter::RGBColor color;
-};
-
-}  // namespace func_sketch::curves
+// NOLINTNEXTLINE(*-static): API of an external library.
+auto fmt::formatter<func_sketch::ParameterizedPoint>::format(
+    const func_sketch::ParameterizedPoint& value, format_context& context) const
+    -> format_context::iterator {
+    return fmt::format_to(context.out(), "ParameterizedPoint({}, {}, {})",
+        value.t, value.x, value.y);
+}

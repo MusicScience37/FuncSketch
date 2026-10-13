@@ -25,7 +25,9 @@
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/expressions/expression_evaluator.h"
+#include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/functions/python_function_list.h"
+#include "func_sketch/parameter_type.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/plotter.h"
 #include "func_sketch/point.h"
@@ -55,7 +57,8 @@ int main(int argc, char** argv) {
     const auto python_function_list = func_sketch::math::PythonFunctionList{};
     func_sketch::parser::ExpressionParser parser{python_function_list};
     func_sketch::expressions::ExpressionEvaluator evaluator;
-    func_sketch::sampling::PointSampler sampler{range, sampling_config};
+    func_sketch::sampling::PointSampler<func_sketch::Point> sampler{
+        range, sampling_config};
     func_sketch::plotter::Plotter plotter{range, plot_config};
 
     cv::Mat image(image_height, image_width, CV_8UC3);
@@ -63,10 +66,13 @@ int main(int argc, char** argv) {
     ProfilerStart("profile_plotting.prof");
     for (std::size_t i = 0; i < num_repetitions; ++i) {
         const auto expression = parser(expression_str);
+        func_sketch::expressions::ParameterValueDict parameters;
         const auto samples = sampler(
-            [&expression, &evaluator](func_sketch::Real parameter) {
+            [&expression, &evaluator, &parameters](
+                func_sketch::Real parameter) {
+                parameters[func_sketch::ParameterType::x] = parameter;
                 func_sketch::Real value;
-                evaluator(*expression, parameter, value);
+                evaluator(*expression, parameters, value);
                 return func_sketch::Point{.x = parameter, .y = value};
             },
             range.x_range());
