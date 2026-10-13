@@ -45,7 +45,8 @@ public:
      * \param[in] range Range of the plot.
      * \param[in] config Configuration of sampling.
      */
-    PointSampler(const plotter::PlotRange& range, const SamplingConfig& config);
+    PointSampler(  // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
+        const plotter::PlotRange& range, const SamplingConfig& config);
 
     /*!
      * \brief Set the range of the plot.
