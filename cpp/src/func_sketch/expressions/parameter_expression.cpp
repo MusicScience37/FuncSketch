@@ -21,13 +21,15 @@
 
 #include <fmt/format.h>
 
+#include "func_sketch/parameter_type.h"
+
 auto fmt::formatter<func_sketch::expressions::ParameterExpression>::format(
     const func_sketch::expressions::ParameterExpression& value,
     format_context& context) const -> format_context::iterator {
     switch (value.type) {
-    case func_sketch::expressions::ParameterType::x:
+    case func_sketch::ParameterType::x:
         return fmt::formatter<string_view>::format("x", context);
-    case func_sketch::expressions::ParameterType::t:
+    case func_sketch::ParameterType::t:
         return fmt::formatter<string_view>::format("t", context);
     }
     return fmt::formatter<string_view>::format("(unknown parameter)", context);

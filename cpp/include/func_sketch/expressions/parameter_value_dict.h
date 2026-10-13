@@ -25,7 +25,7 @@
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/exceptions.h"
-#include "func_sketch/expressions/parameter_expression.h"
+#include "func_sketch/parameter_type.h"
 
 namespace func_sketch::expressions {
 

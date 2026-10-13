@@ -20,8 +20,8 @@
 #include "func_sketch/curves/curve_sampler.h"
 
 #include "func_sketch/common_types.h"
-#include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/expressions/parameter_value_dict.h"
+#include "func_sketch/parameter_type.h"
 #include "func_sketch/point.h"
 
 namespace func_sketch::curves {
@@ -54,7 +54,7 @@ SampledExplicitCurve CurveSampler::operator()(
     return SampledExplicitCurve{.name = spec.name,
         .points = point_sampler_(
             [&expression, &parameters, this](Real parameter) {
-                parameters[expressions::ParameterType::x] = parameter;
+                parameters[ParameterType::x] = parameter;
                 Real value;
                 evaluator_(*expression, parameters, value);
                 return Point{.x = parameter, .y = value};
@@ -71,7 +71,7 @@ SampledParameterizedCurve CurveSampler::operator()(
     return SampledParameterizedCurve{.name = spec.name,
         .points = parameterized_point_sampler_(
             [&x_expression, &y_expression, &parameters, this](Real parameter) {
-                parameters[expressions::ParameterType::t] = parameter;
+                parameters[ParameterType::t] = parameter;
                 Real x_value;
                 Real y_value;
                 evaluator_(*x_expression, parameters, x_value);

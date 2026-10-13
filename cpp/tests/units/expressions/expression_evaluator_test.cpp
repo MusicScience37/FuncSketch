@@ -34,8 +34,10 @@
 #include "func_sketch/math/binary_operators.h"
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/unary_operators.h"
+#include "func_sketch/parameter_type.h"
 
 TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
+    using func_sketch::ParameterType;
     using func_sketch::Real;
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ConstantExpression;
@@ -44,7 +46,6 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::FunctionCallExpression;
     using func_sketch::expressions::ParameterExpression;
-    using func_sketch::expressions::ParameterType;
     using func_sketch::expressions::ParameterValueDict;
     using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::AdditionOperator;

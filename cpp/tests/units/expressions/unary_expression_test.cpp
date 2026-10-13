@@ -27,13 +27,14 @@
 #include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/math/unary_operator.h"
 #include "func_sketch/math/unary_operators.h"
+#include "func_sketch/parameter_type.h"
 
 TEST_CASE("func_sketch::expressions::UnaryExpression") {
+    using func_sketch::ParameterType;
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::ParameterExpression;
-    using func_sketch::expressions::ParameterType;
     using func_sketch::expressions::UnaryExpression;
     using func_sketch::math::UnaryMinusOperator;
     using func_sketch::math::UnaryOperator;

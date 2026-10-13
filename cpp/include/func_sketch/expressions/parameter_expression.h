@@ -19,22 +19,11 @@
  */
 #pragma once
 
-#include <cstdint>
-
 #include <fmt/base.h>
 
+#include "func_sketch/parameter_type.h"
+
 namespace func_sketch::expressions {
-
-/*!
- * \brief Type of parameters.
- */
-enum class ParameterType : std::uint8_t {
-    //! Parameter "x".
-    x,
-
-    //! Parameter "t".
-    t,
-};
 
 /*!
  * \brief Struct of parameter expressions.

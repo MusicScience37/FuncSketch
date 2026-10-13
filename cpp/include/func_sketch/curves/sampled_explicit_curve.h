@@ -28,7 +28,7 @@
 namespace func_sketch::curves {
 
 /*!
- * \brief Struct of sampled curves.
+ * \brief Struct of sampled explicit curves.
  */
 struct SampledExplicitCurve {
     //! Name of the curve.

@@ -36,10 +36,10 @@ struct ParameterizedCurveSpec {
     //! Name of the curve.
     std::string name;
 
-    //! String of the function expression for x coordinate.
+    //! String of the function expression for the x coordinate.
     std::string x_expression_str;
 
-    //! String of the function expression for y coordinate.
+    //! String of the function expression for the y coordinate.
     std::string y_expression_str;
 
     //! Range of the parameter.

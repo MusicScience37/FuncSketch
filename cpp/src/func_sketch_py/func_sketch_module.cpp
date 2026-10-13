@@ -43,12 +43,12 @@
 #include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
-#include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/constant_info.h"
 #include "func_sketch/math/constant_list.h"
 #include "func_sketch/math/math_function_info.h"
 #include "func_sketch/math/math_function_list.h"
+#include "func_sketch/parameter_type.h"
 #include "func_sketch/parameterized_point.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/axes_config.h"
@@ -248,8 +248,7 @@ Objects of this class can be called with a string to parse it into an Expression
             [](const ExpressionEvaluator& self, const ExpressionPtr& expression,
                 func_sketch::Real parameter) {
                 func_sketch::expressions::ParameterValueDict parameters;
-                parameters[func_sketch::expressions::ParameterType::x] =
-                    parameter;
+                parameters[func_sketch::ParameterType::x] = parameter;
                 func_sketch::Real result;
                 self(*expression, parameters, result);
                 return result;
@@ -720,7 +719,7 @@ Note:
 
     using func_sketch::curves::SampledExplicitCurve;
     nanobind::class_<SampledExplicitCurve>(
-        m, "SampledExplicitCurve", "Struct of sampled curves.")
+        m, "SampledExplicitCurve", "Struct of sampled explicit curves.")
         .def(nanobind::init<std::string, std::vector<Point>, RGBColor>(),
             "name"_a, "points"_a, "color"_a, "Constructor.")
         .def_rw("name", &SampledExplicitCurve::name, "Name of the curve.")
@@ -743,9 +742,9 @@ Note:
             "parameter_range"_a, "color"_a, "Constructor.")
         .def_rw("name", &ParameterizedCurveSpec::name, "Name of the curve.")
         .def_rw("x_expression_str", &ParameterizedCurveSpec::x_expression_str,
-            "String of the function expression for x coordinate.")
+            "String of the function expression for the x coordinate.")
         .def_rw("y_expression_str", &ParameterizedCurveSpec::y_expression_str,
-            "String of the function expression for y coordinate.")
+            "String of the function expression for the y coordinate.")
         .def_rw("parameter_range", &ParameterizedCurveSpec::parameter_range,
             "Range of the parameter.")
         .def_rw("color", &ParameterizedCurveSpec::color, "Color.");

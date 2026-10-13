@@ -26,14 +26,15 @@
 #include "func_sketch/expressions/expression_memory_pool.h"
 #include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/math/binary_operators.h"
+#include "func_sketch/parameter_type.h"
 
 TEST_CASE("func_sketch::expressions::BinaryExpression") {
+    using func_sketch::ParameterType;
     using func_sketch::expressions::BinaryExpression;
     using func_sketch::expressions::ConstantExpression;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::ParameterExpression;
-    using func_sketch::expressions::ParameterType;
     using func_sketch::math::AdditionOperator;
     using func_sketch::math::BinaryOperator;
 

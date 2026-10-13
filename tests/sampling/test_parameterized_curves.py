@@ -37,8 +37,8 @@ def sample_parameterized_curve(
     """Sample points of a parameterized curve.
 
     Args:
-        x_expression_str (str): String of the function expression of x coordinate.
-        y_expression_str (str): String of the function expression of y coordinate.
+        x_expression_str (str): String of the function expression for the x coordinate.
+        y_expression_str (str): String of the function expression for the y coordinate.
         x_range (tuple[float, float]): Range of the x coordinate.
         y_range (tuple[float, float]): Range of the y coordinate.
         parameter_range (tuple[float, float]): Range of the parameter.

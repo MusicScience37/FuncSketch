@@ -26,13 +26,14 @@
 #include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/math/functions/exp.h"
 #include "func_sketch/math/math_function.h"
+#include "func_sketch/parameter_type.h"
 
 TEST_CASE("func_sketch::expressions::FunctionCallExpression") {
+    using func_sketch::ParameterType;
     using func_sketch::expressions::Expression;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::FunctionCallExpression;
     using func_sketch::expressions::ParameterExpression;
-    using func_sketch::expressions::ParameterType;
     using func_sketch::math::exp_function;
     using func_sketch::math::MathFunction;
 

@@ -113,7 +113,7 @@ private:
     //! Sampler of points.
     sampling::PointSampler<Point> point_sampler_;
 
-    //! Sampler of points.
+    //! Sampler of points with parameters.
     sampling::PointSampler<ParameterizedPoint> parameterized_point_sampler_;
 };
 
