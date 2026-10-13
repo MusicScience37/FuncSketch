@@ -22,7 +22,7 @@ from func_sketch._cpp import (
     PlotConfig,
     PlotRange,
     Plotter,
-    SampledCurve,
+    SampledExplicitCurve,
 )
 from func_sketch._gui.common.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
 
@@ -56,7 +56,7 @@ def plot_function(
     sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)
 
-    sampled_curves: list[SampledCurve] = []
+    sampled_curves: list[SampledExplicitCurve] = []
     for i, expression_str in enumerate(expression_str_list):
         curve_spec = ExplicitCurveSpec(
             name=expression_str,

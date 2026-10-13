@@ -28,11 +28,13 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/parameterized_point.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/point.h"
 #include "func_sketch/sampling/sampling_config.h"
 
 TEST_CASE("func_sketch::sampling::PointSampler") {
+    using func_sketch::ParameterizedPoint;
     using func_sketch::Point;
     using func_sketch::Real;
     using func_sketch::plotter::PlotRange;
@@ -42,7 +44,7 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
     SECTION("sample a simple function") {
         const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
         const auto config = SamplingConfig();
-        auto sampler = PointSampler(range, config);
+        auto sampler = PointSampler<Point>(range, config);
 
         const auto func = [](Real param) {
             return Point{.x = param, .y = param};
@@ -60,7 +62,7 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
     SECTION("sample a function with singularity") {
         const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
         const auto config = SamplingConfig();
-        auto sampler = PointSampler(range, config);
+        auto sampler = PointSampler<Point>(range, config);
 
         const auto func = [](Real param) {
             return Point{.x = param, .y = 1.0 / param};
@@ -78,7 +80,7 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
     SECTION("sample a function with discontinuity") {
         const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
         const auto config = SamplingConfig();
-        auto sampler = PointSampler(range, config);
+        auto sampler = PointSampler<Point>(range, config);
 
         const auto func = [](Real param) {
             return Point{.x = param, .y = 0.5 * std::round(param)};
@@ -96,7 +98,7 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
     SECTION("sample a function with infinite oscillation") {
         const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
         const auto config = SamplingConfig();
-        auto sampler = PointSampler(range, config);
+        auto sampler = PointSampler<Point>(range, config);
 
         const auto func = [](Real param) {
             if (std::abs(param) < std::numeric_limits<Real>::epsilon()) {
@@ -118,7 +120,7 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
         const auto range =
             PlotRange({1.0e10, 1.0e10 + 1.0}, {1.0e10, 1.0e10 + 1.0});
         const auto config = SamplingConfig();
-        auto sampler = PointSampler(range, config);
+        auto sampler = PointSampler<Point>(range, config);
 
         const auto func = [](Real param) {
             return Point{.x = param, .y = param};
@@ -151,7 +153,7 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
         for (const auto& x_range : ranges) {
             INFO("range = (" << x_range.first << ", " << x_range.second << ")");
             const auto range = PlotRange(x_range, x_range);
-            auto sampler = PointSampler(range, config);
+            auto sampler = PointSampler<Point>(range, config);
 
             const auto points = sampler(func, range.x_range());
 
@@ -178,7 +180,7 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
                     func_sketch::sampling::max_max_num_sample_points)
                 .max_num_sample_points(
                     func_sketch::sampling::max_max_num_sample_points);
-        auto sampler = PointSampler(range, config);
+        auto sampler = PointSampler<Point>(range, config);
 
         const auto func = [](Real param) {
             return Point{.x = param, .y = param};
@@ -196,10 +198,31 @@ TEST_CASE("func_sketch::sampling::PointSampler") {
         }
     }
 
+    SECTION("sample a parameterized curve") {
+        const auto range = PlotRange({-1.5, 1.5}, {-1.5, 1.5});
+        const auto config = SamplingConfig();
+        auto sampler = PointSampler<ParameterizedPoint>(range, config);
+
+        const auto func = [](Real param) {
+            return ParameterizedPoint{
+                .t = param, .x = std::cos(param), .y = std::sin(param)};
+        };
+        const auto parameter_range =
+            std::make_pair(0.0, 2.0 * std::numbers::pi);
+        const auto points = sampler(func, parameter_range);
+
+        // Check the order of sampled points.
+        REQUIRE(points.size() >= config.initial_num_sample_points());
+        for (std::size_t i = 0; i < points.size() - 1; ++i) {
+            INFO("i = " << i);
+            CHECK(points[i].t < points[i + 1].t);
+        }
+    }
+
     SECTION("throw an exception for invalid parameter ranges") {
         const auto range = PlotRange({-1.0, 1.0}, {-1.0, 1.0});
         const auto config = SamplingConfig();
-        auto sampler = PointSampler(range, config);
+        auto sampler = PointSampler<Point>(range, config);
 
         const auto func = [](Real param) {
             return Point{.x = param, .y = param};

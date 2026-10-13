@@ -21,7 +21,7 @@ import kivy.event
 import kivy.properties
 import numpy
 
-from func_sketch._cpp import PlotConfig, PlotRange, Plotter, Point, SampledCurve
+from func_sketch._cpp import PlotConfig, PlotRange, Plotter, Point, SampledExplicitCurve
 from func_sketch._gui.common.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
@@ -136,7 +136,7 @@ class PlotWidgetModel(kivy.event.EventDispatcher):
 
     def _update_plot(self) -> None:
         """Update the plot."""
-        sampled_curves: list[SampledCurve] = self.shared_state.sampled_curves
+        sampled_curves: list[SampledExplicitCurve] = self.shared_state.sampled_curves
         self._plotter.legend_entries = [
             (curve.name, curve.color) for curve in sampled_curves if not curve.empty()
         ]

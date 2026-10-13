@@ -32,22 +32,29 @@
 #include <numbers>
 #include <utility>
 
+#include "func_sketch/parameterized_point.h"
 #include "func_sketch/plotter/plot_range.h"
+#include "func_sketch/point.h"
 #include "func_sketch/utilities/validate_bounds.h"
 
 namespace func_sketch::sampling {
 
-PointSampler::PointSampler(
+template <typename PointType>
+PointSampler<PointType>::PointSampler(
     // NOLINTNEXTLINE(*-pass-by-value): Wrong warning for small objects.
     const plotter::PlotRange& range, const SamplingConfig& config)
     : range_(range), config_(config) {}
 
-PointSampler& PointSampler::range(const plotter::PlotRange& value) {
+template <typename PointType>
+PointSampler<PointType>& PointSampler<PointType>::range(
+    const plotter::PlotRange& value) {
     range_ = value;
     return *this;
 }
 
-PointSampler& PointSampler::config(const SamplingConfig& value) {
+template <typename PointType>
+PointSampler<PointType>& PointSampler<PointType>::config(
+    const SamplingConfig& value) {
     config_ = value;
     return *this;
 }
@@ -88,16 +95,18 @@ namespace {
 /*!
  * \brief Fallback implementation for sampling initial points.
  *
+ * \tparam PointType Type of the point.
  * \param[in] function Function to sample.
  * \param[in] parameter_range Range of the parameter.
  * \param[in] num_points Approximate number of points.
  * \param[out] samples List of sampled parameters and corresponding points.
  * \return Number of sampled points.
  */
+template <typename PointType>
 [[nodiscard]] std::size_t sample_initial_points_fallback(
-    const std::function<Point(Real)>& function,
+    const std::function<PointType(Real)>& function,
     const std::pair<Real, Real>& parameter_range, std::size_t num_points,
-    std::pmr::forward_list<std::pair<Real, Point>>& samples) {
+    std::pmr::forward_list<std::pair<Real, PointType>>& samples) {
     std::size_t actual_num_points = 0;
     auto iter = samples.before_begin();
     {
@@ -128,6 +137,7 @@ namespace {
 /*!
  * \brief Sample initial points.
  *
+ * \tparam PointType Type of the point.
  * \param[in] function Function to sample.
  * This function calculates a point for a parameter value.
  * \param[in] parameter_range Range of the parameter.
@@ -136,11 +146,12 @@ namespace {
  * \param[out] samples List of sampled parameters and corresponding points.
  * \return Number of sampled points.
  */
+template <typename PointType>
 [[nodiscard]] std::size_t sample_initial_points(
-    const std::function<Point(Real)>& function,
+    const std::function<PointType(Real)>& function,
     const std::pair<Real, Real>& parameter_range, std::size_t num_points,
     Real min_param_change_rate,
-    std::pmr::forward_list<std::pair<Real, Point>>& samples) {
+    std::pmr::forward_list<std::pair<Real, PointType>>& samples) {
     const auto [interval_number, interval_digits] =
         determine_initial_sample_interval(parameter_range, num_points);
     const Real interval_order = std::pow(10.0, interval_digits);
@@ -206,6 +217,7 @@ namespace {
 /*!
  * \brief Determine whether to divide a segment between two points.
  *
+ * \tparam PointType Type of the point.
  * \param[in] cur_next_param_diff Difference in parameter between current and
  * next points.
  * \param[in] cur_next_point_diff Difference in point coordinates between
@@ -219,8 +231,9 @@ namespace {
  * \retval true The segment should be divided.
  * \retval false The segment should not be divided.
  */
+template <typename PointType>
 [[nodiscard]] bool should_divide_two_points(Real cur_next_param_diff,
-    const Point& cur_next_point_diff, bool is_cur_point_in_range,
+    const PointType& cur_next_point_diff, bool is_cur_point_in_range,
     bool is_next_point_in_range, Real param_diff_min, Real x_diff_max,
     Real y_diff_max) {
     if (cur_next_param_diff < param_diff_min) {
@@ -247,6 +260,7 @@ namespace {
 /*!
  * \brief Determine whether to divide the segments between three points.
  *
+ * \tparam PointType Type of the point.
  * \param[in] left_param_diff Difference in parameter between the left and
  * center points.
  * \param[in] right_param_diff Difference in parameter between the center and
@@ -268,11 +282,13 @@ namespace {
  * \return A pair of booleans indicating whether to divide the left and right
  * segments, respectively.
  */
+template <typename PointType>
 [[nodiscard]] std::pair<bool, bool> should_divide_three_points(
-    Real left_param_diff, Real right_param_diff, const Point& left_point_diff,
-    const Point& right_point_diff, bool is_left_point_in_range,
-    bool is_center_point_in_range, bool is_right_point_in_range,
-    Real param_diff_min, Real x_normalization_coeff, Real y_normalization_coeff,
+    Real left_param_diff, Real right_param_diff,
+    const PointType& left_point_diff, const PointType& right_point_diff,
+    bool is_left_point_in_range, bool is_center_point_in_range,
+    bool is_right_point_in_range, Real param_diff_min,
+    Real x_normalization_coeff, Real y_normalization_coeff,
     Real angle_change_cos_threshold) {
     if (!std::isfinite(left_point_diff.x) ||
         !std::isfinite(left_point_diff.y) ||
@@ -331,6 +347,7 @@ namespace {
 /*!
  * \brief Divide a segment.
  *
+ * \tparam PointType Type of the point.
  * \param[in,out] samples List of sampled parameters and corresponding points.
  * \param[in] left_iter Iterator to the left point of the segment.
  * \param[in] left_param Parameter value of the left point.
@@ -338,18 +355,36 @@ namespace {
  * \param[in] function Function to calculate a point for a given parameter
  * value.
  */
-void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
-    std::pmr::forward_list<std::pair<Real, Point>>::const_iterator left_iter,
+template <typename PointType>
+void divide_segment(std::pmr::forward_list<std::pair<Real, PointType>>& samples,
+    typename std::pmr::forward_list<std::pair<Real, PointType>>::const_iterator
+        left_iter,
     Real left_param, Real right_param,
-    const std::function<Point(Real)>& function) {
+    const std::function<PointType(Real)>& function) {
     const Real mid_param = 0.5 * (left_param + right_param);
-    const Point mid_point = function(mid_param);
+    const PointType mid_point = function(mid_param);
     samples.insert_after(left_iter, std::make_pair(mid_param, mid_point));
+}
+
+/*!
+ * \brief Check whether a point is within the range of the plot.
+ *
+ * \tparam PointType Type of the point.
+ * \param[in] range Range of the plot.
+ * \param[in] point Point.
+ * \retval true The point is within the range.
+ * \retval false The point is outside the range.
+ */
+template <typename PointType>
+[[nodiscard]] bool is_in_range(
+    const plotter::PlotRange& range, const PointType& point) {
+    return range.contains(Point{.x = point.x, .y = point.y});
 }
 
 /*!
  * \brief Add points adaptively.
  *
+ * \tparam PointType Type of the point.
  * \param[in] function Function to sample.
  * This function calculates a point for a parameter value.
  * \param[in] config Configuration of sampling.
@@ -359,11 +394,12 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
  * \param[in,out] samples List of sampled parameters and corresponding points.
  * \return Number of points after adaptive addition.
  */
+template <typename PointType>
 [[nodiscard]] std::size_t add_points_adaptively(
-    const std::function<Point(Real)>& function, const SamplingConfig& config,
-    const std::pair<Real, Real>& parameter_range,
+    const std::function<PointType(Real)>& function,
+    const SamplingConfig& config, const std::pair<Real, Real>& parameter_range,
     const plotter::PlotRange& range, std::size_t initial_num_points,
-    std::pmr::forward_list<std::pair<Real, Point>>& samples) {
+    std::pmr::forward_list<std::pair<Real, PointType>>& samples) {
     const Real param_range_size =
         parameter_range.second - parameter_range.first;
     const Real x_range_size = range.x_range().second - range.x_range().first;
@@ -402,9 +438,9 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
         const auto& [cur_param, cur_point] = *cur_iter;
         const auto& [next_param, next_point] = *next_iter;
         const Real cur_next_param_diff = next_param - cur_param;
-        const Point cur_next_point_diff = next_point - cur_point;
-        const bool is_cur_point_in_range = range.contains(cur_point);
-        const bool is_next_point_in_range = range.contains(next_point);
+        const PointType cur_next_point_diff = next_point - cur_point;
+        const bool is_cur_point_in_range = is_in_range(range, cur_point);
+        const bool is_next_point_in_range = is_in_range(range, next_point);
         if (should_divide_two_points(cur_next_param_diff, cur_next_point_diff,
                 is_cur_point_in_range, is_next_point_in_range, param_diff_min,
                 x_diff_max, y_diff_max)) {
@@ -416,9 +452,9 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
                 const auto& [next_next_param, next_next_point] =
                     *next_next_iter;
                 const Real extra_param_diff = next_next_param - next_param;
-                const Point extra_point_diff = next_next_point - next_point;
+                const PointType extra_point_diff = next_next_point - next_point;
                 const bool is_next_next_point_in_range =
-                    range.contains(next_next_point);
+                    is_in_range(range, next_next_point);
                 const auto [should_divide_left, should_divide_right] =
                     should_divide_three_points(cur_next_param_diff,
                         extra_param_diff, cur_next_point_diff, extra_point_diff,
@@ -450,8 +486,9 @@ void divide_segment(std::pmr::forward_list<std::pair<Real, Point>>& samples,
 
 }  // namespace
 
-std::vector<Point> PointSampler::operator()(
-    const std::function<Point(Real)>& function,
+template <typename PointType>
+std::vector<PointType> PointSampler<PointType>::operator()(
+    const std::function<PointType(Real)>& function,
     const std::pair<Real, Real>& parameter_range) const {
     utilities::validate_bounds(parameter_range, "parameter");
 
@@ -460,7 +497,7 @@ std::vector<Point> PointSampler::operator()(
     std::array<char, static_buffer_size> static_buffer;
     std::pmr::monotonic_buffer_resource resource(
         static_buffer.data(), static_buffer.size());
-    std::pmr::forward_list<std::pair<Real, Point>> samples(&resource);
+    std::pmr::forward_list<std::pair<Real, PointType>> samples(&resource);
 
     const std::size_t initial_num_samples =
         sample_initial_points(function, parameter_range,
@@ -471,11 +508,14 @@ std::vector<Point> PointSampler::operator()(
     const std::size_t num_samples = add_points_adaptively(function, config_,
         parameter_range, range_, initial_num_samples, samples);
 
-    std::vector<Point> result;
+    std::vector<PointType> result;
     result.reserve(num_samples);
     std::ranges::transform(samples, std::back_inserter(result),
-        [](const std::pair<Real, Point>& sample) { return sample.second; });
+        [](const std::pair<Real, PointType>& sample) { return sample.second; });
     return result;
 }
+
+template class PointSampler<func_sketch::Point>;
+template class PointSampler<func_sketch::ParameterizedPoint>;
 
 }  // namespace func_sketch::sampling

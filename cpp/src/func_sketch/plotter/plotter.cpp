@@ -104,7 +104,8 @@ void Plotter::write_curve(
 }
 
 void Plotter::write(
-    const std::vector<curves::SampledCurve>& sampled_curves, Image& image) {
+    const std::vector<curves::SampledExplicitCurve>& sampled_curves,
+    Image& image) {
     write_background(image);
     for (const auto& curve : sampled_curves) {
         write_curve(curve.points, curve.color, image);

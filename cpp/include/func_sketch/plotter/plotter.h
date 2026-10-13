@@ -21,7 +21,7 @@
 
 #include <vector>
 
-#include "func_sketch/curves/sampled_curve.h"
+#include "func_sketch/curves/sampled_explicit_curve.h"
 #include "func_sketch/plotter/axes_writer.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/legend_writer.h"
@@ -142,8 +142,8 @@ public:
      * \note This function writes the entire plot, including the background and
      * all sampled curves.
      */
-    void write(
-        const std::vector<curves::SampledCurve>& sampled_curves, Image& image);
+    void write(const std::vector<curves::SampledExplicitCurve>& sampled_curves,
+        Image& image);
 
 private:
     /*!

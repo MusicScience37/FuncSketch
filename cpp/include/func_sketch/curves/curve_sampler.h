@@ -20,12 +20,16 @@
 #pragma once
 
 #include "func_sketch/curves/explicit_curve_spec.h"
-#include "func_sketch/curves/sampled_curve.h"
+#include "func_sketch/curves/parameterized_curve_spec.h"
+#include "func_sketch/curves/sampled_explicit_curve.h"
+#include "func_sketch/curves/sampled_parameterized_curve.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/math/math_function_list.h"
+#include "func_sketch/parameterized_point.h"
 #include "func_sketch/parser/expression_parser.h"
 #include "func_sketch/plotter/plot_range.h"
+#include "func_sketch/point.h"
 #include "func_sketch/sampling/point_sampler.h"
 #include "func_sketch/sampling/sampling_config.h"
 
@@ -69,7 +73,17 @@ public:
      * \param[in] spec Specification of the curve.
      * \return Sampled curve.
      */
-    [[nodiscard]] SampledCurve operator()(const ExplicitCurveSpec& spec) const;
+    [[nodiscard]] SampledExplicitCurve operator()(
+        const ExplicitCurveSpec& spec) const;
+
+    /*!
+     * \brief Sample a curve.
+     *
+     * \param[in] spec Specification of the curve.
+     * \return Sampled curve.
+     */
+    [[nodiscard]] SampledParameterizedCurve operator()(
+        const ParameterizedCurveSpec& spec) const;
 
     /*!
      * \brief Get the list of mathematical functions.
@@ -97,7 +111,10 @@ private:
     expressions::ExpressionEvaluator evaluator_;
 
     //! Sampler of points.
-    sampling::PointSampler point_sampler_;
+    sampling::PointSampler<Point> point_sampler_;
+
+    //! Sampler of points.
+    sampling::PointSampler<ParameterizedPoint> parameterized_point_sampler_;
 };
 
 }  // namespace func_sketch::curves

@@ -113,7 +113,7 @@ private:
     func_sketch::expressions::ExpressionEvaluator evaluator_;
 
     //! Sampler.
-    func_sketch::sampling::PointSampler sampler_{
+    func_sketch::sampling::PointSampler<func_sketch::Point> sampler_{
         func_sketch::plotter::PlotRange({-1.0, 1.0}, {-1.0, 1.0}),
         func_sketch::sampling::SamplingConfig()};
 

@@ -55,7 +55,8 @@ int main(int argc, char** argv) {
     const auto python_function_list = func_sketch::math::PythonFunctionList{};
     func_sketch::parser::ExpressionParser parser{python_function_list};
     func_sketch::expressions::ExpressionEvaluator evaluator;
-    func_sketch::sampling::PointSampler sampler{range, sampling_config};
+    func_sketch::sampling::PointSampler<func_sketch::Point> sampler{
+        range, sampling_config};
     func_sketch::plotter::Plotter plotter{range, plot_config};
 
     cv::Mat image(image_height, image_width, CV_8UC3);

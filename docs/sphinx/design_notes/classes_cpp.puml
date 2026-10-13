@@ -164,7 +164,7 @@ package func_sketch {
             + config(value : PlotConfig)
             + write_background(image : Image&)
             + write_curve(samples : std::vector<Point>, color : RGBColor, image : Image&)
-            + write(sampled_curves : std::vector<SampledCurve>, image : Image&)
+            + write(sampled_curves : std::vector<SampledExplicitCurve>, image : Image&)
         }
         Plotter o-- PlotRange
         Plotter o-- PlotConfig
@@ -181,25 +181,25 @@ package func_sketch {
         }
         ExplicitCurveSpec o-- RGBColor
 
-        struct SampledCurve {
+        struct SampledExplicitCurve {
             + name : std::string
             + points : std::vector<Point>
             + color : RGBColor
         }
-        SampledCurve ..> Point
-        SampledCurve o-- RGBColor
+        SampledExplicitCurve ..> Point
+        SampledExplicitCurve o-- RGBColor
 
         class CurveSampler {
             + range(value : PlotRange)
             + config(value : PlotConfig)
-            + operator()(spec : ExplicitCurveSpec) : SampledCurve
+            + operator()(spec : ExplicitCurveSpec) : SampledExplicitCurve
         }
         CurveSampler o-- ExpressionParser
         CurveSampler o-- PointSampler
         CurveSampler ..> ExplicitCurveSpec
-        CurveSampler ..> SampledCurve
+        CurveSampler ..> SampledExplicitCurve
     }
-    Plotter ..> SampledCurve
+    Plotter ..> SampledExplicitCurve
 }
 
 @enduml

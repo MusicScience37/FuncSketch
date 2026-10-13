@@ -25,7 +25,7 @@ from func_sketch._cpp import (
     PlotConfig,
     PlotRange,
     Point,
-    SampledCurve,
+    SampledExplicitCurve,
 )
 from func_sketch._gui.common.constants import (
     CURVE_COLORS,
@@ -105,7 +105,9 @@ class SharedState(kivy.event.EventDispatcher):
         kwargs.setdefault(
             "sampled_curves",
             [
-                SampledCurve(name=f"Curve {i + 1}", points=[], color=CURVE_COLORS[i])
+                SampledExplicitCurve(
+                    name=f"Curve {i + 1}", points=[], color=CURVE_COLORS[i]
+                )
                 for i in range(NUM_CURVES)
             ],
         )
@@ -145,27 +147,27 @@ class SharedState(kivy.event.EventDispatcher):
         self.dispatch("on_curve_spec_changed", source, index, value)
 
     def update_sampled_curve(
-        self, source: object, index: int, value: SampledCurve
+        self, source: object, index: int, value: SampledExplicitCurve
     ) -> None:
         """Update a sampled curve.
 
         Args:
             source (object): Source of the update.
             index (int): Index of the sampled curve to update.
-            value (SampledCurve): New sampled curve.
+            value (SampledExplicitCurve): New sampled curve.
         """
         self.sampled_curves[index] = value
         self.dispatch("on_sampled_curve_changed", source, index, value)
         self.dispatch("on_sampled_curve_changed_any", source)
 
     def update_sampled_curve_all(
-        self, source: object, values: list[SampledCurve]
+        self, source: object, values: list[SampledExplicitCurve]
     ) -> None:
         """Update all sampled curves.
 
         Args:
             source (object): Source of the update.
-            values (list[SampledCurve]): New list of sampled curves.
+            values (list[SampledExplicitCurve]): New list of sampled curves.
         """
         self.sampled_curves = values
         for index, value in enumerate(values):
@@ -217,7 +219,7 @@ class SharedState(kivy.event.EventDispatcher):
         """Event handler for curve spec changes."""
 
     def on_sampled_curve_changed(
-        self, source: object, index: int, value: SampledCurve
+        self, source: object, index: int, value: SampledExplicitCurve
     ) -> None:
         """Event handler for sampled curve changes."""
 
