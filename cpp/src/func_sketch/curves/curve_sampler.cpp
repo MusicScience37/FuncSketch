@@ -79,7 +79,7 @@ SampledParameterizedCurve CurveSampler::operator()(
                 return ParameterizedPoint{
                     .t = parameter, .x = x_value, .y = y_value};
             },
-            range_.x_range()),
+            spec.parameter_range),
         .color = spec.color};
 }
 

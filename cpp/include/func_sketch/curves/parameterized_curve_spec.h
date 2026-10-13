@@ -20,9 +20,11 @@
 #pragma once
 
 #include <string>
+#include <utility>
 
 #include <fmt/base.h>
 
+#include "func_sketch/common_types.h"
 #include "func_sketch/plotter/rgb_color.h"
 
 namespace func_sketch::curves {
@@ -39,6 +41,9 @@ struct ParameterizedCurveSpec {
 
     //! String of the function expression for y coordinate.
     std::string y_expression_str;
+
+    //! Range of the parameter.
+    std::pair<Real, Real> parameter_range;
 
     //! Color.
     plotter::RGBColor color;

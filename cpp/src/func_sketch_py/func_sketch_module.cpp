@@ -737,14 +737,17 @@ Note:
     using func_sketch::curves::ParameterizedCurveSpec;
     nanobind::class_<ParameterizedCurveSpec>(m, "ParameterizedCurveSpec",
         "Struct of specifications of parameterized curves.")
-        .def(nanobind::init<std::string, std::string, std::string, RGBColor>(),
-            "name"_a, "x_expression_str"_a, "y_expression_str"_a, "color"_a,
-            "Constructor.")
+        .def(nanobind::init<std::string, std::string, std::string,
+                 std::pair<func_sketch::Real, func_sketch::Real>, RGBColor>(),
+            "name"_a, "x_expression_str"_a, "y_expression_str"_a,
+            "parameter_range"_a, "color"_a, "Constructor.")
         .def_rw("name", &ParameterizedCurveSpec::name, "Name of the curve.")
         .def_rw("x_expression_str", &ParameterizedCurveSpec::x_expression_str,
             "String of the function expression for x coordinate.")
         .def_rw("y_expression_str", &ParameterizedCurveSpec::y_expression_str,
             "String of the function expression for y coordinate.")
+        .def_rw("parameter_range", &ParameterizedCurveSpec::parameter_range,
+            "Range of the parameter.")
         .def_rw("color", &ParameterizedCurveSpec::color, "Color.");
 
     using func_sketch::curves::SampledParameterizedCurve;

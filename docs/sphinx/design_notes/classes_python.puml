@@ -57,6 +57,7 @@ package func_sketch {
             + name : str
             + x_expression_str : str
             + y_expression_str : str
+            + parameter_range : tuple[float, float]
             + color : RGBColor
         }
         ParameterizedCurveSpec o-- RGBColor

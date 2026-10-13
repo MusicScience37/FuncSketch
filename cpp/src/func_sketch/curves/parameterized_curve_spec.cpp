@@ -26,10 +26,11 @@ auto fmt::formatter<func_sketch::curves::ParameterizedCurveSpec>::format(
     const func_sketch::curves::ParameterizedCurveSpec& value,
     format_context& context) const -> format_context::iterator {
     return fmt::formatter<string_view>::format(
-        fmt::format(
-            "ParameterizedCurveSpec{{name=\"{}\", "
-            "x_expression_str=\"{}\", y_expression_str=\"{}\", color={}}}",
+        fmt::format("ParameterizedCurveSpec{{name=\"{}\", "
+                    "x_expression_str=\"{}\", y_expression_str=\"{}\", "
+                    "parameter_range=({}, {}), color={}}}",
             value.name, value.x_expression_str, value.y_expression_str,
+            value.parameter_range.first, value.parameter_range.second,
             value.color),
         context);
 }
