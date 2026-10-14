@@ -96,7 +96,7 @@ void Plotter::write(
         std::visit(
             [this, &image](const auto& curve) {
                 using PointType =
-                    typename std::decay_t<decltype(curve.points)>::value_type;
+                    std::decay_t<decltype(curve.points)>::value_type;
                 CurveWriter<PointType>::write_curve(curve.points, curve.color,
                     image, config_, range_, point_converter_);
             },
