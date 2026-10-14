@@ -35,3 +35,63 @@ class TestParameterizedCurves:
             [("cos(t)", "sin(t)")], (-1.2, 1.2), (-1.2, 1.2), (0.0, 2.0 * numpy.pi)
         )
         image_approver.verify(image)
+
+    def test_lissajous_curve(self, image_approver) -> None:
+        """Test of plotting a Lissajous curve."""
+        image = plot_parameterized_curves(
+            [("sin(3 * t)", "sin(4 * t)")],
+            (-1.2, 1.2),
+            (-1.2, 1.2),
+            (0.0, 2.0 * numpy.pi),
+        )
+        image_approver.verify(image)
+
+    def test_lissajous_curve_zoomed(self, image_approver) -> None:
+        """Test of plotting a Lissajous curve zoomed."""
+        image = plot_parameterized_curves(
+            [("sin(3 * t)", "sin(4 * t)")],
+            (-0.8, 0.8),
+            (-0.8, 0.8),
+            (0.0, 2.0 * numpy.pi),
+        )
+        image_approver.verify(image)
+
+    def test_astroid(self, image_approver) -> None:
+        """Test of plotting an astroid."""
+        image = plot_parameterized_curves(
+            [("cos(t)**3", "sin(t)**3")],
+            (-1.2, 1.2),
+            (-1.2, 1.2),
+            (0.0, 2.0 * numpy.pi),
+        )
+        image_approver.verify(image)
+
+    def test_logarithmic_spiral(self, image_approver) -> None:
+        """Test of plotting a logarithmic spiral."""
+        image = plot_parameterized_curves(
+            [("exp(0.1 * t) * cos(t)", "exp(0.1 * t) * sin(t)")],
+            (-3.0, 3.0),
+            (-3.0, 3.0),
+            (-20.0 * numpy.pi, 6.0 * numpy.pi),
+        )
+        image_approver.verify(image)
+
+    def test_inverse(self, image_approver) -> None:
+        """Test of plotting a curve (1/t, t)."""
+        image = plot_parameterized_curves(
+            [("1 / t", "t")],
+            (-3.0, 3.0),
+            (-3.0, 3.0),
+            (-2.0, 2.0),
+        )
+        image_approver.verify(image)
+
+    def test_sqrt(self, image_approver) -> None:
+        """Test of plotting a curve (sqrt(t), t)."""
+        image = plot_parameterized_curves(
+            [("sqrt(t)", "t")],
+            (-3.0, 3.0),
+            (-3.0, 3.0),
+            (-3.0, 3.0),
+        )
+        image_approver.verify(image)
