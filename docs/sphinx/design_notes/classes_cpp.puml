@@ -176,7 +176,6 @@ package func_sketch {
         class Plotter {
             + range(value : PlotRange)
             + config(value : PlotConfig)
-            + write_background(image : Image&)
             + write(sampled_curves : std::vector<SampledCurve>, image : Image&)
         }
         Plotter o-- PlotRange

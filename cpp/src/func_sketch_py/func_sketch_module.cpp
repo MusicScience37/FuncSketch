@@ -863,16 +863,6 @@ the legend itself is written later in write().)")
         .def_prop_ro("point_converter", &Plotter::point_converter,
             "Get the point converter. (read-only)")
         .def(
-            "write_background",
-            [](Plotter& self, const RawImage& raw_image) {
-                auto image = to_image(raw_image);
-                self.write_background(image);
-            },
-            nanobind::call_guard<nanobind::gil_scoped_release>(), "image"_a,
-            R"(Write background of a plot.
-
-The pixels of image are modified in place.)")
-        .def(
             "write",
             [](Plotter& self,
                 const std::vector<func_sketch::curves::SampledCurve>&

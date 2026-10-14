@@ -79,8 +79,7 @@ public:
      * \return Reference to this object.
      *
      * \note The given entries are used to determine the space for the legend in
-     * the image; the legend itself is written later in write_background() or
-     * write().
+     * the image; the legend itself is written later in write().
      */
     Plotter& legend_entries(
         const std::vector<std::pair<std::string, RGBColor>>& entries);
@@ -107,16 +106,6 @@ public:
      * \return Reference to the point converter.
      */
     [[nodiscard]] const PointConverter& point_converter() const noexcept;
-
-    /*!
-     * \brief Write background of plots.
-     *
-     * \param[out] image Image to write.
-     *
-     * \note This changes the internal states holding some parameters used in
-     * write_curve function.
-     */
-    void write_background(Image& image);
 
     /*!
      * \brief Write a plot.

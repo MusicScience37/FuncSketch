@@ -19,17 +19,22 @@
  */
 #pragma once
 
+#include <vector>
+
 #include "func_sketch/parameterized_point.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
 #include "func_sketch/plotter/point_converter.h"
+#include "func_sketch/plotter/rgb_color.h"
 #include "func_sketch/point.h"
 
 namespace func_sketch::plotter {
 
 /*!
  * \brief Class to write curves on plots.
+ *
+ * \tparam PointType Type of the point.
  */
 template <typename PointType>
 class CurveWriter {
@@ -37,7 +42,7 @@ public:
     /*!
      * \brief Write a curve.
      *
-     * \param[in] samples Samples points of the curve.
+     * \param[in] samples Sample points of the curve.
      * \param[in] color Color of the curve.
      * \param[in,out] image Image to write.
      * \param[in] config Configuration of the plots.

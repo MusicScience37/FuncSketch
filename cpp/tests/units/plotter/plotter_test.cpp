@@ -51,7 +51,7 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
+        plotter.write(std::vector<SampledCurve>{}, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite("plotter_test_write_background.png", image));
@@ -68,7 +68,7 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
+        plotter.write(std::vector<SampledCurve>{}, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite(
@@ -86,7 +86,7 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
+        plotter.write(std::vector<SampledCurve>{}, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite(

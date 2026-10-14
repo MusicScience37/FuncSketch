@@ -76,7 +76,8 @@ Plotter& Plotter::desired_size(int height, int width) {
     return point_converter_;
 }
 
-void Plotter::write_background(Image& image) {
+void Plotter::write(
+    const std::vector<curves::SampledCurve>& sampled_curves, Image& image) {
     const auto size = image.size;
     if (size.dims() != 2 || size[0] != actual_height_ ||
         size[1] != actual_width_) {
@@ -90,11 +91,7 @@ void Plotter::write_background(Image& image) {
     title_writer_.write(image, plot_region_margin_, config_);
     legend_writer_.write(image, config_, plot_region_margin_);
     axes_writer_.write(image, config_, range_, point_converter_);
-}
 
-void Plotter::write(
-    const std::vector<curves::SampledCurve>& sampled_curves, Image& image) {
-    write_background(image);
     for (const auto& sampled_curve : sampled_curves) {
         std::visit(
             [this, &image](const auto& curve) {

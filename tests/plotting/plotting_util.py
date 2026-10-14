@@ -19,10 +19,12 @@ import numpy
 from func_sketch._cpp import (
     CurveSampler,
     ExplicitCurveSpec,
+    ParameterizedCurveSpec,
     PlotConfig,
     PlotRange,
     Plotter,
     SampledExplicitCurve,
+    SampledParameterizedCurve,
 )
 from func_sketch._gui.common.constants import CURVE_COLORS, DEFAULT_PLOT_CONFIG
 
@@ -61,6 +63,60 @@ def plot_function(
         curve_spec = ExplicitCurveSpec(
             name=expression_str,
             function_expression_str=expression_str,
+            color=CURVE_COLORS[i % len(CURVE_COLORS)],
+        )
+        sampled_curve = sampler(curve_spec)
+        sampled_curves.append(sampled_curve)
+
+    plotter.legend_entries = [
+        (sampled_curve.name, sampled_curve.color) for sampled_curve in sampled_curves
+    ]
+
+    image = numpy.ndarray((height, width, 3), dtype=numpy.uint8)
+    plotter.write(sampled_curves, image)
+
+    return image
+
+
+def plot_parameterized_curves(
+    expression_str_list: list[tuple[str, str]],
+    x_range: tuple[float, float],
+    y_range: tuple[float, float],
+    parameter_range: tuple[float, float],
+    *,
+    config: PlotConfig | None = None,
+) -> numpy.ndarray:
+    """Plot parameterized curves.
+
+    Args:
+        expression_str_list (list[tuple[str, str]]): List of pairs of expressions for the x and y coordinates.
+        x_range (tuple[float, float]): Range of x-axis.
+        y_range (tuple[float, float]): Range of y-axis.
+        parameter_range (tuple[float, float]): Range of the parameter.
+        config (PlotConfig | None): Plot configuration object. If None, the default configuration is used.
+
+    Returns:
+        numpy.ndarray: Image of the plotted curves.
+    """
+    height = 600
+    width = 800
+
+    if config is None:
+        config = DEFAULT_PLOT_CONFIG.copy()
+        if len(expression_str_list) > 1:
+            config.legend.visible = True
+    range = PlotRange(x_range, y_range)
+    sampler = CurveSampler(range, config.sampling)
+    plotter = Plotter(range, config)
+
+    sampled_curves: list[SampledParameterizedCurve] = []
+    for i, expression_str_pair in enumerate(expression_str_list):
+        x_expression_str, y_expression_str = expression_str_pair
+        curve_spec = ParameterizedCurveSpec(
+            name=f"x={x_expression_str}, y={y_expression_str}",
+            x_expression_str=x_expression_str,
+            y_expression_str=y_expression_str,
+            parameter_range=parameter_range,
             color=CURVE_COLORS[i % len(CURVE_COLORS)],
         )
         sampled_curve = sampler(curve_spec)
