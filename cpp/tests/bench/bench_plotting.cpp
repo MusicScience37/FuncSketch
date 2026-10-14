@@ -20,11 +20,13 @@
 #include <array>
 #include <cstddef>
 #include <string_view>
+#include <vector>
 
 #include <benchmark/benchmark.h>
 #include <opencv2/core.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/curves/sampled_curve.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/functions/python_function_list.h"
@@ -102,9 +104,14 @@ public:
                 return func_sketch::Point{.x = parameter, .y = value};
             },
             {-1.0, 1.0});
+        const auto sampled_curves =
+            std::vector<func_sketch::curves::SampledCurve>{
+                func_sketch::curves::SampledExplicitCurve{
+                    .name = expression_str,
+                    .points = samples,
+                    .color = curve_color}};
         for (auto _ : state) {
-            plotter_.write_background(image_);
-            plotter_.write_curve(samples, curve_color, image_);
+            plotter_.write(sampled_curves, image_);
             benchmark::DoNotOptimize(image_);
             benchmark::ClobberMemory();
         }

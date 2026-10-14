@@ -20,17 +20,22 @@
 #include "func_sketch/plotter/plotter.h"
 
 #include <limits>
+#include <vector>
 
 #include <catch2/catch_test_macros.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include "func_sketch/curves/sampled_curve.h"
+#include "func_sketch/curves/sampled_explicit_curve.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/rgb_color.h"
 #include "func_sketch/point.h"
 
 TEST_CASE("func_sketch::plotter::Plotter") {
     using func_sketch::Point;
+    using func_sketch::curves::SampledCurve;
+    using func_sketch::curves::SampledExplicitCurve;
     using func_sketch::plotter::Image;
     using func_sketch::plotter::PlotConfig;
     using func_sketch::plotter::PlotRange;
@@ -46,7 +51,7 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
+        plotter.write(std::vector<SampledCurve>{}, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite("plotter_test_write_background.png", image));
@@ -63,7 +68,7 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
+        plotter.write(std::vector<SampledCurve>{}, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite(
@@ -81,7 +86,7 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
+        plotter.write(std::vector<SampledCurve>{}, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite(
@@ -98,12 +103,14 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
 
         const auto samples = std::vector{Point{.x = -1.0, .y = -1.0},
             Point{.x = 0.5, .y = 0.5}, Point{.x = 1.0, .y = -1.0}};
         const auto color = RGBColor{.r = 0xCA, .g = 0x76, .b = 0x39};
-        plotter.write_curve(samples, color, image);
+        const auto sampled_curves =
+            std::vector<SampledCurve>{SampledExplicitCurve{
+                .name = "curve", .points = samples, .color = color}};
+        plotter.write(sampled_curves, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite("plotter_test_write_curve.png", image));
@@ -117,13 +124,15 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
 
         const auto samples =
             std::vector{Point{.x = -2.0, .y = -1.0}, Point{.x = 0.5, .y = 0.5},
                 Point{.x = 1.0, .y = -std::numeric_limits<double>::infinity()}};
         const auto color = RGBColor{.r = 0xCA, .g = 0x76, .b = 0x39};
-        plotter.write_curve(samples, color, image);
+        const auto sampled_curves =
+            std::vector<SampledCurve>{SampledExplicitCurve{
+                .name = "curve", .points = samples, .color = color}};
+        plotter.write(sampled_curves, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite(
@@ -139,13 +148,15 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
 
         const auto samples = std::vector{Point{.x = -1.0, .y = -1.0},
             Point{.x = -0.5, .y = 10.0}, Point{.x = 0.0, .y = -10.0},
             Point{.x = 0.5, .y = -1.0}, Point{.x = 1.0, .y = -1.0}};
         const auto color = RGBColor{.r = 0xCA, .g = 0x76, .b = 0x39};
-        plotter.write_curve(samples, color, image);
+        const auto sampled_curves =
+            std::vector<SampledCurve>{SampledExplicitCurve{
+                .name = "curve", .points = samples, .color = color}};
+        plotter.write(sampled_curves, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite(
@@ -161,14 +172,16 @@ TEST_CASE("func_sketch::plotter::Plotter") {
         constexpr int width = 800;
         constexpr int height = 600;
         Image image(height, width, CV_8UC3);
-        plotter.write_background(image);
 
         const auto samples = std::vector{Point{.x = -1.0, .y = -1.0},
             Point{.x = -0.5, .y = 10.0},
             Point{.x = 0.0, .y = std::numeric_limits<double>::quiet_NaN()},
             Point{.x = 0.5, .y = -1.0}, Point{.x = 1.0, .y = -1.0}};
         const auto color = RGBColor{.r = 0xCA, .g = 0x76, .b = 0x39};
-        plotter.write_curve(samples, color, image);
+        const auto sampled_curves =
+            std::vector<SampledCurve>{SampledExplicitCurve{
+                .name = "curve", .points = samples, .color = color}};
+        plotter.write(sampled_curves, image);
 
         cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
         CHECK(cv::imwrite("plotter_test_write_curve_with_NaN.png", image));

@@ -30,7 +30,8 @@ namespace func_sketch::curves {
 /*!
  * \brief Struct of sampled explicit curves.
  */
-struct SampledExplicitCurve {
+struct SampledExplicitCurve {  // NOLINT(*-member-init)
+                               // This is a struct.
     //! Name of the curve.
     std::string name;
 

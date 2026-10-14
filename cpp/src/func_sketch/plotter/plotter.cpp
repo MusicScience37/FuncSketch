@@ -21,6 +21,8 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <type_traits>
+#include <variant>
 
 #include <fmt/format.h>
 #include <opencv2/imgproc.hpp>
@@ -28,7 +30,6 @@
 #include "func_sketch/exceptions.h"
 #include "func_sketch/plotter/curve_writer.h"
 #include "func_sketch/plotter/plotting_util.h"
-#include "func_sketch/point.h"
 
 namespace func_sketch::plotter {
 
@@ -75,7 +76,8 @@ Plotter& Plotter::desired_size(int height, int width) {
     return point_converter_;
 }
 
-void Plotter::write_background(Image& image) {
+void Plotter::write(
+    const std::vector<curves::SampledCurve>& sampled_curves, Image& image) {
     const auto size = image.size;
     if (size.dims() != 2 || size[0] != actual_height_ ||
         size[1] != actual_width_) {
@@ -89,26 +91,16 @@ void Plotter::write_background(Image& image) {
     title_writer_.write(image, plot_region_margin_, config_);
     legend_writer_.write(image, config_, plot_region_margin_);
     axes_writer_.write(image, config_, range_, point_converter_);
-}
 
-void Plotter::write_curve(
-    const std::vector<Point>& samples, const RGBColor& color, Image& image) {
-    const auto size = image.size;
-    if (size.dims() != 2 || size[0] != actual_height_ ||
-        size[1] != actual_width_) {
-        throw InvalidArgumentException("Invalid image size.");
-    }
-
-    CurveWriter::write_curve(
-        samples, color, image, config_, range_, point_converter_);
-}
-
-void Plotter::write(
-    const std::vector<curves::SampledExplicitCurve>& sampled_curves,
-    Image& image) {
-    write_background(image);
-    for (const auto& curve : sampled_curves) {
-        write_curve(curve.points, curve.color, image);
+    for (const auto& sampled_curve : sampled_curves) {
+        std::visit(
+            [this, &image](const auto& curve) {
+                using PointType =
+                    std::decay_t<decltype(curve.points)>::value_type;
+                CurveWriter<PointType>::write_curve(curve.points, curve.color,
+                    image, config_, range_, point_converter_);
+            },
+            sampled_curve);
     }
 }
 

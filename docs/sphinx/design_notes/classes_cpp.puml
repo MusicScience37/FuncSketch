@@ -176,13 +176,10 @@ package func_sketch {
         class Plotter {
             + range(value : PlotRange)
             + config(value : PlotConfig)
-            + write_background(image : Image&)
-            + write_curve(samples : std::vector<Point>, color : RGBColor, image : Image&)
-            + write(sampled_curves : std::vector<SampledExplicitCurve>, image : Image&)
+            + write(sampled_curves : std::vector<SampledCurve>, image : Image&)
         }
         Plotter o-- PlotRange
         Plotter o-- PlotConfig
-        Plotter ..> Point
         Plotter ..> RGBColor
         Plotter ..> Image
     }
@@ -220,6 +217,12 @@ package func_sketch {
         SampledParameterizedCurve ..> ParameterizedPoint
         SampledParameterizedCurve o-- RGBColor
 
+        class SampledCurve <<typedef>> {
+            using SampledCurve = std::variant<SampledExplicitCurve, SampledParameterizedCurve>
+        }
+        SampledCurve ..> SampledExplicitCurve
+        SampledCurve ..> SampledParameterizedCurve
+
         class CurveSampler {
             + range(value : PlotRange)
             + config(value : PlotConfig)
@@ -234,7 +237,7 @@ package func_sketch {
         CurveSampler ..> ParameterizedCurveSpec
         CurveSampler ..> SampledParameterizedCurve
     }
-    Plotter ..> SampledExplicitCurve
+    Plotter ..> SampledCurve
 }
 
 @enduml

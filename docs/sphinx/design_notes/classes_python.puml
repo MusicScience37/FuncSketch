@@ -87,14 +87,12 @@ package func_sketch {
             + __init__(range: PlotRange, config: PlotConfig)
             + range : PlotRange
             + config : PlotConfig
-            + write_background(image: numpy.ndarray)
-            + write_curve(samples: PointList, color: RGBColor, image: numpy.ndarray)
-            + write(sampled_curves: list[SampledExplicitCurve], image: numpy.ndarray)
+            + write(sampled_curves: list[SampledExplicitCurve | SampledParameterizedCurve], image: numpy.ndarray)
         }
         Plotter o-- PlotRange
         Plotter o-- PlotConfig
-        Plotter ..> PointList
         Plotter ..> SampledExplicitCurve
+        Plotter ..> SampledParameterizedCurve
         Plotter ..> RGBColor
     }
 }
