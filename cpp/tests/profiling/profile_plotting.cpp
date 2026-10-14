@@ -19,11 +19,13 @@
  */
 #include <cstddef>
 #include <string>
+#include <vector>
 
 #include <gperftools/profiler.h>
 #include <opencv2/core.hpp>
 
 #include "func_sketch/common_types.h"
+#include "func_sketch/curves/sampled_curve.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/functions/python_function_list.h"
@@ -76,8 +78,13 @@ int main(int argc, char** argv) {
                 return func_sketch::Point{.x = parameter, .y = value};
             },
             range.x_range());
-        plotter.write_background(image);
-        plotter.write_curve(samples, curve_color, image);
+        const auto sampled_curves =
+            std::vector<func_sketch::curves::SampledCurve>{
+                func_sketch::curves::SampledExplicitCurve{
+                    .name = expression_str,
+                    .points = samples,
+                    .color = curve_color}};
+        plotter.write(sampled_curves, image);
     }
     ProfilerStop();
 

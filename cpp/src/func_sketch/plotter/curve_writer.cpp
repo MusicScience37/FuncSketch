@@ -27,7 +27,17 @@
 
 namespace func_sketch::plotter {
 
-void CurveWriter::write_curve(const std::vector<Point>& samples,
+namespace {
+
+template <typename PointType>
+[[nodiscard]] Point to_point(const PointType& point) {
+    return Point{.x = point.x, .y = point.y};
+}
+
+}  // namespace
+
+template <typename PointType>
+void CurveWriter<PointType>::write_curve(const std::vector<PointType>& samples,
     const RGBColor& color, Image& image, const PlotConfig& config,
     const PlotRange& range, const PointConverter& point_converter) {
     const auto cv_color = convert_color(color);
@@ -38,8 +48,8 @@ void CurveWriter::write_curve(const std::vector<Point>& samples,
         return;
     }
     for (std::size_t i = 0; i < num_samples - 1; ++i) {
-        Point start_xy = samples[i];
-        Point end_xy = samples[i + 1];
+        Point start_xy = to_point(samples[i]);
+        Point end_xy = to_point(samples[i + 1]);
 
         const bool is_start_in_range = range.contains(start_xy);
         const bool is_end_in_range = range.contains(end_xy);
@@ -72,5 +82,8 @@ void CurveWriter::write_curve(const std::vector<Point>& samples,
             image, start_xy, end_xy, cv_color, line_width, point_converter);
     }
 }
+
+template class CurveWriter<Point>;
+template class CurveWriter<ParameterizedPoint>;
 
 }  // namespace func_sketch::plotter

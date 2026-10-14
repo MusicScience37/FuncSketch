@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include "func_sketch/parameterized_point.h"
 #include "func_sketch/plotter/image.h"
 #include "func_sketch/plotter/plot_config.h"
 #include "func_sketch/plotter/plot_range.h"
@@ -30,6 +31,7 @@ namespace func_sketch::plotter {
 /*!
  * \brief Class to write curves on plots.
  */
+template <typename PointType>
 class CurveWriter {
 public:
     /*!
@@ -42,9 +44,12 @@ public:
      * \param[in] range Range of the plots.
      * \param[in] point_converter Point converter.
      */
-    static void write_curve(const std::vector<Point>& samples,
+    static void write_curve(const std::vector<PointType>& samples,
         const RGBColor& color, Image& image, const PlotConfig& config,
         const PlotRange& range, const PointConverter& point_converter);
 };
+
+extern template class CurveWriter<Point>;
+extern template class CurveWriter<ParameterizedPoint>;
 
 }  // namespace func_sketch::plotter
