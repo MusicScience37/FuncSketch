@@ -88,15 +88,23 @@ class ExpressionTextInputModel(kivy.event.EventDispatcher):
     )
     """Alias property for the cursor position as a (col, row) tuple, as in Kivy's TextInput. The row is always 0."""
 
-    def __init__(self, curve_sampler: CurveSampler, **kwargs) -> None:
+    def __init__(
+        self, curve_sampler: CurveSampler, parameter_names: list[str], **kwargs
+    ) -> None:
+        """Constructor.
+
+        Args:
+            curve_sampler: Curve sampler.
+            parameter_names: Names of parameters used as candidates of tokens.
+            **kwargs: Additional keyword arguments for the EventDispatcher.
+        """
         super().__init__(**kwargs)
 
         self._curve_sampler = curve_sampler
         self._token_candidate_finder = TokenCandidateFinder(
             math_function_list=self._curve_sampler.math_function_list(),
             constant_list=self._curve_sampler.constant_list(),
-            # Currently, "x" is the only parameter name.
-            parameter_names=["x"],
+            parameter_names=parameter_names,
             limit=NUM_EXPRESSION_TOKEN_CANDIDATES,
         )
 

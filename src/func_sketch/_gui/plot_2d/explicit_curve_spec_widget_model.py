@@ -42,7 +42,7 @@ class ExplicitCurveSpecWidgetModel(kivy.event.EventDispatcher):
     def __init__(self, curve_sampler: CurveSampler, **kwargs) -> None:
         """Constructor."""
         self.expression_text_input_model = ExpressionTextInputModel(
-            curve_sampler=curve_sampler
+            curve_sampler=curve_sampler, parameter_names=["x"]
         )
         super().__init__(**kwargs)
         sync_properties(

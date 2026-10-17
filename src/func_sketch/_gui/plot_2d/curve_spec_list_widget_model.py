@@ -20,7 +20,15 @@ import time
 import kivy.event
 import kivy.properties
 
-from func_sketch._cpp import CurveSampler, PlotConfig, PlotRange, SampledExplicitCurve
+from func_sketch._cpp import (
+    CurveSampler,
+    ExplicitCurveSpec,
+    ParameterizedCurveSpec,
+    PlotConfig,
+    PlotRange,
+    SampledExplicitCurve,
+    SampledParameterizedCurve,
+)
 from func_sketch._gui.common.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
@@ -29,6 +37,46 @@ from func_sketch._gui.common.constants import (
 from func_sketch._gui.plot_2d.curve_spec_widget_model import CurveSpecWidgetModel
 
 LOGGER = logging.getLogger(__name__)
+
+
+def _has_empty_expression(
+    curve_spec: ExplicitCurveSpec | ParameterizedCurveSpec,
+) -> bool:
+    """Check whether any expression in a curve specification is empty.
+
+    Args:
+        curve_spec: Curve specification.
+
+    Returns:
+        True if any expression is empty, False otherwise.
+    """
+    if isinstance(curve_spec, ExplicitCurveSpec):
+        return not curve_spec.function_expression_str
+    if isinstance(curve_spec, ParameterizedCurveSpec):
+        return not curve_spec.x_expression_str or not curve_spec.y_expression_str
+    raise TypeError(f"Unsupported curve specification: {curve_spec}")
+
+
+def _create_empty_sampled_curve(
+    curve_spec: ExplicitCurveSpec | ParameterizedCurveSpec,
+) -> SampledExplicitCurve | SampledParameterizedCurve:
+    """Create an empty sampled curve for a curve specification.
+
+    Args:
+        curve_spec: Curve specification.
+
+    Returns:
+        Empty sampled curve of the type corresponding to the curve specification.
+    """
+    if isinstance(curve_spec, ExplicitCurveSpec):
+        return SampledExplicitCurve(
+            name=curve_spec.name, points=[], color=curve_spec.color
+        )
+    if isinstance(curve_spec, ParameterizedCurveSpec):
+        return SampledParameterizedCurve(
+            name=curve_spec.name, points=[], color=curve_spec.color
+        )
+    raise TypeError(f"Unsupported curve specification: {curve_spec}")
 
 
 class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
@@ -120,21 +168,21 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
         ]
         self.shared_state.update_sampled_curve_all(self, sampled_curves)
 
-    def _resample_one_curve_without_event(self, index: int) -> SampledExplicitCurve:
+    def _resample_one_curve_without_event(
+        self, index: int
+    ) -> SampledExplicitCurve | SampledParameterizedCurve:
         """Resample a curve without event dispatching.
 
         Args:
             index: Index of the curve to resample.
 
         Returns:
-            SampledExplicitCurve: The resampled curve.
+            SampledExplicitCurve | SampledParameterizedCurve: The resampled curve.
         """
         curve_spec = self.shared_state.curve_specs[index]
-        if not curve_spec.function_expression_str:
+        if _has_empty_expression(curve_spec):
             self._curve_models[index].error_message = ""
-            return SampledExplicitCurve(
-                name=curve_spec.name, points=[], color=curve_spec.color
-            )
+            return _create_empty_sampled_curve(curve_spec)
         try:
             start_time = time.perf_counter()
             sampled_curve = self._curve_sampler(curve_spec)
@@ -146,9 +194,7 @@ class CurveSpecListWidgetModel(kivy.event.EventDispatcher):
             )
         except RuntimeError as e:
             self._curve_models[index].error_message = str(e)
-            sampled_curve = SampledExplicitCurve(
-                name=curve_spec.name, points=[], color=curve_spec.color
-            )
+            sampled_curve = _create_empty_sampled_curve(curve_spec)
         else:
             self._curve_models[index].error_message = ""
         return sampled_curve

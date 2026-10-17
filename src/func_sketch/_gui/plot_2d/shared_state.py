@@ -22,10 +22,12 @@ import numpy
 
 from func_sketch._cpp import (
     ExplicitCurveSpec,
+    ParameterizedCurveSpec,
     PlotConfig,
     PlotRange,
     Point,
     SampledExplicitCurve,
+    SampledParameterizedCurve,
 )
 from func_sketch._gui.common.constants import (
     CURVE_COLORS,
@@ -134,40 +136,48 @@ class SharedState(kivy.event.EventDispatcher):
         self.dispatch("on_plot_config_changed", source, value)
 
     def update_curve_spec(
-        self, source: object, index: int, value: ExplicitCurveSpec
+        self,
+        source: object,
+        index: int,
+        value: ExplicitCurveSpec | ParameterizedCurveSpec,
     ) -> None:
         """Update specification of a curve.
 
         Args:
             source (object): Source of the update.
             index (int): Index of the curve specification to update.
-            value (ExplicitCurveSpec): New specification of the curve.
+            value (ExplicitCurveSpec | ParameterizedCurveSpec): New specification of the curve.
         """
         self.curve_specs[index] = value
         self.dispatch("on_curve_spec_changed", source, index, value)
 
     def update_sampled_curve(
-        self, source: object, index: int, value: SampledExplicitCurve
+        self,
+        source: object,
+        index: int,
+        value: SampledExplicitCurve | SampledParameterizedCurve,
     ) -> None:
         """Update a sampled curve.
 
         Args:
             source (object): Source of the update.
             index (int): Index of the sampled curve to update.
-            value (SampledExplicitCurve): New sampled curve.
+            value (SampledExplicitCurve | SampledParameterizedCurve): New sampled curve.
         """
         self.sampled_curves[index] = value
         self.dispatch("on_sampled_curve_changed", source, index, value)
         self.dispatch("on_sampled_curve_changed_any", source)
 
     def update_sampled_curve_all(
-        self, source: object, values: list[SampledExplicitCurve]
+        self,
+        source: object,
+        values: list[SampledExplicitCurve | SampledParameterizedCurve],
     ) -> None:
         """Update all sampled curves.
 
         Args:
             source (object): Source of the update.
-            values (list[SampledExplicitCurve]): New list of sampled curves.
+            values (list[SampledExplicitCurve | SampledParameterizedCurve]): New list of sampled curves.
         """
         self.sampled_curves = values
         for index, value in enumerate(values):
@@ -214,12 +224,18 @@ class SharedState(kivy.event.EventDispatcher):
         """Event handler for plot config changes."""
 
     def on_curve_spec_changed(
-        self, source: object, index: int, value: ExplicitCurveSpec
+        self,
+        source: object,
+        index: int,
+        value: ExplicitCurveSpec | ParameterizedCurveSpec,
     ) -> None:
         """Event handler for curve spec changes."""
 
     def on_sampled_curve_changed(
-        self, source: object, index: int, value: SampledExplicitCurve
+        self,
+        source: object,
+        index: int,
+        value: SampledExplicitCurve | SampledParameterizedCurve,
     ) -> None:
         """Event handler for sampled curve changes."""
 
