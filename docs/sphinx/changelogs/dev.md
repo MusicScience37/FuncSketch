@@ -2,6 +2,7 @@
 
 ## Features
 
+- Added support for parameterized curves.
 - Added more built-in functions.
   - Inverse error functions. (`erf_inv`, `erfc_inv`)
   - Gamma functions other than the basic gamma function. (`digamma`, `trigamma`, `polygamma`, `igamma`, `igammac`, `igamma_inv`, `igammac_inv`)
@@ -17,7 +18,7 @@
 
 ## Improvements
 
-- Refactored implementation of sampling for faster sampling and future implementation of parameterized curves.
+- Refactored implementation of sampling for faster sampling and implementation of parameterized curves.
 - Updated the grammar of function expressions.
   - Unary plus can be handled now. For example, `+x` is valid.
   - Multiple unary operators are prohibited. For example, `++x` and `--x` are invalid.
