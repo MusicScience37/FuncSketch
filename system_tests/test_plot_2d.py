@@ -22,6 +22,7 @@ from func_sketch._gui.common.collapsible_box import CollapsibleBox
 from func_sketch._gui.common.constants import DEFAULT_PLOT_RANGE, NUM_CURVES
 from func_sketch._gui.common.float_text_input import FloatTextInput
 from func_sketch._gui.common.plain_text_input import PlainTextInput
+from func_sketch._gui.common.switch_selector_widget import SwitchSelectorWidget
 from func_sketch._gui.common.switch_widget import SwitchWidget
 from func_sketch._gui.plot_2d.curve_spec_list_widget import CurveSpecListWidget
 from func_sketch._gui.plot_2d.curve_spec_widget import CurveSpecWidget
@@ -35,6 +36,7 @@ from func_sketch._gui.plot_2d.plot_widget import PlotWidget
 from func_sketch._gui.plot_2d.range_config_widget import RangeConfigWidget
 from func_sketch._gui.plot_2d.shared_state import SharedState
 from func_sketch._gui.plot_2d.titles_config_widget import TitlesConfigWidget
+from func_sketch._impl.curve_type import CurveType
 from system_tests.screen_saver import ScreenshotSaver
 from system_tests.util import wait_window_change
 
@@ -127,10 +129,10 @@ def test_writing_expression(
     assert expression_text_input_model.token_candidates is None
 
 
-def test_curves(
+def test_explicit_curves(
     func_sketch_plot_2d_app: FuncSketchApp, screenshot_saver: ScreenshotSaver
 ) -> None:
-    """Test of curves."""
+    """Test of explicit curves."""
     screenshot_saver.save("initial")
 
     curve_spec_list_widget = func_sketch_plot_2d_app.root.ids.curve_spec_list_widget
@@ -187,6 +189,45 @@ def test_curves(
     )
     wait_window_change()
     screenshot_saver.save("curve3_set")
+
+
+def test_parameterized_curve(
+    func_sketch_plot_2d_app: FuncSketchApp, screenshot_saver: ScreenshotSaver
+) -> None:
+    """Test of a parameterized curve."""
+    screenshot_saver.save("initial")
+
+    curve_spec_list_widget = func_sketch_plot_2d_app.root.ids.curve_spec_list_widget
+    assert isinstance(curve_spec_list_widget, CurveSpecListWidget)
+    curve_spec_widgets = curve_spec_list_widget.ids.curve_spec_list_layout.children
+    assert len(curve_spec_widgets) == NUM_CURVES
+
+    show_legend_switch = curve_spec_list_widget.ids.show_legend_switch
+    assert isinstance(show_legend_switch, SwitchWidget)
+
+    curve_spec_3_widget = curve_spec_widgets[NUM_CURVES - 3]
+    assert isinstance(curve_spec_3_widget, CurveSpecWidget)
+
+    curve_type_selector = curve_spec_3_widget.ids.curve_type_selector
+    assert isinstance(curve_type_selector, SwitchSelectorWidget)
+
+    curve_type_selector.selected = CurveType.PARAMETERIZED
+    screenshot_saver.save("parameterized_curve_selected")
+
+    curve_spec_3_widget.parameterized_curve_spec_widget.ids.x_expression_text_input.text = (
+        "cos(t)"
+    )
+    curve_spec_3_widget.parameterized_curve_spec_widget.ids.y_expression_text_input.text = (
+        "sin(t)"
+    )
+    wait_window_change()
+    screenshot_saver.save("expression_written")
+
+    curve_spec_3_widget.parameterized_curve_spec_widget.ids.parameter_max_text_input.text = (
+        "4.7124"
+    )
+    wait_window_change()
+    screenshot_saver.save("parameter_max_set")
 
 
 def test_fix_image_size(
