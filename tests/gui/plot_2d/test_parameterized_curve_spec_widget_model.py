@@ -61,7 +61,7 @@ class TestParameterizedCurveSpecWidgetModelExpressionTextSync:
         assert model.y_expression_text == "sin(t)"
 
     def test_parameter_name_in_token_candidates(self) -> None:
-        """Test that the parameter "t" is a candidate of tokens."""
+        """Test that the parameter "t" is a token candidate."""
         model = _create_model()
         text_input_model = model.x_expression_text_input_model
 

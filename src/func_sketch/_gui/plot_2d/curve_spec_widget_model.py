@@ -32,7 +32,9 @@ from func_sketch._impl.curve_type import CurveType
 class CurveSpecWidgetModel(kivy.event.EventDispatcher):
     """Class of the view model of a curve specification."""
 
-    curve_type = kivy.properties.ObjectProperty(CurveType.EXPLICIT)
+    curve_type = kivy.properties.OptionProperty(
+        CurveType.EXPLICIT, options=list(CurveType)
+    )
     """Type of the curve."""
 
     error_message = kivy.properties.StringProperty("")

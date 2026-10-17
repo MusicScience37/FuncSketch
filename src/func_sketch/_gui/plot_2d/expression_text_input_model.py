@@ -95,7 +95,7 @@ class ExpressionTextInputModel(kivy.event.EventDispatcher):
 
         Args:
             curve_sampler: Curve sampler.
-            parameter_names: Names of parameters used as candidates of tokens.
+            parameter_names: Names of parameters used as token candidates.
             **kwargs: Additional keyword arguments for the EventDispatcher.
         """
         super().__init__(**kwargs)

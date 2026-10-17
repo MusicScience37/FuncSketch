@@ -175,6 +175,23 @@ class TestCurveSpecListWidgetModel:
         assert sampled_curve.empty()
         assert curve_model.error_message
 
+    def test_parameterized_curve_with_invalid_parameter_range(self) -> None:
+        """Test that an error message is set for an invalid parameter range."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+        curve_model = model.curve_models[0]
+
+        curve_model.curve_type = CurveType.PARAMETERIZED
+        curve_model.parameterized_curve_spec_widget_model.x_expression_text = "cos(t)"
+        curve_model.parameterized_curve_spec_widget_model.y_expression_text = "sin(t)"
+        curve_model.parameterized_curve_spec_widget_model.parameter_min = 1.0
+        curve_model.parameterized_curve_spec_widget_model.parameter_max = 1.0
+
+        sampled_curve = shared_state.sampled_curves[0]
+        assert isinstance(sampled_curve, SampledParameterizedCurve)
+        assert sampled_curve.empty()
+        assert curve_model.error_message
+
     def test_switch_curve_type(self) -> None:
         """Test that switching the curve type changes the sampled curve."""
         shared_state = SharedState()

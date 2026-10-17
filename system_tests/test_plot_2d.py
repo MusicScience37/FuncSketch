@@ -211,21 +211,19 @@ def test_parameterized_curve(
     curve_type_selector = curve_spec_3_widget.ids.curve_type_selector
     assert isinstance(curve_type_selector, SwitchSelectorWidget)
 
-    curve_type_selector.selected = CurveType.PARAMETERIZED
+    parameterized_curve_switch = list(reversed(curve_type_selector.children))[1]
+    parameterized_curve_switch.dispatch("on_release")
+    assert curve_type_selector.selected == CurveType.PARAMETERIZED
+    wait_window_change()
     screenshot_saver.save("parameterized_curve_selected")
 
-    curve_spec_3_widget.parameterized_curve_spec_widget.ids.x_expression_text_input.text = (
-        "cos(t)"
-    )
-    curve_spec_3_widget.parameterized_curve_spec_widget.ids.y_expression_text_input.text = (
-        "sin(t)"
-    )
+    parameterized_widget = curve_spec_3_widget.parameterized_curve_spec_widget
+    parameterized_widget.ids.x_expression_text_input.text = "cos(t)"
+    parameterized_widget.ids.y_expression_text_input.text = "sin(t)"
     wait_window_change()
     screenshot_saver.save("expression_written")
 
-    curve_spec_3_widget.parameterized_curve_spec_widget.ids.parameter_max_text_input.text = (
-        "4.7124"
-    )
+    parameterized_widget.ids.parameter_max_text_input.text = "4.7124"
     wait_window_change()
     screenshot_saver.save("parameter_max_set")
 

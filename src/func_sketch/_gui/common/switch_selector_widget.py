@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Class of widgets to select one of options using switches."""
+"""Class of widgets to select one of the options using switches."""
 
 import kivy.properties
 import kivy.uix.boxlayout
@@ -21,13 +21,13 @@ from func_sketch._gui.common.switch_widget import SwitchBaseWidget
 
 
 class SwitchSelectorWidget(kivy.uix.boxlayout.BoxLayout):
-    """Class of widgets to select one of options using switches.
+    """Class of widgets to select one of the options using switches.
 
     Switches are placed in a row, and only the switch of the selected option is active.
     """
 
     options = kivy.properties.ListProperty()
-    """Options as a list of pairs of the value and the text shown in the switch."""
+    """Options as a list of pairs of a value and the text shown on its switch."""
 
     selected = kivy.properties.ObjectProperty(None, allownone=True)
     """Value of the selected option."""
