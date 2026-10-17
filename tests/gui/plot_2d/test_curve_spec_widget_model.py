@@ -14,96 +14,135 @@
 
 """Test of CurveSpecWidgetModel."""
 
-from func_sketch._cpp import CurveSampler, ExplicitCurveSpec, RGBColor
+from func_sketch._cpp import (
+    CurveSampler,
+    ExplicitCurveSpec,
+    ParameterizedCurveSpec,
+    RGBColor,
+)
 from func_sketch._gui.common.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
 )
 from func_sketch._gui.plot_2d.curve_spec_widget_model import CurveSpecWidgetModel
+from func_sketch._impl.curve_type import CurveType
+
+_INITIAL_COLOR = RGBColor(1, 2, 3)
 
 
 def _create_model(**kwargs) -> CurveSpecWidgetModel:
     curve_sampler = CurveSampler(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG.sampling)
-    return CurveSpecWidgetModel(curve_sampler=curve_sampler, **kwargs)
+    initial_curve_spec = ExplicitCurveSpec(
+        name="Default", function_expression_str="", color=_INITIAL_COLOR
+    )
+    return CurveSpecWidgetModel(
+        curve_sampler=curve_sampler, initial_curve_spec=initial_curve_spec, **kwargs
+    )
 
 
-class TestCurveSpecWidgetModelCurveSpecSync:
-    """Test of synchronization of the curve_spec property."""
+class TestCurveSpecWidgetModel:
+    """Test of CurveSpecWidgetModel."""
 
-    def test_curve_spec_reflects_expression_text_and_curve_color(self) -> None:
-        """Test that curve_spec combines expression_text and curve_color."""
+    def test_initial_state(self) -> None:
+        """Test that the initial curve specification is set to the child models."""
         model = _create_model()
-        color = RGBColor(10, 20, 30)
-        model.expression_text = "x**2"
-        model.curve_color = color
 
-        curve_spec = model.curve_spec
+        assert model.curve_type == CurveType.EXPLICIT
+        assert isinstance(model.curve_spec, ExplicitCurveSpec)
+        assert model.curve_name == "Default"
+        for child_model in (
+            model.explicit_curve_spec_widget_model,
+            model.parameterized_curve_spec_widget_model,
+        ):
+            assert child_model.default_curve_name == "Default"
+            assert child_model.curve_color == _INITIAL_COLOR
 
-        assert curve_spec.function_expression_str == "x**2"
-        assert curve_spec.color == color
-
-    def test_curve_spec_is_cached_between_reads(self) -> None:
-        """Test that curve_spec returns the same object while unchanged."""
-        model = _create_model(curve_color=RGBColor(0, 0, 0))
-
-        assert model.curve_spec is model.curve_spec
-
-    def test_set_curve_spec_updates_curve_name_expression_text_and_curve_color(
-        self,
-    ) -> None:
-        """Test that setting curve_spec updates curve_name, expression_text and curve_color."""
+    def test_curve_spec_from_child_of_current_type(self) -> None:
+        """Test that curve_spec is notified only for changes in the child of the current type."""
         model = _create_model()
-        color = RGBColor(1, 2, 3)
-        new_curve_spec = ExplicitCurveSpec(
-            name="Curve", function_expression_str="sin(x)", color=color
+        on_curve_spec_changed = []
+        model.bind(
+            curve_spec=lambda _instance, value: on_curve_spec_changed.append(value)
         )
 
-        model.curve_spec = new_curve_spec
+        model.parameterized_curve_spec_widget_model.x_expression_text = "cos(t)"
+        assert not on_curve_spec_changed
 
+        model.explicit_curve_spec_widget_model.expression_text = "x**2"
+        assert len(on_curve_spec_changed) == 1
+        assert isinstance(on_curve_spec_changed[0], ExplicitCurveSpec)
+        assert on_curve_spec_changed[0].function_expression_str == "x**2"
+
+    def test_switch_curve_type(self) -> None:
+        """Test that switching curve_type switches curve_spec."""
+        model = _create_model()
+        model.explicit_curve_spec_widget_model.expression_text = "x**2"
+        model.parameterized_curve_spec_widget_model.x_expression_text = "cos(t)"
+        on_curve_spec_changed = []
+        model.bind(
+            curve_spec=lambda _instance, value: on_curve_spec_changed.append(value)
+        )
+
+        model.curve_type = CurveType.PARAMETERIZED
+
+        assert len(on_curve_spec_changed) == 1
+        assert isinstance(model.curve_spec, ParameterizedCurveSpec)
+        assert model.curve_spec.x_expression_str == "cos(t)"
+
+        model.curve_type = CurveType.EXPLICIT
+
+        assert len(on_curve_spec_changed) == 2
+        assert isinstance(model.curve_spec, ExplicitCurveSpec)
+        assert model.curve_spec.function_expression_str == "x**2"
+
+    def test_set_explicit_curve_spec(self) -> None:
+        """Test that setting an explicit curve specification updates the child model."""
+        model = _create_model()
+        model.curve_type = CurveType.PARAMETERIZED
+
+        model.curve_spec = ExplicitCurveSpec(
+            name="Curve", function_expression_str="sin(x)", color=_INITIAL_COLOR
+        )
+
+        assert model.curve_type == CurveType.EXPLICIT
+        child_model = model.explicit_curve_spec_widget_model
+        assert child_model.curve_name == "Curve"
+        assert child_model.expression_text == "sin(x)"
+
+    def test_set_parameterized_curve_spec(self) -> None:
+        """Test that setting a parameterized curve specification updates the child model."""
+        model = _create_model()
+
+        model.curve_spec = ParameterizedCurveSpec(
+            name="Curve",
+            x_expression_str="cos(t)",
+            y_expression_str="sin(t)",
+            parameter_range=(-1.0, 2.0),
+            color=_INITIAL_COLOR,
+        )
+
+        assert model.curve_type == CurveType.PARAMETERIZED
+        child_model = model.parameterized_curve_spec_widget_model
+        assert child_model.curve_name == "Curve"
+        assert child_model.x_expression_text == "cos(t)"
+        assert child_model.y_expression_text == "sin(t)"
+        assert child_model.parameter_min == -1.0
+        assert child_model.parameter_max == 2.0
+
+    def test_curve_name(self) -> None:
+        """Test that curve_name reflects the name in curve_spec."""
+        model = _create_model()
+
+        model.explicit_curve_spec_widget_model.curve_name = "Curve"
         assert model.curve_name == "Curve"
-        assert model.expression_text == "sin(x)"
-        assert model.curve_color == color
 
-    def test_curve_spec_changes_when_expression_text_changes(self) -> None:
-        """Test that curve_spec is notified when expression_text changes."""
-        color = RGBColor(0, 0, 0)
-        model = _create_model(curve_color=color)
-        on_curve_spec_changed = []
-        model.bind(
-            curve_spec=lambda _instance, value: on_curve_spec_changed.append(value)
-        )
+        model.curve_type = CurveType.PARAMETERIZED
+        assert model.curve_name == "Default"
 
-        model.expression_text = "tan(x)"
+    def test_curve_color_as_rgba(self) -> None:
+        """Test that curve_color_as_rgba reflects the color in curve_spec."""
+        model = _create_model()
 
-        assert len(on_curve_spec_changed) == 1
-        assert on_curve_spec_changed[0].function_expression_str == "tan(x)"
-        assert on_curve_spec_changed[0].color == color
+        model.explicit_curve_spec_widget_model.curve_color = RGBColor(255, 0, 51)
 
-    def test_curve_spec_changes_when_curve_color_changes(self) -> None:
-        """Test that curve_spec is notified when curve_color changes."""
-        model = _create_model(expression_text="x")
-        on_curve_spec_changed = []
-        model.bind(
-            curve_spec=lambda _instance, value: on_curve_spec_changed.append(value)
-        )
-
-        color = RGBColor(7, 8, 9)
-        model.curve_color = color
-
-        assert len(on_curve_spec_changed) == 1
-        assert on_curve_spec_changed[0].function_expression_str == "x"
-        assert on_curve_spec_changed[0].color == color
-
-    def test_curve_spec_uses_default_curve_name_when_curve_name_is_empty(
-        self,
-    ) -> None:
-        """Test that curve_spec uses default_curve_name when curve_name is empty."""
-        model = _create_model(
-            curve_color=RGBColor(0, 0, 0), default_curve_name="Default"
-        )
-
-        model.curve_name = "Curve"
-        assert model.curve_spec.name == "Curve"
-
-        model.curve_name = ""
-        assert model.curve_spec.name == "Default"
+        assert model.curve_color_as_rgba == (1.0, 0.0, 0.2, 1.0)

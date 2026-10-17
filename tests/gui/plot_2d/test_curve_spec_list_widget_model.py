@@ -14,11 +14,18 @@
 
 """Test of CurveSpecListWidgetModel."""
 
-from func_sketch._cpp import PlotConfig, PlotRange
+from func_sketch._cpp import (
+    ParameterizedCurveSpec,
+    PlotConfig,
+    PlotRange,
+    SampledExplicitCurve,
+    SampledParameterizedCurve,
+)
 from func_sketch._gui.plot_2d.curve_spec_list_widget_model import (
     CurveSpecListWidgetModel,
 )
 from func_sketch._gui.plot_2d.shared_state import SharedState
+from func_sketch._impl.curve_type import CurveType
 
 
 def _create_model(shared_state: SharedState) -> CurveSpecListWidgetModel:
@@ -44,7 +51,7 @@ class TestCurveSpecListWidgetModel:
         shared_state = SharedState()
         model = _create_model(shared_state)
 
-        model.curve_models[0].expression_text = "x**2"
+        model.curve_models[0].explicit_curve_spec_widget_model.expression_text = "x**2"
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
         assert len(shared_state.sampled_curves[0].points) > 0
@@ -54,7 +61,7 @@ class TestCurveSpecListWidgetModel:
         shared_state = SharedState()
         model = _create_model(shared_state)
 
-        model.curve_models[0].expression_text = "x**2"
+        model.curve_models[0].explicit_curve_spec_widget_model.expression_text = "x**2"
         shared_state.update_plot_range(None, PlotRange((-2.0, 2.0), (-1.0, 1.0)))
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
@@ -69,7 +76,7 @@ class TestCurveSpecListWidgetModel:
         shared_state = SharedState()
         model = _create_model(shared_state)
 
-        model.curve_models[0].expression_text = "x**2"
+        model.curve_models[0].explicit_curve_spec_widget_model.expression_text = "x**2"
         shared_state.update_plot_config(None, PlotConfig())
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
@@ -114,8 +121,89 @@ class TestCurveSpecListWidgetModel:
         shared_state = SharedState()
         model = _create_model(shared_state)
 
-        model.curve_models[0].curve_name = "Test"
+        model.curve_models[0].explicit_curve_spec_widget_model.curve_name = "Test"
         assert shared_state.curve_specs[0].name == "Test"
 
-        model.curve_models[0].curve_name = ""
+        model.curve_models[0].explicit_curve_spec_widget_model.curve_name = ""
         assert shared_state.curve_specs[0].name == "Curve 1"
+
+    def test_parameterized_curve(self) -> None:
+        """Test for sampling of a parameterized curve."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+        curve_model = model.curve_models[0]
+
+        curve_model.curve_type = CurveType.PARAMETERIZED
+        curve_model.parameterized_curve_spec_widget_model.x_expression_text = "cos(t)"
+        curve_model.parameterized_curve_spec_widget_model.y_expression_text = "sin(t)"
+
+        curve_spec = shared_state.curve_specs[0]
+        assert isinstance(curve_spec, ParameterizedCurveSpec)
+        assert curve_spec.x_expression_str == "cos(t)"
+        assert curve_spec.y_expression_str == "sin(t)"
+        sampled_curve = shared_state.sampled_curves[0]
+        assert isinstance(sampled_curve, SampledParameterizedCurve)
+        assert len(sampled_curve.points) > 0
+        assert not curve_model.error_message
+
+    def test_parameterized_curve_with_empty_expression(self) -> None:
+        """Test that a parameterized curve with an empty expression is not sampled."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+        curve_model = model.curve_models[0]
+
+        curve_model.curve_type = CurveType.PARAMETERIZED
+        curve_model.parameterized_curve_spec_widget_model.x_expression_text = "cos(t)"
+
+        sampled_curve = shared_state.sampled_curves[0]
+        assert isinstance(sampled_curve, SampledParameterizedCurve)
+        assert sampled_curve.empty()
+        assert not curve_model.error_message
+
+    def test_parameterized_curve_with_invalid_expression(self) -> None:
+        """Test that an error message is set for an invalid parameterized curve."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+        curve_model = model.curve_models[0]
+
+        curve_model.curve_type = CurveType.PARAMETERIZED
+        curve_model.parameterized_curve_spec_widget_model.x_expression_text = "cos(t)"
+        curve_model.parameterized_curve_spec_widget_model.y_expression_text = "sin("
+
+        sampled_curve = shared_state.sampled_curves[0]
+        assert isinstance(sampled_curve, SampledParameterizedCurve)
+        assert sampled_curve.empty()
+        assert curve_model.error_message
+
+    def test_parameterized_curve_with_invalid_parameter_range(self) -> None:
+        """Test that an error message is set for an invalid parameter range."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+        curve_model = model.curve_models[0]
+
+        curve_model.curve_type = CurveType.PARAMETERIZED
+        curve_model.parameterized_curve_spec_widget_model.x_expression_text = "cos(t)"
+        curve_model.parameterized_curve_spec_widget_model.y_expression_text = "sin(t)"
+        curve_model.parameterized_curve_spec_widget_model.parameter_min = 1.0
+        curve_model.parameterized_curve_spec_widget_model.parameter_max = 1.0
+
+        sampled_curve = shared_state.sampled_curves[0]
+        assert isinstance(sampled_curve, SampledParameterizedCurve)
+        assert sampled_curve.empty()
+        assert curve_model.error_message
+
+    def test_switch_curve_type(self) -> None:
+        """Test that switching the curve type changes the sampled curve."""
+        shared_state = SharedState()
+        model = _create_model(shared_state)
+        curve_model = model.curve_models[0]
+        curve_model.explicit_curve_spec_widget_model.expression_text = "x**2"
+        curve_model.parameterized_curve_spec_widget_model.x_expression_text = "cos(t)"
+        curve_model.parameterized_curve_spec_widget_model.y_expression_text = "sin(t)"
+
+        curve_model.curve_type = CurveType.PARAMETERIZED
+        assert isinstance(shared_state.sampled_curves[0], SampledParameterizedCurve)
+
+        curve_model.curve_type = CurveType.EXPLICIT
+        assert isinstance(shared_state.sampled_curves[0], SampledExplicitCurve)
+        assert shared_state.curve_specs[0].function_expression_str == "x**2"

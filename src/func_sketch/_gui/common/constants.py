@@ -14,6 +14,8 @@
 
 """Constants for the GUI."""
 
+import math
+
 from func_sketch._cpp import PlotConfig, PlotRange, RGBColor
 from func_sketch._gui.common.color_util import (
     hex_to_rgba,
@@ -185,6 +187,9 @@ NUM_CURVES = len(CURVE_COLORS)
 
 DEFAULT_PLOT_RANGE = PlotRange((-3.0, 3.0), (-3.0, 3.0))
 """Default range for the plot area."""
+
+DEFAULT_PARAMETER_RANGE = (0.0, 2.0 * math.pi)
+"""Default range of the parameter of parameterized curves."""
 
 
 def _default_plot_config() -> PlotConfig:

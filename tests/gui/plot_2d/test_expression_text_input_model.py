@@ -26,7 +26,7 @@ from func_sketch._gui.plot_2d.expression_text_input_model import (
 
 def _create_model() -> ExpressionTextInputModel:
     curve_sampler = CurveSampler(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG.sampling)
-    return ExpressionTextInputModel(curve_sampler=curve_sampler)
+    return ExpressionTextInputModel(curve_sampler=curve_sampler, parameter_names=["x"])
 
 
 class TestExpressionTextInputModel:
