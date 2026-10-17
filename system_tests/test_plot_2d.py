@@ -72,7 +72,9 @@ def test_writing_expression(
     curve_spec_1_widget = curve_spec_widgets[NUM_CURVES - 1]
     assert isinstance(curve_spec_1_widget, CurveSpecWidget)
 
-    expression_text_input = curve_spec_1_widget.ids.expression_text_input
+    expression_text_input = (
+        curve_spec_1_widget.explicit_curve_spec_widget.ids.expression_text_input
+    )
     assert isinstance(expression_text_input, ExpressionTextInput)
     expression_text_input_model = expression_text_input.model
     assert isinstance(expression_text_input_model, ExpressionTextInputModel)
@@ -150,7 +152,9 @@ def test_curves(
     curve_spec_5_widget = curve_spec_widgets[NUM_CURVES - 5]
     assert isinstance(curve_spec_5_widget, CurveSpecWidget)
 
-    curve_spec_1_widget.ids.expression_text_input.text = "gamma(x)"
+    curve_spec_1_widget.explicit_curve_spec_widget.ids.expression_text_input.text = (
+        "gamma(x)"
+    )
     wait_window_change()
     screenshot_saver.save("curve1_set")
 
@@ -160,19 +164,27 @@ def test_curves(
 
     # Add other curves randomly.
 
-    curve_spec_4_widget.ids.expression_text_input.text = "gamma(x+0.5i)"
+    curve_spec_4_widget.explicit_curve_spec_widget.ids.expression_text_input.text = (
+        "gamma(x+0.5i)"
+    )
     wait_window_change()
     screenshot_saver.save("curve4_set")
 
-    curve_spec_2_widget.ids.expression_text_input.text = "-1/x"
+    curve_spec_2_widget.explicit_curve_spec_widget.ids.expression_text_input.text = (
+        "-1/x"
+    )
     wait_window_change()
     screenshot_saver.save("curve2_set")
 
-    curve_spec_5_widget.ids.expression_text_input.text = "x**100"
+    curve_spec_5_widget.explicit_curve_spec_widget.ids.expression_text_input.text = (
+        "x**100"
+    )
     wait_window_change()
     screenshot_saver.save("curve5_set")
 
-    curve_spec_3_widget.ids.expression_text_input.text = "log10(x)"
+    curve_spec_3_widget.explicit_curve_spec_widget.ids.expression_text_input.text = (
+        "log10(x)"
+    )
     wait_window_change()
     screenshot_saver.save("curve3_set")
 

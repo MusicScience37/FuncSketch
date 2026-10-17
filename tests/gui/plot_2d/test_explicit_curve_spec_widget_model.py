@@ -12,22 +12,50 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test of CurveSpecWidgetModel."""
+"""Test of ExplicitCurveSpecWidgetModel."""
 
 from func_sketch._cpp import CurveSampler, ExplicitCurveSpec, RGBColor
 from func_sketch._gui.common.constants import (
     DEFAULT_PLOT_CONFIG,
     DEFAULT_PLOT_RANGE,
 )
-from func_sketch._gui.plot_2d.curve_spec_widget_model import CurveSpecWidgetModel
+from func_sketch._gui.plot_2d.explicit_curve_spec_widget_model import (
+    ExplicitCurveSpecWidgetModel,
+)
 
 
-def _create_model(**kwargs) -> CurveSpecWidgetModel:
+def _create_model(**kwargs) -> ExplicitCurveSpecWidgetModel:
     curve_sampler = CurveSampler(DEFAULT_PLOT_RANGE, DEFAULT_PLOT_CONFIG.sampling)
-    return CurveSpecWidgetModel(curve_sampler=curve_sampler, **kwargs)
+    return ExplicitCurveSpecWidgetModel(curve_sampler=curve_sampler, **kwargs)
 
 
-class TestCurveSpecWidgetModelCurveSpecSync:
+class TestExplicitCurveSpecWidgetModelExpressionTextSync:
+    """Test of synchronization of the expression_text property."""
+
+    def test_initial_expression_text(self) -> None:
+        """Test that the initial expression_text is set to the text input model."""
+        model = _create_model(expression_text="x")
+
+        assert model.expression_text_input_model.expression_text == "x"
+
+    def test_expression_text_to_text_input_model(self) -> None:
+        """Test that changes of expression_text are reflected to the text input model."""
+        model = _create_model()
+
+        model.expression_text = "sin(x)"
+
+        assert model.expression_text_input_model.expression_text == "sin(x)"
+
+    def test_text_input_model_to_expression_text(self) -> None:
+        """Test that changes in the text input model are reflected to expression_text."""
+        model = _create_model()
+
+        model.expression_text_input_model.expression_text = "cos(x)"
+
+        assert model.expression_text == "cos(x)"
+
+
+class TestExplicitCurveSpecWidgetModelCurveSpecSync:
     """Test of synchronization of the curve_spec property."""
 
     def test_curve_spec_reflects_expression_text_and_curve_color(self) -> None:

@@ -16,8 +16,10 @@
 
 import kivy.uix.boxlayout
 
-from func_sketch._gui.common.sync_properties import sync_properties
 from func_sketch._gui.plot_2d.curve_spec_widget_model import CurveSpecWidgetModel
+from func_sketch._gui.plot_2d.explicit_curve_spec_widget import (
+    ExplicitCurveSpecWidget,
+)
 
 
 class CurveSpecWidget(kivy.uix.boxlayout.BoxLayout):
@@ -26,9 +28,17 @@ class CurveSpecWidget(kivy.uix.boxlayout.BoxLayout):
     def __init__(self, model: CurveSpecWidgetModel, **kwargs) -> None:
         """Constructor."""
         self._model = model
+        self._explicit_curve_spec_widget = ExplicitCurveSpecWidget(
+            model=model.explicit_curve_spec_widget_model
+        )
         super().__init__(**kwargs)
+
+    @property
+    def explicit_curve_spec_widget(self) -> ExplicitCurveSpecWidget:
+        """Widget of the specification of the explicit curve."""
+        return self._explicit_curve_spec_widget
 
     def on_kv_post(self, base_widget: object) -> None:
         """Callback after the kv rules of this widget are applied."""
         super().on_kv_post(base_widget)
-        sync_properties(self._model, "curve_name", self.ids.name_text_input, "text")
+        self.ids.curve_spec_details_layout.add_widget(self._explicit_curve_spec_widget)

@@ -44,7 +44,7 @@ class TestCurveSpecListWidgetModel:
         shared_state = SharedState()
         model = _create_model(shared_state)
 
-        model.curve_models[0].expression_text = "x**2"
+        model.curve_models[0].explicit_curve_spec_widget_model.expression_text = "x**2"
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
         assert len(shared_state.sampled_curves[0].points) > 0
@@ -54,7 +54,7 @@ class TestCurveSpecListWidgetModel:
         shared_state = SharedState()
         model = _create_model(shared_state)
 
-        model.curve_models[0].expression_text = "x**2"
+        model.curve_models[0].explicit_curve_spec_widget_model.expression_text = "x**2"
         shared_state.update_plot_range(None, PlotRange((-2.0, 2.0), (-1.0, 1.0)))
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
@@ -69,7 +69,7 @@ class TestCurveSpecListWidgetModel:
         shared_state = SharedState()
         model = _create_model(shared_state)
 
-        model.curve_models[0].expression_text = "x**2"
+        model.curve_models[0].explicit_curve_spec_widget_model.expression_text = "x**2"
         shared_state.update_plot_config(None, PlotConfig())
 
         assert shared_state.curve_specs[0].function_expression_str == "x**2"
@@ -114,8 +114,8 @@ class TestCurveSpecListWidgetModel:
         shared_state = SharedState()
         model = _create_model(shared_state)
 
-        model.curve_models[0].curve_name = "Test"
+        model.curve_models[0].explicit_curve_spec_widget_model.curve_name = "Test"
         assert shared_state.curve_specs[0].name == "Test"
 
-        model.curve_models[0].curve_name = ""
+        model.curve_models[0].explicit_curve_spec_widget_model.curve_name = ""
         assert shared_state.curve_specs[0].name == "Curve 1"
