@@ -26,8 +26,12 @@ from func_sketch._gui.common.constants import (
 )
 
 
-class SwitchWidget(kivy.uix.behaviors.button.ButtonBehavior, kivy.uix.label.Label):
-    """Class of widgets of switches."""
+class SwitchBaseWidget(kivy.uix.behaviors.button.ButtonBehavior, kivy.uix.label.Label):
+    """Base class of widgets of switches.
+
+    This class only shows the active state with the color.
+    Derived classes define the behavior on release.
+    """
 
     active = kivy.properties.BooleanProperty(False)
     """Active state of the switch."""
@@ -52,8 +56,16 @@ class SwitchWidget(kivy.uix.behaviors.button.ButtonBehavior, kivy.uix.label.Labe
 
     def _on_active(self) -> None:
         """Callback when the active state changes."""
-        self.text = "ON" if self.active else "OFF"
         self._box_color.rgba = SWITCH_ON_COLOR if self.active else SWITCH_OFF_COLOR
+
+
+class SwitchWidget(SwitchBaseWidget):
+    """Class of widgets of switches."""
+
+    def _on_active(self) -> None:
+        """Callback when the active state changes."""
+        super()._on_active()
+        self.text = "ON" if self.active else "OFF"
 
     def on_release(self) -> None:
         """Callback when the switch is released."""

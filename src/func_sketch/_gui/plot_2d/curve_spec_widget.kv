@@ -14,6 +14,8 @@
 
 #:import FONT_SIZE_HEADER2 func_sketch._gui.common.constants.FONT_SIZE_HEADER2
 #:import SPACING_DEFAULT func_sketch._gui.common.constants.SPACING_DEFAULT
+#:import SwitchSelectorWidget func_sketch._gui.common.switch_selector_widget.SwitchSelectorWidget
+#:import CurveType func_sketch._impl.curve_type.CurveType
 
 #:include common/error_message_label.kv
 
@@ -45,6 +47,13 @@
             width: FONT_SIZE_HEADER2
             size_hint_y: None
             height: FONT_SIZE_HEADER2
+    SwitchSelectorWidget:
+        id: curve_type_selector
+        options: [(CurveType.EXPLICIT, "y = f(x)"), (CurveType.PARAMETERIZED, "x(t), y(t)")]
+        selected: CurveType.EXPLICIT
+        spacing: SPACING_DEFAULT
+        size_hint_y: None
+        height: self.minimum_height
     BoxLayout:
         id: curve_spec_details_layout
         orientation: "vertical"
