@@ -43,8 +43,12 @@ Literals are parsed as follows (signs are not included in literals):
 
 ## Identifiers
 
-- Identifiers are used in followings:
-  - Parameter names when used in `atomic_value_expr`. Currently `x` and `t` are allowed.
+- Identifiers are used in the following:
+  - Parameter names when used in `atomic_value_expr`. Currently `x`, `s` and `t` are allowed.
+    - `x` is used in explicit curves.
+    - `s` is used as the integration variable in numerical integration.
+    - `t` is used in parameterized curves.
+    - Using a parameter for any other purpose results in an error during expression evaluation.
   - Constant names when used in `atomic_value_expr`.
     - A parameter name and a constant name cannot have the same identifier.
   - Function names when used in `function_call_expr`.

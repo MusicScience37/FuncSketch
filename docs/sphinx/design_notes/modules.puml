@@ -19,6 +19,7 @@ package "Main Third-Party Libraries" {
 
     component "Boost.Spirit" <<C++>>
     component "Boost.Math" <<C++>>
+    component "Numerical Collection C++" <<C++>>
     component "OpenCV" <<C++>>
     component "nanobind" <<C++/Python>>
 }
@@ -32,6 +33,7 @@ expressions ..> math
 gui ..> "Kivy"
 parser ..> "Boost.Spirit"
 math ..> "Boost.Math"
+expressions ..> "Numerical Collection C++"
 plotter ..> "OpenCV"
 cpp_module ..> "nanobind"
 
@@ -46,6 +48,11 @@ note as boost_math_note
     For special functions.
 end note
 "Boost.Math" .. boost_math_note
+
+note as numerical_collection_note
+    For numerical integration.
+end note
+"Numerical Collection C++" .. numerical_collection_note
 
 note as opencv_note
     For plotting.
