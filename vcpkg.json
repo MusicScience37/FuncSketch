@@ -9,7 +9,8 @@
       "default-features": false,
       "features": ["intrinsics", "jpeg", "png", "tiff", "webp"]
     },
-    "fmt"
+    "fmt",
+    "numerical-collection-cpp"
   ],
   "features": {
     "tests": {
