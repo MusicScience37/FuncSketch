@@ -39,6 +39,7 @@
     "bugprone",
     "BUILDNAME",
     "buildsystems",
+    "BUILDTREES",
     "caplog",
     "capslock",
     "cbrt",
