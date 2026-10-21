@@ -80,6 +80,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/bin>)
 # ##############################################################################
 find_package(Boost REQUIRED COMPONENTS spirit math)
 
+find_program(
+    PKG_CONFIG_EXECUTABLE
+    NAMES pkgconf pkg-config
+    HINTS "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/pkgconf")
 find_package(num-collect CONFIG REQUIRED)
 
 set(OpenCV_ROOT "${VCPKG_INSTALLED_DIR}/x64-linux/share/opencv4")
