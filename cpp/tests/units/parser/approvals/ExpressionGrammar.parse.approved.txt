@@ -34,6 +34,9 @@ Parsed: Identifier(e)
 Input: x
 Parsed: Identifier(x)
 
+Input: s
+Parsed: Identifier(s)
+
 Input: t
 Parsed: Identifier(t)
 

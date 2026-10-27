@@ -96,7 +96,7 @@ public:
 
 private:
     //! Number of types of parameters.
-    static constexpr std::size_t num_parameter_types = 2;
+    static constexpr std::size_t num_parameter_types = 3;
 
     /*!
      * \brief Convert a type of parameters to the index in the array.

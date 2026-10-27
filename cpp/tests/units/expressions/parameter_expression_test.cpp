@@ -34,6 +34,12 @@ TEST_CASE("ParameterExpression") {
         CHECK(fmt::format("{}", expr) == "x");
     }
 
+    SECTION("format s") {
+        const ParameterExpression expr{ParameterType::s};
+
+        CHECK(fmt::format("{}", expr) == "s");
+    }
+
     SECTION("format t") {
         const ParameterExpression expr{ParameterType::t};
 

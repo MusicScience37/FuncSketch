@@ -30,6 +30,9 @@ enum class ParameterType : std::uint8_t {
     //! Parameter "x".
     x,
 
+    //! Parameter "s".
+    s,
+
     //! Parameter "t".
     t,
 };

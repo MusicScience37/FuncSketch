@@ -34,6 +34,9 @@ Parsed: 2.718281828459045
 Input: x
 Parsed: x
 
+Input: s
+Parsed: s
+
 Input: t
 Parsed: t
 

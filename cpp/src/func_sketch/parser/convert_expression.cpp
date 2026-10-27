@@ -85,6 +85,9 @@ namespace func_sketch::parser {
     if (parsed_expression.name == "x") {
         return pool.create<expressions::ParameterExpression>(ParameterType::x);
     }
+    if (parsed_expression.name == "s") {
+        return pool.create<expressions::ParameterExpression>(ParameterType::s);
+    }
     if (parsed_expression.name == "t") {
         return pool.create<expressions::ParameterExpression>(ParameterType::t);
     }
