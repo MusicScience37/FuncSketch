@@ -22,7 +22,7 @@ classifiers = [
 ]
 requires-python = ">=3.13,<3.14"
 dependencies = [
-    "numpy (>=2.5.3,<3.0.0)",
+    "numpy (>=2.5.4,<3.0.0)",
     "kivy[base] (>=2.3.1,<3.0.0)",
     "scipy (>=1.18.1,<2.0.0)",
     "rapidfuzz (>=3.14.6,<4.0.0)",
@@ -69,7 +69,7 @@ cmake.define.VCPKG_TARGET_TRIPLET = "x64-windows-static-md"
 
 [dependency-groups]
 doc = [
-    "sphinx (>=9.1.0,<10.0.0)",
+    "sphinx (>=9.2.0,<10.0.0)",
     "sphinx-orange-book-theme (>=0.21.0,<0.22.0)",
     "myst-parser (>=5.1.0,<6.0.0)",
     "sphinxcontrib-plantuml (>=0.31,<0.32)",
@@ -83,10 +83,10 @@ doc = [
     "opencv-python-headless (>=5.0.0.93,<6.0.0.0)",
 ]
 dev = [
-    "pre-commit (>=4.6.2,<5.0.0)",
-    "black[jupyter] (>=26.5.1,<27.0.0)",
+    "pre-commit (>=4.7.0,<5.0.0)",
+    "black[jupyter] (>=26.10.1,<27.0.0)",
     "isort (>=9.0.2,<10.0.0)",
-    "mypy (>=2.3.1,<3.0.0)",
+    "mypy (>=2.4.0,<3.0.0)",
     "cmakelang (>=0.6.13,<0.7.0)",
     "doc8 (>=2.0.0,<3.0.0)",
     "sphinx-autobuild (>=2025.8.25,<2026.0.0)",
@@ -94,7 +94,7 @@ dev = [
     "types-docutils (>=0.23.0.20260923,<0.24.0.0)",
     "clang-tidy-checker (>=0.7.0,<0.8.0)",
     "scipy-stubs (>=1.18.1.1,<2.0.0.0)",
-    "ruff (>=0.16.9,<0.17.0)",
+    "ruff (>=0.17.2,<0.18.0)",
 ]
 bind = ["nanobind (>=3.1.0,<4.0.0)"]
 test = [
@@ -103,7 +103,7 @@ test = [
     "scikit-image (>=0.26.0,<0.27.0)",
     "pytest-cov (>=7.1.0,<8.0.0)",
     "pytest-benchmark (>=5.3.0,<6.0.0)",
-    "pytest-mock (>=3.16.0,<4.0.0)",
+    "pytest-mock (>=3.17.0,<4.0.0)",
     "mpmath (>=1.4.1,<2.0.0)",
 ]
 
