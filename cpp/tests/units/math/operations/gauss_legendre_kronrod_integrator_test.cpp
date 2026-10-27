@@ -48,7 +48,7 @@ TEST_CASE("func_sketch::math::GaussLegendreKronrodIntegrator") {
             CHECK_THAT(actual, Catch::Matchers::WithinRel(expected, tol));
         }
 
-        SECTION("integration of a oscillatory function 1 + sin(10x)") {
+        SECTION("integration of an oscillatory function 1 + sin(10x)") {
             const auto function = [](Real x) {
                 return 1.0 + std::sin(10.0 * x);
             };
@@ -57,10 +57,10 @@ TEST_CASE("func_sketch::math::GaussLegendreKronrodIntegrator") {
             CHECK_THAT(actual, Catch::Matchers::WithinRel(expected, tol));
         }
 
-        SECTION("integration of a more oscillatory function std::sin(x^2)") {
+        SECTION("integration of a more oscillatory function sin(x^2)") {
             const auto function = [](Real x) { return std::sin(x * x); };
             const Real actual = integrator(function, 0.0, 10.0);
-            // Actual value computed numerically.
+            // Expected value computed numerically.
             const Real expected = 0.58367089992962334216;
             CHECK_THAT(actual, Catch::Matchers::WithinRel(expected, tol));
         }
@@ -114,12 +114,12 @@ TEST_CASE("func_sketch::math::GaussLegendreKronrodIntegrator") {
                 Catch::Matchers::WithinRel(expected.imag(), tol));
         }
 
-        SECTION("integration of oscillatory function exp(i x^2)") {
+        SECTION("integration of an oscillatory function exp(i x^2)") {
             const auto function = [](Complex x) {
                 return std::exp(Complex(0.0, 1.0) * x * x);
             };
             const Complex actual = integrator(function, 0.0, 10.0);
-            // Actual value computed numerically.
+            // Expected value computed numerically.
             const Complex expected =
                 Complex(0.60112518481344434813, 0.58367089992962334216);
             CHECK_THAT(actual.real(),

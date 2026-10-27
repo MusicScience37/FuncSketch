@@ -32,6 +32,7 @@ set(SOURCE_FILES
     math/math_function_list_test.cpp
     math/math_function_test.cpp
     math/operations/gauss_legendre_kronrod_integrator_test.cpp
+    math/operations/numerical_integrator_test.cpp
     math/unary_operator_test.cpp
     math/unary_operators_test.cpp
     parser/expression_grammar_test.cpp
