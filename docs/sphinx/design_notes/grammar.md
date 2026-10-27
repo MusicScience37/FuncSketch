@@ -29,6 +29,10 @@ Note:
   Therefore, repeated signs such as `++1` and `--1` are errors.
 - The right operand of `**` is `unary_expr` so that `2 ** -x` is valid.
   As in Python, `2 ** -3 ** 2` is parsed as `2 ** (-(3 ** 2))`.
+- `function_call_expr` includes ordinary function calls (e.g. `sin(x)`)
+  and mathematical operation calls (e.g. `integrate(x, 0.0, 1.0)`).
+  These are distinguished with function names in implementation.
+  These are not distinguished in the grammar and the documentation for users.
 
 ## Literals
 
