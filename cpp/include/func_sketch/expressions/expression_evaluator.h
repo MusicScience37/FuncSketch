@@ -110,6 +110,16 @@ private:
      */
     static void evaluate(const FunctionCallExpression& expression,
         const ParameterValueDict& parameters, Number& result);
+
+    /*!
+     * \brief Evaluate an expression.
+     *
+     * \param[in] expression Expression.
+     * \param[in] parameters Values of parameters.
+     * \param[out] result Result.
+     */
+    static void evaluate(const OperationCallExpression& expression,
+        const ParameterValueDict& parameters, Number& result);
 };
 
 }  // namespace func_sketch::expressions

@@ -109,4 +109,10 @@ void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
     expression.function(argument_values, result);
 }
 
+void ExpressionEvaluator::evaluate(const OperationCallExpression& expression,
+    const ParameterValueDict& parameters, Number& result) {
+    expression.operation(
+        expression.arguments, ExpressionEvaluator{}, parameters, result);
+}
+
 }  // namespace func_sketch::expressions
