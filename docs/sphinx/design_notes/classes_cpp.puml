@@ -91,29 +91,29 @@ package func_sketch {
         ParameterExpression o-- ParameterType
 
         struct UnaryExpression {
-            + target : Expression*
+            + target : const Expression*
             + operator_object : UnaryOperator
         }
         Expression <..> UnaryExpression
         UnaryExpression o-- UnaryOperator
 
         struct BinaryExpression {
-            + left : Expression*
-            + right : Expression*
+            + left : const Expression*
+            + right : const Expression*
             + operator_object : BinaryOperator
         }
         Expression <..> BinaryExpression
         BinaryExpression o-- BinaryOperator
 
         struct FunctionCallExpression {
-            + arguments : std::vector<Expression*>
+            + arguments : std::vector<const Expression*>
             + function : MathFunction
         }
         Expression <..> FunctionCallExpression
         FunctionCallExpression o-- MathFunction
 
         class MathOperation {
-            + operator()(args : std::vector<Expression*>, evaluator : ExpressionEvaluator, parameters : ParameterValueDict, result : Number&)
+            + operator()(args : std::vector<const Expression*>, evaluator : ExpressionEvaluator, parameters : ParameterValueDict, result : Number&)
         }
         note right
             MathOperation is placed in the expressions namespace
@@ -131,14 +131,14 @@ package func_sketch {
         MathOperationList o-- MathOperation
 
         struct OperationCallExpression {
-            + arguments : std::vector<Expression*>
+            + arguments : std::vector<const Expression*>
             + operation : MathOperation
         }
         Expression <..> OperationCallExpression
         OperationCallExpression o-- MathOperation
 
         class ExpressionMemoryPool {
-            + create<T>(args...) : Expression*
+            + create<T>(args...) : const Expression*
         }
         ExpressionMemoryPool ..> Expression
 

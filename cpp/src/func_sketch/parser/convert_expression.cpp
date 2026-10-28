@@ -51,7 +51,7 @@ namespace func_sketch::parser {
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
-[[nodiscard]] expressions::Expression* convert_expression(
+[[nodiscard]] const expressions::Expression* convert_expression(
     const ParsedExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
     const expressions::MathOperationList& math_operation_list,
@@ -65,7 +65,7 @@ namespace func_sketch::parser {
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
-[[nodiscard]] expressions::Expression* convert_expression(
+[[nodiscard]] const expressions::Expression* convert_expression(
     const ParsedLiteral& parsed_expression,
     const math::MathFunctionList& /*math_function_list*/,
     const expressions::MathOperationList& /*math_operation_list*/,
@@ -83,7 +83,7 @@ namespace func_sketch::parser {
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
-[[nodiscard]] expressions::Expression* convert_expression(
+[[nodiscard]] const expressions::Expression* convert_expression(
     const ParsedIdentifier& parsed_expression,
     const math::MathFunctionList& /*math_function_list*/,
     const expressions::MathOperationList& /*math_operation_list*/,
@@ -116,13 +116,13 @@ namespace func_sketch::parser {
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted arguments.
  */
-[[nodiscard]] std::vector<expressions::Expression*> convert_arguments(
+[[nodiscard]] std::vector<const expressions::Expression*> convert_arguments(
     const std::vector<ParsedExpression>& parsed_arguments,
     const math::MathFunctionList& math_function_list,
     const expressions::MathOperationList& math_operation_list,
     const math::ConstantList& constant_list,
     expressions::ExpressionMemoryPool& pool) {
-    std::vector<expressions::Expression*> arguments;
+    std::vector<const expressions::Expression*> arguments;
     arguments.reserve(parsed_arguments.size());
     for (const auto& argument : parsed_arguments) {
         arguments.push_back(convert_expression(argument, math_function_list,
@@ -141,7 +141,7 @@ namespace func_sketch::parser {
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
-[[nodiscard]] expressions::Expression* convert_expression(
+[[nodiscard]] const expressions::Expression* convert_expression(
     const ParsedFunctionCallExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
     const expressions::MathOperationList& math_operation_list,
@@ -204,7 +204,7 @@ namespace func_sketch::parser {
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
-[[nodiscard]] expressions::Expression* convert_expression(
+[[nodiscard]] const expressions::Expression* convert_expression(
     const ParsedUnaryExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
     const expressions::MathOperationList& math_operation_list,
@@ -253,7 +253,7 @@ namespace func_sketch::parser {
  * \param[in] pool Memory pool to allocate expressions.
  * \return Converted expression.
  */
-[[nodiscard]] expressions::Expression* convert_expression(
+[[nodiscard]] const expressions::Expression* convert_expression(
     const ParsedBinaryExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
     const expressions::MathOperationList& math_operation_list,
@@ -267,7 +267,7 @@ namespace func_sketch::parser {
         get_binary_operator(parsed_expression.operator_str));
 }
 
-[[nodiscard]] expressions::Expression* convert_expression(
+[[nodiscard]] const expressions::Expression* convert_expression(
     const ParsedExpression& parsed_expression,
     const math::MathFunctionList& math_function_list,
     const expressions::MathOperationList& math_operation_list,
@@ -275,7 +275,7 @@ namespace func_sketch::parser {
     expressions::ExpressionMemoryPool& pool) {
     return boost::apply_visitor(
         [&pool, &math_function_list, &math_operation_list, &constant_list](
-            const auto& concrete_expression) -> expressions::Expression* {
+            const auto& concrete_expression) -> const expressions::Expression* {
             return convert_expression(concrete_expression, math_function_list,
                 math_operation_list, constant_list, pool);
         },

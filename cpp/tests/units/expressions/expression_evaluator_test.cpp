@@ -166,7 +166,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     SECTION("evaluate a function call expression") {
         auto* argument = pool.create<ParameterExpression>(ParameterType::x);
         auto* expression = pool.create<FunctionCallExpression>(
-            std::vector<Expression*>{argument}, exp_function());
+            std::vector<const Expression*>{argument}, exp_function());
 
         constexpr Real parameter = 4.56;
         ParameterValueDict parameters;
@@ -181,7 +181,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     }
 
     SECTION("evaluate a function call expression with too many arguments") {
-        std::vector<Expression*> arguments;
+        std::vector<const Expression*> arguments;
         arguments.reserve(func_sketch::max_num_function_arguments + 1);
         for (std::size_t i = 0; i < func_sketch::max_num_function_arguments + 1;
             ++i) {
@@ -207,7 +207,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
         auto* left = pool.create<ConstantExpression>(0.0);
         auto* right = pool.create<ParameterExpression>(ParameterType::x);
         auto* expression = pool.create<OperationCallExpression>(
-            std::vector<Expression*>{function, left, right},
+            std::vector<const Expression*>{function, left, right},
             integration_operation());
 
         constexpr Real parameter = 2.0;

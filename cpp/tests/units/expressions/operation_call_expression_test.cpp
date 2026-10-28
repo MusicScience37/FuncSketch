@@ -43,13 +43,14 @@ TEST_CASE("func_sketch::expressions::OperationCallExpression") {
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        Expression* function =
+        const Expression* function =
             pool.create<ParameterExpression>(ParameterType::s);
-        Expression* left = pool.create<ConstantExpression>(Number(0.0));
-        Expression* right = pool.create<ParameterExpression>(ParameterType::x);
-        Expression* operation_call_expression =
+        const Expression* left = pool.create<ConstantExpression>(Number(0.0));
+        const Expression* right =
+            pool.create<ParameterExpression>(ParameterType::x);
+        const Expression* operation_call_expression =
             pool.create<OperationCallExpression>(
-                std::vector<Expression*>{function, left, right},
+                std::vector<const Expression*>{function, left, right},
                 integration_operation());
 
         CHECK(fmt::format("{}", *operation_call_expression) ==

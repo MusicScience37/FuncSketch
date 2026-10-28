@@ -31,10 +31,10 @@ namespace func_sketch::expressions {
  */
 struct BinaryExpression {
     //! Left-hand-side expression.
-    Expression* left{};
+    const Expression* left{};
 
     //! Right-hand-side expression.
-    Expression* right{};
+    const Expression* right{};
 
     //! Operator.
     math::BinaryOperator operator_object;

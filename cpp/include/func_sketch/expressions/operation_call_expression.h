@@ -33,7 +33,7 @@ namespace func_sketch::expressions {
  */
 struct OperationCallExpression {
     //! Arguments.
-    std::vector<Expression*> arguments;
+    std::vector<const Expression*> arguments;
 
     //! Operation.
     MathOperation operation;

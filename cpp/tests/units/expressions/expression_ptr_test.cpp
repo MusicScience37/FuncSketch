@@ -36,7 +36,8 @@ TEST_CASE("func_sketch::expressions::ExpressionPtr") {
     SECTION("create an expression") {
         auto memory_pool = std::make_unique<ExpressionMemoryPool>();
         constexpr double value = 1.23;
-        Expression* expression = memory_pool->create<ConstantExpression>(value);
+        const Expression* expression =
+            memory_pool->create<ConstantExpression>(value);
 
         ExpressionPtr expression_ptr(expression, std::move(memory_pool));
 
@@ -47,7 +48,8 @@ TEST_CASE("func_sketch::expressions::ExpressionPtr") {
     SECTION("move construct") {
         auto memory_pool = std::make_unique<ExpressionMemoryPool>();
         constexpr double value = 1.23;
-        Expression* expression = memory_pool->create<ConstantExpression>(value);
+        const Expression* expression =
+            memory_pool->create<ConstantExpression>(value);
 
         ExpressionPtr origin(expression, std::move(memory_pool));
         ExpressionPtr moved(std::move(origin));
@@ -59,7 +61,8 @@ TEST_CASE("func_sketch::expressions::ExpressionPtr") {
     SECTION("move assign") {
         auto memory_pool = std::make_unique<ExpressionMemoryPool>();
         constexpr double value = 1.23;
-        Expression* expression = memory_pool->create<ConstantExpression>(value);
+        const Expression* expression =
+            memory_pool->create<ConstantExpression>(value);
 
         ExpressionPtr origin(expression, std::move(memory_pool));
         ExpressionPtr moved;
@@ -72,7 +75,8 @@ TEST_CASE("func_sketch::expressions::ExpressionPtr") {
     SECTION("reset") {
         auto memory_pool = std::make_unique<ExpressionMemoryPool>();
         constexpr double value = 1.23;
-        Expression* expression = memory_pool->create<ConstantExpression>(value);
+        const Expression* expression =
+            memory_pool->create<ConstantExpression>(value);
 
         ExpressionPtr expression_ptr(expression, std::move(memory_pool));
         expression_ptr.reset();

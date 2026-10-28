@@ -138,10 +138,10 @@ struct fmt::formatter<func_sketch::expressions::Expression>
 
 /*!
  * \brief Specialization of fmt::formatter for
- * func_sketch::expressions::Expression*.
+ * const func_sketch::expressions::Expression*.
  */
 template <>
-struct fmt::formatter<func_sketch::expressions::Expression*>
+struct fmt::formatter<const func_sketch::expressions::Expression*>
     : fmt::formatter<string_view> {
     /*!
      * \brief Format a value.

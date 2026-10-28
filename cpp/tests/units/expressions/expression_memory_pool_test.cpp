@@ -57,7 +57,7 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
         ExpressionMemoryPool pool;
 
         constexpr double value = 1.23;
-        Expression* expression = pool.create<ConstantExpression>(value);
+        const Expression* expression = pool.create<ConstantExpression>(value);
 
         CHECK(expression->as<ConstantExpression>().value == Number(value));
 
@@ -68,8 +68,8 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
         ExpressionMemoryPool pool;
 
         constexpr double value = 1.23;
-        Expression* expression = pool.create<ConstantExpression>(value);
-        Expression* unary_expression = pool.create<UnaryExpression>(
+        const Expression* expression = pool.create<ConstantExpression>(value);
+        const Expression* unary_expression = pool.create<UnaryExpression>(
             expression, UnaryOperator(UnaryMinusOperator{}));
 
         CHECK(unary_expression->as<UnaryExpression>()
@@ -87,9 +87,9 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
 
         constexpr double left_value = 1.23;
         constexpr double right_value = 4.56;
-        Expression* left = pool.create<ConstantExpression>(left_value);
-        Expression* right = pool.create<ConstantExpression>(right_value);
-        Expression* binary_expression = pool.create<BinaryExpression>(
+        const Expression* left = pool.create<ConstantExpression>(left_value);
+        const Expression* right = pool.create<ConstantExpression>(right_value);
+        const Expression* binary_expression = pool.create<BinaryExpression>(
             left, right, BinaryOperator(AdditionOperator{}));
 
         CHECK(binary_expression->as<BinaryExpression>()
@@ -110,10 +110,10 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
         ExpressionMemoryPool pool;
 
         constexpr double value = 1.23;
-        Expression* argument = pool.create<ConstantExpression>(value);
-        Expression* function_call_expression =
+        const Expression* argument = pool.create<ConstantExpression>(value);
+        const Expression* function_call_expression =
             pool.create<FunctionCallExpression>(
-                std::vector<Expression*>{argument}, exp_function());
+                std::vector<const Expression*>{argument}, exp_function());
 
         CHECK(function_call_expression->as<FunctionCallExpression>()
                   .arguments[0]
@@ -127,15 +127,16 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
     SECTION("create and destroy an operation call expression") {
         ExpressionMemoryPool pool;
 
-        Expression* function =
+        const Expression* function =
             pool.create<ParameterExpression>(ParameterType::s);
         constexpr double left = 0.0;
-        Expression* left_expression = pool.create<ConstantExpression>(left);
-        Expression* right_expression =
+        const Expression* left_expression =
+            pool.create<ConstantExpression>(left);
+        const Expression* right_expression =
             pool.create<ParameterExpression>(ParameterType::x);
-        Expression* operation_call_expression =
+        const Expression* operation_call_expression =
             pool.create<OperationCallExpression>(
-                std::vector<Expression*>{
+                std::vector<const Expression*>{
                     function, left_expression, right_expression},
                 integration_operation());
 
@@ -151,7 +152,7 @@ TEST_CASE("func_sketch::expressions::ExpressionMemoryPool") {
     SECTION("destroy nullptr") {
         ExpressionMemoryPool pool;
 
-        Expression* expression = nullptr;
+        const Expression* expression = nullptr;
         pool.destroy(expression);
     }
 }

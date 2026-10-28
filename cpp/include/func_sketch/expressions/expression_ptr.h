@@ -43,7 +43,7 @@ public:
      * \note The memory pool must be the one used to create the expression.
      * Use of a different memory pool causes undefined behavior.
      */
-    ExpressionPtr(Expression* expression,
+    ExpressionPtr(const Expression* expression,
         std::unique_ptr<ExpressionMemoryPool> memory_pool) noexcept
         : expression_(expression, Deleter(std::move(memory_pool))) {}
 
@@ -56,7 +56,8 @@ public:
      * \brief Clear the pointer.
      */
     void reset() noexcept {
-        expression_ = std::unique_ptr<Expression, Deleter>(nullptr, Deleter());
+        expression_ =
+            std::unique_ptr<const Expression, Deleter>(nullptr, Deleter());
     }
 
     /*!
@@ -64,14 +65,16 @@ public:
      *
      * \return Pointed expression.
      */
-    [[nodiscard]] Expression* get() const noexcept { return expression_.get(); }
+    [[nodiscard]] const Expression* get() const noexcept {
+        return expression_.get();
+    }
 
     /*!
      * \brief Access the pointed expression.
      *
      * \return Reference to the pointed expression.
      */
-    [[nodiscard]] Expression& operator*() const noexcept {
+    [[nodiscard]] const Expression& operator*() const noexcept {
         return *expression_;
     }
 
@@ -80,7 +83,7 @@ public:
      *
      * \return Pointer to the member of the pointed expression.
      */
-    [[nodiscard]] Expression* operator->() const noexcept {
+    [[nodiscard]] const Expression* operator->() const noexcept {
         return expression_.get();
     }
 
@@ -107,7 +110,7 @@ private:
          *
          * \param[in] expression Expression to delete.
          */
-        void operator()(Expression* expression) const noexcept {
+        void operator()(const Expression* expression) const noexcept {
             if (expression != nullptr && memory_pool_ != nullptr) {
                 memory_pool_->destroy(expression);
             }
@@ -119,7 +122,7 @@ private:
     };
 
     //! Pointer.
-    std::unique_ptr<Expression, Deleter> expression_;
+    std::unique_ptr<const Expression, Deleter> expression_;
 };
 
 }  // namespace func_sketch::expressions

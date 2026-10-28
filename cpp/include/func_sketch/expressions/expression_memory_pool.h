@@ -50,7 +50,7 @@ public:
      * \return Created expression.
      */
     template <typename T, typename... Args>
-    [[nodiscard]] Expression* create(Args&&... args) {
+    [[nodiscard]] const Expression* create(Args&&... args) {
         return allocator_.new_object<Expression>(
             T(std::forward<Args>(args)...));
     }
@@ -65,7 +65,8 @@ public:
      * Use of the expression after calling this function is undefined behavior.
      * \note This function does nothing if the argument is nullptr.
      */
-    void destroy(Expression* expression) noexcept {  // NOLINT(*-exception-*)
+    void destroy(
+        const Expression* expression) noexcept {  // NOLINT(*-exception-*)
         if (expression == nullptr) {
             return;
         }
@@ -83,14 +84,14 @@ public:
                 } else if constexpr (std::is_same_v<ExpressionType,
                                          FunctionCallExpression> ||
                     std::is_same_v<ExpressionType, OperationCallExpression>) {
-                    for (auto& arg : expr.arguments) {
+                    for (const auto* arg : expr.arguments) {
                         destroy(arg);
                     }
                 }
             },
             expression->as_variant());
 
-        allocator_.delete_object(expression);
+        allocator_.delete_object(const_cast<Expression*>(expression));
     }
 
 private:

@@ -33,7 +33,7 @@ namespace func_sketch::expressions {
  */
 struct FunctionCallExpression {
     //! Arguments.
-    std::vector<Expression*> arguments;
+    std::vector<const Expression*> arguments;
 
     //! Function.
     math::MathFunction function;
