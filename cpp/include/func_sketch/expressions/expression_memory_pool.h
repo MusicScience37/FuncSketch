@@ -65,8 +65,8 @@ public:
      * Use of the expression after calling this function is undefined behavior.
      * \note This function does nothing if the argument is nullptr.
      */
-    void destroy(
-        const Expression* expression) noexcept {  // NOLINT(*-exception-*)
+    void destroy(  // NOLINT(*-exception-*)
+        const Expression* expression) noexcept {
         if (expression == nullptr) {
             return;
         }
