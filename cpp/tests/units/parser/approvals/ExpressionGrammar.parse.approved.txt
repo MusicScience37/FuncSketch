@@ -76,6 +76,9 @@ Parsed: Binary(*, Literal(1.230000e+00), Binary(+, Literal(4.560000e+00), Litera
 Input: exp(1.23)
 Parsed: FunctionCall(Identifier(exp), Literal(1.230000e+00))
 
+Input: integrate(s, 0, x)
+Parsed: FunctionCall(Identifier(integrate), Identifier(s), Literal(0), Identifier(x))
+
 Input: 1.23 ** -x
 Parsed: Binary(**, Literal(1.230000e+00), Unary(-, Identifier(x)))
 

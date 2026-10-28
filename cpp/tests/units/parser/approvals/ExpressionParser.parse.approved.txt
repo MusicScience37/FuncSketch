@@ -76,6 +76,9 @@ Parsed: mul(1.23, add(4.56, 7.89))
 Input: exp(1.23)
 Parsed: exp(1.23)
 
+Input: integrate(s, 0, x)
+Parsed: integrate(s, 0, x)
+
 Input: 1.23 ** -x
 Parsed: pow(1.23, negate(x))
 

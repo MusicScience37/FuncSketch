@@ -23,6 +23,8 @@
 
 #include <boost/variant.hpp>
 
+#include "func_sketch/expressions/generate_math_operation_list.h"
+#include "func_sketch/expressions/math_operation_list.h"
 #include "func_sketch/math/generate_math_function_list.h"
 #include "func_sketch/math/math_function_list.h"
 #include "func_sketch/parser/convert_expression.h"
@@ -37,6 +39,10 @@ struct ExpressionParser::Impl {
 
     //! List of mathematical functions.
     math::MathFunctionList math_function_list;
+
+    //! List of mathematical operations.
+    expressions::MathOperationList math_operation_list{
+        expressions::generate_math_operation_list()};
 
     //! List of constants.
     math::ConstantList constant_list{math::generate_constant_list()};
@@ -66,13 +72,18 @@ ExpressionParser::~ExpressionParser() = default;
 expressions::ExpressionPtr ExpressionParser::operator()(
     const std::string& expression_str) const {
     const auto parsed_expression = pimpl_->grammar.parse(expression_str);
-    return convert_expression(
-        parsed_expression, pimpl_->math_function_list, pimpl_->constant_list);
+    return convert_expression(parsed_expression, pimpl_->math_function_list,
+        pimpl_->math_operation_list, pimpl_->constant_list);
 }
 
 const math::MathFunctionList& ExpressionParser::math_function_list()
     const noexcept {
     return pimpl_->math_function_list;
+}
+
+const expressions::MathOperationList& ExpressionParser::math_operation_list()
+    const noexcept {
+    return pimpl_->math_operation_list;
 }
 
 const math::ConstantList& ExpressionParser::constant_list() const noexcept {
