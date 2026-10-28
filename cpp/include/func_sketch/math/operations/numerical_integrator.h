@@ -51,7 +51,7 @@ public:
         requires std::is_invocable_v<Function, Real> &&
         std::is_same_v<std::invoke_result_t<Function, Real>, Number>
     [[nodiscard]] Number operator()(
-        const Function& function, Real left, Real right) {
+        const Function& function, Real left, Real right) const {
         const Real center = (left + right) * 0.5;
         const Number center_value = function(center);
         if (std::holds_alternative<Complex>(center_value)) {
@@ -72,7 +72,7 @@ private:
      */
     template <typename Function>
     [[nodiscard]] Number integrate_real(
-        const Function& function, Real left, Real right) {
+        const Function& function, Real left, Real right) const {
         const auto real_integrand = [&function](Real arg) {
             return std::visit(
                 [](const auto& value) -> Real {
@@ -101,7 +101,7 @@ private:
      */
     template <typename Function>
     [[nodiscard]] Number integrate_complex(
-        const Function& function, Real left, Real right) {
+        const Function& function, Real left, Real right) const {
         const auto complex_integrand = [&function](Real arg) {
             return std::visit(
                 [](const auto& value) -> Complex {

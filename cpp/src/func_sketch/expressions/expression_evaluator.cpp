@@ -48,6 +48,11 @@ void ExpressionEvaluator::operator()(const Expression& expression,
         result_as_number);
 }
 
+void ExpressionEvaluator::operator()(const Expression& expression,
+    const ParameterValueDict& parameters, Number& result) {
+    evaluate(expression, parameters, result);
+}
+
 void ExpressionEvaluator::evaluate(const Expression& expression,
     const ParameterValueDict& parameters, Number& result) {
     std::visit([&parameters, &result](

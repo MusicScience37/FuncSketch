@@ -6,6 +6,7 @@ set(SOURCE_FILES
     expressions/expression_memory_pool_test.cpp
     expressions/expression_ptr_test.cpp
     expressions/function_call_expression_test.cpp
+    expressions/operations/integration_operation_test.cpp
     expressions/parameter_expression_test.cpp
     expressions/parameter_value_dict_test.cpp
     expressions/unary_expression_test.cpp

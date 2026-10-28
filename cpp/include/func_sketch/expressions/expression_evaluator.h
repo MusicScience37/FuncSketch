@@ -41,6 +41,16 @@ public:
     static void operator()(const Expression& expression,
         const ParameterValueDict& parameters, Real& result);
 
+    /*!
+     * \brief Evaluate an expression.
+     *
+     * \param[in] expression Expression.
+     * \param[in] parameters Values of parameters.
+     * \param[out] result Result.
+     */
+    static void operator()(const Expression& expression,
+        const ParameterValueDict& parameters, Number& result);
+
 private:
     /*!
      * \brief Evaluate an expression.

@@ -66,7 +66,7 @@ public:
         requires std::is_invocable_v<Function, Real> &&
         std::is_convertible_v<std::invoke_result_t<Function, Real>, Value>
     [[nodiscard]] Value operator()(
-        const Function& function, Real left, Real right) {
+        const Function& function, Real left, Real right) const {
         if (left == right) {
             return static_cast<Value>(0);
         }

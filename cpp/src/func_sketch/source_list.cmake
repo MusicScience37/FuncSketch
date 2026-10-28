@@ -8,6 +8,7 @@ set(SOURCE_FILES
     expressions/expression.cpp
     expressions/expression_evaluator.cpp
     expressions/function_call_expression.cpp
+    expressions/operations/integration_operation.cpp
     expressions/parameter_expression.cpp
     expressions/unary_expression.cpp
     math/constant_list.cpp
