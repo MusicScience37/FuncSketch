@@ -61,3 +61,12 @@ class TestIntegration:
             (-2.0, 3.0),
         )
         image_approver.verify(image)
+
+    def test_plot_integrate_fresnel(self, image_approver) -> None:
+        """Test of plotting Fresnel integrals."""
+        image = plot_function(
+            ["integrate(sin(s**2), 0, x)"],
+            (-10.0, 10.0),
+            (-1.0, 1.0),
+        )
+        image_approver.verify(image)

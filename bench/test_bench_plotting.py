@@ -34,6 +34,8 @@ EXPRESSION_STR_LIST = [
     "sin(1/x)",
     "sin(10/x)",
     "sin(100/x)",
+    "integrate(sin(s**2), 0, x)",
+    "integrate(sin(s**2), 0, 3*x)",
 ]
 
 
