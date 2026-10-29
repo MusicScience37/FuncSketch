@@ -13,6 +13,8 @@
 - Added more built-in constants.
   - More mathematical constants. (`euler_mascheroni`, `golden_ratio`)
   - Physical constants. (`avogadro_constant`, `boltzmann_constant`, `elementary_charge`, `gravitational_constant`, `planck_constant`, `speed_of_light`)
+- Added mathematical operations.
+  - Numerical integration. (`integrate`)
 
 ## Fixes
 
