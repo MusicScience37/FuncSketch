@@ -64,12 +64,12 @@ public:
     }
 
     /*!
-     * \brief Evaluate a numerical integral.
+     * \brief Evaluate the mathematical operation.
      *
      * \param[in] args Arguments of the operation.
      * \param[in] evaluator Expression evaluator.
      * \param[in] parameters Parameter values.
-     * \param[out] result Result of the integration.
+     * \param[out] result Result of the operation.
      */
     void operator()(std::span<const Expression* const> args,
         const ExpressionEvaluator& evaluator,

@@ -23,6 +23,8 @@
 #include <type_traits>
 #include <variant>
 
+#include <fmt/format.h>
+
 #include "func_sketch/common_types.h"
 #include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/expression.h"

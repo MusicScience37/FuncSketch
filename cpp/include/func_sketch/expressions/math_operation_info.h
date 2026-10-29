@@ -28,7 +28,7 @@ namespace func_sketch::expressions {
 /*!
  * \brief Class to store information about a mathematical operation.
  *
- * \note Argument names should be same as the names in documentation.
+ * \note Argument names should be the same as the names in the documentation.
  */
 class MathOperationInfo {
 public:

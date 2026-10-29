@@ -30,9 +30,9 @@ Note:
 - The right operand of `**` is `unary_expr` so that `2 ** -x` is valid.
   As in Python, `2 ** -3 ** 2` is parsed as `2 ** (-(3 ** 2))`.
 - `function_call_expr` includes ordinary function calls (e.g. `sin(x)`)
-  and mathematical operation calls (e.g. `integrate(x, 0.0, 1.0)`).
-  These are distinguished with function names in implementation.
-  These are not distinguished in the grammar and the documentation for users.
+  and mathematical operation calls (e.g. `integrate(s, 0.0, x)`).
+  These are distinguished by function names in the implementation.
+  These are not distinguished in the grammar or in the user documentation.
 
 ## Literals
 

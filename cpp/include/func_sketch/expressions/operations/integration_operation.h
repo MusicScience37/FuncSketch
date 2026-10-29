@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of IntegrationOperation class.
+ * \brief Declaration of integration_operation function.
  */
 #pragma once
 

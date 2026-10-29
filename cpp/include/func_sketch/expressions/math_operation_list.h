@@ -39,9 +39,9 @@ public:
     MathOperationList() = default;
 
     /*!
-     * \brief Append a mathematical operation to the list.
+     * \brief Add a mathematical operation to the list.
      *
-     * \param[in] operation Mathematical operation to append.
+     * \param[in] operation Mathematical operation to add.
      */
     void emplace(MathOperation
             operation) {  // NOLINT(performance-unnecessary-value-param)

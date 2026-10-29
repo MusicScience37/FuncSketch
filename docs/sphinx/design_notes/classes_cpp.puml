@@ -112,14 +112,21 @@ package func_sketch {
         Expression <..> FunctionCallExpression
         FunctionCallExpression o-- MathFunction
 
+        class MathOperationInfo {
+            + name() : const std::string&
+            + argument_names() : const std::vector<std::string>&
+        }
+
         class MathOperation {
-            + operator()(args : std::vector<const Expression*>, evaluator : ExpressionEvaluator, parameters : ParameterValueDict, result : Number&)
+            + info() : const MathOperationInfo&
+            + operator()(args : std::span<const Expression* const>, evaluator : ExpressionEvaluator, parameters : ParameterValueDict, result : Number&)
         }
         note right
             MathOperation is placed in the expressions namespace
             because it depends on expressions.
         end note
         MathOperation o-- Any
+        MathOperation ..> MathOperationInfo
         MathOperation .up.> Expression
         MathOperation .up.> ExpressionEvaluator
         MathOperation .up.> ParameterValueDict
