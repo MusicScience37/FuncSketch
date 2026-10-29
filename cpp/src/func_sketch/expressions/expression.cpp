@@ -33,7 +33,7 @@ auto fmt::formatter<func_sketch::expressions::Expression>::format(
 }
 
 // NOLINTNEXTLINE(*-static): API of an external library.
-auto fmt::formatter<func_sketch::expressions::Expression*>::format(
+auto fmt::formatter<const func_sketch::expressions::Expression*>::format(
     const func_sketch::expressions::Expression* value,
     format_context& context) const -> format_context::iterator {
     return fmt::format_to(context.out(), "{}", *value);

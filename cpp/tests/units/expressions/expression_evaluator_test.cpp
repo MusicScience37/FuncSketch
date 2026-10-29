@@ -23,12 +23,14 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
 #include <catch2/matchers/catch_matchers_string.hpp>
 
 #include "func_sketch/common_types.h"
 #include "func_sketch/constants.h"
 #include "func_sketch/expressions/expression.h"
 #include "func_sketch/expressions/expression_memory_pool.h"
+#include "func_sketch/expressions/operations/integration_operation.h"
 #include "func_sketch/expressions/parameter_expression.h"
 #include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/binary_operators.h"
@@ -45,6 +47,8 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     using func_sketch::expressions::ExpressionEvaluator;
     using func_sketch::expressions::ExpressionMemoryPool;
     using func_sketch::expressions::FunctionCallExpression;
+    using func_sketch::expressions::integration_operation;
+    using func_sketch::expressions::OperationCallExpression;
     using func_sketch::expressions::ParameterExpression;
     using func_sketch::expressions::ParameterValueDict;
     using func_sketch::expressions::UnaryExpression;
@@ -162,7 +166,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     SECTION("evaluate a function call expression") {
         auto* argument = pool.create<ParameterExpression>(ParameterType::x);
         auto* expression = pool.create<FunctionCallExpression>(
-            std::vector<Expression*>{argument}, exp_function());
+            std::vector<const Expression*>{argument}, exp_function());
 
         constexpr Real parameter = 4.56;
         ParameterValueDict parameters;
@@ -177,7 +181,7 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
     }
 
     SECTION("evaluate a function call expression with too many arguments") {
-        std::vector<Expression*> arguments;
+        std::vector<const Expression*> arguments;
         arguments.reserve(func_sketch::max_num_function_arguments + 1);
         for (std::size_t i = 0; i < func_sketch::max_num_function_arguments + 1;
             ++i) {
@@ -194,6 +198,27 @@ TEST_CASE("func_sketch::expressions::ExpressionEvaluator") {
 
         CHECK_THROWS_WITH(evaluator(*expression, parameters, result),
             Catch::Matchers::ContainsSubstring("Too many function arguments"));
+
+        pool.destroy(expression);
+    }
+
+    SECTION("evaluate an operation call expression") {
+        auto* function = pool.create<ParameterExpression>(ParameterType::s);
+        auto* left = pool.create<ConstantExpression>(0.0);
+        auto* right = pool.create<ParameterExpression>(ParameterType::x);
+        auto* expression = pool.create<OperationCallExpression>(
+            std::vector<const Expression*>{function, left, right},
+            integration_operation());
+
+        constexpr Real parameter = 2.0;
+        ParameterValueDict parameters;
+        parameters[ParameterType::x] = parameter;
+        Real result = 0.0;
+
+        evaluator(*expression, parameters, result);
+
+        CHECK_THAT(
+            result, Catch::Matchers::WithinRel(0.5 * parameter * parameter));
 
         pool.destroy(expression);
     }

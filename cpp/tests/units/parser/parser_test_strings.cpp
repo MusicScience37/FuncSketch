@@ -39,6 +39,7 @@ std::vector<std::string> parser_test_strings() {
         "e",
         // Parameters.
         "x",
+        "s",
         "t",
         // Unary minus.
         "-x",
@@ -61,6 +62,7 @@ std::vector<std::string> parser_test_strings() {
         "1.23 * (4.56 + 7.89)",
         // Function calls.
         "exp(1.23)",
+        "integrate(s, 0, x)",
         // Nested expressions.
         "1.23 ** -x",
         "1.23 ** +x",

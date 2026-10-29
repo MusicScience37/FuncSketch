@@ -15,6 +15,7 @@
 """Tests of sampling of parameterized curves."""
 
 import numpy
+import scipy.special
 
 from func_sketch._cpp import (
     CurveSampler,
@@ -87,3 +88,18 @@ class TestParameterizedCurves:
 
         compare_vectors(x_values, expected_x_values)
         compare_vectors(y_values, expected_y_values)
+
+    def test_fresnel_spiral(self) -> None:
+        """Test of sampling a spiral using Fresnel integrals."""
+        parameter_values, x_values, y_values = sample_parameterized_curve(
+            x_expression_str="integrate(cos(pi / 2 * s**2), 0, t)",
+            y_expression_str="integrate(sin(pi / 2 * s**2), 0, t)",
+            x_range=(-1.0, 1.0),
+            y_range=(-1.0, 1.0),
+            parameter_range=(-3.0, 3.0),
+        )
+
+        expected_y_values, expected_x_values = scipy.special.fresnel(parameter_values)
+
+        compare_vectors(x_values, expected_x_values, rtol=1e-4, atol=1e-4)
+        compare_vectors(y_values, expected_y_values, rtol=1e-4, atol=1e-4)

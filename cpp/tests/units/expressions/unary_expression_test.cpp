@@ -41,8 +41,9 @@ TEST_CASE("func_sketch::expressions::UnaryExpression") {
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        Expression* target = pool.create<ParameterExpression>(ParameterType::x);
-        Expression* unary_expression = pool.create<UnaryExpression>(
+        const Expression* target =
+            pool.create<ParameterExpression>(ParameterType::x);
+        const Expression* unary_expression = pool.create<UnaryExpression>(
             target, UnaryOperator(UnaryMinusOperator{}));
 
         CHECK(fmt::format("{}", *unary_expression) == "negate(x)");

@@ -2,6 +2,14 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg-configuration.schema.json",
   "default-registry": {
     "kind": "builtin",
-    "baseline": "da2be01c400dd3ed102c1198752ef44c76aabe37"
-  }
+    "baseline": "bf19794383e8fb95eba5aa553235bc8ec2271688"
+  },
+  "registries": [
+    {
+      "kind": "git",
+      "repository": "https://gitlab.com/MusicScience37Projects/vcpkg-registry",
+      "baseline": "15f483d1c3b075e73c43cfc46faa747b571cff16",
+      "packages": ["cpp-hash-tables", "numerical-collection-cpp"]
+    }
+  ]
 }

@@ -29,6 +29,8 @@ auto fmt::formatter<func_sketch::expressions::ParameterExpression>::format(
     switch (value.type) {
     case func_sketch::ParameterType::x:
         return fmt::formatter<string_view>::format("x", context);
+    case func_sketch::ParameterType::s:
+        return fmt::formatter<string_view>::format("s", context);
     case func_sketch::ParameterType::t:
         return fmt::formatter<string_view>::format("t", context);
     }

@@ -23,10 +23,16 @@
 @REM Below is used in my runner.
 call "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvarsall.bat" x86_x64
 
+@REM Use a short path for build trees of vcpkg to avoid errors due to long paths.
+for %%I in ("%CD%\..\.vb") do set VCPKG_BUILDTREES_ROOT=%%~fI
+set VCPKG_INSTALL_OPTIONS=--x-buildtrees-root=%VCPKG_BUILDTREES_ROOT%
+set SKBUILD_CMAKE_ARGS=-DVCPKG_INSTALL_OPTIONS=%VCPKG_INSTALL_OPTIONS%
+
 cmake .. ^
     -G Ninja ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DVCPKG_TARGET_TRIPLET:STRING=x64-windows-static-md ^
+    -DVCPKG_INSTALL_OPTIONS:STRING=%VCPKG_INSTALL_OPTIONS% ^
     -DFUNC_SKETCH_BUILD_TESTS:BOOL=ON ^
     -DFUNC_SKETCH_ENABLE_CCACHE:BOOL=ON ^
     -DFUNC_SKETCH_ENABLE_AUSAN:BOOL=OFF ^

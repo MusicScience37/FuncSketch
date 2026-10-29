@@ -48,6 +48,11 @@ void ExpressionEvaluator::operator()(const Expression& expression,
         result_as_number);
 }
 
+void ExpressionEvaluator::operator()(const Expression& expression,
+    const ParameterValueDict& parameters, Number& result) {
+    evaluate(expression, parameters, result);
+}
+
 void ExpressionEvaluator::evaluate(const Expression& expression,
     const ParameterValueDict& parameters, Number& result) {
     std::visit([&parameters, &result](
@@ -102,6 +107,12 @@ void ExpressionEvaluator::evaluate(const FunctionCallExpression& expression,
         argument_values.push_back(argument_value);
     }
     expression.function(argument_values, result);
+}
+
+void ExpressionEvaluator::evaluate(const OperationCallExpression& expression,
+    const ParameterValueDict& parameters, Number& result) {
+    expression.operation(
+        expression.arguments, ExpressionEvaluator{}, parameters, result);
 }
 
 }  // namespace func_sketch::expressions

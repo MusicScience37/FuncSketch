@@ -41,9 +41,10 @@ TEST_CASE("func_sketch::expressions::BinaryExpression") {
     SECTION("format") {
         ExpressionMemoryPool pool;
         constexpr double left_value = 1.23;
-        Expression* left = pool.create<ConstantExpression>(left_value);
-        Expression* right = pool.create<ParameterExpression>(ParameterType::x);
-        Expression* binary_expression = pool.create<BinaryExpression>(
+        const Expression* left = pool.create<ConstantExpression>(left_value);
+        const Expression* right =
+            pool.create<ParameterExpression>(ParameterType::x);
+        const Expression* binary_expression = pool.create<BinaryExpression>(
             left, right, BinaryOperator(AdditionOperator{}));
 
         CHECK(fmt::format("{}", *binary_expression) == "add(1.23, x)");

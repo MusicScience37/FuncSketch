@@ -29,6 +29,10 @@ Note:
   Therefore, repeated signs such as `++1` and `--1` are errors.
 - The right operand of `**` is `unary_expr` so that `2 ** -x` is valid.
   As in Python, `2 ** -3 ** 2` is parsed as `2 ** (-(3 ** 2))`.
+- `function_call_expr` includes ordinary function calls (e.g. `sin(x)`)
+  and mathematical operation calls (e.g. `integrate(s, 0.0, x)`).
+  These are distinguished by function names in the implementation.
+  These are not distinguished in the grammar or in the user documentation.
 
 ## Literals
 
@@ -43,8 +47,12 @@ Literals are parsed as follows (signs are not included in literals):
 
 ## Identifiers
 
-- Identifiers are used in followings:
-  - Parameter names when used in `atomic_value_expr`. Currently `x` and `t` are allowed.
+- Identifiers are used in the following:
+  - Parameter names when used in `atomic_value_expr`. Currently `x`, `s` and `t` are allowed.
+    - `x` is used in explicit curves.
+    - `s` is used as the integration variable in numerical integration.
+    - `t` is used in parameterized curves.
+    - Using a parameter for any other purpose results in an error during expression evaluation.
   - Constant names when used in `atomic_value_expr`.
     - A parameter name and a constant name cannot have the same identifier.
   - Function names when used in `function_call_expr`.

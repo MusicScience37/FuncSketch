@@ -5,7 +5,7 @@ package func_sketch {
         using Real = double
     }
 
-    class Complex <<typedef>> <<future-implementation>> {
+    class Complex <<typedef>> {
         using Complex = std::complex<double>
     }
 
@@ -19,6 +19,7 @@ package func_sketch {
 
     enum ParameterType {
         x
+        s
         t
     }
 
@@ -75,7 +76,7 @@ package func_sketch {
 
     package expressions {
         class Expression {
-            - expression_ : std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionCallExpression>
+            - expression_ : std::variant<ConstantExpression, ParameterExpression, UnaryExpression, BinaryExpression, FunctionCallExpression, OperationCallExpression>
         }
 
         struct ConstantExpression {
@@ -90,29 +91,61 @@ package func_sketch {
         ParameterExpression o-- ParameterType
 
         struct UnaryExpression {
-            + target : Expression*
+            + target : const Expression*
             + operator_object : UnaryOperator
         }
         Expression <..> UnaryExpression
         UnaryExpression o-- UnaryOperator
 
         struct BinaryExpression {
-            + left : Expression*
-            + right : Expression*
+            + left : const Expression*
+            + right : const Expression*
             + operator_object : BinaryOperator
         }
         Expression <..> BinaryExpression
         BinaryExpression o-- BinaryOperator
 
         struct FunctionCallExpression {
-            + arguments : std::vector<Expression*>
+            + arguments : std::vector<const Expression*>
             + function : MathFunction
         }
         Expression <..> FunctionCallExpression
         FunctionCallExpression o-- MathFunction
 
+        class MathOperationInfo {
+            + name() : const std::string&
+            + argument_names() : const std::vector<std::string>&
+        }
+
+        class MathOperation {
+            + info() : const MathOperationInfo&
+            + operator()(args : std::span<const Expression* const>, evaluator : ExpressionEvaluator, parameters : ParameterValueDict, result : Number&)
+        }
+        note right
+            MathOperation is placed in the expressions namespace
+            because it depends on expressions.
+        end note
+        MathOperation o-- Any
+        MathOperation ..> MathOperationInfo
+        MathOperation .up.> Expression
+        MathOperation .up.> ExpressionEvaluator
+        MathOperation .up.> ParameterValueDict
+
+        class MathOperationList {
+            + emplace(operation : MathOperation)
+            + get(name : std::string) : std::optional<MathOperation>
+        }
+        MathOperationList o-- MathOperation
+
+        struct OperationCallExpression {
+            + arguments : std::vector<const Expression*>
+            + operation : MathOperation
+        }
+        Expression <..> OperationCallExpression
+        OperationCallExpression o-- MathOperation
+
         class ExpressionMemoryPool {
-            + create<T>(args...) : Expression*
+            + create<T>(args...) : const Expression*
         }
         ExpressionMemoryPool ..> Expression
 
@@ -123,6 +156,7 @@ package func_sketch {
         ParameterValueDict ..> ParameterType
 
         class ExpressionEvaluator {
+            + operator()(expression : const Expression&, parameters : const ParameterValueDict&, result : Number&)
             + operator()(expression : const Expression&, parameters : const ParameterValueDict&, result : Real&)
         }
         ExpressionEvaluator ..> ParameterValueDict
@@ -137,6 +171,7 @@ package func_sketch {
             + operator()(expression_str : std::string) : ExpressionPtr
         }
         ExpressionParser o-- MathFunctionList
+        ExpressionParser o-- MathOperationList
         ExpressionParser o-- ConstantList
         ExpressionParser ..> ExpressionPtr
     }

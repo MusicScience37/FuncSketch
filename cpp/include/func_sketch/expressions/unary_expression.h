@@ -31,7 +31,7 @@ namespace func_sketch::expressions {
  */
 struct UnaryExpression {
     //! Target expression.
-    Expression* target{};
+    const Expression* target{};
 
     //! Operator.
     math::UnaryOperator operator_object;

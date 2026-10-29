@@ -6,6 +6,9 @@ set(SOURCE_FILES
     expressions/expression_memory_pool_test.cpp
     expressions/expression_ptr_test.cpp
     expressions/function_call_expression_test.cpp
+    expressions/math_operation_list_test.cpp
+    expressions/operation_call_expression_test.cpp
+    expressions/operations/integration_operation_test.cpp
     expressions/parameter_expression_test.cpp
     expressions/parameter_value_dict_test.cpp
     expressions/unary_expression_test.cpp
@@ -31,6 +34,8 @@ set(SOURCE_FILES
     math/general_math_function_test.cpp
     math/math_function_list_test.cpp
     math/math_function_test.cpp
+    math/operations/gauss_legendre_kronrod_integrator_test.cpp
+    math/operations/numerical_integrator_test.cpp
     math/unary_operator_test.cpp
     math/unary_operators_test.cpp
     parser/expression_grammar_test.cpp

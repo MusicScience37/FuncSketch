@@ -39,12 +39,12 @@ TEST_CASE("func_sketch::expressions::FunctionCallExpression") {
 
     SECTION("format") {
         ExpressionMemoryPool pool;
-        Expression* argument =
+        const Expression* argument =
             pool.create<ParameterExpression>(ParameterType::x);
         auto function = exp_function();
-        Expression* function_call_expression =
+        const Expression* function_call_expression =
             pool.create<FunctionCallExpression>(
-                std::vector<Expression*>{argument}, function);
+                std::vector<const Expression*>{argument}, function);
 
         CHECK(fmt::format("{}", *function_call_expression) == "exp(x)");
 

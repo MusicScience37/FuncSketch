@@ -38,20 +38,25 @@ TEST_CASE("func_sketch::expressions::ParameterValueDict") {
         const ParameterValueDict parameters;
 
         CHECK_FALSE(parameters[ParameterType::x].has_value());
+        CHECK_FALSE(parameters[ParameterType::s].has_value());
         CHECK_FALSE(parameters[ParameterType::t].has_value());
     }
 
     SECTION("set values") {
         ParameterValueDict parameters;
         constexpr Real x_value = 1.23;
+        constexpr Real s_value = 7.89;
         constexpr Real t_value = 4.56;
 
         parameters[ParameterType::x] = x_value;
+        parameters[ParameterType::s] = s_value;
         parameters[ParameterType::t] = t_value;
 
         const auto& const_parameters = parameters;
         REQUIRE(const_parameters[ParameterType::x].has_value());
         CHECK(std::get<Real>(*const_parameters[ParameterType::x]) == x_value);
+        REQUIRE(const_parameters[ParameterType::s].has_value());
+        CHECK(std::get<Real>(*const_parameters[ParameterType::s]) == s_value);
         REQUIRE(const_parameters[ParameterType::t].has_value());
         CHECK(std::get<Real>(*const_parameters[ParameterType::t]) == t_value);
     }
@@ -64,6 +69,7 @@ TEST_CASE("func_sketch::expressions::ParameterValueDict") {
 
         const auto& const_parameters = parameters;
         CHECK_FALSE(const_parameters[ParameterType::x].has_value());
+        CHECK_FALSE(const_parameters[ParameterType::s].has_value());
         REQUIRE(const_parameters[ParameterType::t].has_value());
         CHECK(std::get<Real>(*const_parameters[ParameterType::t]) == t_value);
     }
