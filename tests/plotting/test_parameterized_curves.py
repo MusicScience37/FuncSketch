@@ -95,3 +95,18 @@ class TestParameterizedCurves:
             (-3.0, 3.0),
         )
         image_approver.verify(image)
+
+    def test_fresnel_spiral(self, image_approver) -> None:
+        """Test of plotting a spiral using Fresnel integrals."""
+        image = plot_parameterized_curves(
+            [
+                (
+                    "integrate(cos(pi / 2 * s**2), 0, t)",
+                    "integrate(sin(pi / 2 * s**2), 0, t)",
+                )
+            ],
+            (-1.0, 1.0),
+            (-1.0, 1.0),
+            (-6.0, 6.0),
+        )
+        image_approver.verify(image)
