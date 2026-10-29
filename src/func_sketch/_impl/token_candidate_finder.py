@@ -23,6 +23,8 @@ from func_sketch._cpp import (
     ConstantList,
     MathFunctionInfo,
     MathFunctionList,
+    MathOperationInfo,
+    MathOperationList,
 )
 
 # These parameters were determined empirically based on tests in
@@ -32,6 +34,9 @@ RATE_OF_FULL_MATCH = 0.2
 RATE_OF_MATCH_OF_BEGINNING = 0.2
 SCORE_FOR_MATCH_OF_BEGINNING = 100.0 * RATE_OF_MATCH_OF_BEGINNING
 SCORE_THRESHOLD = 50.0
+
+INTEGRATION_VARIABLE_NAME = "s"
+"""Name of the variable of integration, which is always available."""
 
 
 def _calculate_custom_score(
@@ -74,6 +79,7 @@ class TokenCandidateFinder:
     def __init__(
         self,
         math_function_list: MathFunctionList,
+        math_operation_list: MathOperationList,
         constant_list: ConstantList,
         parameter_names: list[str],
         limit: int,
@@ -82,31 +88,37 @@ class TokenCandidateFinder:
 
         Args:
             math_function_list (MathFunctionList): List of mathematical functions.
+            math_operation_list (MathOperationList): List of mathematical operations.
             constant_list (ConstantList): List of constants.
-            parameter_names (list[str]): List of parameter names.
+            parameter_names (list[str]): List of parameter names
+                excluding the variable of integration, which is always added.
             limit (int): Maximum number of search results.
         """
         token_list = (
             math_function_list.create_function_info_list()
+            + math_operation_list.create_operation_info_list()
             + constant_list.create_constant_info_list()
             + [ParameterInfo(name=name) for name in parameter_names]
+            + [ParameterInfo(name=INTEGRATION_VARIABLE_NAME)]
         )
         token_list.sort(key=lambda info: info.name)
         if len(token_list) != len({info.name for info in token_list}):
             raise ValueError("Duplicate token names are not allowed.")
-        self._token_dict: dict[str, MathFunctionInfo | ConstantInfo | ParameterInfo] = {
-            info.name: info for info in token_list
-        }
+        self._token_dict: dict[
+            str, MathFunctionInfo | MathOperationInfo | ConstantInfo | ParameterInfo
+        ] = {info.name: info for info in token_list}
         self._limit = limit
 
-    def find(self, query: str) -> list[MathFunctionInfo | ConstantInfo | ParameterInfo]:
+    def find(
+        self, query: str
+    ) -> list[MathFunctionInfo | MathOperationInfo | ConstantInfo | ParameterInfo]:
         """Find candidates of tokens matching the query string.
 
         Args:
             query (str): Query string.
 
         Returns:
-            list[MathFunctionInfo | ConstantInfo | ParameterInfo]: List of candidates of tokens.
+            list[MathFunctionInfo | MathOperationInfo | ConstantInfo | ParameterInfo]: List of candidates of tokens.
         """
         if not query:
             return []

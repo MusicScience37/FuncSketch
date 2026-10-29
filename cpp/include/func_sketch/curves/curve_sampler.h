@@ -24,6 +24,7 @@
 #include "func_sketch/curves/sampled_explicit_curve.h"
 #include "func_sketch/curves/sampled_parameterized_curve.h"
 #include "func_sketch/expressions/expression_evaluator.h"
+#include "func_sketch/expressions/math_operation_list.h"
 #include "func_sketch/math/functions/python_function_list.h"
 #include "func_sketch/math/math_function_list.h"
 #include "func_sketch/parameterized_point.h"
@@ -91,6 +92,14 @@ public:
      * \return List of mathematical functions.
      */
     [[nodiscard]] const math::MathFunctionList& math_function_list()
+        const noexcept;
+
+    /*!
+     * \brief Get the list of mathematical operations.
+     *
+     * \return List of mathematical operations.
+     */
+    [[nodiscard]] const expressions::MathOperationList& math_operation_list()
         const noexcept;
 
     /*!

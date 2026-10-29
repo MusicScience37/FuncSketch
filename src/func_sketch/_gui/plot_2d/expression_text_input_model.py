@@ -63,7 +63,7 @@ class ExpressionTextInputModel(kivy.event.EventDispatcher):
     """Text of the current token in the text input."""
 
     token_candidates = kivy.properties.ObjectProperty(None, allownone=True)
-    """List of token candidates (MathFunctionInfo, ConstantInfo, or ParameterInfo) based on the current token."""
+    """List of token candidates (MathFunctionInfo, MathOperationInfo, ConstantInfo, or ParameterInfo) based on the current token."""
 
     def _get_cursor(self) -> tuple[int, int]:
         """Get the current cursor position as a (col, row) tuple, as in Kivy's TextInput (row is always 0).
@@ -103,6 +103,7 @@ class ExpressionTextInputModel(kivy.event.EventDispatcher):
         self._curve_sampler = curve_sampler
         self._token_candidate_finder = TokenCandidateFinder(
             math_function_list=self._curve_sampler.math_function_list(),
+            math_operation_list=self._curve_sampler.math_operation_list(),
             constant_list=self._curve_sampler.constant_list(),
             parameter_names=parameter_names,
             limit=NUM_EXPRESSION_TOKEN_CANDIDATES,

@@ -29,3 +29,9 @@ Following pages describe the built-in functions.
     orthogonal_polynomials
     elliptic_integrals
     jacobi_elliptic
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Others
+
+    operations
