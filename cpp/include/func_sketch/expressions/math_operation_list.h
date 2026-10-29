@@ -23,6 +23,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "func_sketch/expressions/math_operation.h"
 
@@ -63,6 +64,21 @@ public:
             return iter->second;
         }
         return std::nullopt;
+    }
+
+    /*!
+     * \brief Create a list of information of mathematical operations.
+     *
+     * \return List of information of mathematical operations.
+     */
+    [[nodiscard]] std::vector<MathOperationInfo> create_operation_info_list()
+        const {
+        std::vector<MathOperationInfo> info_list;
+        info_list.reserve(operations_.size());
+        for (const auto& [name, operation] : operations_) {
+            info_list.push_back(operation.info());
+        }
+        return info_list;
     }
 
 private:

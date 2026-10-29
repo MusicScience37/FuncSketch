@@ -29,6 +29,7 @@ import kivy.uix.widget
 from func_sketch._cpp import (
     ConstantInfo,
     MathFunctionInfo,
+    MathOperationInfo,
 )
 from func_sketch._gui.common.constants import (
     PADDING_AUTO_COMPLETE_CANDIDATES,
@@ -60,12 +61,16 @@ class AutoCompleteCandidate(
     """Class of candidates in the auto-complete dropdown."""
 
     def __init__(
-        self, candidate_info: MathFunctionInfo | ConstantInfo | ParameterInfo, **kwargs
+        self,
+        candidate_info: (
+            MathFunctionInfo | MathOperationInfo | ConstantInfo | ParameterInfo
+        ),
+        **kwargs,
     ) -> None:
         super().__init__(**kwargs)
 
         self.candidate_info = candidate_info
-        if isinstance(candidate_info, MathFunctionInfo):
+        if isinstance(candidate_info, (MathFunctionInfo, MathOperationInfo)):
             self.text = (
                 f"{candidate_info.name}({', '.join(candidate_info.argument_names)})"
             )
@@ -174,7 +179,10 @@ class AutoCompleteDropDown(kivy.uix.dropdown.DropDown):
     def on_token_candidates(
         self,
         _instance: object,
-        value: list[MathFunctionInfo | ConstantInfo | ParameterInfo] | None,
+        value: (
+            list[MathFunctionInfo | MathOperationInfo | ConstantInfo | ParameterInfo]
+            | None
+        ),
     ) -> None:
         """Callback when the token candidates are updated."""
         self.clear_widgets()

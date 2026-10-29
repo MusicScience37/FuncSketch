@@ -88,6 +88,11 @@ const math::MathFunctionList& CurveSampler::math_function_list()
     return expression_parser_.math_function_list();
 }
 
+const expressions::MathOperationList& CurveSampler::math_operation_list()
+    const noexcept {
+    return expression_parser_.math_operation_list();
+}
+
 const math::ConstantList& CurveSampler::constant_list() const noexcept {
     return expression_parser_.constant_list();
 }

@@ -45,6 +45,8 @@
 #include "func_sketch/exceptions.h"
 #include "func_sketch/expressions/expression_evaluator.h"
 #include "func_sketch/expressions/expression_ptr.h"
+#include "func_sketch/expressions/math_operation_info.h"
+#include "func_sketch/expressions/math_operation_list.h"
 #include "func_sketch/expressions/parameter_value_dict.h"
 #include "func_sketch/math/constant_info.h"
 #include "func_sketch/math/constant_list.h"
@@ -195,6 +197,23 @@ NB_MODULE(_cpp, m) {
             &MathFunctionList::create_function_info_list,
             "Create a list of information of mathematical functions.");
 
+    using func_sketch::expressions::MathOperationInfo;
+    nanobind::class_<MathOperationInfo>(m, "MathOperationInfo",
+        "Class to store information about a mathematical operation.")
+        .def_prop_ro("name", &MathOperationInfo::name,
+            "Name of the mathematical operation.")
+        .def_prop_ro("argument_names", &MathOperationInfo::argument_names,
+            "Argument names of the mathematical operation.");
+
+    using func_sketch::expressions::MathOperationList;
+    nanobind::class_<MathOperationList>(
+        m, "MathOperationList", "Class of lists of mathematical operations.")
+        // Currently only the create_operation_info_list method is exposed to
+        // Python.
+        .def("create_operation_info_list",
+            &MathOperationList::create_operation_info_list,
+            "Create a list of information of mathematical operations.");
+
     using func_sketch::math::ConstantInfo;
     nanobind::class_<ConstantInfo>(
         m, "ConstantInfo", "Class to store information about a constant.")
@@ -237,6 +256,9 @@ Objects of this class can be called with a string to parse it into an Expression
         .def("math_function_list", &ExpressionParser::math_function_list,
             nanobind::rv_policy::reference_internal,
             "Get the list of mathematical functions.")
+        .def("math_operation_list", &ExpressionParser::math_operation_list,
+            nanobind::rv_policy::reference_internal,
+            "Get the list of mathematical operations.")
         .def("constant_list", &ExpressionParser::constant_list,
             nanobind::rv_policy::reference_internal,
             "Get the list of constants.");
@@ -814,6 +836,9 @@ Note:
         .def("math_function_list", &CurveSampler::math_function_list,
             nanobind::rv_policy::reference_internal,
             "Get the list of mathematical functions.")
+        .def("math_operation_list", &CurveSampler::math_operation_list,
+            nanobind::rv_policy::reference_internal,
+            "Get the list of mathematical operations.")
         .def("constant_list", &CurveSampler::constant_list,
             nanobind::rv_policy::reference_internal,
             "Get the list of constants.");

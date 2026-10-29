@@ -31,10 +31,12 @@ def _create_finder(limit: int = 10) -> TokenCandidateFinder:
     """
     parser = ExpressionParser()
     math_function_list = parser.math_function_list()
+    math_operation_list = parser.math_operation_list()
     constant_list = parser.constant_list()
     parameter_names = ["x"]
     finder = TokenCandidateFinder(
         math_function_list=math_function_list,
+        math_operation_list=math_operation_list,
         constant_list=constant_list,
         parameter_names=parameter_names,
         limit=limit,
@@ -73,6 +75,8 @@ class TestTokenCandidateFinder:
             ("e", "e"),
             ("exp", "exp"),
             ("x", "x"),
+            ("s", "s"),
+            ("integrate", "integrate"),
             # Case-insensitive match.
             ("EXP", "exp"),
             # Partial match including the query string as a substring.
@@ -106,6 +110,7 @@ class TestTokenCandidateFinder:
         with pytest.raises(ValueError, match="Duplicate token names"):
             TokenCandidateFinder(
                 math_function_list=parser.math_function_list(),
+                math_operation_list=parser.math_operation_list(),
                 constant_list=parser.constant_list(),
                 parameter_names=["e"],
                 limit=10,
