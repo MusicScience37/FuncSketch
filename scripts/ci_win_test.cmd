@@ -20,8 +20,11 @@
 @REM OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 @REM SOFTWARE.
 
+@REM Enable delayed expansion to propagate exit codes using !ERRORLEVEL!.
+setlocal EnableDelayedExpansion
+
 @REM Below is used in my runner.
-call "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvarsall.bat" x86_x64 || exit /b
+call "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvarsall.bat" x86_x64 || exit /b !ERRORLEVEL!
 
 @REM Use a short path for build trees of vcpkg to avoid errors due to long paths.
 for %%I in ("%CD%\..\.vb") do set VCPKG_BUILDTREES_ROOT=%%~fI
@@ -36,17 +39,17 @@ cmake .. ^
     -DFUNC_SKETCH_BUILD_TESTS:BOOL=ON ^
     -DFUNC_SKETCH_ENABLE_CCACHE:BOOL=ON ^
     -DFUNC_SKETCH_ENABLE_AUSAN:BOOL=OFF ^
-    -DFUNC_SKETCH_WRITE_JUNIT:BOOL=ON || exit /b
+    -DFUNC_SKETCH_WRITE_JUNIT:BOOL=ON || exit /b !ERRORLEVEL!
 
-cmake --build . --config Release --parallel || exit /b
+cmake --build . --config Release --parallel || exit /b !ERRORLEVEL!
 
-ctest -V --build-config Release || exit /b
+ctest -V --build-config Release || exit /b !ERRORLEVEL!
 
-cd .. || exit /b
+cd .. || exit /b !ERRORLEVEL!
 
-poetry run pytest tests -v || exit /b
-poetry run pytest system_tests -v || exit /b
-poetry run pytest bench -v --benchmark-json=benchmark.json || exit /b
-poetry run python scripts/generate_benchmark_metrics.py benchmark.json bench_metrics.txt || exit /b
+poetry run pytest tests -v || exit /b !ERRORLEVEL!
+poetry run pytest system_tests -v || exit /b !ERRORLEVEL!
+poetry run pytest bench -v --benchmark-json=benchmark.json || exit /b !ERRORLEVEL!
+poetry run python scripts/generate_benchmark_metrics.py benchmark.json bench_metrics.txt || exit /b !ERRORLEVEL!
 
-python -m cibuildwheel --output-dir dist_win --platform windows --archs native || exit /b
+python -m cibuildwheel --output-dir dist_win --platform windows --archs native || exit /b !ERRORLEVEL!
