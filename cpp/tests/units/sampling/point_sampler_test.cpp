@@ -23,6 +23,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <limits>
+#include <numbers>
 #include <utility>
 
 #include <catch2/catch_test_macros.hpp>
