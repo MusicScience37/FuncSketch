@@ -110,7 +110,7 @@ html_theme_options = {
     # pygments configuration must be specified here.
     "pygments_light_style": "gruvbox-light",
     "pygments_dark_style": "native",
-    "repository_url": "https://gitlab.com/MusicScience37Projects/experiments/func-sketch",
+    "repository_url": "https://gitlab.com/MusicScience37Projects/tools/func-sketch",
     "use_repository_button": True,
     "switcher": {
         "json_url": "https://funcsketch.musicscience37.com/version_switcher_config.json",
