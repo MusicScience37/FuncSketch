@@ -29,7 +29,7 @@ FuncSketch
 .. |scc-count| image:: https://sloc.xyz/github/MusicScience37/FuncSketch/?lower=true&category=lines
    :alt: Scc Count Badge
 
-Graphing calculator currently in development.
+A graphing calculator for plotting a wide variety of functions interactively.
 
 C++ API reference is separately generated and can be found in `here <doxygen>`_.
 
@@ -37,6 +37,7 @@ C++ API reference is separately generated and can be found in `here <doxygen>`_.
     :maxdepth: 1
     :caption: About
 
+    about
     license
     changelogs/index
 
