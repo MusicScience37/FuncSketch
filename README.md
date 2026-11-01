@@ -10,20 +10,24 @@
 [![coverage report](https://gitlab.com/MusicScience37Projects/tools/func-sketch/badges/main/coverage.svg)](https://gitlab.com/MusicScience37Projects/tools/func-sketch/-/commits/main)
 ![Scc Count Badge](https://sloc.xyz/github/MusicScience37/FuncSketch/?lower=true&category=lines)
 
-A graphing calculator currently in development.
+A graphing calculator for plotting a wide variety of functions interactively.
 
-This project aims to provide:
+## Features
 
-- real-time graphing of functions
-- support for a wide range of mathematical functions,
-  from basic ones like trigonometric functions to special functions such as Bessel functions.
+- Interactive graphing of functions powered by a fast C++ backend
+- Support for special functions
+  - Currently supported:
+    Bessel functions, beta functions, elliptic integrals, error functions, gamma functions,
+    Jacobi elliptic functions, Hermite polynomials, and more.
+  - More special functions will be added in the future.
+- Support for numerical integration
 
 ## Supported Platforms
 
-- Currently, only Linux and Windows with `x86_64` architecture is supported officially.
+- Currently, only Linux and Windows with the `x86_64` architecture are supported officially.
   - Other platforms / architectures may work because the software is written in a cross-platform manner, but no tests are conducted for them.
-- Supported Python version is only 3.13.
-  - Python 3.14 will be supported after a dependent Python package `Kivy` supports it.
+- Only Python 3.13 is supported for now.
+  - Python 3.14 will be supported once `Kivy`, a dependency of this project, supports it.
 
 ## Installation
 
@@ -36,7 +40,7 @@ pip install func_sketch
 ## Documentation
 
 Available at [FuncSketch Documentation](https://funcsketch.musicscience37.com/).
-Documentation of different versions can be seen using the version selector on the bottom left corner of the documentation page.
+Documentation of different versions can be seen using the version selector in the bottom-left corner of the documentation page.
 
 ## Repositories
 
@@ -46,7 +50,7 @@ Documentation of different versions can be seen using the version selector on th
 ## License
 
 This project is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
-Outputs of the project such as generated image files are not in the scope of the license, and can be used freely without any restrictions.
+Outputs of the project, such as generated image files, are not in the scope of the license and can be used freely without any restrictions.
 
 Some helper scripts used only for development are licensed under the MIT license.
 
