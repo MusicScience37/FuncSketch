@@ -22,27 +22,26 @@ class TestGamma:
 
     def test_plot_gamma(self, image_approver) -> None:
         """Test of plotting gamma(x)."""
-        image = plot_function(["gamma(x)"], (-3.0, 5.0), (-10.0, 25.0))
-        image_approver.verify(image)
-
-    def test_plot_gamma_on_imag(self, image_approver) -> None:
-        """Test of plotting abs(gamma(i * x))."""
-        image = plot_function(["abs(gamma(i * x))"], (-3.0, 3.0), (-1.0, 5.0))
+        image = plot_function(
+            [
+                "gamma(x)",
+                "real(gamma(x + 0.1i))",
+                "real(gamma(x + 0.3i))",
+                "abs(gamma(i * x))",
+            ],
+            (-5.0, 5.0),
+            (-10.0, 25.0),
+        )
         image_approver.verify(image)
 
     def test_plot_lgamma(self, image_approver) -> None:
         """Test of plotting lgamma(x)."""
-        image = plot_function(["lgamma(x)"], (-3.0, 5.0), (-1.0, 4.0))
+        image = plot_function(["lgamma(x)"], (-5.0, 5.0), (-3.0, 4.0))
         image_approver.verify(image)
 
-    def test_plot_digamma(self, image_approver) -> None:
-        """Test of plotting digamma(x)."""
-        image = plot_function(["digamma(x)"], (-3.0, 5.0), (-5.0, 5.0))
-        image_approver.verify(image)
-
-    def test_plot_trigamma(self, image_approver) -> None:
-        """Test of plotting trigamma(x)."""
-        image = plot_function(["trigamma(x)"], (-3.0, 5.0), (-1.0, 20.0))
+    def test_plot_digamma_trigamma(self, image_approver) -> None:
+        """Test of plotting digamma(x) and trigamma(x)."""
+        image = plot_function(["digamma(x)", "trigamma(x)"], (-3.0, 5.0), (-5.0, 20.0))
         image_approver.verify(image)
 
     def test_plot_polygamma(self, image_approver) -> None:
