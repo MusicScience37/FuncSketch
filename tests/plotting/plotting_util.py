@@ -84,6 +84,7 @@ def plot_parameterized_curves(
     parameter_range: tuple[float, float],
     *,
     config: PlotConfig | None = None,
+    title: str | None = None,
 ) -> numpy.ndarray:
     """Plot parameterized curves.
 
@@ -93,6 +94,7 @@ def plot_parameterized_curves(
         y_range (tuple[float, float]): Range of y-axis.
         parameter_range (tuple[float, float]): Range of the parameter.
         config (PlotConfig | None): Plot configuration object. If None, the default configuration is used.
+        title (str | None): Title of the plot. If None, no title is set.
 
     Returns:
         numpy.ndarray: Image of the plotted curves.
@@ -102,7 +104,10 @@ def plot_parameterized_curves(
 
     if config is None:
         config = DEFAULT_PLOT_CONFIG.copy()
-        config.legend.visible = True
+        if len(expression_str_list) > 1:
+            config.legend.visible = True
+    if title is not None:
+        config.plot_title = title
     range = PlotRange(x_range, y_range)
     sampler = CurveSampler(range, config.sampling)
     plotter = Plotter(range, config)

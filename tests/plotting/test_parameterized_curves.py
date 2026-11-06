@@ -25,14 +25,18 @@ class TestParameterizedCurves:
     def test_line(self, image_approver) -> None:
         """Test of plotting a line."""
         image = plot_parameterized_curves(
-            [("t", "2 * t")], (-1.2, 1.2), (-2.5, 2.5), (-1.0, 1.0)
+            [("t", "2 * t")], (-1.2, 1.2), (-2.5, 2.5), (-1.0, 1.0), title="Line"
         )
         image_approver.verify(image)
 
     def test_circle(self, image_approver) -> None:
         """Test of plotting a circle."""
         image = plot_parameterized_curves(
-            [("cos(t)", "sin(t)")], (-1.2, 1.2), (-1.2, 1.2), (0.0, 2.0 * numpy.pi)
+            [("cos(t)", "sin(t)")],
+            (-1.2, 1.2),
+            (-1.2, 1.2),
+            (0.0, 2.0 * numpy.pi),
+            title="Circle",
         )
         image_approver.verify(image)
 
@@ -43,6 +47,7 @@ class TestParameterizedCurves:
             (-1.2, 1.2),
             (-1.2, 1.2),
             (0.0, 2.0 * numpy.pi),
+            title="Lissajous Curve",
         )
         image_approver.verify(image)
 
@@ -53,6 +58,7 @@ class TestParameterizedCurves:
             (-0.8, 0.8),
             (-0.8, 0.8),
             (0.0, 2.0 * numpy.pi),
+            title="Lissajous Curve Zoomed",
         )
         image_approver.verify(image)
 
@@ -63,6 +69,7 @@ class TestParameterizedCurves:
             (-1.2, 1.2),
             (-1.2, 1.2),
             (0.0, 2.0 * numpy.pi),
+            title="Astroid",
         )
         image_approver.verify(image)
 
@@ -73,6 +80,7 @@ class TestParameterizedCurves:
             (-3.0, 3.0),
             (-3.0, 3.0),
             (-20.0 * numpy.pi, 6.0 * numpy.pi),
+            title="Logarithmic Spiral",
         )
         image_approver.verify(image)
 
@@ -83,6 +91,7 @@ class TestParameterizedCurves:
             (-3.0, 3.0),
             (-3.0, 3.0),
             (-2.0, 2.0),
+            title="Inverse",
         )
         image_approver.verify(image)
 
@@ -93,6 +102,7 @@ class TestParameterizedCurves:
             (-3.0, 3.0),
             (-3.0, 3.0),
             (-3.0, 3.0),
+            title="Sqrt",
         )
         image_approver.verify(image)
 
@@ -108,5 +118,6 @@ class TestParameterizedCurves:
             (-1.0, 1.0),
             (-1.0, 1.0),
             (-6.0, 6.0),
+            title="Fresnel Spiral",
         )
         image_approver.verify(image)
