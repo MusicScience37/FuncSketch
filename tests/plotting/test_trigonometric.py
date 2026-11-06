@@ -22,48 +22,25 @@ from .plotting_util import plot_function
 class TestTrigonometric:
     """Test of plotting of trigonometric functions."""
 
-    def test_plot_sin(self, image_approver) -> None:
-        """Test of plotting sin(x)."""
+    def test_plot_trigonometric(self, image_approver) -> None:
+        """Test of plotting trigonometric functions."""
         image = plot_function(
-            ["sin(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-1.5, 1.5)
+            ["sin(x)", "cos(x)", "tan(x)"],
+            (-2.0 * numpy.pi, 2.0 * numpy.pi),
+            (-5.0, 5.0),
         )
         image_approver.verify(image)
 
-    def test_plot_cos(self, image_approver) -> None:
-        """Test of plotting cos(x)."""
+    def test_plot_inverse_trigonometric(self, image_approver) -> None:
+        """Test of plotting inverse trigonometric functions."""
         image = plot_function(
-            ["cos(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-1.5, 1.5)
+            ["asin(x)", "acos(x)", "atan(x)"],
+            (-5.0, 5.0),
+            (-2.0 * numpy.pi, 2.0 * numpy.pi),
         )
         image_approver.verify(image)
 
-    def test_plot_tan(self, image_approver) -> None:
-        """Test of plotting tan(x)."""
-        image = plot_function(
-            ["tan(x)"], (-2.0 * numpy.pi, 2.0 * numpy.pi), (-2.0, 2.0)
-        )
-        image_approver.verify(image)
-
-    def test_plot_asin(self, image_approver) -> None:
-        """Test of plotting asin(x)."""
-        image = plot_function(["asin(x)"], (-1.2, 1.2), (-2.0, 2.0))
-        image_approver.verify(image)
-
-    def test_plot_acos(self, image_approver) -> None:
-        """Test of plotting acos(x)."""
-        image = plot_function(["acos(x)"], (-1.2, 1.2), (-0.5, 3.5))
-        image_approver.verify(image)
-
-    def test_plot_atan(self, image_approver) -> None:
-        """Test of plotting atan(x)."""
-        image = plot_function(["atan(x)"], (-5.0, 5.0), (-2.0, 2.0))
-        image_approver.verify(image)
-
-    def test_plot_atan2_x_1(self, image_approver) -> None:
-        """Test of plotting atan2(x, 1)."""
-        image = plot_function(["atan2(x, 1)"], (-5.0, 5.0), (-4.0, 4.0))
-        image_approver.verify(image)
-
-    def test_plot_atan2_1_x(self, image_approver) -> None:
-        """Test of plotting atan2(1, x)."""
-        image = plot_function(["atan2(1, x)"], (-5.0, 5.0), (-4.0, 4.0))
+    def test_plot_atan2(self, image_approver) -> None:
+        """Test of plotting atan2 function."""
+        image = plot_function(["atan2(x, 1)", "atan2(1, x)"], (-5.0, 5.0), (-4.0, 4.0))
         image_approver.verify(image)

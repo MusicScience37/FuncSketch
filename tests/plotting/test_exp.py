@@ -22,24 +22,18 @@ from .plotting_util import plot_function
 class TestExponential:
     """Test of plotting of exponential functions."""
 
-    def test_plot_exp(self, image_approver) -> None:
-        """Test of plotting exp(x)."""
-        image = plot_function(["exp(x)"], (-3.0, 3.0), (-1.0, 5.0))
+    def test_plot_exp_functions(self, image_approver) -> None:
+        """Test of plotting exponential functions."""
+        image = plot_function(
+            ["exp(x)", "exp2(x)", "expm1(x)"], (-3.0, 3.0), (-1.0, 5.0)
+        )
         image_approver.verify(image)
 
     def test_plot_exp_ix(self, image_approver) -> None:
         """Test of plotting exp(i*x)."""
         image = plot_function(
-            ["exp(i*x)"], (-2.0 * math.pi, 2.0 * math.pi), (-1.5, 1.5)
+            ["real(exp(i*x))", "imag(exp(i*x))"],
+            (-2.0 * math.pi, 2.0 * math.pi),
+            (-1.5, 1.5),
         )
-        image_approver.verify(image)
-
-    def test_plot_exp2(self, image_approver) -> None:
-        """Test of plotting exp2(x)."""
-        image = plot_function(["exp2(x)"], (-3.0, 3.0), (-1.0, 5.0))
-        image_approver.verify(image)
-
-    def test_plot_expm1(self, image_approver) -> None:
-        """Test of plotting expm1(x)."""
-        image = plot_function(["expm1(x)"], (-3.0, 3.0), (-1.0, 5.0))
         image_approver.verify(image)

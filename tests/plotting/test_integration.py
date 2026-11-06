@@ -20,24 +20,18 @@ from .plotting_util import plot_function
 class TestIntegration:
     """Test of plotting of expressions with numerical integration."""
 
-    def test_plot_integrate_s(self, image_approver) -> None:
-        """Test of plotting integrate(s, 0, x)."""
-        image = plot_function(["integrate(s, 0, x)"], (-2.0, 2.0), (-2.0, 2.0))
-        image_approver.verify(image)
-
-    def test_plot_integrate_cos(self, image_approver) -> None:
-        """Test of plotting integrate(cos(s), 0, x)."""
-        image = plot_function(["integrate(cos(s), 0, x)"], (-5.0, 5.0), (-2.0, 2.0))
-        image_approver.verify(image)
-
-    def test_plot_integrate_exp(self, image_approver) -> None:
-        """Test of plotting integrate(exp(s), 0, x)."""
-        image = plot_function(["integrate(exp(s), 0, x)"], (-2.0, 2.0), (-1.0, 7.0))
-        image_approver.verify(image)
-
-    def test_plot_integrate_constant(self, image_approver) -> None:
-        """Test of plotting integrate(1, 0, x)."""
-        image = plot_function(["integrate(1, 0, x)"], (-2.0, 2.0), (-2.0, 2.0))
+    def test_plot_integrate_simple(self, image_approver) -> None:
+        """Test of plotting integrating simple functions."""
+        image = plot_function(
+            [
+                "integrate(s, 0, x)",
+                "integrate(cos(s), 0, x)",
+                "integrate(exp(s), 0, x)",
+                "integrate(1, 0, x)",
+            ],
+            (-5.0, 5.0),
+            (-5.0, 5.0),
+        )
         image_approver.verify(image)
 
     def test_plot_integrate_with_variable_left(self, image_approver) -> None:

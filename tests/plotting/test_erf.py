@@ -20,22 +20,12 @@ from .plotting_util import plot_function
 class TestErf:
     """Test of plotting of error functions."""
 
-    def test_plot_erf(self, image_approver) -> None:
-        """Test of plotting erf(x)."""
-        image = plot_function(["erf(x)"], (-3.0, 3.0), (-1.5, 1.5))
+    def test_plot_erf_erfc(self, image_approver) -> None:
+        """Test of plotting erf(x) and erfc(x)."""
+        image = plot_function(["erf(x)", "erfc(x)"], (-3.0, 3.0), (-1.5, 2.5))
         image_approver.verify(image)
 
-    def test_plot_erfc(self, image_approver) -> None:
-        """Test of plotting erfc(x)."""
-        image = plot_function(["erfc(x)"], (-3.0, 3.0), (-0.5, 2.5))
-        image_approver.verify(image)
-
-    def test_plot_erf_inv(self, image_approver) -> None:
-        """Test of plotting erf_inv(x)."""
-        image = plot_function(["erf_inv(x)"], (-1.5, 1.5), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_erfc_inv(self, image_approver) -> None:
-        """Test of plotting erfc_inv(x)."""
-        image = plot_function(["erfc_inv(x)"], (-0.5, 2.5), (-3.0, 3.0))
+    def test_plot_erf_inv_erfc_inv(self, image_approver) -> None:
+        """Test of plotting erf_inv(x) and erfc_inv(x)."""
+        image = plot_function(["erf_inv(x)", "erfc_inv(x)"], (-1.5, 2.5), (-3.0, 3.0))
         image_approver.verify(image)

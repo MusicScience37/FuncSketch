@@ -23,34 +23,28 @@ class TestBessel:
     def test_plot_bessel_j(self, image_approver) -> None:
         """Test of plotting bessel_j(n, x)."""
         image = plot_function(
-            ["bessel_j(0, x)", "bessel_j(1, x)", "bessel_j(2, x)"],
-            (-10.0, 10.0),
-            (-1.0, 1.2),
-        )
-        image_approver.verify(image)
-
-    def test_plot_bessel_j_float_order(self, image_approver) -> None:
-        """Test of plotting bessel_j(n, x) with float orders."""
-        image = plot_function(
-            ["bessel_j(0.5, x)", "bessel_j(1.5, x)", "bessel_j(2.5, x)"],
-            (-1.0, 10.0),
-            (-1.0, 1.2),
+            [
+                "bessel_j(0, x)",
+                "bessel_j(0.5, x)",
+                "bessel_j(1, x)",
+                "bessel_j(1.5, x)",
+                "bessel_j(2, x)",
+            ],
+            (-5.0, 10.0),
+            (-0.8, 1.2),
         )
         image_approver.verify(image)
 
     def test_plot_bessel_y(self, image_approver) -> None:
         """Test of plotting bessel_y(n, x)."""
         image = plot_function(
-            ["bessel_y(0, x)", "bessel_y(1, x)", "bessel_y(2, x)"],
-            (-1.0, 10.0),
-            (-3.0, 1.0),
-        )
-        image_approver.verify(image)
-
-    def test_plot_bessel_y_float_order(self, image_approver) -> None:
-        """Test of plotting bessel_y(n, x) with float orders."""
-        image = plot_function(
-            ["bessel_y(0.5, x)", "bessel_y(1.5, x)", "bessel_y(2.5, x)"],
+            [
+                "bessel_y(0, x)",
+                "bessel_y(0.5, x)",
+                "bessel_y(1, x)",
+                "bessel_y(1.5, x)",
+                "bessel_y(2, x)",
+            ],
             (-1.0, 10.0),
             (-3.0, 1.0),
         )
@@ -59,16 +53,13 @@ class TestBessel:
     def test_plot_bessel_i(self, image_approver) -> None:
         """Test of plotting bessel_i(n, x)."""
         image = plot_function(
-            ["bessel_i(0, x)", "bessel_i(1, x)", "bessel_i(2, x)"],
-            (-1.0, 4.0),
-            (-1.0, 4.0),
-        )
-        image_approver.verify(image)
-
-    def test_plot_bessel_i_float_order(self, image_approver) -> None:
-        """Test of plotting bessel_i(n, x) with float orders."""
-        image = plot_function(
-            ["bessel_i(0.5, x)", "bessel_i(1.5, x)", "bessel_i(2.5, x)"],
+            [
+                "bessel_i(0, x)",
+                "bessel_i(0.5, x)",
+                "bessel_i(1, x)",
+                "bessel_i(1.5, x)",
+                "bessel_i(2, x)",
+            ],
             (-1.0, 4.0),
             (-1.0, 4.0),
         )
@@ -77,16 +68,13 @@ class TestBessel:
     def test_plot_bessel_k(self, image_approver) -> None:
         """Test of plotting bessel_k(n, x)."""
         image = plot_function(
-            ["bessel_k(0, x)", "bessel_k(1, x)", "bessel_k(2, x)"],
-            (-1.0, 4.0),
-            (-1.0, 4.0),
-        )
-        image_approver.verify(image)
-
-    def test_plot_bessel_k_float_order(self, image_approver) -> None:
-        """Test of plotting bessel_k(n, x) with float orders."""
-        image = plot_function(
-            ["bessel_k(0.5, x)", "bessel_k(1.5, x)", "bessel_k(2.5, x)"],
+            [
+                "bessel_k(0, x)",
+                "bessel_k(0.5, x)",
+                "bessel_k(1, x)",
+                "bessel_k(1.5, x)",
+                "bessel_k(2, x)",
+            ],
             (-1.0, 4.0),
             (-1.0, 4.0),
         )
@@ -95,18 +83,28 @@ class TestBessel:
     def test_plot_hankel1(self, image_approver) -> None:
         """Test of plotting real and imaginary parts of hankel1(n, x)."""
         image = plot_function(
-            ["real(hankel1(0, x))", "imag(hankel1(0, x))"],
+            [
+                "real(hankel1(0, x))",
+                "imag(hankel1(0, x))",
+                "real(hankel1(0.5, x))",
+                "imag(hankel1(0.5, x))",
+            ],
             (0.0, 10.0),
-            (-3.0, 3.0),
+            (-3.0, 1.2),
         )
         image_approver.verify(image)
 
     def test_plot_hankel2(self, image_approver) -> None:
         """Test of plotting real and imaginary parts of hankel2(n, x)."""
         image = plot_function(
-            ["real(hankel2(0, x))", "imag(hankel2(0, x))"],
+            [
+                "real(hankel2(0, x))",
+                "imag(hankel2(0, x))",
+                "real(hankel2(0.5, x))",
+                "imag(hankel2(0.5, x))",
+            ],
             (0.0, 10.0),
-            (-3.0, 3.0),
+            (-0.8, 3.0),
         )
         image_approver.verify(image)
 
@@ -142,9 +140,11 @@ class TestBessel:
             [
                 "real(spherical_hankel1(0, x))",
                 "imag(spherical_hankel1(0, x))",
+                "real(spherical_hankel1(1, x))",
+                "imag(spherical_hankel1(1, x))",
             ],
             (0.0, 10.0),
-            (-3.0, 3.0),
+            (-3.0, 1.2),
         )
         image_approver.verify(image)
 
@@ -154,28 +154,66 @@ class TestBessel:
             [
                 "real(spherical_hankel2(0, x))",
                 "imag(spherical_hankel2(0, x))",
+                "real(spherical_hankel2(1, x))",
+                "imag(spherical_hankel2(1, x))",
+            ],
+            (0.0, 10.0),
+            (-0.8, 3.0),
+        )
+        image_approver.verify(image)
+
+    def test_plot_kelvin_ber(self, image_approver) -> None:
+        """Test of plotting kelvin_ber(n, x)."""
+        image = plot_function(
+            [
+                "kelvin_ber(0, x)",
+                "kelvin_ber(1, x)",
+                "kelvin_ber(2, x)",
+                "kelvin_ber(3, x)",
+            ],
+            (0.0, 10.0),
+            (-40.0, 40.0),
+        )
+        image_approver.verify(image)
+
+    def test_plot_kelvin_bei(self, image_approver) -> None:
+        """Test of plotting kelvin_bei(n, x)."""
+        image = plot_function(
+            [
+                "kelvin_bei(0, x)",
+                "kelvin_bei(1, x)",
+                "kelvin_bei(2, x)",
+                "kelvin_bei(3, x)",
+            ],
+            (0.0, 10.0),
+            (-40.0, 40.0),
+        )
+        image_approver.verify(image)
+
+    def test_plot_kelvin_ker(self, image_approver) -> None:
+        """Test of plotting kelvin_ker(n, x)."""
+        image = plot_function(
+            [
+                "kelvin_ker(0, x)",
+                "kelvin_ker(1, x)",
+                "kelvin_ker(2, x)",
+                "kelvin_ker(3, x)",
             ],
             (0.0, 10.0),
             (-3.0, 3.0),
         )
         image_approver.verify(image)
 
-    def test_plot_kelvin_ber(self, image_approver) -> None:
-        """Test of plotting kelvin_ber(n, x)."""
-        image = plot_function(["kelvin_ber(0, x)"], (0.0, 10.0), (-10.0, 10.0))
-        image_approver.verify(image)
-
-    def test_plot_kelvin_bei(self, image_approver) -> None:
-        """Test of plotting kelvin_bei(n, x)."""
-        image = plot_function(["kelvin_bei(0, x)"], (0.0, 10.0), (-40.0, 20.0))
-        image_approver.verify(image)
-
-    def test_plot_kelvin_ker(self, image_approver) -> None:
-        """Test of plotting kelvin_ker(n, x)."""
-        image = plot_function(["kelvin_ker(0, x)"], (0.0, 10.0), (-1.0, 5.0))
-        image_approver.verify(image)
-
     def test_plot_kelvin_kei(self, image_approver) -> None:
         """Test of plotting kelvin_kei(n, x)."""
-        image = plot_function(["kelvin_kei(0, x)"], (0.0, 10.0), (-1.0, 0.2))
+        image = plot_function(
+            [
+                "kelvin_kei(0, x)",
+                "kelvin_kei(1, x)",
+                "kelvin_kei(2, x)",
+                "kelvin_kei(3, x)",
+            ],
+            (0.0, 10.0),
+            (-1.0, 1.0),
+        )
         image_approver.verify(image)

@@ -20,22 +20,12 @@ from .plotting_util import plot_function
 class TestPower:
     """Test of plotting of power functions."""
 
-    def test_plot_pow_x_3(self, image_approver) -> None:
-        """Test of plotting pow(x, 3)."""
-        image = plot_function(["pow(x, 3)"], (-3.0, 3.0), (-1.0, 5.0))
+    def test_plot_pow_functions(self, image_approver) -> None:
+        """Test of plotting pow functions."""
+        image = plot_function(["pow(x, 3)", "pow(2, x)"], (-3.0, 3.0), (-1.0, 5.0))
         image_approver.verify(image)
 
-    def test_plot_pow_2_x(self, image_approver) -> None:
-        """Test of plotting pow(2, x)."""
-        image = plot_function(["pow(2, x)"], (-3.0, 3.0), (-1.0, 5.0))
-        image_approver.verify(image)
-
-    def test_plot_sqrt(self, image_approver) -> None:
-        """Test of plotting sqrt(x)."""
-        image = plot_function(["sqrt(x)"], (-1.0, 3.0), (-1.0, 5.0))
-        image_approver.verify(image)
-
-    def test_plot_cbrt(self, image_approver) -> None:
-        """Test of plotting cbrt(x)."""
-        image = plot_function(["cbrt(x)"], (-3.0, 3.0), (-3.0, 3.0))
+    def test_plot_sqrt_cbrt(self, image_approver) -> None:
+        """Test of plotting sqrt(x) and cbrt(x)."""
+        image = plot_function(["sqrt(x)", "cbrt(x)"], (-3.0, 3.0), (-3.0, 3.0))
         image_approver.verify(image)

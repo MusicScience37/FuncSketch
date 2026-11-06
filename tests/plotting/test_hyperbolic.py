@@ -20,32 +20,16 @@ from .plotting_util import plot_function
 class TestHyperbolic:
     """Test of plotting of hyperbolic functions."""
 
-    def test_plot_sinh(self, image_approver) -> None:
-        """Test of plotting sinh(x)."""
-        image = plot_function(["sinh(x)"], (-2.0, 2.0), (-4.0, 4.0))
+    def test_plot_hyperbolic(self, image_approver) -> None:
+        """Test of plotting hyperbolic functions."""
+        image = plot_function(
+            ["sinh(x)", "cosh(x)", "tanh(x)"], (-2.0, 2.0), (-4.0, 4.0)
+        )
         image_approver.verify(image)
 
-    def test_plot_cosh(self, image_approver) -> None:
-        """Test of plotting cosh(x)."""
-        image = plot_function(["cosh(x)"], (-2.0, 2.0), (-0.5, 4.5))
-        image_approver.verify(image)
-
-    def test_plot_tanh(self, image_approver) -> None:
-        """Test of plotting tanh(x)."""
-        image = plot_function(["tanh(x)"], (-3.0, 3.0), (-1.5, 1.5))
-        image_approver.verify(image)
-
-    def test_plot_asinh(self, image_approver) -> None:
-        """Test of plotting asinh(x)."""
-        image = plot_function(["asinh(x)"], (-4.0, 4.0), (-2.5, 2.5))
-        image_approver.verify(image)
-
-    def test_plot_acosh(self, image_approver) -> None:
-        """Test of plotting acosh(x)."""
-        image = plot_function(["acosh(x)"], (0.5, 4.0), (-0.5, 2.5))
-        image_approver.verify(image)
-
-    def test_plot_atanh(self, image_approver) -> None:
-        """Test of plotting atanh(x)."""
-        image = plot_function(["atanh(x)"], (-1.5, 1.5), (-3.0, 3.0))
+    def test_plot_inverse_hyperbolic(self, image_approver) -> None:
+        """Test of plotting inverse hyperbolic functions."""
+        image = plot_function(
+            ["asinh(x)", "acosh(x)", "atanh(x)"], (-4.0, 4.0), (-2.5, 2.5)
+        )
         image_approver.verify(image)

@@ -22,69 +22,30 @@ from .plotting_util import plot_function
 class TestSimple:
     """Test of plotting of simple expressions like binary operators."""
 
-    def test_plot_x(self, image_approver) -> None:
-        """Test of plotting x."""
-        image = plot_function(["x"], (-3.0, 3.0), (-3.0, 3.0))
+    def test_plot_simple1(self, image_approver) -> None:
+        """Test of plotting simple expressions."""
+        image = plot_function(["x", "-x", "x + 1", "x - 1"], (-3.0, 3.0), (-3.0, 3.0))
         image_approver.verify(image)
 
-    def test_negation(self, image_approver) -> None:
-        """Test of plotting -x."""
-        image = plot_function(["-x"], (-3.0, 3.0), (-3.0, 3.0))
+    def test_plot_simple2(self, image_approver) -> None:
+        """Test of plotting simple expressions."""
+        image = plot_function(
+            ["x * 2", "x * x", "x / 2", "1 / x"], (-3.0, 3.0), (-3.0, 3.0)
+        )
         image_approver.verify(image)
 
-    def test_plot_x_plus_1(self, image_approver) -> None:
-        """Test of plotting x + 1."""
-        image = plot_function(["x + 1"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_x_minus_1(self, image_approver) -> None:
-        """Test of plotting x - 1."""
-        image = plot_function(["x - 1"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_x_times_2(self, image_approver) -> None:
-        """Test of plotting x * 2."""
-        image = plot_function(["x * 2"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_x_times_x(self, image_approver) -> None:
-        """Test of plotting x * x."""
-        image = plot_function(["x * x"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_x_div_2(self, image_approver) -> None:
-        """Test of plotting x / 2."""
-        image = plot_function(["x / 2"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_1_div_x(self, image_approver) -> None:
-        """Test of plotting 1 / x."""
-        image = plot_function(["1 / x"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_x_pow_2(self, image_approver) -> None:
-        """Test of plotting x ** 2."""
-        image = plot_function(["x ** 2"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_2_pow_x(self, image_approver) -> None:
-        """Test of plotting 2 ** x."""
-        image = plot_function(["2 ** x"], (-3.0, 3.0), (-3.0, 3.0))
-        image_approver.verify(image)
-
-    def test_plot_x_pow_x(self, image_approver) -> None:
-        """Test of plotting x ** x."""
-        image = plot_function(["x ** x"], (-1.0, 5.0), (-1.0, 5.0))
-        image_approver.verify(image)
-
-    def test_plot_minus_x_times_2(self, image_approver) -> None:
-        """Test of plotting -x * 2."""
-        image = plot_function(["-x * 2"], (-3.0, 3.0), (-3.0, 3.0))
+    def test_plot_simple3(self, image_approver) -> None:
+        """Test of plotting simple expressions."""
+        image = plot_function(
+            ["x ** 2", "2 ** x", "x ** x", "-x * 2"], (-3.0, 3.0), (-3.0, 3.0)
+        )
         image_approver.verify(image)
 
     def test_plot_e_pow_1ix(self, image_approver) -> None:
         """Test of plotting e ** (1i * x)."""
         image = plot_function(
-            ["e ** (1i * x)"], (-2.0 * math.pi, 2.0 * math.pi), (-1.5, 1.5)
+            ["real(e ** (1i * x))", "imag(e ** (1i * x))"],
+            (-2.0 * math.pi, 2.0 * math.pi),
+            (-1.5, 1.5),
         )
         image_approver.verify(image)
