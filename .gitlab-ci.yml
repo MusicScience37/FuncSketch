@@ -73,9 +73,10 @@ spell check:
     CCACHE_MAXSIZE: 1G
     VCPKG_DEFAULT_BINARY_CACHE: ${CI_PROJECT_DIR}/.vcpkg-cache
     POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
+    PYTHON_VERSION: "3.14"
   before_script:
     - poetry config virtualenvs.in-project true
-    - poetry env use 3.13
+    - poetry env use $PYTHON_VERSION
     - poetry install
     - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
     - mkdir $BUILD_DIR
@@ -86,7 +87,7 @@ spell check:
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
   cache:
     - key:
-        prefix: poetry-${COMPILER_TYPE}-${TEST_TYPE}
+        prefix: poetry-${COMPILER_TYPE}-${TEST_TYPE}-${PYTHON_VERSION}
         files:
           - poetry.lock
       paths:
@@ -97,7 +98,7 @@ spell check:
           - vcpkg-configuration.json
       paths:
         - .vcpkg-cache
-    - key: ccache-${COMPILER_TYPE}-${TEST_TYPE}
+    - key: ccache-${COMPILER_TYPE}-${TEST_TYPE}-${PYTHON_VERSION}
       paths:
         - .ccache
   artifacts:
@@ -123,9 +124,19 @@ test linux:
       - COMPILER_TYPE: ["clang22"]
         IMAGE_PATH: "musicscience37/clang-ci"
         TEST_TYPE: ["debug", "release", "ausan"]
+        PYTHON_VERSION: "3.14"
       - COMPILER_TYPE: ["gcc15"]
         IMAGE_PATH: "musicscience37/gcc-ci"
         TEST_TYPE: ["debug", "release"]
+        PYTHON_VERSION: "3.14"
+      - COMPILER_TYPE: ["clang22"]
+        IMAGE_PATH: "musicscience37/clang-ci"
+        TEST_TYPE: "release"
+        PYTHON_VERSION: "3.13"
+      - COMPILER_TYPE: ["gcc15"]
+        IMAGE_PATH: "musicscience37/gcc-ci"
+        TEST_TYPE: "release"
+        PYTHON_VERSION: "3.13"
   script:
     - poetry run python ./scripts/ci_linux_test.py
       --compiler_type $COMPILER_TYPE --test_type $TEST_TYPE --build_dir $BUILD_DIR
@@ -304,7 +315,7 @@ sonarqube:
     POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
   before_script:
     - poetry config virtualenvs.in-project true
-    - poetry env use 3.13
+    - poetry env use 3.14
     - poetry install
     - mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
     - mkdir -p $BUILD_DIR
@@ -345,7 +356,7 @@ test sdist ubuntu:
   image: "musicscience37/gcc-ci:gcc14"
   parallel:
     matrix:
-      - PYTHON_VERSION: ["3.13"]
+      - PYTHON_VERSION: ["3.13", "3.14"]
   variables:
     CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
     CCACHE_COMPILERCHECK: content
@@ -378,7 +389,7 @@ test wheel ubuntu:
   image: "musicscience37/gcc-ci:gcc14"
   parallel:
     matrix:
-      - PYTHON_VERSION: ["3.13"]
+      - PYTHON_VERSION: ["3.13", "3.14"]
   variables:
     CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
     CCACHE_COMPILERCHECK: content
@@ -413,6 +424,7 @@ test wheel manylinux:
     matrix:
       - PYTHON_VERSION:
           - "cp313-cp313"
+          - "cp314-cp314"
   variables:
     CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
     CCACHE_COMPILERCHECK: content
@@ -499,10 +511,12 @@ publish package:
   needs:
     - "test sdist ubuntu: [3.13]"
     - "test wheel manylinux: [cp313-cp313]"
+    - "test wheel manylinux: [cp314-cp314]"
     - "test msvc release"
   dependencies:
     - "test sdist ubuntu: [3.13]"
     - "test wheel manylinux: [cp313-cp313]"
+    - "test wheel manylinux: [cp314-cp314]"
     - "test msvc release"
   image: python:3-bookworm
   # Publish the package to PyPI via trusted publisher functionality.

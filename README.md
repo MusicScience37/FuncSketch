@@ -32,8 +32,7 @@ A graphing calculator for plotting a wide variety of functions interactively.
 
 - Currently, only Linux and Windows with the `x86_64` architecture are supported officially.
   - Other platforms / architectures may work because the software is written in a cross-platform manner, but no tests are conducted for them.
-- Only Python 3.13 is supported for now.
-  - Python 3.14 will be supported once `Kivy`, a dependency of this project, supports it.
+- Python 3.13 and 3.14 are supported.
 
 ## Installation
 
