@@ -7,7 +7,7 @@ A development environment including dependencies can be created using
 The environment contains all dependencies required for development of FuncSketch
 as follows:
 
-- [Python](https://www.python.org/) 3.13
+- [Python](https://www.python.org/) 3.13 or 3.14
   - You may want to use [pyenv](https://github.com/pyenv/pyenv) optionally.
 - [poetry](https://python-poetry.org/)
   - Required Python packages can be installed using poetry.
