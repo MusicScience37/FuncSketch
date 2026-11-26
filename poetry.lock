@@ -5491,14 +5491,14 @@ test = ["argcomplete (>=3.0.3) ; python_version < \"3.12\"", "argcomplete (>=3.5
 
 [[package]]
 name = "types-docutils"
-version = "0.23.0.20261107"
+version = "0.23.0.20261122"
 description = "Typing stubs for docutils"
 optional = false
 python-versions = ">=3.10"
 groups = ["dev"]
 files = [
-    {file = "types_docutils-0.23.0.20261107-py3-none-any.whl", hash = "sha256:47def8a8c78bff72d6aa86a6daaa0a49ef3911e1f538f911f1bbd8006f3e196e"},
-    {file = "types_docutils-0.23.0.20261107.tar.gz", hash = "sha256:9bb297fc33fe0f606c883217779a4f532ee023d7da852dcc244513c0f100228a"},
+    {file = "types_docutils-0.23.0.20261122-py3-none-any.whl", hash = "sha256:52ead4802c074165c6b45e5d7821dd26acf03f5693d6204106e7fa6e7135fff2"},
+    {file = "types_docutils-0.23.0.20261122.tar.gz", hash = "sha256:70d756960fe059596fabc144b696ef9da89a7ac4468399bb84eab5bc81fb026a"},
 ]
 
 [[package]]
