@@ -71,7 +71,7 @@ cmake.define.VCPKG_TARGET_TRIPLET = "x64-windows-static-md"
 [dependency-groups]
 doc = [
     "sphinx (>=9.2.0,<10.0.0)",
-    "sphinx-orange-book-theme (>=0.21.0,<0.22.0)",
+    "sphinx-orange-book-theme (>=0.22.0,<0.23.0)",
     "myst-parser (>=5.1.0,<6.0.0)",
     "sphinxcontrib-plantuml (>=0.31,<0.32)",
     "myst-nb (>=1.4.0,<2.0.0)",
